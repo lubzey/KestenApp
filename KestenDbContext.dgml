@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="LeftToRight" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+<Node Id="IModel" Label="KestenDbContext" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot" PropertyAccessMode="PropertyAccessMode.Default" ProductVersion="7.0.5" Annotations="BaseTypeDiscoveryConvention:DerivedTypes: System.Collections.Generic.Dictionary`2[System.Type,System.Collections.Generic.List`1[Microsoft.EntityFrameworkCore.Metadata.IConventionEntityType]]
+Relational:MaxIdentifierLength: 128
+RelationshipDiscoveryConvention:InverseNavigationCandidates: System.Collections.Generic.Dictionary`2[System.Type,System.Collections.Generic.SortedSet`1[System.Type]]
+SqlServer:ValueGenerationStrategy: IdentityColumn" Category="Model" Group="Expanded" />
+<Node Id = "FruitSize" Label="FruitSize" Name="FruitSize" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="Relational:TableName: FruitSizes
+RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
+<Node Id = "PollenizerTarget" Label="PollenizerTarget" Name="PollenizerTarget" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="Relational:Schema:
+Relational:TableName: VarietyPollenizers
+RelationshipDiscoveryConvention:AmbiguousNavigations: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.MemberInfo,System.Type]
+RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
+<Node Id = "FruitSize.FruitSizeId" Label="FruitSizeId (int)" Name="FruitSizeId" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "FruitSize.Name" Label="Name (string)" Name="Name" Category="Property Required" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "FruitSize.Varieties" Label="Varieties (List&lt;Variety&gt;)" Name="Varieties" Category="Property Optional" Type="List&lt;Variety&gt;" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Species" Label="Species" Name="Species" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="Relational:TableName: Species
+RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
+<Node Id = "PollenizerTarget.PollinizerVarietyId" Label="PollinizerVarietyId (int)" Name="PollinizerVarietyId" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="True" IsForeignKey="True" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "PollenizerTarget.PollenizerVariety" Label="PollenizerVariety (1)" Name="PollenizerVariety" Category="Navigation Property" Type="Variety"  Field="" Dependent="" Principal="Variety" Inverse="PollenizerTargets" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "PollenizerTarget.TargetVariety" Label="TargetVariety (1)" Name="TargetVariety" Category="Navigation Property" Type="Variety"  Field="" Dependent="" Principal="Variety" Inverse="Pollenizers" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "PollenizerTarget.TargetVarietyId" Label="TargetVarietyId (int)" Name="TargetVarietyId" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="True" IsForeignKey="True" IsRequired="True" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Variety" Label="Variety" Name="Variety" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="Relational:TableName: Varieties
+RelationshipDiscoveryConvention:AmbiguousNavigations: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.MemberInfo,System.Type]
+RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
+<Node Id = "Species.SpeciesId" Label="SpeciesId (int)" Name="SpeciesId" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "Species.CommonName" Label="CommonName (string)" Name="CommonName" Category="Property Required" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Species.LatinName" Label="LatinName (string)" Name="LatinName" Category="Property Required" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Species.ShortLatinName" Label="ShortLatinName (string)" Name="ShortLatinName" Category="Property Required" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Species.Varieties" Label="Varieties (List&lt;Variety&gt;)" Name="Varieties" Category="Property Optional" Type="List&lt;Variety&gt;" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "VarietyFruitSizes" Label="VarietyFruitSizes" Name="VarietyFruitSizes" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
+<Node Id = "Variety.VarietyId" Label="VarietyId (int)" Name="VarietyId" Category="Property Primary" Type="int" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="SqlServer:ValueGenerationStrategy: IdentityColumn" IsPrimaryKey="True" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="ValueGenerated.OnAdd" />
+<Node Id = "Variety.PollenizerTargets" Label="PollenizerTargets (*)" Name="PollenizerTargets" Category="Navigation Collection" Type="List&lt;PollenizerTarget&gt;"  Field="" Dependent="PollenizerTarget" Principal="" Inverse="PollenizerVariety" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "Variety.Pollenizers" Label="Pollenizers (*)" Name="Pollenizers" Category="Navigation Collection" Type="List&lt;PollenizerTarget&gt;"  Field="" Dependent="PollenizerTarget" Principal="" Inverse="TargetVariety" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "Variety.FruitSizes" Label="FruitSizes (1)" Name="FruitSizes" Category="Navigation Property" Type="List&lt;FruitSize&gt;"  Field="" Dependent="" Principal="" Inverse="Varieties" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "Variety.Species" Label="Species (1)" Name="Species" Category="Navigation Property" Type="List&lt;Species&gt;"  Field="" Dependent="" Principal="" Inverse="Varieties" PropertyAccessMode="PropertyAccessMode.Default" />
+<Node Id = "Variety.ChestnutBlightResistance" Label="ChestnutBlightResistance (ConditionEnum?)" Name="ChestnutBlightResistance" Category="Property Optional" Type="ConditionEnum?" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Variety.Description" Label="Description (string)" Name="Description" Category="Property Optional" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Variety.InkDiseaseResistance" Label="InkDiseaseResistance (ConditionEnum?)" Name="InkDiseaseResistance" Category="Property Optional" Type="ConditionEnum?" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Variety.IsMarron" Label="IsMarron (bool)" Name="IsMarron" Category="Property Required" Type="bool" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Variety.MaturingPeriod" Label="MaturingPeriod (MaturingPeriodEnum?)" Name="MaturingPeriod" Category="Property Optional" Type="MaturingPeriodEnum?" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Variety.Peeling" Label="Peeling (ConditionEnum?)" Name="Peeling" Category="Property Optional" Type="ConditionEnum?" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Variety.PollenType" Label="PollenType (PollenTypeEnum?)" Name="PollenType" Category="Property Optional" Type="PollenTypeEnum?" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="False" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "Variety.VarietyName" Label="VarietyName (string)" Name="VarietyName" Category="Property Required" Type="string" MaxLength="None" Field="" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="False" IsForeignKey="False" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "VarietySpecies" Label="VarietySpecies" Name="VarietySpecies" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="RelationshipDiscoveryConvention:NavigationCandidates: System.Collections.Immutable.ImmutableSortedDictionary`2[System.Reflection.PropertyInfo,System.ValueTuple`2[System.Type,System.Nullable`1[System.Boolean]]]" Category="EntityType" Group="Expanded" />
+<Node Id = "VarietyFruitSizes.FruitSizesFruitSizeId" Label="FruitSizesFruitSizeId (int)" Name="FruitSizesFruitSizeId" Category="Property Primary" Type="int" MaxLength="None" Field="nofield" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="True" IsForeignKey="True" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "VarietyFruitSizes.VarietiesVarietyId" Label="VarietiesVarietyId (int)" Name="VarietiesVarietyId" Category="Property Primary" Type="int" MaxLength="None" Field="nofield" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="True" IsForeignKey="True" IsRequired="True" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "VarietySpecies" Label="VarietySpecies" Name="VarietySpecies" BaseClass="" IsAbstract="False" ChangeTrackingStrategy="ChangeTrackingStrategy.Snapshot"  Annotations="" Category="EntityType" Group="Expanded" />
+<Node Id = "VarietySpecies.SpeciesId" Label="SpeciesId (int)" Name="SpeciesId" Category="Property Primary" Type="int" MaxLength="None" Field="nofield" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="True" IsForeignKey="True" IsRequired="True" IsIndexed="False" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+<Node Id = "VarietySpecies.VarietiesVarietyId" Label="VarietiesVarietyId (int)" Name="VarietiesVarietyId" Category="Property Primary" Type="int" MaxLength="None" Field="nofield" PropertyAccessMode="PropertyAccessMode.Default" BeforeSaveBehavior="PropertySaveBehavior.Save" AfterSaveBehavior="PropertySaveBehavior.Save" Annotations="" IsPrimaryKey="True" IsForeignKey="True" IsRequired="True" IsIndexed="True" IsShadow="False" IsAlternateKey="False" IsConcurrencyToken="False" IsUnicode="True" ValueGenerated="None" />
+  </Nodes>
+  <Links>
+<Link Source = "IModel" Target="FruitSize" Category="Contains" />
+<Link Source = "IModel" Target="PollenizerTarget" Category="Contains" />
+<Link Source = "FruitSize" Target="FruitSize.FruitSizeId" Category="Contains" />
+<Link Source = "FruitSize" Target="FruitSize.Name" Category="Contains" />
+<Link Source = "FruitSize" Target="FruitSize.Varieties" Category="Contains" />
+<Link Source = "IModel" Target="Species" Category="Contains" />
+<Link Source = "PollenizerTarget" Target="PollenizerTarget.PollenizerVariety" Category="Contains" />
+<Link Source = "PollenizerTarget" Target="PollenizerTarget.TargetVariety" Category="Contains" />
+<Link Source = "PollenizerTarget" Target="PollenizerTarget.PollinizerVarietyId" Category="Contains" />
+<Link Source="PollenizerTarget" Target="Variety" From="PollenizerTarget.PollinizerVarietyId" To="Variety.VarietyId" Name="PollenizerTarget -> Variety" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source="PollenizerTarget" Target="Variety" From="PollenizerTarget.TargetVarietyId" To="Variety.VarietyId" Name="PollenizerTarget -> Variety" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source = "PollenizerTarget" Target="PollenizerTarget.TargetVarietyId" Category="Contains" />
+<Link Source = "IModel" Target="Variety" Category="Contains" />
+<Link Source = "Species" Target="Species.SpeciesId" Category="Contains" />
+<Link Source = "Species" Target="Species.CommonName" Category="Contains" />
+<Link Source = "Species" Target="Species.LatinName" Category="Contains" />
+<Link Source = "Species" Target="Species.ShortLatinName" Category="Contains" />
+<Link Source = "Species" Target="Species.Varieties" Category="Contains" />
+<Link Source = "IModel" Target="VarietyFruitSizes" Category="Contains" />
+<Link Source = "Variety" Target="Variety.PollenizerTargets" Category="Contains" />
+<Link Source = "Variety" Target="Variety.Pollenizers" Category="Contains" />
+<Link Source = "Variety" Target="Variety.FruitSizes" Category="Contains" />
+<Link Source = "Variety" Target="Variety.Species" Category="Contains" />
+<Link Source = "Variety" Target="Variety.VarietyId" Category="Contains" />
+<Link Source = "Variety" Target="Variety.ChestnutBlightResistance" Category="Contains" />
+<Link Source = "Variety" Target="Variety.Description" Category="Contains" />
+<Link Source = "Variety" Target="Variety.InkDiseaseResistance" Category="Contains" />
+<Link Source = "Variety" Target="Variety.IsMarron" Category="Contains" />
+<Link Source = "Variety" Target="Variety.MaturingPeriod" Category="Contains" />
+<Link Source = "Variety" Target="Variety.Peeling" Category="Contains" />
+<Link Source = "Variety" Target="Variety.PollenType" Category="Contains" />
+<Link Source = "Variety" Target="Variety.VarietyName" Category="Contains" />
+<Link Source = "IModel" Target="VarietySpecies" Category="Contains" />
+<Link Source = "VarietyFruitSizes" Target="VarietyFruitSizes.FruitSizesFruitSizeId" Category="Contains" />
+<Link Source="VarietyFruitSizes" Target="FruitSize" From="VarietyFruitSizes.FruitSizesFruitSizeId" To="FruitSize.FruitSizeId" Name="VarietyFruitSizes -> FruitSize" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source="VarietyFruitSizes" Target="Variety" From="VarietyFruitSizes.VarietiesVarietyId" To="Variety.VarietyId" Name="VarietyFruitSizes -> Variety" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source = "VarietyFruitSizes" Target="VarietyFruitSizes.VarietiesVarietyId" Category="Contains" />
+<Link Source = "IModel" Target="VarietySpecies" Category="Contains" />
+<Link Source = "VarietySpecies" Target="VarietySpecies.SpeciesId" Category="Contains" />
+<Link Source="VarietySpecies" Target="Species" From="VarietySpecies.SpeciesId" To="Species.SpeciesId" Name="VarietySpecies -> Species" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source="VarietySpecies" Target="Variety" From="VarietySpecies.VarietiesVarietyId" To="Variety.VarietyId" Name="VarietySpecies -> Variety" Annotations="" IsUnique="False" Label="1:*" Category="Foreign Key" />
+<Link Source = "VarietySpecies" Target="VarietySpecies.VarietiesVarietyId" Category="Contains" />
+  </Links>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="EntityType" ValueLabel="True">
+      <Condition Expression="HasCategory('EntityType')" />
+      <Setter Property="Background" Value="#FFC0C0C0" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Property Primary" ValueLabel="True">
+      <Condition Expression="HasCategory('Property Primary')" />
+      <Setter Property="Background" Value="#FF008000" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Property Optional" ValueLabel="True">
+      <Condition Expression="HasCategory('Property Optional')" />
+      <Setter Property="Background" Value="#FF808040" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Property Foreign" ValueLabel="True">
+      <Condition Expression="HasCategory('Property Foreign')" />
+      <Setter Property="Background" Value="#FF8080FF" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Property Required" ValueLabel="True">
+      <Condition Expression="HasCategory('Property Required')" />
+      <Setter Property="Background" Value="#FFC0A000" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Navigation Property" ValueLabel="True">
+      <Condition Expression="HasCategory('Navigation Property')" />
+      <Setter Property="Background" Value="#FF990000" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Navigation Collection" ValueLabel="True">
+      <Condition Expression="HasCategory('Navigation Collection')" />
+      <Setter Property="Background" Value="#FFFF3232" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="Model" ValueLabel="True">
+      <Condition Expression="HasCategory('Model')" />
+      <Setter Property="Background" Value="#FFFFFFFF" />
+    </Style>
+  </Styles>
+  <Properties>
+    <Property Id="Name" Group="Model Properties" DataType="System.String" />
+    <Property Id="Field"  Description="Backing field" Group="Model Properties" DataType="System.String" />
+    <Property Id="Type"  Description="CLR data type" Group="Model Properties" DataType="System.String" />
+    <Property Id="To" Description="Source property" Group="Model Properties" DataType="System.String" />
+    <Property Id="From" Description="Target property" Group="Model Properties" DataType="System.String" />
+    <Property Id="Dependent" Description="Dependent entity" Group="Model Properties" DataType="System.String" />
+    <Property Id="Inverse" Description="Inverse entity" Group="Model Properties" DataType="System.String" />
+    <Property Id="Principal" Description="Principal entity" Group="Model Properties" DataType="System.String" />    
+    <Property Id="Annotations" Description="Annotations" Group="Model Properties" DataType="System.String" />
+    <Property Id="BaseClass"  Description="Base class" Group="Model Properties" DataType="System.String" />
+    <Property Id="ChangeTrackingStrategy" Description="Change tracking strategy" Group="Model Properties" DataType="System.String" />
+    <Property Id="IsUnique" Group="Model Properties" DataType="System.Boolean" />
+    <Property Id="IsAbstract" Group="Model Properties" DataType="System.Boolean" />
+    <Property Id="ProductVersion" Label="Product Version" Description="EF Core product version" Group="Model Properties" DataType="System.String" />
+    <Property Id="IsIndexed" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsRequired" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsPrimaryKey" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsForeignKey" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsShadow" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsAlternateKey" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsConcurrencyToken" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsIndexed" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="IsUnicode" Group="Property Flags" DataType="System.Boolean" />
+    <Property Id="ValueGenerated" Group="Property Flags" DataType="System.String" />
+    <Property Id="BeforeSaveBehavior" Group="Property Flags" DataType="System.String" />
+    <Property Id="AfterSaveBehavior" Group="Property Flags" DataType="System.String" />
+    <Property Id="PropertyAccessMode" Group="Property Flags" DataType="System.String" />
+  </Properties>
+</DirectedGraph>
