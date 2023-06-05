@@ -50,9 +50,9 @@ namespace KestenTestApp.Models.Database
                     tempSpecies.Add(
                         new Species
                         {
-                            //SpeciesId = (int)sp,
                             CommonName = EnumExtensions.GetDescription(sp) ?? string.Empty,
                             LatinName = EnumExtensions.GetDisplayName(sp) ?? sp.ToString(),
+                            ShortLatinName = sp.ToString(),
                         });
                 }
 
@@ -151,8 +151,6 @@ namespace KestenTestApp.Models.Database
                 context.PollenizerTargets.Add(pollenizer);
                 context.SaveChanges();
             }
-
-            //context.SaveChanges();
         }
     }
 }

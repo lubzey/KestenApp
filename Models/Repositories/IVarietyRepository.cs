@@ -4,7 +4,7 @@
     {
         IEnumerable<Variety> AllVarieties { get; }
 
-        Variety? GetPieById(int pieId);
-        IEnumerable<Variety> SearchPies(string searchQuery);
+        Variety? GetVarietyById(int pieId);
+        IEnumerable<Variety> SearchVarieties(string searchQuery);
     }
 }

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.Tracing;
 
 namespace KestenTestApp.Models.Database
@@ -43,16 +42,6 @@ namespace KestenTestApp.Models.Database
                 .HasMany(e => e.FruitSizes)
                 .WithMany(e => e.Varieties)
                 .UsingEntity("VarietyFruitSizes");
-
-            //modelBuilder.Entity<Variety>()
-            //    .HasMany(x => x.PollenizerTargets)
-            //    .WithMany(x => x.Pollenizers)
-            //    .UsingEntity("VarietyPollenizers");
-
-
-            //modelBuilder.Entity<Variety>()
-            //    .HasMany(x => x.Pollenizers)
-            //    .WithMany(x => x.PollinizerTargets);
 
             modelBuilder
                 .Entity<PollenizerTarget>(entity =>

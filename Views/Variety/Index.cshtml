@@ -1,0 +1,21 @@
+﻿@model KestenTestApp.Models.View.VarietyListViewModel
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<h1>@Model.Varieties.Count() varieties found</h1>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+
+    @foreach (Variety variety in Model.Varieties)
+    {
+        @*<partial name="_PieCard" model="pie" />*@
+        <div>@variety.VarietyName</div>
+        <div>@string.Join(", ", variety
+            .Species
+            .OrderBy(sp => sp.SpeciesId)
+            .Select(sp => sp.ShortLatinName))
+        </div>
+        <div>@variety.Description</div>
+    }
+</div>

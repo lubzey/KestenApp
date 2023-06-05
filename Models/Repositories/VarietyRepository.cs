@@ -1,4 +1,5 @@
 ﻿using KestenTestApp.Models.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace KestenTestApp.Models.Repositories
 {
@@ -15,19 +16,24 @@ namespace KestenTestApp.Models.Repositories
         {
             get
             {
-                return _context.Varieties;
+                return _context
+                    .Varieties
+                    .Include(x => x.Species)
+                    .ToList();
             }
         }
 
-        public Variety? GetPieById(int pieId)
+        public Variety? GetVarietyById(int pieId)
         {
             return _context.Varieties
                 .FirstOrDefault(p => p.VarietyId == pieId);
         }
 
-        public IEnumerable<Variety> SearchPies(string searchQuery)
+        public IEnumerable<Variety> SearchVarieties(string searchQuery)
         {
-            throw new NotImplementedException();
+            return _context
+                .Varieties
+                .Where(p => p.VarietyName.Contains(searchQuery));
         }
     }
 }
