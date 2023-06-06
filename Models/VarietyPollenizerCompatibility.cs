@@ -1,6 +1,6 @@
 ﻿namespace KestenTestApp.Models
 {
-    public class PollenizerTarget
+    public class VarietyPollenizerCompatibility
     {
         public int PollinizerVarietyId { get; set; }
         public Variety PollenizerVariety { get; set; }

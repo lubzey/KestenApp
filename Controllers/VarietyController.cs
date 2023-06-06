@@ -19,7 +19,7 @@ namespace KestenTestApp.Controllers
         {
             IEnumerable<Variety> varieties = _varietyRepository
                     .AllVarieties
-                    .OrderBy(p => p.VarietyName);
+                    .OrderBy(p => p.VarietyId);
 
             return View(new VarietyListViewModel(varieties));
         }

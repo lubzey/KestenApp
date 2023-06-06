@@ -78,7 +78,7 @@ namespace KestenTestApp.Models.Database
 
                 varieties = new Variety[]
                 {
-                        new Variety
+                        new Variety //1
                         {
                             VarietyName = "Bouche de Bétizac",
                             Species = sativaCrenataSpecies,
@@ -90,11 +90,11 @@ namespace KestenTestApp.Models.Database
                             Peeling = ConditionEnum.Good,
                             IsMarron = true,
                             ChestnutBlightResistance = ConditionEnum.Good,
-                            InkDiseaseResistance = ConditionEnum.Good,
-                            MaturingPeriod = MaturingPeriodEnum.Early,
-                            PollenType = PollenTypeEnum.Sterile
+                            InkDiseaseResistance = ConditionEnum.Bad,
+                            MaturityPeriod = MaturingPeriodEnum.Early,
+                            PollenFertility = PollenTypeEnum.Sterile
                         },
-                        new Variety
+                        new Variety //2
                         {
                             VarietyName = "Marigoule",
                             Species = sativaCrenataSpecies,
@@ -108,8 +108,41 @@ namespace KestenTestApp.Models.Database
                             IsMarron = true,
                             ChestnutBlightResistance = ConditionEnum.Medium,
                             InkDiseaseResistance = ConditionEnum.Good,
-                            MaturingPeriod = MaturingPeriodEnum.SemiEarly,
-                            PollenType = PollenTypeEnum.Medium
+                            MaturityPeriod = MaturingPeriodEnum.SemiEarly,
+                            PollenFertility = PollenTypeEnum.Medium
+                        },
+                        new Variety //3
+                        {
+                            VarietyName = "Marsol",
+                            Species = sativaCrenataSpecies,
+                            Description =
+                                @"Marsol (aka Marisol) is a natural chestnut hybrid, a cross between a European chestnut (Castanea sativa) and Japanese (Castanea crenata) (CA 07). INRA produced this variety from Lalevade-d'Ardèche. It is mainly used as a rootstock because of its good graft compatibility with many varieties. As a rootstock, it is more vigorous than Maraval (equal to Bouche de Betizac or Comballe).",
+                            FruitSizes = FruitSizes
+                                .Where(s => s.FruitSizeId == (int)FruitSizeEnum.XL)
+                                .ToList(),
+                            Peeling = ConditionEnum.Good,
+                            IsMarron = true,
+                            ChestnutBlightResistance = ConditionEnum.Good,
+                            InkDiseaseResistance = ConditionEnum.Good,
+                            MaturityPeriod = MaturingPeriodEnum.SemiEarly,
+                            PollenFertility = PollenTypeEnum.Abundant
+                        },
+                        new Variety //4
+                        {
+                            VarietyName = "Précoce Migoule",
+                            Species = sativaCrenataSpecies,
+                            Description =
+                                @"The Precoce Migoule is a chestnut hybrid (CA 48), a natural cross between a European chestnut (Castanea sativa) and a Japanese chestnut (Castanea crenata). It was discovered by J. Dufrenoy at the orchard of Migoule in Brive-la-Gaillarde. The tree is vigorous and erect growing with growth of a metre (3 ft) or more in a season if the conditions are right. It is a large sized chestnut tree with height reaching 20 m (60 ft) or more and 7.5-10 m (25-35 ft) wide. Trees start to bear after 3 to 5 years. Full nut production in 12 - 20 years depending on the location.",
+                            FruitSizes = FruitSizes
+                                .Where(s => s.FruitSizeId == (int)FruitSizeEnum.Medium
+                                    || s.FruitSizeId == (int)FruitSizeEnum.Large)
+                                .ToList(),
+                            Peeling = ConditionEnum.Good,
+                            IsMarron = true,
+                            ChestnutBlightResistance = ConditionEnum.Bad,
+                            InkDiseaseResistance = ConditionEnum.Medium,
+                            MaturityPeriod = MaturingPeriodEnum.Early,
+                            PollenFertility = PollenTypeEnum.Medium
                         },
                         new Variety { VarietyName = "Pandora" }
                 };
@@ -143,12 +176,49 @@ namespace KestenTestApp.Models.Database
 
             if (!context.Varieties.Any())
             {
-                context.Varieties.AddRange(Varieties);                
+                context.Varieties.AddRange(Varieties);
                 context.SaveChanges();
 
-                var pollenizer = new PollenizerTarget() { PollinizerVarietyId = 2, TargetVarietyId = 1 };
+                //Pollenizers
+                var pollenizer = new List<VarietyPollenizerCompatibility>
+                {
+                    new VarietyPollenizerCompatibility
+                    {
+                        PollinizerVarietyId = 2, TargetVarietyId = 1
+                    },
+                    new VarietyPollenizerCompatibility
+                    {
+                        PollinizerVarietyId = 3, TargetVarietyId = 1
+                    },
+                    new VarietyPollenizerCompatibility
+                    {
+                        PollinizerVarietyId = 4, TargetVarietyId = 1
+                    }
+                };
+                context.VarietyPollenizers.AddRange(pollenizer);
 
-                context.PollenizerTargets.Add(pollenizer);
+                //Grafting
+                var grafts = new List<VarietyGraftingCompatibility>
+                {
+                    new VarietyGraftingCompatibility
+                    {
+                        RootstockVarietyId = 3,
+                        GraftedVarietyId = 1
+                    },
+                    new VarietyGraftingCompatibility
+                    {
+                        RootstockVarietyId = 3,
+                        GraftedVarietyId = 4
+                    },
+                    new VarietyGraftingCompatibility
+                    {
+                        RootstockVarietyId = 2,
+                        GraftedVarietyId = 4
+                    },
+                };
+
+                context.VarietyGrafting.AddRange(grafts);
+
                 context.SaveChanges();
             }
         }

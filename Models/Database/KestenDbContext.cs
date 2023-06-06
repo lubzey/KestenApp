@@ -8,7 +8,8 @@ namespace KestenTestApp.Models.Database
         public DbSet<Variety> Varieties { get; set; }
         public DbSet<Species> Species { get; set; }
         public DbSet<FruitSize> FruitSizes { get; set; }
-        public DbSet<PollenizerTarget> PollenizerTargets { get; set; }
+        public DbSet<VarietyPollenizerCompatibility> VarietyPollenizers { get; set; }
+        public DbSet<VarietyGraftingCompatibility> VarietyGrafting { get; set; }
 
         public KestenDbContext(DbContextOptions<KestenDbContext> options) : base(options)
         {
@@ -33,6 +34,13 @@ namespace KestenTestApp.Models.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //Default value
+            modelBuilder.Entity<Variety>()
+               .Property(v => v.CreatedOn)
+               .HasDefaultValueSql("getdate()");
+
+            //One-to-many
+            //todo:Remove additional tables and stick with enums
             modelBuilder.Entity<Variety>()
                 .HasMany(e => e.Species)
                 .WithMany(e => e.Varieties)
@@ -43,24 +51,45 @@ namespace KestenTestApp.Models.Database
                 .WithMany(e => e.Varieties)
                 .UsingEntity("VarietyFruitSizes");
 
+            //Many-to-many
             modelBuilder
-                .Entity<PollenizerTarget>(entity =>
+                .Entity<VarietyPollenizerCompatibility>(entity =>
                 {
                     entity
                         .HasOne(ub => ub.TargetVariety)
-                        .WithMany(x => x.Pollenizers)
+                        .WithMany(x => x.IsPollenizedBy)
                         .HasForeignKey(h => h.TargetVarietyId)
                         .OnDelete(DeleteBehavior.Restrict);
 
                     entity
                         .HasOne(ub => ub.PollenizerVariety)
-                        .WithMany(x => x.PollenizerTargets)
+                        .WithMany(x => x.IsPollenizerFor)
                         .HasForeignKey(h => h.PollinizerVarietyId)
                         .OnDelete(DeleteBehavior.Restrict);
 
                     entity.HasKey(gu => new { gu.PollinizerVarietyId, gu.TargetVarietyId });
 
                     entity.ToTable("VarietyPollenizers");
+                });
+
+            modelBuilder
+                .Entity<VarietyGraftingCompatibility>(entity =>
+                {
+                    entity
+                        .HasOne(ub => ub.RootstockVariety)
+                        .WithMany(x => x.IsRootstockFor)
+                        .HasForeignKey(h => h.RootstockVarietyId)
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    entity
+                        .HasOne(ub => ub.GraftedVariety)
+                        .WithMany(x => x.IsGraftedOn)
+                        .HasForeignKey(h => h.GraftedVarietyId)
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    entity.HasKey(gu => new { gu.RootstockVarietyId, gu.GraftedVarietyId });
+
+                    entity.ToTable("VarietyGrafting");
                 });
         }
     }

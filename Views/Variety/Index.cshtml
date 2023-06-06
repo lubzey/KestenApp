@@ -33,10 +33,22 @@
                 Pollen Type
             </th>
             <th class="th-sm">
-                Fruitting Period
+                Maturity Period
             </th>
             <th class="th-sm">
                 Description
+            </th>
+            <th>
+                Pollenized By
+            </th>
+            <th>
+                Pollenizer For
+            </th>
+            <th>
+                Rootstock For
+            </th>
+            <th>
+                Grafted On
             </th>
         </tr>
     </thead>
@@ -47,13 +59,13 @@
                 @*<partial name="_PieCard" model="pie" />*@
                 <td>@variety.VarietyName</td>
                 <td>
-                    @string.Join(", ", variety
+                    @string.Join(Model.Separator, variety
                         .Species
                         .OrderBy(sp => sp.SpeciesId)
                         .Select(sp => sp.ShortLatinName))
                 </td>
                 <td>
-                    @string.Join(", ", variety
+                    @string.Join(Model.Separator, variety
                         .FruitSizes
                         .OrderBy(sp => sp.FruitSizeId)
                         .Select(sp => sp.Name))
@@ -75,49 +87,40 @@
                     @variety.Peeling.ToString()
                 </td>
                 <td>
-                    @variety.PollenType.ToString()
+                    @variety.PollenFertility.ToString()
                 </td>
                 <td>
-                    @variety.MaturingPeriod.ToString()
+                    @variety.MaturityPeriod.ToString()
+                </td>
+                <td class="text-wrap" style="width: 10rem;">
+                    @variety.Description?.Substring(0, 50)
                 </td>
                 <td>
-                    @variety.Description
+                    @string.Join(Model.Separator, variety
+                        .IsPollenizedBy
+                        .OrderBy(sp => sp.PollenizerVariety.VarietyName)
+                        .Select(sp => sp.PollenizerVariety.VarietyName))
+                </td>
+                <td>
+                    @string.Join(Model.Separator, variety
+                        .IsPollenizerFor
+                        .OrderBy(sp => sp.TargetVariety.VarietyName)
+                        .Select(sp => sp.TargetVariety.VarietyName))
+                </td>
+                <td>
+                    @string.Join(Model.Separator, variety
+                        .IsRootstockFor
+                        .OrderBy(sp => sp.GraftedVariety.VarietyName)
+                        .Select(sp => sp.GraftedVariety.VarietyName))
+                        
+                </td>
+                <td>
+                    @string.Join(Model.Separator, variety
+                        .IsGraftedOn
+                        .OrderBy(sp => sp.RootstockVariety.VarietyName)
+                        .Select(sp => sp.RootstockVariety.VarietyName))
                 </td>
             </tr>
         }        
     </tbody>
-    <tfoot>
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Species
-            </th>
-            <th>
-                Fruit Size
-            </th>
-            <th class="text-nowrap">
-                Is Marron
-            </th>
-            <th>
-                Blight Resistance
-            </th>
-            <th>
-                Ink Disease Resistance
-            </th>
-            <th>
-                Peeling
-            </th>
-            <th>
-                Pollen Type
-            </th>
-            <th class="th-sm">
-                Fruitting Period
-            </th>
-            <th>
-                Description
-            </th>
-        </tr>
-    </tfoot>
 </table>

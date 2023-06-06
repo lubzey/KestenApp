@@ -20,6 +20,10 @@ namespace KestenTestApp.Models.Repositories
                     .Varieties
                     .Include(v => v.Species)
                     .Include(v => v.FruitSizes)
+                    .Include(v => v.IsPollenizedBy)
+                    .Include(v => v.IsPollenizerFor)
+                    .Include(v => v.IsRootstockFor)
+                    .Include(v => v.IsGraftedOn)
                     .ToList();
             }
         }
