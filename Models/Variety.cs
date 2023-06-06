@@ -17,6 +17,6 @@ namespace KestenTestApp.Models
         public PollenTypeEnum? PollenType { get; set; }
 
         public MaturingPeriodEnum? MaturingPeriod { get; set; }
-        public bool IsMarron { get; set; } = false;
+        public bool? IsMarron { get; set; }
     }
 }

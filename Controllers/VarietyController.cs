@@ -21,7 +21,7 @@ namespace KestenTestApp.Controllers
                     .AllVarieties
                     .OrderBy(p => p.VarietyName);
 
-            return View(new VarietyListViewModel(varieties, null));
+            return View(new VarietyListViewModel(varieties));
         }
 
         //public ViewResult List(string varietyName)

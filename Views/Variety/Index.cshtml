@@ -3,19 +3,121 @@
     ViewData["Title"] = Model.Title;
 }
 
-<h1>@Model.Varieties.Count() varieties found</h1>
+<h4>@Model.Varieties.Count() varieties found</h4>
 
-<div class="row row-cols-1 row-cols-md-3 g-4">
-
-    @foreach (Variety variety in Model.Varieties)
-    {
-        @*<partial name="_PieCard" model="pie" />*@
-        <div>@variety.VarietyName</div>
-        <div>@string.Join(", ", variety
-            .Species
-            .OrderBy(sp => sp.SpeciesId)
-            .Select(sp => sp.ShortLatinName))
-        </div>
-        <div>@variety.Description</div>
-    }
-</div>
+<table class="table table-striped table-bordered table-sm" cellspacing="2" width="100%">
+    <thead>
+        <tr>
+            <th class="th-sm">
+                Name
+            </th>
+            <th class="th-sm">
+                Species
+            </th>
+            <th class="th-sm">
+                Fruit Size
+            </th>
+            <th class="th-sm">
+                Is Marron
+            </th>
+            <th class="th-sm">
+                Blight Resistance
+            </th>
+            <th class="th-sm">
+                Ink Disease Resistance
+            </th>
+            <th class="th-sm">
+                Peeling
+            </th>
+            <th class="th-sm">
+                Pollen Type
+            </th>
+            <th class="th-sm">
+                Fruitting Period
+            </th>
+            <th class="th-sm">
+                Description
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Variety variety in Model.Varieties)
+        {
+            <tr>
+                @*<partial name="_PieCard" model="pie" />*@
+                <td>@variety.VarietyName</td>
+                <td>
+                    @string.Join(", ", variety
+                        .Species
+                        .OrderBy(sp => sp.SpeciesId)
+                        .Select(sp => sp.ShortLatinName))
+                </td>
+                <td>
+                    @string.Join(", ", variety
+                        .FruitSizes
+                        .OrderBy(sp => sp.FruitSizeId)
+                        .Select(sp => sp.Name))
+                </td>
+                <td>
+                    @(variety.IsMarron != null
+                    ? (bool)variety.IsMarron
+                        ? "\u2713"
+                        : "\u2717"
+                    : "")
+                </td>
+                <td>
+                    @variety.ChestnutBlightResistance.ToString()
+                </td>
+                <td>
+                    @variety.InkDiseaseResistance.ToString()
+                </td>
+                <td>
+                    @variety.Peeling.ToString()
+                </td>
+                <td>
+                    @variety.PollenType.ToString()
+                </td>
+                <td>
+                    @variety.MaturingPeriod.ToString()
+                </td>
+                <td>
+                    @variety.Description
+                </td>
+            </tr>
+        }        
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Species
+            </th>
+            <th>
+                Fruit Size
+            </th>
+            <th class="text-nowrap">
+                Is Marron
+            </th>
+            <th>
+                Blight Resistance
+            </th>
+            <th>
+                Ink Disease Resistance
+            </th>
+            <th>
+                Peeling
+            </th>
+            <th>
+                Pollen Type
+            </th>
+            <th class="th-sm">
+                Fruitting Period
+            </th>
+            <th>
+                Description
+            </th>
+        </tr>
+    </tfoot>
+</table>

@@ -18,7 +18,8 @@ namespace KestenTestApp.Models.Repositories
             {
                 return _context
                     .Varieties
-                    .Include(x => x.Species)
+                    .Include(v => v.Species)
+                    .Include(v => v.FruitSizes)
                     .ToList();
             }
         }

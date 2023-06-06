@@ -6,11 +6,10 @@
         public string? CurrentVariety;
         public string Title;
 
-        public VarietyListViewModel(IEnumerable<Variety> varieties, string? currentVariety)
+        public VarietyListViewModel(IEnumerable<Variety> varieties)
         {
             this.Title = "Variesties";
             this.Varieties = varieties;
-            this.CurrentVariety = currentVariety;
         }
     }
 }
