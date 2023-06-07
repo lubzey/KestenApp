@@ -1,0 +1,64 @@
+﻿@model Tuple<Variety, string>
+
+<tr>
+    <td>@Model.Item1.VarietyName</td>
+    <td>
+        @string.Join(Model.Item2, Model.Item1
+        .Species
+        .OrderBy(sp => sp.SpeciesId)
+        .Select(sp => sp.ShortLatinName))
+    </td>
+    <td>
+        @string.Join(Model.Item2, Model.Item1
+        .FruitSizes
+        .OrderBy(sp => sp.FruitSizeId)
+        .Select(sp => sp.Name))
+    </td>
+    <td>
+        @(Model.Item1.IsMarron != null
+            ? (bool)Model.Item1.IsMarron
+            ? "\u2713"
+            : "\u2717"
+            : "")
+    </td>
+    <td>
+        @Model.Item1.ChestnutBlightResistance.ToString()
+    </td>
+    <td>
+        @Model.Item1.InkDiseaseResistance.ToString()
+    </td>
+    <td>
+        @Model.Item1.Peeling.ToString()
+    </td>
+    <td>
+        @Model.Item1.PollenFertility.ToString()
+    </td>
+    <td>
+        @Model.Item1.MaturityPeriod.ToString()
+    </td>
+    <td>
+        @string.Join(Model.Item2, Model.Item1
+        .IsPollenizedBy
+        .OrderBy(sp => sp.PollenizerVariety.VarietyName)
+        .Select(sp => sp.PollenizerVariety.VarietyName))
+    </td>
+    <td>
+        @string.Join(Model.Item2, Model.Item1
+        .IsPollenizerFor
+        .OrderBy(sp => sp.TargetVariety.VarietyName)
+        .Select(sp => sp.TargetVariety.VarietyName))
+    </td>
+    <td>
+        @string.Join(Model.Item2, Model.Item1
+        .IsRootstockFor
+        .OrderBy(sp => sp.GraftedVariety.VarietyName)
+        .Select(sp => sp.GraftedVariety.VarietyName))
+
+    </td>
+    <td>
+        @string.Join(Model.Item2, Model.Item1
+        .IsGraftedOn
+        .OrderBy(sp => sp.RootstockVariety.VarietyName)
+        .Select(sp => sp.RootstockVariety.VarietyName))
+    </td>
+</tr>

@@ -7,120 +7,16 @@
 
 <table class="table table-striped table-bordered table-sm" cellspacing="2" width="100%">
     <thead>
-        <tr>
-            <th class="th-sm">
-                Name
-            </th>
-            <th class="th-sm">
-                Species
-            </th>
-            <th class="th-sm">
-                Fruit Size
-            </th>
-            <th class="th-sm">
-                Is Marron
-            </th>
-            <th class="th-sm">
-                Blight Resistance
-            </th>
-            <th class="th-sm">
-                Ink Disease Resistance
-            </th>
-            <th class="th-sm">
-                Peeling
-            </th>
-            <th class="th-sm">
-                Pollen Type
-            </th>
-            <th class="th-sm">
-                Maturity Period
-            </th>
-            <th class="th-sm">
-                Description
-            </th>
-            <th>
-                Pollenized By
-            </th>
-            <th>
-                Pollenizer For
-            </th>
-            <th>
-                Rootstock For
-            </th>
-            <th>
-                Grafted On
-            </th>
-        </tr>
+        <partial 
+            name="_TableHeader" 
+            model="@Model.HeaderTitles" />
     </thead>
     <tbody>
         @foreach (Variety variety in Model.Varieties)
         {
-            <tr>
-                @*<partial name="_PieCard" model="pie" />*@
-                <td>@variety.VarietyName</td>
-                <td>
-                    @string.Join(Model.Separator, variety
-                        .Species
-                        .OrderBy(sp => sp.SpeciesId)
-                        .Select(sp => sp.ShortLatinName))
-                </td>
-                <td>
-                    @string.Join(Model.Separator, variety
-                        .FruitSizes
-                        .OrderBy(sp => sp.FruitSizeId)
-                        .Select(sp => sp.Name))
-                </td>
-                <td>
-                    @(variety.IsMarron != null
-                    ? (bool)variety.IsMarron
-                        ? "\u2713"
-                        : "\u2717"
-                    : "")
-                </td>
-                <td>
-                    @variety.ChestnutBlightResistance.ToString()
-                </td>
-                <td>
-                    @variety.InkDiseaseResistance.ToString()
-                </td>
-                <td>
-                    @variety.Peeling.ToString()
-                </td>
-                <td>
-                    @variety.PollenFertility.ToString()
-                </td>
-                <td>
-                    @variety.MaturityPeriod.ToString()
-                </td>
-                <td class="text-wrap" style="width: 10rem;">
-                    @variety.Description?.Substring(0, 50)
-                </td>
-                <td>
-                    @string.Join(Model.Separator, variety
-                        .IsPollenizedBy
-                        .OrderBy(sp => sp.PollenizerVariety.VarietyName)
-                        .Select(sp => sp.PollenizerVariety.VarietyName))
-                </td>
-                <td>
-                    @string.Join(Model.Separator, variety
-                        .IsPollenizerFor
-                        .OrderBy(sp => sp.TargetVariety.VarietyName)
-                        .Select(sp => sp.TargetVariety.VarietyName))
-                </td>
-                <td>
-                    @string.Join(Model.Separator, variety
-                        .IsRootstockFor
-                        .OrderBy(sp => sp.GraftedVariety.VarietyName)
-                        .Select(sp => sp.GraftedVariety.VarietyName))
-                        
-                </td>
-                <td>
-                    @string.Join(Model.Separator, variety
-                        .IsGraftedOn
-                        .OrderBy(sp => sp.RootstockVariety.VarietyName)
-                        .Select(sp => sp.RootstockVariety.VarietyName))
-                </td>
-            </tr>
-        }        
+            <partial 
+                name="_VarietySummary" 
+                model="new Tuple<Variety, string>(variety, Model.Separator)" />
+        }
     </tbody>
 </table>
