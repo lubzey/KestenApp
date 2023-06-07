@@ -4,14 +4,14 @@ namespace KestenTestApp.Models.Enums
 {
     public enum FruitSizeEnum
     {
-        Varying = 0,
+        Varying = 1,
         [Range(0, 12)]
-        Small = 1,
+        Small = 2,
         [Range(12, 15)]
-        Medium = 2,
+        Medium = 3,
         [Range(12, 18)]
-        Large = 3,
+        Large = 4,
         [Range(18, double.MaxValue)]
-        XL = 4
+        XL = 5
     }
 }

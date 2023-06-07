@@ -28,7 +28,9 @@ namespace KestenTestApp.Models.Database
                         });
                 }
 
-                fruitSizes = tempFruitSizes.ToArray();
+                fruitSizes = tempFruitSizes
+                    .OrderBy(fs => fs.FruitSizeId)
+                    .ToArray();
 
                 return fruitSizes;
             }
@@ -85,7 +87,7 @@ namespace KestenTestApp.Models.Database
                             Description =
                                 @"Bouche de Bétizac is a French chestnut cultivar developed in 1962 by INRA at the station of Malemort-sur-Corrèze near Brive. It is a controlled hybrid between Castanea sativa and Castanea crenata (female Bouche rouge × male Castanea crenata CA04). This variety produces large to very large chestnuts. It has very good flavor for a hybrid. With Marigoule, it is the variety currently most cultivated in the French chestnut groves because it is very productive (3 tons per hectare on average). Its fruit is bright, light chestnut-brown quickly turning brown and dark brown.",
                             FruitSizes = FruitSizes
-                                .Where(s => s.Name == FruitSizeEnum.XL.ToString())
+                                .Where(s => s.FruitSizeId == (int)FruitSizeEnum.XL)
                                 .ToList(),
                             Peeling = ConditionEnum.Good,
                             IsMarron = true,
@@ -101,8 +103,8 @@ namespace KestenTestApp.Models.Database
                             Description =
                                 @"Marigoule is the name of a french hybrid of chestnut (synonym M.15 or CA 15), cross between a European chestnut (Castanea sativa) and Japanese (Castanea crenata). In 1986, it originated from a Migoule orchard in Ussac in Corrèze. Marigoule (a contraction of Marron of Migoule) is a very tasty chestnut. It should be planted in rather low altitude in very sunny areas and protected from the wind (up to 300 m elevation for South-West orchard orientation or up to 400 m elevation in South-East orchard orientation). Otherwise its productivity remains small. In France, it is grown mainly South of the Dordogne and Lot-et-Garonne for the fresh market production because of the nuts beautiful appearance.",
                             FruitSizes = FruitSizes
-                                .Where(s => s.Name == FruitSizeEnum.Large.ToString()
-                                    || s.Name == FruitSizeEnum.XL.ToString())
+                                .Where(s => s.FruitSizeId == (int)FruitSizeEnum.Large
+                                    || s.FruitSizeId == (int)FruitSizeEnum.XL)
                                 .ToList(),
                             Peeling = ConditionEnum.Good,
                             IsMarron = true,
