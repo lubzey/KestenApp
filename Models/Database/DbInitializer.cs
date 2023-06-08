@@ -1,4 +1,6 @@
-﻿using KestenTestApp.Models.Enums;
+﻿using KestenTestApp.Models.EnumHelpers;
+using KestenTestApp.Models.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace KestenTestApp.Models.Database
 {
@@ -21,10 +23,18 @@ namespace KestenTestApp.Models.Database
                 var fruitSizeEnumValues = (FruitSizeEnum[])Enum.GetValues(typeof(FruitSizeEnum));
                 foreach (FruitSizeEnum fs in fruitSizeEnumValues)
                 {
+                    List<RangeInt> customRanges = EnumExtensions.GetAttributes<RangeInt>(fs);
+                    RangeInt? fruitsPerKg = customRanges.SingleOrDefault(r => r.Type == IntRangeEnum.FruitsPerKg);
+                    RangeInt? fruitWeight = customRanges.SingleOrDefault(r => r.Type == IntRangeEnum.FruitWeight);
+
                     tempFruitSizes.Add(
                         new FruitSize
                         {
-                            Name = fs.ToString()
+                            Name = fs.ToString(),
+                            FruitsPerKgMin = fruitsPerKg?.Minimun,
+                            FruitsPerKgMax = fruitsPerKg?.Maximum,
+                            FruitsWeightMin = fruitWeight?.Minimun,
+                            FruitsWeightMax = fruitWeight?.Maximum,
                         });
                 }
 
