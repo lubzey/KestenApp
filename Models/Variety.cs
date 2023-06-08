@@ -22,8 +22,8 @@ namespace KestenTestApp.Models
         public List<FruitSize> FruitSizes { get; set; } = new List<FruitSize>();
 
         //Many-to-many
-        public List<VarietyPollenizerCompatibility> IsPollenizerFor { get; set; } = new List<VarietyPollenizerCompatibility>();
-        public List<VarietyPollenizerCompatibility> IsPollenizedBy { get; set; } = new List<VarietyPollenizerCompatibility>();
+        public List<VarietyPollenCompatibility> IsPollenizerFor { get; set; } = new List<VarietyPollenCompatibility>();
+        public List<VarietyPollenCompatibility> IsPollenizedBy { get; set; } = new List<VarietyPollenCompatibility>();
 
         public List<VarietyGraftingCompatibility> IsGraftedOn { get; set; } = new List<VarietyGraftingCompatibility>();
         public List<VarietyGraftingCompatibility> IsRootstockFor { get; set; } = new List<VarietyGraftingCompatibility>();

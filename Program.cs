@@ -44,7 +44,7 @@ namespace KestenTestApp
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Variety}/{action=List}/{id?}");
 
             //DbInitializer.Seed(app);
 

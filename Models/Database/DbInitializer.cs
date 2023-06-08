@@ -192,17 +192,17 @@ namespace KestenTestApp.Models.Database
                 context.SaveChanges();
 
                 //Pollenizers
-                var pollenizer = new List<VarietyPollenizerCompatibility>
+                var pollenizer = new List<VarietyPollenCompatibility>
                 {
-                    new VarietyPollenizerCompatibility
+                    new VarietyPollenCompatibility
                     {
                         PollinizerVarietyId = 2, TargetVarietyId = 1
                     },
-                    new VarietyPollenizerCompatibility
+                    new VarietyPollenCompatibility
                     {
                         PollinizerVarietyId = 3, TargetVarietyId = 1
                     },
-                    new VarietyPollenizerCompatibility
+                    new VarietyPollenCompatibility
                     {
                         PollinizerVarietyId = 4, TargetVarietyId = 1
                     }

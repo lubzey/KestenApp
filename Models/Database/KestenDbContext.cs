@@ -8,7 +8,7 @@ namespace KestenTestApp.Models.Database
         public DbSet<Variety> Varieties { get; set; }
         public DbSet<Species> Species { get; set; }
         public DbSet<FruitSize> FruitSizes { get; set; }
-        public DbSet<VarietyPollenizerCompatibility> VarietyPollenizers { get; set; }
+        public DbSet<VarietyPollenCompatibility> VarietyPollenizers { get; set; }
         public DbSet<VarietyGraftingCompatibility> VarietyGrafting { get; set; }
 
         public KestenDbContext(DbContextOptions<KestenDbContext> options) : base(options)
@@ -53,7 +53,7 @@ namespace KestenTestApp.Models.Database
 
             //Many-to-many
             modelBuilder
-                .Entity<VarietyPollenizerCompatibility>(entity =>
+                .Entity<VarietyPollenCompatibility>(entity =>
                 {
                     entity
                         .HasOne(ub => ub.TargetVariety)

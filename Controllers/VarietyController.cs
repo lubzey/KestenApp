@@ -15,7 +15,16 @@ namespace KestenTestApp.Controllers
             _varietyRepository = varietyRepository;
         }
 
-        public IActionResult Index()
+        //public IActionResult Index()
+        //{
+        //    IEnumerable<Variety> varieties = _varietyRepository
+        //            .AllVarieties
+        //            .OrderBy(p => p.VarietyId);
+
+        //    return View(new VarietyListViewModel(varieties));
+        //}
+
+        public ViewResult List()
         {
             IEnumerable<Variety> varieties = _varietyRepository
                     .AllVarieties
@@ -24,39 +33,13 @@ namespace KestenTestApp.Controllers
             return View(new VarietyListViewModel(varieties));
         }
 
-        //public ViewResult List(string varietyName)
-        //{
-        //    IEnumerable<Variety> varieties;
-        //    string? currentVariety;
-
-        //    if (string.IsNullOrEmpty(varietyName))
-        //    {
-        //        varieties = _varietyRepository
-        //            .AllVarieties
-        //            .OrderBy(p => p.VarietyName);
-        //        currentVariety = "All varieties";
-        //    }
-        //    else
-        //    {
-        //        varieties = _varietyRepository
-        //            .AllVarieties
-        //            .Where(p => p.VarietyName.Contains(varietyName))
-        //            .OrderBy(p => p.VarietyName);
-        //        currentVariety = varieties
-        //            .FirstOrDefault()
-        //            ?.VarietyName;
-        //    }
-
-        //    return View(new VarietyListViewModel(varieties, currentVariety));
-        //}
-
         public IActionResult Details(int id)
         {
-            var pie = _varietyRepository.GetVarietyById(id);
-            if (pie == null)
+            var variety = _varietyRepository.GetVarietyById(id);
+            if (variety == null)
                 return NotFound();
 
-            return View(pie);
+            return View(variety);
         }
 
         public IActionResult Search()
