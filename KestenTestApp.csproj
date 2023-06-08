@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Folder Include="Pages\" />
+    <Folder Include="wwwroot\Images\Varieties\" />
   </ItemGroup>
 
 </Project>

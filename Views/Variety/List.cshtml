@@ -7,13 +7,19 @@
 
 <table class="table table-striped table-bordered table-sm" cellspacing="2" width="100%">
     <thead>
-        <partial name="_TableHeader"
-                 model="@Model.HeaderTitles" />
+        <tr>
+            @foreach (string title in Model.HeaderTitles)
+            {
+                <th class="th-sm">
+                    @title
+                </th>
+            }
+        <tr>
     </thead>
     <tbody>
         @foreach (Variety variety in Model.Varieties)
         {
-            <partial name="_VarietySummary"
+            <partial name="Summary"
                  model="new Tuple<Variety, string>(variety, Model.Separator)" />
         }
     </tbody>

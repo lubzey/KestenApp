@@ -1,0 +1,28 @@
+﻿@model KestenTestApp.Models.View.VarietyDetailsViewModel
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <img alt=""
+                 class="img-fluid"
+                 src=@Model.ThumbnailImage />
+        </div>
+        <div class="col-sm">
+            <div class="row">
+                <div class="row">
+                    <h2>
+                        @Model.Variety.VarietyName
+                    </h2>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        @Model.Variety.Description
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

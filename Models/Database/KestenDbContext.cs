@@ -10,6 +10,7 @@ namespace KestenTestApp.Models.Database
         public DbSet<FruitSize> FruitSizes { get; set; }
         public DbSet<VarietyPollenCompatibility> VarietyPollenizers { get; set; }
         public DbSet<VarietyGraftingCompatibility> VarietyGrafting { get; set; }
+        public DbSet<Image> Images { get; set; }
 
         public KestenDbContext(DbContextOptions<KestenDbContext> options) : base(options)
         {
@@ -50,6 +51,11 @@ namespace KestenTestApp.Models.Database
                 .HasMany(e => e.FruitSizes)
                 .WithMany(e => e.Varieties)
                 .UsingEntity("VarietyFruitSizes");
+
+            modelBuilder.Entity<Variety>()
+                .HasMany(e => e.Images)
+                .WithMany(e => e.Varieties)
+                .UsingEntity("VarietyImages");
 
             //Many-to-many
             modelBuilder

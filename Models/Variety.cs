@@ -20,6 +20,7 @@ namespace KestenTestApp.Models
         //One-to-many
         public List<Species> Species { get; set; } = new List<Species>();
         public List<FruitSize> FruitSizes { get; set; } = new List<FruitSize>();
+        public List<Image> Images { get; set; } = new List<Image>();
 
         //Many-to-many
         public List<VarietyPollenCompatibility> IsPollenizerFor { get; set; } = new List<VarietyPollenCompatibility>();

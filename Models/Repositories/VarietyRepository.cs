@@ -24,6 +24,7 @@ namespace KestenTestApp.Models.Repositories
                     .Include(v => v.IsPollenizerFor)
                     .Include(v => v.IsRootstockFor)
                     .Include(v => v.IsGraftedOn)
+                    .Include(v => v.Images)
                     .ToList();
             }
         }
@@ -31,7 +32,14 @@ namespace KestenTestApp.Models.Repositories
         public Variety? GetVarietyById(int pieId)
         {
             return _context.Varieties
-                .FirstOrDefault(p => p.VarietyId == pieId);
+                    .Include(v => v.Species)
+                    .Include(v => v.FruitSizes)
+                    .Include(v => v.IsPollenizedBy)
+                    .Include(v => v.IsPollenizerFor)
+                    .Include(v => v.IsRootstockFor)
+                    .Include(v => v.IsGraftedOn)
+                    .Include(v => v.Images)
+                    .FirstOrDefault(p => p.VarietyId == pieId);
         }
 
         public IEnumerable<Variety> SearchVarieties(string searchQuery)

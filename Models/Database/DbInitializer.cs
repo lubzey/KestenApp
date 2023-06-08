@@ -99,6 +99,10 @@ namespace KestenTestApp.Models.Database
                             FruitSizes = FruitSizes
                                 .Where(s => s.FruitSizeId == (int)FruitSizeEnum.XL)
                                 .ToList(),
+                            Images = new List<Image>
+                            {
+                                new Image{ FileName = "BE9CCA3D-4E9A-4E75-B813-9279F79F7F75"}
+                            },
                             Peeling = ConditionEnum.Good,
                             IsMarron = true,
                             ChestnutBlightResistance = ConditionEnum.Good,
@@ -116,6 +120,10 @@ namespace KestenTestApp.Models.Database
                                 .Where(s => s.FruitSizeId == (int)FruitSizeEnum.Large
                                     || s.FruitSizeId == (int)FruitSizeEnum.XL)
                                 .ToList(),
+                            Images = new List<Image>
+                            {
+                                new Image{ FileName = "BF77FF2D-A488-4F6D-847B-3C880239A53F"}
+                            },
                             Peeling = ConditionEnum.Good,
                             IsMarron = true,
                             ChestnutBlightResistance = ConditionEnum.Medium,
@@ -132,6 +140,10 @@ namespace KestenTestApp.Models.Database
                             FruitSizes = FruitSizes
                                 .Where(s => s.FruitSizeId == (int)FruitSizeEnum.XL)
                                 .ToList(),
+                            Images = new List<Image>
+                            {
+                                new Image{ FileName = "EE93870C-A4AD-46F7-B5DC-F36AE12ED3A3"}
+                            },
                             Peeling = ConditionEnum.Good,
                             IsMarron = true,
                             ChestnutBlightResistance = ConditionEnum.Good,
