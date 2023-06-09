@@ -1,7 +1,12 @@
 ﻿@model Tuple<Variety, string>
 
 <tr>
-    <td>@Model.Item1.VarietyName</td>
+    <td>
+        <a asp-controller="Variety"
+           asp-action="Details"
+           asp-route-id="@Model.Item1.VarietyId"
+           class="text-decoration-none text-dark fw-bold">@Model.Item1.VarietyName</a>
+    </td>
     <td>
         @string.Join(Model.Item2, Model.Item1
         .Species
