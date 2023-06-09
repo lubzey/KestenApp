@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.Tracing;
 
 namespace KestenTestApp.Models.Database
 {
-    public class KestenDbContext : DbContext
+    public class KestenDbContext : IdentityDbContext
     {
         public DbSet<Variety> Varieties { get; set; }
         public DbSet<Species> Species { get; set; }
@@ -35,6 +36,9 @@ namespace KestenTestApp.Models.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //Needed for Identity
+            base.OnModelCreating(modelBuilder);
+
             //Default value
             modelBuilder.Entity<Variety>()
                .Property(v => v.CreatedOn)

@@ -19,7 +19,7 @@
     <tbody>
         @foreach (Variety variety in Model.Varieties)
         {
-            <partial name="Summary"
+            <partial name="_VarietySummary"
                  model="new Tuple<Variety, string>(variety, Model.Separator)" />
         }
     </tbody>

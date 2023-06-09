@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using KestenTestApp.Models.Repositories;
 using KestenTestApp.Models.Database;
+using Microsoft.AspNetCore.Identity;
 
 namespace KestenTestApp
 {
@@ -18,12 +19,16 @@ namespace KestenTestApp
             builder.Services.AddDbContext<KestenDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
+            //Identity
+            builder.Services.AddDefaultIdentity<IdentityUser>()
+                .AddEntityFrameworkStores<KestenDbContext>();
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddScoped<IVarietyRepository, VarietyRepository>();
 
-            
+
 
             var app = builder.Build();
 
@@ -40,13 +45,14 @@ namespace KestenTestApp
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Variety}/{action=List}/{id?}");
 
-            //DbInitializer.Seed(app);
+            DbInitializer.Seed(app);
 
             app.Run();
         }
