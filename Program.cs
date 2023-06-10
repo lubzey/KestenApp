@@ -52,7 +52,9 @@ namespace KestenTestApp
                 name: "default",
                 pattern: "{controller=Variety}/{action=List}/{id?}");
 
-            DbInitializer.Seed(app);
+            app.MapRazorPages();
+
+            //DbInitializer.Seed(app);
 
             app.Run();
         }
