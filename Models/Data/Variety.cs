@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace KestenTestApp.Models
+namespace KestenTestApp.Models.Data
 {
     public class Variety
     {

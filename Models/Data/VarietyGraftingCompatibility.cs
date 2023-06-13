@@ -1,4 +1,4 @@
-﻿namespace KestenTestApp.Models
+﻿namespace KestenTestApp.Models.Data
 {
     public class VarietyGraftingCompatibility
     {

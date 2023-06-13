@@ -1,4 +1,5 @@
-﻿using KestenTestApp.Models.Database;
+﻿using KestenTestApp.Models.Data;
+using KestenTestApp.Models.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace KestenTestApp.Models.Repositories

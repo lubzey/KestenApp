@@ -1,4 +1,6 @@
-﻿namespace KestenTestApp.Models.Repositories
+﻿using KestenTestApp.Models.Data;
+
+namespace KestenTestApp.Models.Repositories
 {
     public interface IVarietyRepository
     {

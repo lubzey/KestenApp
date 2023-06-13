@@ -1,4 +1,4 @@
-namespace KestenTestApp.Models
+namespace KestenTestApp.Models.View
 {
     public class ErrorViewModel
     {

@@ -1,5 +1,6 @@
 ﻿using KestenTestApp.Models;
 using KestenTestApp.Models.Repositories;
+using KestenTestApp.Models.View;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

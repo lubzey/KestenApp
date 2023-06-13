@@ -1,4 +1,5 @@
-﻿using KestenTestApp.Models.EnumHelpers;
+﻿using KestenTestApp.Models.Data;
+using KestenTestApp.Models.EnumHelpers;
 using KestenTestApp.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 

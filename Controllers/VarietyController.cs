@@ -1,4 +1,4 @@
-﻿using KestenTestApp.Models;
+﻿using KestenTestApp.Models.Data;
 using KestenTestApp.Models.Repositories;
 using KestenTestApp.Models.View;
 using Microsoft.AspNetCore.Hosting;

@@ -1,4 +1,6 @@
-﻿namespace KestenTestApp.Models.View
+﻿using KestenTestApp.Models.Data;
+
+namespace KestenTestApp.Models.View
 {
     public class VarietyListViewModel
     {
