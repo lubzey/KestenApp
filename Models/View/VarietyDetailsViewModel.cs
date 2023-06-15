@@ -1,7 +1,4 @@
-﻿using Azure.Core;
-using KestenTestApp.Models.Data;
-using Microsoft.AspNetCore.Hosting.Server;
-using System;
+﻿using KestenTestApp.Models.Data;
 
 namespace KestenTestApp.Models.View
 {

@@ -1,20 +1,13 @@
-﻿using KestenTestApp.Models.Data;
-
-namespace KestenTestApp.Models.View
+﻿namespace KestenTestApp.Models.View
 {
     public class VarietyListViewModel
     {
-        public IEnumerable<Variety> Varieties;
-        public string? CurrentVariety;
-        public string Title;
-        public string Separator;
+        public IEnumerable<VarietyListDetailsViewModel> Varieties;
         public List<string> HeaderTitles;
 
-        public VarietyListViewModel(IEnumerable<Variety> varieties)
+        public VarietyListViewModel(IEnumerable<VarietyListDetailsViewModel> varieties)
         {
-            this.Title = "Variesties";
             this.Varieties = varieties;
-            this.Separator = $",{Environment.NewLine}";
             this.HeaderTitles = new List<string>
             {
                 "Name",

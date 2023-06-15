@@ -2,8 +2,9 @@
 {
     public enum PollenTypeEnum
     {
-        Sterile = 0,
-        Medium = 1,
-        Abundant = 2
+        None = 0,
+        Sterile = 1,
+        Medium = 2,
+        Abundant = 3
     }
 }

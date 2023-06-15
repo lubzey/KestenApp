@@ -9,11 +9,11 @@ namespace KestenTestApp.Models.Data
         public int VarietyId { get; set; }
         public string VarietyName { get; set; } = string.Empty;
         public string? Description { get; set; }
-        public ConditionEnum? ChestnutBlightResistance { get; set; }
-        public ConditionEnum? InkDiseaseResistance { get; set; }
-        public ConditionEnum? Peeling { get; set; }
-        public PollenTypeEnum? PollenFertility { get; set; }
-        public MaturingPeriodEnum? MaturityPeriod { get; set; }
+        public ConditionEnum ChestnutBlightResistance { get; set; } = ConditionEnum.None;
+        public ConditionEnum InkDiseaseResistance { get; set; } = ConditionEnum.None;
+        public ConditionEnum Peeling { get; set; } = ConditionEnum.None;
+        public PollenTypeEnum PollenFertility { get; set; } = PollenTypeEnum.None;
+        public MaturingPeriodEnum MaturityPeriod { get; set; } = MaturingPeriodEnum.None;
         public bool? IsMarron { get; set; }
         public DateTime CreatedOn { get; set; }
 

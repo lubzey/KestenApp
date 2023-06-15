@@ -2,8 +2,9 @@
 {
     public enum ConditionEnum
     {
-        Bad = 0,
-        Medium = 1,
-        Good = 2
+        None = 0,
+        Bad = 1,
+        Medium = 2,
+        Good = 3
     }
 }

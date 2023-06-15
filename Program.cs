@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using KestenTestApp.Models.Repositories;
 using KestenTestApp.Models.Database;
 using Microsoft.AspNetCore.Identity;
+using KestenTestApp.Services;
+using KestenTestApp.Contracts;
 
 namespace KestenTestApp
 {

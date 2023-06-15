@@ -1,70 +1,48 @@
 ﻿@using KestenTestApp.Models.Data;
-@model Tuple<Variety, string>
+@model VarietyListDetailsViewModel
 
 <tr>
     <td>
         <a asp-controller="Variety"
            asp-action="Details"
-           asp-route-id="@Model.Item1.VarietyId"
-           class="text-decoration-none text-dark fw-bold">@Model.Item1.VarietyName</a>
+           asp-route-id="@Model.VarietyId"
+           class="text-decoration-none text-dark fw-bold">@Model.VarietyName</a>
     </td>
     <td>
-        @string.Join(Model.Item2, Model.Item1
-        .Species
-        .OrderBy(sp => sp.SpeciesId)
-        .Select(sp => sp.ShortLatinName))
+        @Model.Species
     </td>
     <td>
-        @string.Join(Model.Item2, Model.Item1
-        .FruitSizes
-        .OrderBy(sp => sp.FruitSizeId)
-        .Select(sp => sp.Name))
+        @Model.FruitSizes
     </td>
     <td>
-        @(Model.Item1.IsMarron != null
-            ? (bool)Model.Item1.IsMarron
-            ? "\u2713"
-            : "\u2717"
-            : "")
+        @Model.IsMarron
     </td>
     <td>
-        @Model.Item1.ChestnutBlightResistance.ToString()
+        @Model.ChestnutBlightResistance
     </td>
     <td>
-        @Model.Item1.InkDiseaseResistance.ToString()
+        @Model.InkDiseaseResistance
     </td>
     <td>
-        @Model.Item1.Peeling.ToString()
+        @Model.Peeling
     </td>
     <td>
-        @Model.Item1.PollenFertility.ToString()
+        @Model.PollenFertility
     </td>
     <td>
-        @Model.Item1.MaturityPeriod.ToString()
+        @Model.MaturityPeriod
     </td>
     <td>
-        @string.Join(Model.Item2, Model.Item1
-        .IsPollenizedBy
-        .OrderBy(sp => sp.PollenizerVariety.VarietyName)
-        .Select(sp => sp.PollenizerVariety.VarietyName))
+        @Model.IsPollenizedBy
     </td>
     <td>
-        @string.Join(Model.Item2, Model.Item1
-        .IsPollenizerFor
-        .OrderBy(sp => sp.TargetVariety.VarietyName)
-        .Select(sp => sp.TargetVariety.VarietyName))
+        @Model.IsPollenizerFor
     </td>
     <td>
-        @string.Join(Model.Item2, Model.Item1
-        .IsRootstockFor
-        .OrderBy(sp => sp.GraftedVariety.VarietyName)
-        .Select(sp => sp.GraftedVariety.VarietyName))
+        @Model.IsRootstockFor
 
     </td>
     <td>
-        @string.Join(Model.Item2, Model.Item1
-        .IsGraftedOn
-        .OrderBy(sp => sp.RootstockVariety.VarietyName)
-        .Select(sp => sp.RootstockVariety.VarietyName))
+        @Model.IsGraftedOn
     </td>
 </tr>

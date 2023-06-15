@@ -2,11 +2,12 @@
 {
     public enum MaturingPeriodEnum
     {
-        VeryEarly = 0,
-        Early = 1, 
-        SemiEarly = 2, 
-        SemiLate = 3, 
-        Late = 4, 
-        VeryLate = 5
+        None = 0,
+        VeryEarly = 1,
+        Early = 2, 
+        SemiEarly = 3, 
+        SemiLate = 4, 
+        Late = 5, 
+        VeryLate = 6
     }
 }

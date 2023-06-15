@@ -1,10 +1,6 @@
-﻿using KestenTestApp.Models.Data;
-using KestenTestApp.Models.Repositories;
+﻿using KestenTestApp.Contracts;
 using KestenTestApp.Models.View;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.IO.Pipelines;
 
 namespace KestenTestApp.Controllers
 {
@@ -30,7 +26,7 @@ namespace KestenTestApp.Controllers
 
         public ViewResult List()
         {
-            IEnumerable<Variety> varieties = _varietyRepository
+            IEnumerable<VarietyListDetailsViewModel> varieties = _varietyRepository
                 .AllVarieties
                 .OrderBy(p => p.VarietyId);
 
@@ -46,7 +42,7 @@ namespace KestenTestApp.Controllers
 
             //string contentRootPath = _environment.WebRootPath;
 
-            return View(new VarietyDetailsViewModel(variety));
+            return View(variety);
         }
 
         public IActionResult Search()

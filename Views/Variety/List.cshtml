@@ -1,7 +1,6 @@
-﻿@using KestenTestApp.Models.Data;
-@model KestenTestApp.Models.View.VarietyListViewModel
+﻿@model VarietyListViewModel
 @{
-    ViewData["Title"] = Model.Title;
+    ViewData["Title"] = "Varieties";
 }
 
 <h4>@Model.Varieties.Count() varieties found</h4>
@@ -18,10 +17,10 @@
         <tr>
     </thead>
     <tbody>
-        @foreach (Variety variety in Model.Varieties)
+        @foreach (VarietyListDetailsViewModel variety in Model.Varieties)
         {
             <partial name="_VarietySummary"
-                 model="new Tuple<Variety, string>(variety, Model.Separator)" />
+                 model="variety" />
         }
     </tbody>
 </table>
