@@ -5,8 +5,7 @@ namespace KestenTestApp.Contracts
 {
     public interface IVarietyService
     {
-        IEnumerable<VarietyListDetailsViewModel> AllVarieties { get; }
-
+        IEnumerable<VarietyListDetailsViewModel> AllVarieties();
         Task<VarietyAddViewModel> GetNewAddVarietyModelAsync();
         VarietyDetailsViewModel? GetVarietyById(int pieId);
         IEnumerable<Variety> SearchVarieties(string searchQuery);

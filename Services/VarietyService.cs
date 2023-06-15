@@ -16,49 +16,46 @@ namespace KestenTestApp.Services
         }
 
         //List varieties - add paging
-        public IEnumerable<VarietyListDetailsViewModel> AllVarieties
+        public IEnumerable<VarietyListDetailsViewModel> AllVarieties()
         {
-            get
-            {
-                return _context
-                    .Varieties
-                    .Select(v => new VarietyListDetailsViewModel
-                    {
-                        VarietyId = v.VarietyId,
-                        VarietyName = v.VarietyName,
-                        Species = JoinStrings(
-                            v.Species
-                                .OrderBy(s => s.ShortLatinName)
-                                .Select(s => s.ShortLatinName)
-                                .ToList()),
-                        FruitSizes = JoinStrings(
-                            v.FruitSizes
-                                .OrderBy(fs => fs.FruitSizeId)
-                                .Select(fs => fs.Name)),
-                        IsMarron = GetStringFromNullableBoolean(v.IsMarron),
-                        ChestnutBlightResistance = GetStringValueOfNullableEnum(v.ChestnutBlightResistance),
-                        InkDiseaseResistance = GetStringValueOfNullableEnum(v.InkDiseaseResistance),
-                        Peeling = GetStringValueOfNullableEnum(v.Peeling),
-                        PollenFertility = GetStringValueOfNullableEnum(v.PollenFertility),
-                        MaturityPeriod = GetStringValueOfNullableEnum(v.MaturityPeriod),
-                        IsPollenizedBy = JoinStrings(
-                            v.IsPollenizedBy
-                                .Select(p => p.PollenizerVariety.VarietyName)
-                                .OrderBy(n => n)),
-                        IsPollenizerFor = JoinStrings(
-                            v.IsPollenizerFor
-                                .Select(p => p.PollenizerVariety.VarietyName)
-                                .OrderBy(n => n)),
-                        IsRootstockFor = JoinStrings(
-                            v.IsRootstockFor
-                                .Select(p => p.GraftedVariety.VarietyName)
-                                .OrderBy(n => n)),
-                        IsGraftedOn = JoinStrings(
-                            v.IsGraftedOn
-                                .Select(p => p.RootstockVariety.VarietyName)
-                                .OrderBy(n => n))
-                    });
-            }
+            return _context
+                .Varieties
+                .Select(v => new VarietyListDetailsViewModel
+                {
+                    VarietyId = v.VarietyId,
+                    VarietyName = v.VarietyName,
+                    Species = JoinStrings(
+                        v.Species
+                            .OrderBy(s => s.ShortLatinName)
+                            .Select(s => s.ShortLatinName)
+                            .ToList()),
+                    FruitSizes = JoinStrings(
+                        v.FruitSizes
+                            .OrderBy(fs => fs.FruitSizeId)
+                            .Select(fs => fs.Name)),
+                    IsMarron = GetStringFromNullableBoolean(v.IsMarron),
+                    ChestnutBlightResistance = GetStringValueOfNullableEnum(v.ChestnutBlightResistance),
+                    InkDiseaseResistance = GetStringValueOfNullableEnum(v.InkDiseaseResistance),
+                    Peeling = GetStringValueOfNullableEnum(v.Peeling),
+                    PollenFertility = GetStringValueOfNullableEnum(v.PollenFertility),
+                    MaturityPeriod = GetStringValueOfNullableEnum(v.MaturityPeriod),
+                    IsPollenizedBy = JoinStrings(
+                        v.IsPollenizedBy
+                            .Select(p => p.PollenizerVariety.VarietyName)
+                            .OrderBy(n => n)),
+                    IsPollenizerFor = JoinStrings(
+                        v.IsPollenizerFor
+                            .Select(p => p.PollenizerVariety.VarietyName)
+                            .OrderBy(n => n)),
+                    IsRootstockFor = JoinStrings(
+                        v.IsRootstockFor
+                            .Select(p => p.GraftedVariety.VarietyName)
+                            .OrderBy(n => n)),
+                    IsGraftedOn = JoinStrings(
+                        v.IsGraftedOn
+                            .Select(p => p.RootstockVariety.VarietyName)
+                            .OrderBy(n => n))
+                });
         }
 
         //Details

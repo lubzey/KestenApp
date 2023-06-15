@@ -28,7 +28,7 @@ namespace KestenTestApp
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddScoped<IVarietyService, VarietyService>();
-
+            builder.Services.AddScoped<ISpeciesService, SpeciesService>();
 
 
             var app = builder.Build();
