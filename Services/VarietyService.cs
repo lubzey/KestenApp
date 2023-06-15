@@ -6,15 +6,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KestenTestApp.Services
 {
-    public class VarietyRepository : IVarietyRepository
+    public class VarietyService : IVarietyService
     {
         private readonly KestenDbContext _context;
 
-        public VarietyRepository(KestenDbContext context)
+        public VarietyService(KestenDbContext context)
         {
             _context = context;
         }
 
+        //List varieties - add paging
         public IEnumerable<VarietyListDetailsViewModel> AllVarieties
         {
             get
@@ -60,6 +61,7 @@ namespace KestenTestApp.Services
             }
         }
 
+        //Details
         public VarietyDetailsViewModel? GetVarietyById(int pieId)
         {
             Variety? variety = _context
@@ -76,12 +78,52 @@ namespace KestenTestApp.Services
             return new VarietyDetailsViewModel(variety);
         }
 
+
+        //Search - Must have filters!!!
         public IEnumerable<Variety> SearchVarieties(string searchQuery)
         {
             return _context
                 .Varieties
                 .Where(p => p.VarietyName.Contains(searchQuery));
         }
+
+        //Edit Variety
+
+        //Add
+        public async Task<VarietyAddViewModel> GetNewAddVarietyModelAsync()
+        {
+            var species = await _context.Species
+                .Select(c => new Species
+                {
+                    SpeciesId = c.SpeciesId,
+                    ShortLatinName = c.ShortLatinName
+                }).ToListAsync();
+
+            var model = new VarietyAddViewModel
+            {
+                Species = species
+            };
+
+            return model;
+        }
+
+        //public async Task AddBookAsync(VarietyAdd model)
+        //{
+        //    Variety variety = new Variety
+        //    {
+        //        VarietyName = model.VarietyName,
+        //        Species = model.Species,
+        //        Description = model.Description
+        //    };
+
+        //    await _context.Varieties.AddAsync(variety);
+        //    await _context.SaveChangesAsync();
+        //}
+
+        //Remove
+
+
+
 
         //Help methods
         private static string GetStringValueOfNullableEnum<T>(T enumValue)

@@ -27,7 +27,7 @@ namespace KestenTestApp
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddScoped<IVarietyRepository, VarietyRepository>();
+            builder.Services.AddScoped<IVarietyService, VarietyService>();
 
 
 

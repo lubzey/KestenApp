@@ -1,0 +1,44 @@
+﻿@using KestenTestApp.Models.Data;
+@model VarietyAddViewModel
+@{
+    ViewBag.Title = "Add Variety";
+}
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form asp-action="Add" method="post">
+            <div class="mb-3">
+                <label asp-for="@Model.VarietyName" class="form-label">Variety Name</label>
+                <input asp-for="@Model.VarietyName" class="form-control" aria-required="true" />
+                <span asp-validation-for="@Model.VarietyName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.Description" class="form-label">Description</label>
+                <input asp-for="@Model.Description" class="form-control" aria-required="true" />
+                <span asp-validation-for="@Model.Description" class="text-danger"></span>
+            </div>
+            
+
+@*            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <input type="checkbox" aria-label="Checkbox for following text input">
+                    </div>
+                </div>
+            </div>
+
+            <select class="select w-100 p-3" multiple>
+                @foreach (Species sp in Model.Species)
+                {
+                    <option value="@sp.SpeciesId">@sp.ShortLatinName</option>
+                }
+            </select>
+            <label class="form-label select-label">Species</label>*@
+
+
+            <div class="mb-3">
+                <input class="btn btn-outline-secondary" type="submit" value="Add" />
+            </div>
+        </form>
+    </div>
+</div>

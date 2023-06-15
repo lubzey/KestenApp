@@ -3,24 +3,33 @@
     ViewData["Title"] = "Varieties";
 }
 
-<h4>@Model.Varieties.Count() varieties found</h4>
 
-<table class="table table-striped table-bordered table-sm" cellspacing="2" width="100%">
-    <thead>
-        <tr>
-            @foreach (string title in Model.HeaderTitles)
+<div class="row">
+    <div class="col-sm text-end">
+        <a class="btn btn-outline-secondary"
+           asp-area="" asp-controller="Variety" asp-action="Add">Add Variety</a>
+    </div>
+</div>
+
+<div class="row">
+    <h4>@Model.Varieties.Count() varieties found</h4>
+    <table class="table table-striped table-bordered table-sm" cellspacing="2" width="100%">
+        <thead>
+            <tr>
+                @foreach (string title in Model.HeaderTitles)
+                {
+                    <th class="th-sm">
+                        @title
+                    </th>
+                }
+            <tr>
+        </thead>
+        <tbody>
+            @foreach (VarietyListDetailsViewModel variety in Model.Varieties)
             {
-                <th class="th-sm">
-                    @title
-                </th>
+                <partial name="_VarietySummary"
+                     model="variety" />
             }
-        <tr>
-    </thead>
-    <tbody>
-        @foreach (VarietyListDetailsViewModel variety in Model.Varieties)
-        {
-            <partial name="_VarietySummary"
-                 model="variety" />
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>

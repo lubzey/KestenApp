@@ -4,29 +4,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KestenTestApp.Controllers
 {
-    public class VarietyController : Controller
+    public class VarietyController : BaseController
     {
-        private readonly IVarietyRepository _varietyRepository;
+        private readonly IVarietyService _varietyService;
         public IWebHostEnvironment _environment { get; }
 
-        public VarietyController(IVarietyRepository varietyRepository, IWebHostEnvironment environment)
+        public VarietyController(IVarietyService varietyService, IWebHostEnvironment environment)
         {
-            _varietyRepository = varietyRepository;
-            _environment = environment;
+            _varietyService = varietyService;
+            _environment = environment; //Needed to get local path to images in case of file deletion
         }
-
-        //public IActionResult Index()
-        //{
-        //    IEnumerable<Variety> varieties = _varietyRepository
-        //            .AllVarieties
-        //            .OrderBy(p => p.VarietyId);
-
-        //    return View(new VarietyListViewModel(varieties));
-        //}
 
         public ViewResult List()
         {
-            IEnumerable<VarietyListDetailsViewModel> varieties = _varietyRepository
+            IEnumerable<VarietyListDetailsViewModel> varieties = _varietyService
                 .AllVarieties
                 .OrderBy(p => p.VarietyId);
 
@@ -35,7 +26,7 @@ namespace KestenTestApp.Controllers
 
         public IActionResult Details(int id)
         {
-            var variety = _varietyRepository
+            var variety = _varietyService
                 .GetVarietyById(id);
             if (variety == null)
                 return NotFound();
@@ -43,6 +34,14 @@ namespace KestenTestApp.Controllers
             //string contentRootPath = _environment.WebRootPath;
 
             return View(variety);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Add()
+        {
+            VarietyAddViewModel model = await _varietyService.GetNewAddVarietyModelAsync();
+
+            return View(model);
         }
 
         public IActionResult Search()

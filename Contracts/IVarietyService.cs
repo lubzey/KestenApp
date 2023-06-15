@@ -3,10 +3,11 @@ using KestenTestApp.Models.View;
 
 namespace KestenTestApp.Contracts
 {
-    public interface IVarietyRepository
+    public interface IVarietyService
     {
         IEnumerable<VarietyListDetailsViewModel> AllVarieties { get; }
 
+        Task<VarietyAddViewModel> GetNewAddVarietyModelAsync();
         VarietyDetailsViewModel? GetVarietyById(int pieId);
         IEnumerable<Variety> SearchVarieties(string searchQuery);
     }

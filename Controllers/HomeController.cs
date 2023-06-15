@@ -5,14 +5,14 @@ using System.Diagnostics;
 
 namespace KestenTestApp.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
-        //private readonly IVarietyRepository _varietyRepository;
+        private readonly IVarietyService _varietyService;
 
-        public HomeController(IVarietyRepository varietyRepository, ILogger<HomeController> logger)
+        public HomeController(IVarietyService varietyService, ILogger<HomeController> logger)
         {
-            //_varietyRepository = varietyRepository;
+            _varietyService = varietyService; //Preview
             _logger = logger;
         }
 
