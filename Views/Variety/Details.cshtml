@@ -3,38 +3,201 @@
     ViewData["Title"] = Model.Variety.VarietyName;
 }
 
-<div class="container">
-    <div class="row">
-        <div class="col offset-1">
-            <img alt=""
-                 class="img-fluid"
-                 src=@Model.ThumbnailImagePath />
-        </div>
-        <div class="col-6">
+@*Photo and Description*@
+<div class="row">
+
+    <div class="col-5 offset-1">
+        <img alt=""
+             class="img-fluid"
+             src=@Model.ThumbnailImagePath />
+    </div>
+
+    <div class="col-5">
+        <div class="row">
             <div class="row">
-                <div class="row">
-                    <div class="col">
-                        <h2>
-                            @Model.Variety.VarietyName
-                        </h2>
-                    </div>
+                <div class="col">
+                    <h2>
+                        @Model.Variety.VarietyName
+                    </h2>
                 </div>
-                <div class="row">
-                    <div class="col-sm">
-                        @Model.Variety.Description
-                    </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    @Model.Variety.Description
                 </div>
             </div>
         </div>
-        <div class="col-1 text-end">
-            <a asp-controller="Variety"
-               asp-action="List"
-               class="btn btn-outline-secondary">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"></path>
-                </svg>
-                <span>Back</span>
-            </a>
+    </div>
+
+    <div class="col-1 text-end">
+        <a asp-controller="Variety"
+           asp-action="List"
+           class="btn btn-outline-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"></path>
+            </svg>
+            <span>Back</span>
+        </a>
+    </div>
+
+</div>
+
+@*Species*@
+<hr />
+
+@*Tree*@
+<div class="row mt-3">
+    <div class="col-1">
+        <h3 class="mt-1">
+            Tree
+        </h3>
+    </div>
+
+    @*Species*@
+    <div class="col-11">
+        <div class="row mt-3">
+            <div class="col-3 text-end">
+                <h5>
+                    Species
+                </h5>
+            </div>
+            <div class="col-5">
+                <div class="row">
+                    @for (int index = 0; index < Model.SpeciesCheckboxes.Count; index++)
+                    {
+                        <div class="col-3">
+                            <input type="checkbox"
+                               asp-for="@Model.SpeciesCheckboxes[index].IsChecked"
+                                   class="form-check-input"
+                                   style="pointer-events:none" />
+
+                            <label class="form-check-label">
+                                @Model.SpeciesCheckboxes[index].LabelName
+                            </label>
+
+                            <input type="hidden" asp-for="@Model.SpeciesCheckboxes[index].Id" />
+                            <input type="hidden" asp-for="@Model.SpeciesCheckboxes[index].LabelName" />
+                            <br />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>        
+
+        <div class="row mt-3">
+            <div class="col-3 text-end">
+                <h5>
+                    Blight Resistance
+                </h5>
+            </div>
+            <div class="col-5">
+                @Model.Variety.ChestnutBlightResistance
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-3 text-end">
+                <h5>
+                    Ink Disease Resistance
+                </h5>
+            </div>
+            <div class="col-5">
+                @Model.Variety.InkDiseaseResistance
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-3 text-end">
+                <h5>
+                    Vigor
+                </h5>
+            </div>
+            <div class="col-5">
+                TODO: Add
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<hr />
+
+@*Fruit*@
+<div class="row mt-3">
+    <div class="col-1">
+        <h3 class="mt-1">
+            Fruit
+        </h3>
+    </div>
+
+    <div class="col-11">
+        <div class="row mt-3">
+            <div class="col-3 text-end">
+                <h5>
+                    Size
+                </h5>
+            </div>
+            <div class="col-5">
+                @String.Join(", ", Model.Variety.FruitSizes.Select(s=>s.Name))
+            </div>
+        </div>
+
+        @if (Model.Variety.IsMarron != null)
+        {
+            <div class="row mt-3">
+                <div class="col-3 text-end">
+                    <h5>
+                        Is Marron
+                    </h5>
+                </div>
+                <div class="col-5">
+                    @Model.Variety.IsMarron
+                </div>
+            </div>
+        }
+
+        <div class="row mt-3">
+            <div class="col-3 text-end">
+                <h5>
+                    Form
+                </h5>
+            </div>
+            <div class="col-5">
+                TODO: Add
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-3 text-end">
+                <h5>
+                    Color
+                </h5>
+            </div>
+            <div class="col-5">
+                TODO: Add
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-3 text-end">
+                <h5>
+                    Peeling
+                </h5>
+            </div>
+            <div class="col-5">
+                @Model.Variety.Peeling
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-3 text-end">
+                <h5>
+                    Maturity Period
+                </h5>
+            </div>
+            <div class="col-5">
+                @Model.Variety.MaturityPeriod
+            </div>
         </div>
     </div>
 </div>

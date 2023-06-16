@@ -59,20 +59,36 @@ namespace KestenTestApp.Services
         }
 
         //Details
-        public VarietyDetailsViewModel? GetVarietyById(int pieId)
+        public VarietyDetailsViewModel? GetDetailsViewById(int id)
         {
             Variety? variety = _context
                 .Varieties
                 //Include more data
                 .Include(v => v.Images)
-                .FirstOrDefault(p => p.VarietyId == pieId);
+                .Include(v => v.Species)
+                .Include(v => v.FruitSizes)
+                .FirstOrDefault(p => p.VarietyId == id);
 
             if (variety == null)
             {
                 return null;
             }
 
-            return new VarietyDetailsViewModel(variety);
+            int[] varietySpecies = variety
+                .Species
+                .Select(vs => vs.SpeciesId)
+                .ToArray() ?? new int[0];
+
+            IReadOnlyList<CheckboxViewModel> speciesCheckboxes = _context
+                .Species
+                .Select(s => new CheckboxViewModel
+                {
+                    Id = s.SpeciesId,
+                    LabelName = s.ShortLatinName,
+                    IsChecked = varietySpecies.Contains(s.SpeciesId)
+                }).ToArray().AsReadOnly();
+
+            return new VarietyDetailsViewModel(variety, speciesCheckboxes);
         }
 
 
@@ -83,8 +99,6 @@ namespace KestenTestApp.Services
                 .Varieties
                 .Where(p => p.VarietyName.Contains(searchQuery));
         }
-
-        //Edit Variety
 
         //Add
         public async Task<int> AddVarietyAsync(VarietyAddViewModel model)
@@ -106,6 +120,27 @@ namespace KestenTestApp.Services
             await _context.SaveChangesAsync();
 
             return variety.VarietyId;
+        }
+
+        //Edit Variety
+        public async Task EditVarietyAsync(VarietyAddViewModel model, int id)
+        {
+            var variety = await _context.Varieties.FindAsync(id);
+
+            int[] selectedSpeciesIds = model.Species
+                .Where(sp => sp.IsChecked)
+                .Select(sp => sp.Id).ToArray();
+
+            if (variety != null)
+            {
+                variety.VarietyName = model.VarietyName;
+                variety.Description = model.Description;
+                variety.Species = _context.Species
+                    .Where(s => selectedSpeciesIds.Contains(s.SpeciesId))
+                    .ToList();
+
+                await _context.SaveChangesAsync();
+            }
         }
 
         //Remove

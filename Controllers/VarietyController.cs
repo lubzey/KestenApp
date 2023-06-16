@@ -35,7 +35,7 @@ namespace KestenTestApp.Controllers
         public IActionResult Details(int id)
         {
             VarietyDetailsViewModel? variety = _varietyService
-                .GetVarietyById(id);
+                .GetDetailsViewById(id);
             if (variety == null)
                 return NotFound();
 
@@ -67,6 +67,36 @@ namespace KestenTestApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(VarietyAddViewModel model)
+        {
+            if (string.IsNullOrEmpty(model.VarietyName))
+            {
+                ModelState.AddModelError(nameof(model.VarietyName), "Please enter variety name");
+
+                return View(model);
+            }
+
+            if (ModelState.IsValid == false)
+            {
+                return View(model);
+            }
+
+            var newVarietyIndex = await _varietyService.AddVarietyAsync(model);
+
+            return RedirectToAction("Details", "Variety", new { id = newVarietyIndex });
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            VarietyDetailsViewModel? detailsViewModel = _varietyService.GetDetailsViewById(id);
+            
+
+            return View(detailsViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(VarietyAddViewModel model)
         {
             if (string.IsNullOrEmpty(model.VarietyName))
             {

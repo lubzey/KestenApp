@@ -5,9 +5,10 @@ namespace KestenTestApp.Contracts
 {
     public interface IVarietyService
     {
-        Task<int> AddVarietyAsync(VarietyAddViewModel model);
         IEnumerable<VarietyListDetailsViewModel> AllVarieties();
-        VarietyDetailsViewModel? GetVarietyById(int pieId);
+        VarietyDetailsViewModel? GetDetailsViewById(int id);
         IEnumerable<Variety> SearchVarieties(string searchQuery);
+        Task<int> AddVarietyAsync(VarietyAddViewModel model);
+        Task EditVarietyAsync(VarietyAddViewModel model, int id);
     }
 }
