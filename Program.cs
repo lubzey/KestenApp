@@ -55,7 +55,7 @@ namespace KestenTestApp
 
             app.MapRazorPages();
 
-            //DbInitializer.Seed(app);
+            DbInitializer.Seed(app);
 
             app.Run();
         }

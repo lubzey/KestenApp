@@ -23,6 +23,8 @@
                 </small>
             </div>
 
+            <span>Species:</span>
+            <br />
             @for (int index = 0; index < Model.Species.Count; index++)
             {
                 <input type="checkbox" asp-for="@Model.Species[index].IsChecked" class="form-check-input" />
