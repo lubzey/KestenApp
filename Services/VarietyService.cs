@@ -87,35 +87,26 @@ namespace KestenTestApp.Services
         //Edit Variety
 
         //Add
-        public async Task<VarietyAddViewModel> GetNewAddVarietyModelAsync()
+        public async Task<int> AddVarietyAsync(VarietyAddViewModel model)
         {
-            var species = await _context.Species
-                .Select(c => new Species
-                {
-                    SpeciesId = c.SpeciesId,
-                    ShortLatinName = c.ShortLatinName
-                }).ToListAsync();
+            int[] selectedSpeciesIds = model.Species
+                .Where(sp => sp.IsChecked)
+                .Select(sp => sp.Id).ToArray();
 
-            var model = new VarietyAddViewModel
+            Variety variety = new Variety
             {
-                Species = species
+                VarietyName = model.VarietyName,
+                Species = _context.Species
+                    .Where(s => selectedSpeciesIds.Contains(s.SpeciesId))
+                    .ToList(),
+                Description = model.Description
             };
 
-            return model;
+            await _context.Varieties.AddAsync(variety);
+            await _context.SaveChangesAsync();
+
+            return variety.VarietyId;
         }
-
-        //public async Task AddBookAsync(VarietyAdd model)
-        //{
-        //    Variety variety = new Variety
-        //    {
-        //        VarietyName = model.VarietyName,
-        //        Species = model.Species,
-        //        Description = model.Description
-        //    };
-
-        //    await _context.Varieties.AddAsync(variety);
-        //    await _context.SaveChangesAsync();
-        //}
 
         //Remove
 

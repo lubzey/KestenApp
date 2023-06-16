@@ -1,4 +1,5 @@
 ﻿using KestenTestApp.Contracts;
+using KestenTestApp.Models.Data;
 using KestenTestApp.Models.View;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,7 +13,7 @@ namespace KestenTestApp.Controllers
         public IWebHostEnvironment _environment { get; }
 
         public VarietyController(
-            IVarietyService varietyService, 
+            IVarietyService varietyService,
             ISpeciesService speciesService,
             IWebHostEnvironment environment)
         {
@@ -33,7 +34,7 @@ namespace KestenTestApp.Controllers
 
         public IActionResult Details(int id)
         {
-            var variety = _varietyService
+            VarietyDetailsViewModel? variety = _varietyService
                 .GetVarietyById(id);
             if (variety == null)
                 return NotFound();
@@ -44,23 +45,44 @@ namespace KestenTestApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Add()
+        public IActionResult Add()
         {
-            VarietyAddViewModel model = await _varietyService.GetNewAddVarietyModelAsync();
-
             //for edit: https://stackoverflow.com/questions/62225362/asp-net-core-mvc-listselectlistitem-multiselect-not-showing-select-true-it
-            
-            List<SelectListItem> allSpecies = _speciesService
+
+            IReadOnlyList<CheckboxViewModel> speciesCheckboxes = _speciesService
                 .AllSpecies()
-                .Select(s => new SelectListItem { 
-                    Value = s.SpeciesId.ToString(),
-                    Text = s.ShortLatinName
-                }).ToList();
-            
-            model.SpeciesIds = new List<int>();
-            model.SpeciesList = allSpecies;
+                .Select(s => new CheckboxViewModel
+                {
+                    Id = s.SpeciesId,
+                    LabelName = s.ShortLatinName,
+                    IsChecked = false
+                }).ToArray().AsReadOnly();
+
+            VarietyAddViewModel model = new VarietyAddViewModel();
+            model.Species = speciesCheckboxes;
 
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(VarietyAddViewModel model)
+        {
+            if (string.IsNullOrEmpty(model.VarietyName))
+            {
+                ModelState.AddModelError(nameof(model.VarietyName), "Please enter variety name");
+
+                return View(model);
+            }
+
+            if (ModelState.IsValid == false)
+            {
+                return View(model);
+            }
+
+            var newVarietyIndex = await _varietyService.AddVarietyAsync(model);
+
+            return RedirectToAction("Details", "Variety", new { id = newVarietyIndex });
         }
 
         public IActionResult Search()

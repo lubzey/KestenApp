@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Add Variety";
 }
+@Html.AntiForgeryToken()
 
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
@@ -22,28 +23,16 @@
                 </small>
             </div>
 
-
-            @*<div class="input-group mb-3">
-            <div class="input-group-prepend">
-            <div class="input-group-text">
-            <input type="checkbox" aria-label="Checkbox for following text input">
-            </div>
-            </div>
-            </div>*@
-
-            @*<select class="select w-100 p-3" multiple>
-            @foreach (Species sp in Model.Species)
+            @for (int index = 0; index < Model.Species.Count; index++)
             {
-            <option value="@sp.SpeciesId">@sp.ShortLatinName</option>
+                <input type="checkbox" asp-for="@Model.Species[index].IsChecked" class="form-check-input" />
+                <label class="form-check-label" asp-for="@Model.Species[index].IsChecked">
+                    @Model.Species[index].LabelName
+                </label>
+                <input type="hidden" asp-for="@Model.Species[index].Id" />
+                <input type="hidden" asp-for="@Model.Species[index].LabelName" />
+                <br />
             }
-            </select>
-            <label class="form-label select-label">Species</label>*@
-
-            @*<select multiple="multiple" class="form-control overflow-visible" id="multiselect"
-            asp-for="SpeciesIds" asp-items="Model.SpeciesList"></select>*@
-
-            <select asp-for="SpeciesIds" asp-items="Model.SpeciesList">
-            </select>
 
             <div class="mt-3">
                 <input class="btn btn-outline-secondary" type="submit" value="Add" />

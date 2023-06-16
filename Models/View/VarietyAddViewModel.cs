@@ -14,16 +14,12 @@ namespace KestenTestApp.Models.View
         [Required]
         [StringLength(500, MinimumLength = 5)]
         public string Description { get; set; } = null!;
-        public IEnumerable<Species> Species { get; set; } = new List<Species>();
+
+        public IReadOnlyList<CheckboxViewModel> Species { get; set; } = null!;
 
         //Species
         public VarietyAddViewModel()
         {
-            SpeciesList = new List<SelectListItem>();
-            SpeciesIds = new List<int>();
         }
-
-        public List<SelectListItem> SpeciesList { get; set; }
-        public List<int> SpeciesIds { get; set; }
     }
 }
