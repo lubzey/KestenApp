@@ -1,5 +1,4 @@
-﻿using KestenTestApp.Models.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
 namespace KestenTestApp.Models.EnumHelpers
@@ -43,6 +42,11 @@ namespace KestenTestApp.Models.EnumHelpers
                 ?.GetCustomAttributes(false)
                 .OfType<TAttribute>()
                 .ToList() ?? new List<TAttribute>();
+        }
+
+        public static IReadOnlyList<T> GetEnumValuesCollection<T>()
+        {
+            return Enum.GetValues(typeof(T)).Cast<T>().ToList();
         }
     }
 }

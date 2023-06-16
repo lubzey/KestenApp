@@ -1,10 +1,8 @@
 ﻿using KestenTestApp.Contracts;
-using KestenTestApp.Models.Data;
 using KestenTestApp.Models.EnumHelpers;
 using KestenTestApp.Models.Enums;
 using KestenTestApp.Models.View;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KestenTestApp.Controllers
 {
@@ -49,8 +47,6 @@ namespace KestenTestApp.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            //for edit: https://stackoverflow.com/questions/62225362/asp-net-core-mvc-listselectlistitem-multiselect-not-showing-select-true-it
-
             IReadOnlyList<CheckboxViewModel> speciesCheckboxes = _speciesService
                 .AllSpecies()
                 .Select(s => new CheckboxViewModel
@@ -60,15 +56,9 @@ namespace KestenTestApp.Controllers
                     IsChecked = false
                 }).ToArray().AsReadOnly();
 
-            var pollenTypes = new List<PollenTypeEnum>();
-            foreach (PollenTypeEnum pt in (PollenTypeEnum[])Enum.GetValues(typeof(PollenTypeEnum)))
-            {
-                pollenTypes.Add(pt);
-            }
-
             VarietyAddViewModel model = new VarietyAddViewModel();
             model.Species = speciesCheckboxes;
-            model.AllPollenTypes = pollenTypes;
+            model.AllPollenTypes = EnumExtensions.GetEnumValuesCollection<PollenTypeEnum>();
 
             return View(model);
         }

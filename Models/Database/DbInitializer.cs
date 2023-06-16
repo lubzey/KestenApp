@@ -1,7 +1,6 @@
 ﻿using KestenTestApp.Models.Data;
 using KestenTestApp.Models.EnumHelpers;
 using KestenTestApp.Models.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace KestenTestApp.Models.Database
 {
@@ -47,7 +46,7 @@ namespace KestenTestApp.Models.Database
             }
         }
 
-        public static Species[] Species
+        public static IReadOnlyList<Species> Species
         {
             get
             {
