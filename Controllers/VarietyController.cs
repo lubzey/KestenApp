@@ -1,5 +1,7 @@
 ﻿using KestenTestApp.Contracts;
 using KestenTestApp.Models.Data;
+using KestenTestApp.Models.EnumHelpers;
+using KestenTestApp.Models.Enums;
 using KestenTestApp.Models.View;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -58,8 +60,15 @@ namespace KestenTestApp.Controllers
                     IsChecked = false
                 }).ToArray().AsReadOnly();
 
+            var pollenTypes = new List<PollenTypeEnum>();
+            foreach (PollenTypeEnum pt in (PollenTypeEnum[])Enum.GetValues(typeof(PollenTypeEnum)))
+            {
+                pollenTypes.Add(pt);
+            }
+
             VarietyAddViewModel model = new VarietyAddViewModel();
             model.Species = speciesCheckboxes;
+            model.AllPollenTypes = pollenTypes;
 
             return View(model);
         }
@@ -77,6 +86,11 @@ namespace KestenTestApp.Controllers
 
             if (ModelState.IsValid == false)
             {
+                var errors = ModelState
+                    .Select(x => x.Value.Errors)
+                    .Where(y => y.Count > 0)
+                    .ToList();
+
                 return View(model);
             }
 
@@ -89,7 +103,7 @@ namespace KestenTestApp.Controllers
         public IActionResult Edit(int id)
         {
             VarietyDetailsViewModel? detailsViewModel = _varietyService.GetDetailsViewById(id);
-            
+
 
             return View(detailsViewModel);
         }

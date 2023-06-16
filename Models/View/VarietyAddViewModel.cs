@@ -1,6 +1,5 @@
-﻿using KestenTestApp.Models.Data;
-using KestenTestApp.Models.Enums;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using KestenTestApp.Models.Enums;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace KestenTestApp.Models.View
@@ -17,7 +16,10 @@ namespace KestenTestApp.Models.View
 
         public IReadOnlyList<CheckboxViewModel> Species { get; set; } = null!;
 
-        //Species
+        [ValidateNever]
+        public IReadOnlyList<PollenTypeEnum> AllPollenTypes { get; set; } = null!;
+        public PollenTypeEnum PollenTypeSelected { get; set; }
+
         public VarietyAddViewModel()
         {
         }

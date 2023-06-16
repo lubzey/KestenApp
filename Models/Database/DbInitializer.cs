@@ -109,7 +109,7 @@ namespace KestenTestApp.Models.Database
                             ChestnutBlightResistance = ConditionEnum.Good,
                             InkDiseaseResistance = ConditionEnum.Bad,
                             MaturityPeriod = MaturingPeriodEnum.Early,
-                            PollenFertility = PollenTypeEnum.Sterile
+                            PollenType = PollenTypeEnum.Sterile
                         },
                         new Variety //2
                         {
@@ -130,7 +130,7 @@ namespace KestenTestApp.Models.Database
                             ChestnutBlightResistance = ConditionEnum.Medium,
                             InkDiseaseResistance = ConditionEnum.Good,
                             MaturityPeriod = MaturingPeriodEnum.SemiEarly,
-                            PollenFertility = PollenTypeEnum.Medium
+                            PollenType = PollenTypeEnum.Medium
                         },
                         new Variety //3
                         {
@@ -150,7 +150,7 @@ namespace KestenTestApp.Models.Database
                             ChestnutBlightResistance = ConditionEnum.Good,
                             InkDiseaseResistance = ConditionEnum.Good,
                             MaturityPeriod = MaturingPeriodEnum.SemiEarly,
-                            PollenFertility = PollenTypeEnum.Abundant
+                            PollenType = PollenTypeEnum.Abundant
                         },
                         new Variety //4
                         {
@@ -167,7 +167,7 @@ namespace KestenTestApp.Models.Database
                             ChestnutBlightResistance = ConditionEnum.Bad,
                             InkDiseaseResistance = ConditionEnum.Medium,
                             MaturityPeriod = MaturingPeriodEnum.Early,
-                            PollenFertility = PollenTypeEnum.Medium
+                            PollenType = PollenTypeEnum.Medium
                         },
                         new Variety { VarietyName = "Pandora" }
                 };

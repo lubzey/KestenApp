@@ -37,7 +37,7 @@ namespace KestenTestApp.Services
                     ChestnutBlightResistance = GetStringValueOfNullableEnum(v.ChestnutBlightResistance),
                     InkDiseaseResistance = GetStringValueOfNullableEnum(v.InkDiseaseResistance),
                     Peeling = GetStringValueOfNullableEnum(v.Peeling),
-                    PollenFertility = GetStringValueOfNullableEnum(v.PollenFertility),
+                    PollenFertility = GetStringValueOfNullableEnum(v.PollenType),
                     MaturityPeriod = GetStringValueOfNullableEnum(v.MaturityPeriod),
                     IsPollenizedBy = JoinStrings(
                         v.IsPollenizedBy
@@ -74,6 +74,7 @@ namespace KestenTestApp.Services
                 return null;
             }
 
+            //Species
             int[] varietySpecies = variety
                 .Species
                 .Select(vs => vs.SpeciesId)
@@ -113,7 +114,8 @@ namespace KestenTestApp.Services
                 Species = _context.Species
                     .Where(s => selectedSpeciesIds.Contains(s.SpeciesId))
                     .ToList(),
-                Description = model.Description
+                Description = model.Description,
+                PollenType = model.PollenTypeSelected
             };
 
             await _context.Varieties.AddAsync(variety);

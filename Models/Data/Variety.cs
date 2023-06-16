@@ -12,7 +12,7 @@ namespace KestenTestApp.Models.Data
         public ConditionEnum ChestnutBlightResistance { get; set; } = ConditionEnum.None;
         public ConditionEnum InkDiseaseResistance { get; set; } = ConditionEnum.None;
         public ConditionEnum Peeling { get; set; } = ConditionEnum.None;
-        public PollenTypeEnum PollenFertility { get; set; } = PollenTypeEnum.None;
+        public PollenTypeEnum PollenType { get; set; } = PollenTypeEnum.None;
         public MaturingPeriodEnum MaturityPeriod { get; set; } = MaturingPeriodEnum.None;
         public bool? IsMarron { get; set; }
         public DateTime CreatedOn { get; set; }
