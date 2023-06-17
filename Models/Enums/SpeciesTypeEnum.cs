@@ -2,7 +2,7 @@
 
 namespace KestenTestApp.Models.Enums
 {
-    public enum SpeciesEnum
+    public enum SpeciesTypeEnum
     {
         [Display(
             Name = "Castanea sativa", 

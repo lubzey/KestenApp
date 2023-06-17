@@ -1,6 +1,6 @@
 ﻿namespace KestenTestApp.Models.Enums
 {
-    public enum ConditionEnum
+    public enum ConditionTypeEnum
     {
         None = 0,
         Bad = 1,

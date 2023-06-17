@@ -1,6 +1,6 @@
 ﻿namespace KestenTestApp.Models.Enums
 {
-    public enum MaturingPeriodEnum
+    public enum PeriodTypeEnum
     {
         None = 0,
         VeryEarly = 1,

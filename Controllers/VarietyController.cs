@@ -77,8 +77,8 @@ namespace KestenTestApp.Controllers
             if (ModelState.IsValid == false)
             {
                 var errors = ModelState
-                    .Select(x => x.Value.Errors)
-                    .Where(y => y.Count > 0)
+                    .Select(x => x.Value?.Errors)
+                    .Where(e => e?.Count > 0)
                     .ToList();
 
                 return View(model);

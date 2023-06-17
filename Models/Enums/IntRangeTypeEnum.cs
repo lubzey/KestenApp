@@ -1,6 +1,6 @@
 ﻿namespace KestenTestApp.Models.Enums
 {
-    public enum IntRangeEnum
+    public enum IntRangeTypeEnum
     {
         FruitWeight,
         FruitsPerKg
