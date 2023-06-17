@@ -1,9 +1,6 @@
 ﻿@using KestenTestApp.Models.Data;
 @using KestenTestApp.Models.Enums;
 @model VarietyAddOrEditViewModel
-@{
-    ViewBag.Title = "Add Variety";
-}
 @Html.AntiForgeryToken()
 
 @*Header*@
@@ -40,25 +37,26 @@
                     </small>
                 </div>
             </div>
-        </div>
 
-        <div class="col-2 offset-1">
-            TODO: Add image
-        </div>
-    </div>
-
-    <div class="row mt-2">
-        <div class="col-6">
-            <div class="row">
+            <div class="row mt-3">
                 <div class="col-3">
                     <label asp-for="@Model.Description" class="form-label fw-bold">Description</label>
                 </div>
                 <div class="col-9">
-                    <textarea asp-for="@Model.Description" class="form-control" aria-required="true"></textarea>
+                    <textarea asp-for="@Model.Description" class="form-control" aria-required="true">
+                    </textarea>
                     <small>
                         <span asp-validation-for="@Model.Description" class="text-danger" />
                     </small>
                 </div>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="col-3 offset-1">
+                <img alt=""
+                     class="img-fluid"
+                     src=@Model.ThumbnailImagePath />
             </div>
         </div>
     </div>
@@ -110,10 +108,9 @@
                     <select asp-for="@Model.PollenType" class="form-control">
                         @foreach (SelectListItem pollenType in Model.PollenOptions)
                         {
-                            <option value="@(pollenType.Value)">@pollenType.Text</option>
+                            <option selected="@pollenType.Selected" value="@(pollenType.Value)">@pollenType.Text</option>
                         }
                     </select>
-                    @*<span asp-validation-for="@Model.CategoryId" class="text-danger"></span>*@
                 </div>
             </div>
         </div>
@@ -122,7 +119,7 @@
     <hr />
 
     <div class="mt-3">
-        <input class="btn btn-outline-secondary" type="submit" value="Create" />
+        <input class="btn btn-outline-success" type="submit" value="@Model.ConfirmButtonText" />
     </div>
 </form>
 

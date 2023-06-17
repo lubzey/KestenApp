@@ -1,8 +1,10 @@
 ﻿using KestenTestApp.Contracts;
+using KestenTestApp.Models.Data;
 using KestenTestApp.Models.EnumHelpers;
 using KestenTestApp.Models.Enums;
 using KestenTestApp.Models.View;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KestenTestApp.Controllers
 {
@@ -45,9 +47,11 @@ namespace KestenTestApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public IActionResult AddOrEdit(int? id)
         {
-            IReadOnlyList<CheckboxViewModel> speciesCheckboxes = _speciesService
+            //Create an empty view by default
+            ViewBag.Title = "Create Variety";
+            var speciesCheckboxes = _speciesService
                 .AllSpecies()
                 .Select(s => new CheckboxViewModel
                 {
@@ -55,17 +59,44 @@ namespace KestenTestApp.Controllers
                     LabelName = s.ShortLatinName,
                     IsChecked = false
                 }).ToArray().AsReadOnly();
+            VarietyDetailsViewModel? variety = new VarietyDetailsViewModel(new Variety(), speciesCheckboxes);            
 
-            VarietyAddViewModel model = new VarietyAddViewModel();
-            model.Species = speciesCheckboxes;
-            model.AllPollenTypes = EnumExtensions.GetEnumValuesCollection<PollenTypeEnum>();
+            //If id is not null, then load variety details to view
+            if (id != null)
+            {
+                ViewBag.Title = "Edit Variety";
+
+                variety = _varietyService
+                    .GetDetailsViewById((int)id);
+
+                if (variety == null)
+                    return NotFound();
+            }
+
+            //Populate model
+            VarietyAddOrEditViewModel model = new VarietyAddOrEditViewModel
+            {
+                VarietyName = variety.Variety.VarietyName,
+                Description = variety.Variety.Description,
+                ThumbnailImagePath = variety.ThumbnailImagePath,
+                SpeciesCheckboxes = variety.SpeciesCheckboxes,
+                PollenOptions = EnumExtensions
+                    .GetEnumValuesCollection<PollenTypeEnum>()
+                    .Select(p => new SelectListItem
+                    {
+                        Value = ((int)p).ToString(),
+                        Text = p.ToString(),
+                        Selected = variety.Variety.PollenType == p
+                    }).ToList().AsReadOnly(),
+                ConfirmButtonText = id == null ? "Create" : "Save"
+            };
 
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add(VarietyAddViewModel model)
+        public async Task<IActionResult> AddOrEdit(int? id, VarietyAddOrEditViewModel model)
         {
             if (string.IsNullOrEmpty(model.VarietyName))
             {
@@ -74,7 +105,7 @@ namespace KestenTestApp.Controllers
                 return View(model);
             }
 
-            if (ModelState.IsValid == false)
+            if (!ModelState.IsValid)
             {
                 var errors = ModelState
                     .Select(x => x.Value?.Errors)
@@ -84,39 +115,23 @@ namespace KestenTestApp.Controllers
                 return View(model);
             }
 
-            var newVarietyIndex = await _varietyService.AddVarietyAsync(model);
-
-            return RedirectToAction("Details", "Variety", new { id = newVarietyIndex });
-        }
-
-        [HttpGet]
-        public IActionResult Edit(int id)
-        {
-            VarietyDetailsViewModel? detailsViewModel = _varietyService.GetDetailsViewById(id);
-
-
-            return View(detailsViewModel);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(VarietyAddViewModel model)
-        {
-            if (string.IsNullOrEmpty(model.VarietyName))
+            if (id != null)
             {
-                ModelState.AddModelError(nameof(model.VarietyName), "Please enter variety name");
+                int? varietyIndex = await _varietyService.UpdateVarietyAsync((int)id, model);
 
-                return View(model);
+                if (varietyIndex == null)
+                {
+                    return RedirectToAction("List", "Variety");
+                }
+
+                return RedirectToAction("Details", "Variety", new { id });
             }
-
-            if (ModelState.IsValid == false)
+            else
             {
-                return View(model);
+                var newVarietyIndex = await _varietyService.AddVarietyAsync(model);
+
+                return RedirectToAction("Details", "Variety", new { id = newVarietyIndex });
             }
-
-            var newVarietyIndex = await _varietyService.AddVarietyAsync(model);
-
-            return RedirectToAction("Details", "Variety", new { id = newVarietyIndex });
         }
 
         public IActionResult Search()

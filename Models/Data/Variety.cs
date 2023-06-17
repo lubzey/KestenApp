@@ -1,14 +1,20 @@
 ﻿using KestenTestApp.Models.Enums;
 using System.ComponentModel.DataAnnotations;
-using System.Reflection;
 
 namespace KestenTestApp.Models.Data
 {
     public class Variety
     {
         public int VarietyId { get; set; }
+
+        [Required]
+        [StringLength(50, MinimumLength = 3)]
         public string VarietyName { get; set; } = string.Empty;
-        public string? Description { get; set; }
+
+        [Required]
+        [StringLength(1000, MinimumLength = 5)]
+        public string Description { get; set; } = string.Empty;
+
         public ConditionTypeEnum ChestnutBlightResistance { get; set; } = ConditionTypeEnum.None;
         public ConditionTypeEnum InkDiseaseResistance { get; set; } = ConditionTypeEnum.None;
         public ConditionTypeEnum Peeling { get; set; } = ConditionTypeEnum.None;

@@ -6,29 +6,43 @@
 @*Photo and Description*@
 <div class="row">
 
-    <div class="col-5 offset-1">
+    @*Photo*@
+    <div class="col-4 offset-1">
         <img alt=""
              class="img-fluid"
              src=@Model.ThumbnailImagePath />
     </div>
 
-    <div class="col-5">
+    @*Name, Description, Buttons*@
+    <div class="col-6">
         <div class="row">
-            <div class="row">
-                <div class="col">
-                    <h2>
-                        @Model.Variety.VarietyName
-                    </h2>
-                </div>
+            <div class="col">
+                <h2>
+                    @Model.Variety.VarietyName
+                </h2>
             </div>
-            <div class="row">
-                <div class="col-sm">
-                    @Model.Variety.Description
-                </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                @Model.Variety.Description
             </div>
+        </div>
+        <div class="col mt-3">
+            <a asp-controller="Variety"
+               asp-action="AddOrEdit"
+               asp-route-id="@Model.Variety.VarietyId"
+               class="btn btn-outline-success">
+                <span>Edit</span>
+            </a>
+            <a asp-controller="Variety"
+               asp-action="Delete"
+               class="btn btn-outline-danger">
+                <span>Delete</span>
+            </a>
         </div>
     </div>
 
+    @*Back button*@
     <div class="col-1 text-end">
         <a asp-controller="Variety"
            asp-action="List"
@@ -50,7 +64,7 @@
             Tree
         </h3>
     </div>
-    
+
     <div class="col-11">
 
         @*Species*@
