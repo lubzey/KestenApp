@@ -16,50 +16,21 @@ namespace KestenTestApp.Services
         }
 
         //List varieties - add paging
-        public IEnumerable<VarietyListDetailsViewModel> AllVarieties()
+        public IEnumerable<Variety> AllVarieties()
         {
             return _context
                 .Varieties
-                .Select(v => new VarietyListDetailsViewModel
-                {
-                    VarietyId = v.VarietyId,
-                    VarietyName = v.VarietyName,
-                    Species = JoinStrings(
-                        v.Species
-                            .OrderBy(s => s.ShortLatinName)
-                            .Select(s => s.ShortLatinName)
-                            .ToList()),
-                    FruitSizes = JoinStrings(
-                        v.FruitSizes
-                            .OrderBy(fs => fs.FruitSizeId)
-                            .Select(fs => fs.Name)),
-                    IsMarron = GetStringFromNullableBoolean(v.IsMarron),
-                    ChestnutBlightResistance = GetStringValueOfNullableEnum(v.ChestnutBlightResistance),
-                    InkDiseaseResistance = GetStringValueOfNullableEnum(v.InkDiseaseResistance),
-                    Peeling = GetStringValueOfNullableEnum(v.Peeling),
-                    PollenFertility = GetStringValueOfNullableEnum(v.PollenType),
-                    MaturityPeriod = GetStringValueOfNullableEnum(v.MaturityPeriod),
-                    IsPollenizedBy = JoinStrings(
-                        v.IsPollenizedBy
-                            .Select(p => p.PollenizerVariety.VarietyName)
-                            .OrderBy(n => n)),
-                    IsPollenizerFor = JoinStrings(
-                        v.IsPollenizerFor
-                            .Select(p => p.PollenizerVariety.VarietyName)
-                            .OrderBy(n => n)),
-                    IsRootstockFor = JoinStrings(
-                        v.IsRootstockFor
-                            .Select(p => p.GraftedVariety.VarietyName)
-                            .OrderBy(n => n)),
-                    IsGraftedOn = JoinStrings(
-                        v.IsGraftedOn
-                            .Select(p => p.RootstockVariety.VarietyName)
-                            .OrderBy(n => n))
-                });
+                .Include(v => v.Species)
+                .Include(v => v.FruitSizes)
+                .Include(v => v.IsGraftedOn)
+                .Include(v => v.IsRootstockFor)
+                .Include(v => v.IsPollenizedBy)
+                .Include(v => v.IsPollenizerFor)
+                .ToList();
         }
 
         //Details
-        public VarietyDetailsViewModel? GetDetailsViewById(int id)
+        public Variety? GetDetailsViewById(int id)
         {
             Variety? variety = _context
                 .Varieties
@@ -69,27 +40,7 @@ namespace KestenTestApp.Services
                 .Include(v => v.FruitSizes)
                 .FirstOrDefault(p => p.VarietyId == id);
 
-            if (variety == null)
-            {
-                return null;
-            }
-
-            //Species
-            int[] varietySpecies = variety
-                .Species
-                .Select(vs => vs.SpeciesId)
-                .ToArray() ?? new int[0];
-
-            IReadOnlyList<CheckboxViewModel> speciesCheckboxes = _context
-                .Species
-                .Select(s => new CheckboxViewModel
-                {
-                    Id = s.SpeciesId,
-                    LabelName = s.ShortLatinName,
-                    IsChecked = varietySpecies.Contains(s.SpeciesId)
-                }).ToArray().AsReadOnly();
-
-            return new VarietyDetailsViewModel(variety, speciesCheckboxes);
+            return variety;
         }
 
 
@@ -159,30 +110,6 @@ namespace KestenTestApp.Services
 
 
 
-        //Help methods
-        private static string GetStringValueOfNullableEnum<T>(T enumValue)
-        {
-            if (enumValue == null)
-            {
-                return "";
-            }
-
-            return Enum.GetName(typeof(T), enumValue) ?? "";
-        }
-
-        private static string JoinStrings(IEnumerable<string> names)
-        {
-            string separator = $",{Environment.NewLine}";
-            return string.Join(separator, names);
-        }
-
-        private static string GetStringFromNullableBoolean(bool? isMarron)
-        {
-            return isMarron != null
-                ? (bool)isMarron
-                    ? "\u2713"
-                    : "\u2717"
-                : "";
-        }
+        
     }
 }

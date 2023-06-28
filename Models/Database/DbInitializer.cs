@@ -21,6 +21,7 @@ namespace KestenTestApp.Models.Database
 
                 var tempFruitSizes = new List<FruitSize>();
                 var fruitSizeEnumValues = (FruitSizeTypeEnum[])Enum.GetValues(typeof(FruitSizeTypeEnum));
+
                 foreach (FruitSizeTypeEnum fs in fruitSizeEnumValues)
                 {
                     List<RangeInt> customRanges = EnumExtensions.GetAttributes<RangeInt>(fs);
