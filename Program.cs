@@ -21,8 +21,22 @@ namespace KestenTestApp
                 options.UseSqlServer(connectionString));
 
             //Identity
-            builder.Services.AddDefaultIdentity<IdentityUser>()
+            builder.Services
+                .AddDefaultIdentity<IdentityUser>()
+                .AddRoles<IdentityRole>()
+                //.AddDefaultUI()
                 .AddEntityFrameworkStores<KestenDbContext>();
+
+            builder.Services
+                .Configure<IdentityOptions>(options =>
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                });
+
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

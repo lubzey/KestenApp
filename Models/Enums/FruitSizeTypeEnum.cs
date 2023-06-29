@@ -1,4 +1,4 @@
-﻿using KestenTestApp.Models.EnumHelpers;
+﻿using KestenTestApp.Models.Enums.EnumHelpers;
 
 namespace KestenTestApp.Models.Enums
 {

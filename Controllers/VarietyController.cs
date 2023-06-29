@@ -1,7 +1,7 @@
 ﻿using KestenTestApp.Contracts;
 using KestenTestApp.Models.Data;
-using KestenTestApp.Models.EnumHelpers;
 using KestenTestApp.Models.Enums;
+using KestenTestApp.Models.Enums.EnumHelpers;
 using KestenTestApp.Models.View;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -29,7 +29,9 @@ namespace KestenTestApp.Controllers
         public ViewResult List()
         {
             var allVarieties = _varietyService
-                .AllVarieties();
+                .AllVarieties()
+                .ToList()
+                .OrderBy(v => v.VarietyName);
 
             VarietyListViewModel listViewModel = GenerateListViewModel(allVarieties);
 
@@ -88,6 +90,7 @@ namespace KestenTestApp.Controllers
             //Populate model
             VarietyAddOrEditViewModel model = new VarietyAddOrEditViewModel
             {
+                VarietyId = id == null ? null : (int)id,
                 VarietyName = varietyViewModel.Variety.VarietyName,
                 Description = varietyViewModel.Variety.Description,
                 ThumbnailImagePath = varietyViewModel.ThumbnailImagePath,
@@ -109,7 +112,7 @@ namespace KestenTestApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEdit([FromQuery] int? id, VarietyAddOrEditViewModel model)
+        public async Task<IActionResult> AddOrEdit(VarietyAddOrEditViewModel model, int? id) //[FromQuery]
         {
             if (string.IsNullOrEmpty(model.VarietyName))
             {

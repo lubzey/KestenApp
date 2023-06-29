@@ -2,7 +2,7 @@
 using Microsoft.VisualBasic;
 using System.ComponentModel.DataAnnotations;
 
-namespace KestenTestApp.Models.EnumHelpers
+namespace KestenTestApp.Models.Enums.EnumHelpers
 {
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
     public class RangeInt : Attribute
@@ -25,9 +25,9 @@ namespace KestenTestApp.Models.EnumHelpers
                 throw new InvalidOperationException($"Fruit weight minimum {minimum} must be less than the maximum {maximum}");
             }
 
-            this.Minimun = minimum;
-            this.Maximum = maximum;
-            this.Type = type;
+            Minimun = minimum;
+            Maximum = maximum;
+            Type = type;
         }
     }
 }

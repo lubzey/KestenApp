@@ -1,6 +1,6 @@
 ﻿using KestenTestApp.Models.Data;
-using KestenTestApp.Models.EnumHelpers;
 using KestenTestApp.Models.Enums;
+using KestenTestApp.Models.Enums.EnumHelpers;
 
 namespace KestenTestApp.Models.Database
 {
@@ -169,7 +169,24 @@ namespace KestenTestApp.Models.Database
                             MaturityPeriod = PeriodTypeEnum.Early,
                             PollenType = PollenTypeEnum.Medium
                         },
-                        new Variety { VarietyName = "Pandora" }
+                        new Variety { VarietyName = "Pandora" },
+                        new Variety { VarietyName = "Nevada" },                        
+                        new Variety { VarietyName = "Long Street" },
+                        new Variety { VarietyName = "AU 2-18" },
+                        new Variety { VarietyName = "AU Super" },
+                        new Variety { VarietyName = "Black Satin" },
+                        new Variety { VarietyName = "Chushuhong" },
+                        new Variety { VarietyName = "Emalyn's Purple" },
+                        new Variety { VarietyName = "Gideon" },
+                        new Variety { VarietyName = "Jenny" },
+                        new Variety { VarietyName = "Jiaoza" },
+                        new Variety { VarietyName = "Payne" },
+                        new Variety { VarietyName = "Peach" },
+                        new Variety { VarietyName = "Qing" },
+                        new Variety { VarietyName = "Qingza" },
+                        new Variety { VarietyName = "Royalmark" },
+                        new Variety { VarietyName = "YGF" },
+                        new Variety { VarietyName = "Yixian Large" },
                 };
 
                 return varieties;

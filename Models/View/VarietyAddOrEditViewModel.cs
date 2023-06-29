@@ -31,5 +31,8 @@ namespace KestenTestApp.Models.View
 
         [ValidateNever]
         public string? ConfirmButtonText { get; internal set; }
+        
+        [ValidateNever]
+        public int? VarietyId { get; internal set; }
     }
 }

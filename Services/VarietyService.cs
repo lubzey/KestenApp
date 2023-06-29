@@ -16,7 +16,7 @@ namespace KestenTestApp.Services
         }
 
         //List varieties - add paging
-        public IEnumerable<Variety> AllVarieties()
+        public IQueryable<Variety> AllVarieties()
         {
             return _context
                 .Varieties
@@ -25,8 +25,7 @@ namespace KestenTestApp.Services
                 .Include(v => v.IsGraftedOn)
                 .Include(v => v.IsRootstockFor)
                 .Include(v => v.IsPollenizedBy)
-                .Include(v => v.IsPollenizerFor)
-                .ToList();
+                .Include(v => v.IsPollenizerFor);
         }
 
         //Details
