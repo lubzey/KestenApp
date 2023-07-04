@@ -53,7 +53,7 @@ namespace KestenApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddOrEdit(int? id)
+        public IActionResult Form(int? id)
         {
             VarietyDetailsModel? varietyViewModel = default;
 
@@ -113,7 +113,7 @@ namespace KestenApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEdit(VarietyFormModel form, int? id) //[FromQuery]
+        public async Task<IActionResult> Form(VarietyFormModel form, int? id) //[FromQuery]
         {
             if (string.IsNullOrEmpty(form.VarietyName))
             {

@@ -45,7 +45,6 @@ namespace KestenApp.Data
                .Property(v => v.CreatedOn)
                .HasDefaultValueSql("getdate()");
 
-            //One-to-many
             //todo:Remove additional tables and stick with enums
             modelBuilder.Entity<Variety>()
                 .HasMany(e => e.Species)
