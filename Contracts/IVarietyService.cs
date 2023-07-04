@@ -8,7 +8,7 @@ namespace KestenApp.Contracts
         IQueryable<Variety> AllVarieties();
         Variety? GetDetailsViewById(int id);
         IEnumerable<Variety> SearchVarieties(string searchQuery);
-        Task<int> AddVarietyAsync(VarietyForm model);
-        Task<int?> UpdateVarietyAsync(int id, VarietyForm model);
+        Task<int> AddVarietyAsync(VarietyFormModel model);
+        Task<int?> UpdateVarietyAsync(int id, VarietyFormModel model);
     }
 }

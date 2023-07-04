@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace KestenApp.Models.Varieties
 {
-    public class VarietyForm
+    public class VarietyFormModel
     {
         [Required]
         [StringLength(50, MinimumLength = 3)]
@@ -20,7 +20,7 @@ namespace KestenApp.Models.Varieties
 
         //Used to display data
         [ValidateNever]
-        public IReadOnlyList<CheckboxViewModel> SpeciesCheckboxes { get; set; } = null!;
+        public IReadOnlyList<CheckboxModel> SpeciesCheckboxes { get; set; } = null!;
 
         [ValidateNever]
         public IReadOnlyList<SelectListItem> PollenOptions { get; set; } = null!;

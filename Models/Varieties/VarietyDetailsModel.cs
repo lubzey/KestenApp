@@ -2,13 +2,13 @@
 
 namespace KestenApp.Models.Varieties
 {
-    public class VarietyDetailsViewModel
+    public class VarietyDetailsModel
     {
         public Variety Variety;
-        public IReadOnlyList<CheckboxViewModel> SpeciesCheckboxes;
+        public IReadOnlyList<CheckboxModel> SpeciesCheckboxes;
         public string ThumbnailImagePath;
 
-        public VarietyDetailsViewModel(Variety variety, IReadOnlyList<CheckboxViewModel> speciesCheckboxes)
+        public VarietyDetailsModel(Variety variety, IReadOnlyList<CheckboxModel> speciesCheckboxes)
         {
             Variety = variety;
             SpeciesCheckboxes = speciesCheckboxes;

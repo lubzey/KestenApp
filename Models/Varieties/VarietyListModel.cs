@@ -1,11 +1,11 @@
 ﻿namespace KestenApp.Models.Varieties
 {
-    public class VarietyListViewModel
+    public class VarietyListModel
     {
-        public IEnumerable<VarietyListDetailsViewModel> Varieties;
+        public IEnumerable<VarietyListDetailsModel> Varieties;
         public List<string> HeaderTitles;
 
-        public VarietyListViewModel(IEnumerable<VarietyListDetailsViewModel> varieties)
+        public VarietyListModel(IEnumerable<VarietyListDetailsModel> varieties)
         {
             Varieties = varieties;
             HeaderTitles = new List<string>

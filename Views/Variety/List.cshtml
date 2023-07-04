@@ -1,5 +1,5 @@
 ﻿@using KestenApp.Models.Varieties;
-@model VarietyListViewModel;
+@model VarietyListModel;
 @{
     ViewData["Title"] = "Varieties";
 }
@@ -28,7 +28,7 @@
             <tr>
         </thead>
         <tbody>
-            @foreach (VarietyListDetailsViewModel variety in Model.Varieties)
+            @foreach (VarietyListDetailsModel variety in Model.Varieties)
             {
                 <partial name="_VarietySummary"
                      model="variety" />

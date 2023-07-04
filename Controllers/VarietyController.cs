@@ -34,7 +34,7 @@ namespace KestenApp.Controllers
                 .ToList()
                 .OrderBy(v => v.VarietyName);
 
-            VarietyListViewModel listViewModel = GenerateListViewModel(allVarieties);
+            VarietyListModel listViewModel = GenerateListViewModel(allVarieties);
 
             return View(listViewModel);
         }
@@ -55,7 +55,7 @@ namespace KestenApp.Controllers
         [HttpGet]
         public IActionResult AddOrEdit(int? id)
         {
-            VarietyDetailsViewModel? varietyViewModel = default;
+            VarietyDetailsModel? varietyViewModel = default;
 
             //If id is not null, then load variety details to view
             if (id != null)
@@ -76,7 +76,7 @@ namespace KestenApp.Controllers
                 ViewBag.Title = "Create Variety";
                 var speciesCheckboxes = _speciesService
                     .AllSpecies()
-                    .Select(s => new CheckboxViewModel
+                    .Select(s => new CheckboxModel
                     {
                         Id = s.SpeciesId,
                         LabelName = s.ShortLatinName,
@@ -85,11 +85,11 @@ namespace KestenApp.Controllers
                     .ToArray()
                     .AsReadOnly();
 
-                varietyViewModel = new VarietyDetailsViewModel(new Variety(), speciesCheckboxes);
+                varietyViewModel = new VarietyDetailsModel(new Variety(), speciesCheckboxes);
             }
 
             //Populate model
-            VarietyForm form = new VarietyForm
+            VarietyFormModel form = new VarietyFormModel
             {
                 VarietyId = id == null ? null : (int)id,
                 VarietyName = varietyViewModel.Variety.VarietyName,
@@ -113,7 +113,7 @@ namespace KestenApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEdit(VarietyForm form, int? id) //[FromQuery]
+        public async Task<IActionResult> AddOrEdit(VarietyFormModel form, int? id) //[FromQuery]
         {
             if (string.IsNullOrEmpty(form.VarietyName))
             {
@@ -156,10 +156,10 @@ namespace KestenApp.Controllers
 
 
         //Private methods
-        private static VarietyListViewModel GenerateListViewModel(IEnumerable<Variety> allVarieties)
+        private static VarietyListModel GenerateListViewModel(IEnumerable<Variety> allVarieties)
         {
             var varietiesViewModels = allVarieties
-                .Select(v => new VarietyListDetailsViewModel
+                .Select(v => new VarietyListDetailsModel
                 {
                     VarietyId = v.VarietyId,
                     VarietyName = v.VarietyName,
@@ -197,19 +197,19 @@ namespace KestenApp.Controllers
                 })
                 .OrderBy(p => p.VarietyId);
 
-            return new VarietyListViewModel(varietiesViewModels);
+            return new VarietyListModel(varietiesViewModels);
         }
 
-        private VarietyDetailsViewModel GenerateVatieryViewModel(Variety variety)
+        private VarietyDetailsModel GenerateVatieryViewModel(Variety variety)
         {
             int[] varietySpecies = variety
                 .Species
                 .Select(vs => vs.SpeciesId)
                 .ToArray() ?? new int[0];
 
-            IReadOnlyList<CheckboxViewModel> speciesCheckboxes = _speciesService
+            IReadOnlyList<CheckboxModel> speciesCheckboxes = _speciesService
                 .AllSpecies()
-                .Select(s => new CheckboxViewModel
+                .Select(s => new CheckboxModel
                 {
                     Id = s.SpeciesId,
                     LabelName = s.ShortLatinName,
@@ -218,7 +218,7 @@ namespace KestenApp.Controllers
                 .ToArray()
                 .AsReadOnly();
 
-            return new VarietyDetailsViewModel(variety, speciesCheckboxes);
+            return new VarietyDetailsModel(variety, speciesCheckboxes);
         }
 
         private static string GetStringValueOfNullableEnum<T>(T enumValue)
