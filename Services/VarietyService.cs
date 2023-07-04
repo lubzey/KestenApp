@@ -52,7 +52,7 @@ namespace KestenApp.Services
         }
 
         //Add
-        public async Task<int> AddVarietyAsync(VarietyAddOrEditViewModel model)
+        public async Task<int> AddVarietyAsync(VarietyForm model)
         {
             int[] selectedSpeciesIds = model.SpeciesCheckboxes
                 .Where(sp => sp.IsChecked)
@@ -75,7 +75,7 @@ namespace KestenApp.Services
         }
 
         //Update
-        public async Task<int?> UpdateVarietyAsync(int id, VarietyAddOrEditViewModel model)
+        public async Task<int?> UpdateVarietyAsync(int id, VarietyForm model)
         {
             var variety = await _context.Varieties
                 .Where(v => v.VarietyId == id)

@@ -1,9 +1,9 @@
 ﻿using KestenApp.Contracts;
 using KestenApp.Data.Models;
-using KestenApp.Models.Enums;
-using KestenApp.Models.Enums.EnumHelpers;
+using KestenApp.Infrastructure.Enums;
+using KestenApp.Infrastructure.Enums.EnumHelpers;
+using KestenApp.Models;
 using KestenApp.Models.Varieties;
-using KestenApp.Models.View;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -89,7 +89,7 @@ namespace KestenApp.Controllers
             }
 
             //Populate model
-            VarietyAddOrEditViewModel model = new VarietyAddOrEditViewModel
+            VarietyForm form = new VarietyForm
             {
                 VarietyId = id == null ? null : (int)id,
                 VarietyName = varietyViewModel.Variety.VarietyName,
@@ -108,18 +108,18 @@ namespace KestenApp.Controllers
                 ConfirmButtonText = id == null ? "Create" : "Save"
             };
 
-            return View(model);
+            return View(form);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEdit(VarietyAddOrEditViewModel model, int? id) //[FromQuery]
+        public async Task<IActionResult> AddOrEdit(VarietyForm form, int? id) //[FromQuery]
         {
-            if (string.IsNullOrEmpty(model.VarietyName))
+            if (string.IsNullOrEmpty(form.VarietyName))
             {
-                ModelState.AddModelError(nameof(model.VarietyName), "Please enter variety name");
+                ModelState.AddModelError(nameof(form.VarietyName), "Please enter variety name");
 
-                return View(model);
+                return View(form);
             }
 
             if (!ModelState.IsValid)
@@ -129,12 +129,12 @@ namespace KestenApp.Controllers
                     .Where(e => e?.Count > 0)
                     .ToList();
 
-                return View(model);
+                return View(form);
             }
 
             if (id != null)
             {
-                int? varietyIndex = await _varietyService.UpdateVarietyAsync((int)id, model);
+                int? varietyIndex = await _varietyService.UpdateVarietyAsync((int)id, form);
 
                 if (varietyIndex == null)
                 {
@@ -144,7 +144,7 @@ namespace KestenApp.Controllers
                 return RedirectToAction("Details", "Variety", new { id });
             }
 
-            var newVarietyIndex = await _varietyService.AddVarietyAsync(model);
+            var newVarietyIndex = await _varietyService.AddVarietyAsync(form);
 
             return RedirectToAction("Details", "Variety", new { id = newVarietyIndex });
         }

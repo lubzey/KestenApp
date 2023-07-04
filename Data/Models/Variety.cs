@@ -1,4 +1,4 @@
-﻿using KestenApp.Models.Enums;
+﻿using KestenApp.Infrastructure.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace KestenApp.Data.Models

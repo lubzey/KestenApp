@@ -1,12 +1,11 @@
-﻿using KestenApp.Models.Enums;
-using KestenApp.Models.View;
+﻿using KestenApp.Infrastructure.Enums;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace KestenApp.Models.Varieties
 {
-    public class VarietyAddOrEditViewModel
+    public class VarietyForm
     {
         [Required]
         [StringLength(50, MinimumLength = 3)]

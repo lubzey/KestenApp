@@ -1,4 +1,4 @@
-﻿namespace KestenApp.Models.View
+﻿namespace KestenApp.Models
 {
     public class CheckboxViewModel
     {

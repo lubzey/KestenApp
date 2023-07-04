@@ -1,20 +1,20 @@
 ﻿using KestenApp.Data.Models;
-using KestenApp.Infrastructure.Enums;
 using KestenApp.Infrastructure.Enums.EnumHelpers;
+using KestenApp.Infrastructure.Enums;
 
-namespace KestenApp.Data
+namespace KestenApp.Infrastructure.Extensions
 {
-    public static class DbInitializer
+    internal class SeedData
     {
-        private static FruitSize[]? fruitSizes;
-        private static Species[]? species;
-        private static Variety[]? varieties;
+        private IEnumerable<FruitSize> fruitSizes = new List<FruitSize>();
+        private IEnumerable<Species> species = new List<Species>();
+        private IEnumerable<Variety> varieties = new List<Variety>();
 
-        public static FruitSize[] FruitSizes
+        public IEnumerable<FruitSize> FruitSizes
         {
             get
             {
-                if (fruitSizes != null)
+                if (fruitSizes.Any())
                 {
                     return fruitSizes;
                 }
@@ -47,11 +47,11 @@ namespace KestenApp.Data
             }
         }
 
-        public static IReadOnlyList<Species> Species
+        public IEnumerable<Species> Species
         {
             get
             {
-                if (species != null)
+                if (species.Any())
                 {
                     return species;
                 }
@@ -75,11 +75,11 @@ namespace KestenApp.Data
             }
         }
 
-        public static Variety[] Varieties
+        public IEnumerable<Variety> Varieties
         {
             get
             {
-                if (varieties != null)
+                if (varieties.Any())
                 {
                     return varieties;
                 }
@@ -190,78 +190,6 @@ namespace KestenApp.Data
                 };
 
                 return varieties;
-            }
-        }
-
-        public static void Seed(IApplicationBuilder applicationBuilder)
-        {
-            KestenDbContext context = applicationBuilder
-                .ApplicationServices
-                .CreateScope()
-                .ServiceProvider
-                .GetRequiredService<KestenDbContext>();
-
-            context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();
-
-            if (!context.Species.Any())
-            {
-                context.Species.AddRange(Species);
-                context.SaveChanges();
-            }
-
-            if (!context.FruitSizes.Any())
-            {
-                context.FruitSizes.AddRange(FruitSizes);
-                context.SaveChanges();
-            }
-
-            if (!context.Varieties.Any())
-            {
-                context.Varieties.AddRange(Varieties);
-                context.SaveChanges();
-
-                //Pollenizers
-                var pollenizer = new List<VarietyPollenCompatibility>
-                {
-                    new VarietyPollenCompatibility
-                    {
-                        PollinizerVarietyId = 2, TargetVarietyId = 1
-                    },
-                    new VarietyPollenCompatibility
-                    {
-                        PollinizerVarietyId = 3, TargetVarietyId = 1
-                    },
-                    new VarietyPollenCompatibility
-                    {
-                        PollinizerVarietyId = 4, TargetVarietyId = 1
-                    }
-                };
-                context.VarietyPollenizers.AddRange(pollenizer);
-
-                //Grafting
-                var grafts = new List<VarietyGraftingCompatibility>
-                {
-                    new VarietyGraftingCompatibility
-                    {
-                        RootstockVarietyId = 3,
-                        GraftedVarietyId = 1
-                    },
-                    new VarietyGraftingCompatibility
-                    {
-                        RootstockVarietyId = 3,
-                        GraftedVarietyId = 4
-                    },
-                    new VarietyGraftingCompatibility
-                    {
-                        RootstockVarietyId = 2,
-                        GraftedVarietyId = 4
-                    },
-                };
-
-                context.VarietyGrafting.AddRange(grafts);
-
-                context.SaveChanges();
             }
         }
     }

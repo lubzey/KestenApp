@@ -1,5 +1,4 @@
 ﻿using KestenApp.Data.Models;
-using KestenApp.Models.View;
 
 namespace KestenApp.Models.Varieties
 {

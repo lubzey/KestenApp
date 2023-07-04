@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace KestenApp.Models.Enums
+namespace KestenApp.Infrastructure.Enums
 {
     public enum SpeciesTypeEnum
     {
         [Display(
-            Name = "Castanea sativa", 
+            Name = "Castanea sativa",
             Description = "European chestnut")]
         Sativa = 1,
         [Display(
