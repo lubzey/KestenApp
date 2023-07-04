@@ -23,18 +23,14 @@ namespace KestenApp.Data.Models
         public bool? IsMarron { get; set; }
         public DateTime CreatedOn { get; set; }
 
-        //One-to-many
         public List<Species> Species { get; set; } = new List<Species>();
         public List<FruitSize> FruitSizes { get; set; } = new List<FruitSize>();
         public List<Image> Images { get; set; } = new List<Image>();
 
-        //Many-to-many
         public List<VarietyPollenCompatibility> IsPollenizerFor { get; set; } = new List<VarietyPollenCompatibility>();
         public List<VarietyPollenCompatibility> IsPollenizedBy { get; set; } = new List<VarietyPollenCompatibility>();
 
         public List<VarietyGraftingCompatibility> IsGraftedOn { get; set; } = new List<VarietyGraftingCompatibility>();
-        public List<VarietyGraftingCompatibility> IsRootstockFor { get; set; } = new List<VarietyGraftingCompatibility>();
-
-        //Not mapped        
+        public List<VarietyGraftingCompatibility> IsRootstockFor { get; set; } = new List<VarietyGraftingCompatibility>();       
     }
 }

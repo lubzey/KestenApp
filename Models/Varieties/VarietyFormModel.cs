@@ -33,5 +33,13 @@ namespace KestenApp.Models.Varieties
 
         [ValidateNever]
         public int? VarietyId { get; internal set; }
+
+        public string AspAction {
+            get
+            {
+                return VarietyId != null ?
+                    "Details" : 
+                    "List";
+            }}
     }
 }
