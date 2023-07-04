@@ -1,10 +1,10 @@
-﻿using KestenTestApp.Models.Data;
-using KestenTestApp.Models.Enums;
+﻿using KestenApp.Models.Enums;
+using KestenApp.Models.View;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
-namespace KestenTestApp.Models.View
+namespace KestenApp.Models.Varieties
 {
     public class VarietyAddOrEditViewModel
     {
@@ -31,7 +31,7 @@ namespace KestenTestApp.Models.View
 
         [ValidateNever]
         public string? ConfirmButtonText { get; internal set; }
-        
+
         [ValidateNever]
         public int? VarietyId { get; internal set; }
     }

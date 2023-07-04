@@ -1,4 +1,4 @@
-﻿namespace KestenTestApp.Models.Data
+﻿namespace KestenApp.Data.Models
 {
     public class VarietyPollenCompatibility
     {

@@ -1,6 +1,6 @@
-﻿using KestenTestApp.Models.Enums.EnumHelpers;
+﻿using KestenApp.Models.Enums.EnumHelpers;
 
-namespace KestenTestApp.Models.Enums
+namespace KestenApp.Models.Enums
 {
     public enum FruitSizeTypeEnum
     {

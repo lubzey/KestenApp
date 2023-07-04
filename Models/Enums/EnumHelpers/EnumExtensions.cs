@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace KestenTestApp.Models.Enums.EnumHelpers
+namespace KestenApp.Models.Enums.EnumHelpers
 {
     public static class EnumExtensions
     {

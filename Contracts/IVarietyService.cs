@@ -1,7 +1,7 @@
-﻿using KestenTestApp.Models.Data;
-using KestenTestApp.Models.View;
+﻿using KestenApp.Data.Models;
+using KestenApp.Models.Varieties;
 
-namespace KestenTestApp.Contracts
+namespace KestenApp.Contracts
 {
     public interface IVarietyService
     {

@@ -1,4 +1,4 @@
-﻿namespace KestenTestApp.Models.View
+﻿namespace KestenApp.Models.Varieties
 {
     public class VarietyListViewModel
     {
@@ -7,8 +7,8 @@
 
         public VarietyListViewModel(IEnumerable<VarietyListDetailsViewModel> varieties)
         {
-            this.Varieties = varieties;
-            this.HeaderTitles = new List<string>
+            Varieties = varieties;
+            HeaderTitles = new List<string>
             {
                 "Name",
                 "Species",

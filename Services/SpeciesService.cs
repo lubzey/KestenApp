@@ -1,8 +1,8 @@
-﻿using KestenTestApp.Contracts;
-using KestenTestApp.Models.Data;
-using KestenTestApp.Models.Database;
+﻿using KestenApp.Contracts;
+using KestenApp.Data;
+using KestenApp.Data.Models;
 
-namespace KestenTestApp.Services
+namespace KestenApp.Services
 {
     public class SpeciesService : ISpeciesService
     {

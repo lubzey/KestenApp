@@ -1,8 +1,8 @@
-﻿using KestenTestApp.Models.Data;
-using KestenTestApp.Models.Enums;
-using KestenTestApp.Models.Enums.EnumHelpers;
+﻿using KestenApp.Data.Models;
+using KestenApp.Models.Enums;
+using KestenApp.Models.Enums.EnumHelpers;
 
-namespace KestenTestApp.Models.Database
+namespace KestenApp.Data
 {
     public static class DbInitializer
     {
@@ -24,7 +24,7 @@ namespace KestenTestApp.Models.Database
 
                 foreach (FruitSizeTypeEnum fs in fruitSizeEnumValues)
                 {
-                    List<RangeInt> customRanges = EnumExtensions.GetAttributes<RangeInt>(fs);
+                    List<RangeInt> customRanges = fs.GetAttributes<RangeInt>();
                     RangeInt? fruitsPerKg = customRanges.SingleOrDefault(r => r.Type == IntRangeTypeEnum.FruitsPerKg);
                     RangeInt? fruitWeight = customRanges.SingleOrDefault(r => r.Type == IntRangeTypeEnum.FruitWeight);
 
@@ -63,8 +63,8 @@ namespace KestenTestApp.Models.Database
                     tempSpecies.Add(
                         new Species
                         {
-                            CommonName = EnumExtensions.GetDescription(sp) ?? string.Empty,
-                            LatinName = EnumExtensions.GetDisplayName(sp) ?? sp.ToString(),
+                            CommonName = sp.GetDescription() ?? string.Empty,
+                            LatinName = sp.GetDisplayName() ?? sp.ToString(),
                             ShortLatinName = sp.ToString(),
                         });
                 }
@@ -170,7 +170,7 @@ namespace KestenTestApp.Models.Database
                             PollenType = PollenTypeEnum.Medium
                         },
                         new Variety { VarietyName = "Pandora" },
-                        new Variety { VarietyName = "Nevada" },                        
+                        new Variety { VarietyName = "Nevada" },
                         new Variety { VarietyName = "Long Street" },
                         new Variety { VarietyName = "AU 2-18" },
                         new Variety { VarietyName = "AU Super" },

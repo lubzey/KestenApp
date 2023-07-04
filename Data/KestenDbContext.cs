@@ -1,9 +1,9 @@
-﻿using KestenTestApp.Models.Data;
+﻿using KestenApp.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.Tracing;
 
-namespace KestenTestApp.Models.Database
+namespace KestenApp.Data
 {
     public class KestenDbContext : IdentityDbContext
     {

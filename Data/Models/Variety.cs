@@ -1,7 +1,7 @@
-﻿using KestenTestApp.Models.Enums;
+﻿using KestenApp.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace KestenTestApp.Models.Data
+namespace KestenApp.Data.Models
 {
     public class Variety
     {

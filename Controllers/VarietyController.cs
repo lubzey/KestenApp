@@ -1,13 +1,14 @@
-﻿using KestenTestApp.Contracts;
-using KestenTestApp.Models.Data;
-using KestenTestApp.Models.Enums;
-using KestenTestApp.Models.Enums.EnumHelpers;
-using KestenTestApp.Models.View;
+﻿using KestenApp.Contracts;
+using KestenApp.Data.Models;
+using KestenApp.Models.Enums;
+using KestenApp.Models.Enums.EnumHelpers;
+using KestenApp.Models.Varieties;
+using KestenApp.Models.View;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-namespace KestenTestApp.Controllers
+namespace KestenApp.Controllers
 {
     public class VarietyController : BaseController
     {

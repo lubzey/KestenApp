@@ -1,9 +1,9 @@
-﻿using KestenTestApp.Contracts;
-using KestenTestApp.Models.View;
+﻿using KestenApp.Contracts;
+using KestenApp.Models.View;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace KestenTestApp.Controllers
+namespace KestenApp.Controllers
 {
     public class HomeController : BaseController
     {

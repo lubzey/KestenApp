@@ -1,10 +1,10 @@
-﻿using KestenTestApp.Contracts;
-using KestenTestApp.Models.Data;
-using KestenTestApp.Models.Database;
-using KestenTestApp.Models.View;
+﻿using KestenApp.Contracts;
+using KestenApp.Data;
+using KestenApp.Data.Models;
+using KestenApp.Models.Varieties;
 using Microsoft.EntityFrameworkCore;
 
-namespace KestenTestApp.Services
+namespace KestenApp.Services
 {
     public class VarietyService : IVarietyService
     {

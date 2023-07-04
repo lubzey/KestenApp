@@ -1,4 +1,4 @@
-﻿namespace KestenTestApp.Models.View
+﻿namespace KestenApp.Models.Varieties
 {
     public class VarietyListDetailsViewModel
     {

@@ -1,4 +1,4 @@
-﻿namespace KestenTestApp.Models.Enums
+﻿namespace KestenApp.Models.Enums
 {
     public enum ConditionTypeEnum
     {

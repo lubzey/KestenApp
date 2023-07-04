@@ -1,8 +1,8 @@
-﻿using KestenTestApp.Models.Enums;
+﻿using KestenApp.Models.Enums;
 using Microsoft.VisualBasic;
 using System.ComponentModel.DataAnnotations;
 
-namespace KestenTestApp.Models.Enums.EnumHelpers
+namespace KestenApp.Models.Enums.EnumHelpers
 {
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
     public class RangeInt : Attribute

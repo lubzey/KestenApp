@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace KestenTestApp.Models.Enums
+namespace KestenApp.Models.Enums
 {
     public enum SpeciesTypeEnum
     {

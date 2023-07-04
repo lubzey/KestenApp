@@ -1,7 +1,7 @@
-﻿using KestenTestApp.Models.Data;
-using Microsoft.AspNetCore.Mvc.TagHelpers;
+﻿using KestenApp.Data.Models;
+using KestenApp.Models.View;
 
-namespace KestenTestApp.Models.View
+namespace KestenApp.Models.Varieties
 {
     public class VarietyDetailsViewModel
     {
@@ -11,9 +11,9 @@ namespace KestenTestApp.Models.View
 
         public VarietyDetailsViewModel(Variety variety, IReadOnlyList<CheckboxViewModel> speciesCheckboxes)
         {
-            this.Variety = variety;
-            this.SpeciesCheckboxes = speciesCheckboxes;
-            this.ThumbnailImagePath = variety.Images.Any()
+            Variety = variety;
+            SpeciesCheckboxes = speciesCheckboxes;
+            ThumbnailImagePath = variety.Images.Any()
                 ? $"/Images/Varieties/{variety.VarietyId}/{variety.Images.First().FileName}.jpg"
                 : $"/Images/no-image.jpg";
         }

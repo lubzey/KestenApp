@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace KestenTestApp.Controllers
+namespace KestenApp.Controllers
 {
     [Authorize]
     public class BaseController : Controller

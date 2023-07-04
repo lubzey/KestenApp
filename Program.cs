@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using KestenTestApp.Models.Database;
 using Microsoft.AspNetCore.Identity;
-using KestenTestApp.Services;
-using KestenTestApp.Contracts;
+using KestenApp.Services;
+using KestenApp.Contracts;
+using KestenApp.Data;
 
-namespace KestenTestApp
+namespace KestenApp
 {
     public class Program
     {
@@ -69,7 +69,7 @@ namespace KestenTestApp
 
             app.MapRazorPages();
 
-            //DbInitializer.Seed(app);
+            DbInitializer.Seed(app);
 
             app.Run();
         }
