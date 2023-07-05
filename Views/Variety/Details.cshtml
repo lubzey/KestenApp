@@ -8,32 +8,31 @@
 <div class="row">
 
     @*Name, Description, Buttons*@
-    <div class="col-7">
+    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-10 col-xl-11">
         <div class="row">
-            <div class="col">
+            <div class="col-xs-12 mb-xs-2 col-sm-12 mb-sm-2 col-md-12 col-lg-6 col-xl-8">
                 <h2>
                     @Model.Variety.VarietyName
                 </h2>
+                <span>
+                    @Model.Variety.Description
+                </span>
             </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                @Model.Variety.Description
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
+                <div class="col-10 offset-lg-1 offset-xl-1">
+                    <img alt=""
+                         class="img-fluid"
+                         src=@Model.ThumbnailImagePath />
+                </div>
             </div>
         </div>
     </div>
 
-    @*Photo*@
-    <div class="col-4">
-        <div class="col-10 offset-1">
-            <img alt=""
-                 class="img-fluid"
-                 src=@Model.ThumbnailImagePath />
-        </div>
-    </div>
+
 
     @*Buttons*@
-    <div class="col-1 container">
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-2 col-xl-1">
         <div class="row no-gutters">
             <a asp-controller="Variety"
                asp-action="List"
@@ -67,26 +66,24 @@
 
 @*Tree*@
 <div class="row mt-1">
-    <div class="col-1">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-1 col-xl-1">
         <h3 class="mt-1">
             Tree
         </h3>
     </div>
 
-    <div class="col-11">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-11 col-xl-11">
 
         @*Species*@
         <div class="row mt-1">
-            <div class="col-3 text-end">
-                <p class="fw-bold">
-                    Species
-                </p>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 text-lg-end col-xl-3 text-xl-end fw-bold mb-0">
+                Species
             </div>
-            <div class="col-5 mb-2">
+            <div class="col-xs-12 col-sm-11 col-md-9 col-lg-7 col-xl-6 mb-2">
                 <div class="row">
                     @for (int index = 0; index < Model.SpeciesCheckboxes.Count; index++)
                     {
-                        <div class="col-3">
+                        <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3 col-xl-3 col-xxl-3">
                             <input type="checkbox"
                                asp-for="@Model.SpeciesCheckboxes[index].IsChecked"
                                    class="form-check-input"
@@ -106,57 +103,47 @@
         </div>
 
         <div class="row">
-            <div class="col-3 text-end">
-                <p class="fw-bold">
-                    Pollen
-                </p>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 text-lg-end col-xl-3 text-xl-end fw-bold mb-0">
+                Pollen
             </div>
-            <div class="col-5">
+            <div class="col-5 mb-2">
                 @Model.Variety.PollenType
             </div>
         </div>
 
         @*Vigor*@
         <div class="row">
-            <div class="col-3 text-end">
-                <p class="fw-bold">
-                    Vigor
-                </p>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 text-lg-end col-xl-3 text-xl-end fw-bold mb-0">
+                Vigor
             </div>
-            <div class="col-5">
+            <div class="col-5 mb-2">
                 TODO: Add
             </div>
         </div>
 
         <div class="row">
-            <div class="col-3 text-end">
-                <p class="fw-bold">
-                    Erect
-                </p>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 text-lg-end col-xl-3 text-xl-end fw-bold mb-0">
+                Erect
             </div>
-            <div class="col-5">
+            <div class="col-5 mb-2">
                 TODO: Add
             </div>
         </div>
 
         <div class="row">
-            <div class="col-3 text-end">
-                <p class="fw-bold">
-                    Blight Resistance
-                </p>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 text-lg-end col-xl-3 text-xl-end fw-bold mb-0">
+                Blight Resistance
             </div>
-            <div class="col-5">
+            <div class="col-5 mb-2">
                 @Model.Variety.ChestnutBlightResistance
             </div>
         </div>
 
         <div class="row">
-            <div class="col-3 text-end">
-                <p class="fw-bold">
-                    Ink Disease Resistance
-                </p>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 text-lg-end col-xl-3 text-xl-end fw-bold mb-0">
+                Ink Disease Resistance
             </div>
-            <div class="col-5">
+            <div class="col-5 mb-2">
                 @Model.Variety.InkDiseaseResistance
             </div>
         </div>
