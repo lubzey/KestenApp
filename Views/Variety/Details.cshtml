@@ -66,19 +66,14 @@
 
 @*Tree*@
 <div class="row mt-1">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-1 col-xl-1">
-        <h3 class="mt-1">
-            Tree
-        </h3>
-    </div>
+    <partial name="_SectionTitle" model='@new string("Tree")' />
 
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-11 col-xl-11">
 
         @*Species*@
         <div class="row mt-1">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 text-lg-end col-xl-3 text-xl-end fw-bold mb-0">
-                Species
-            </div>
+            <partial name="_PropertyTitle" model='@new string("Species")' />
+
             <div class="col-xs-12 col-sm-11 col-md-9 col-lg-7 col-xl-6 mb-2">
                 <div class="row">
                     @for (int index = 0; index < Model.SpeciesCheckboxes.Count; index++)
@@ -102,50 +97,14 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 text-lg-end col-xl-3 text-xl-end fw-bold mb-0">
-                Pollen
-            </div>
-            <div class="col-5 mb-2">
-                @Model.Variety.PollenType
-            </div>
-        </div>
 
-        @*Vigor*@
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 text-lg-end col-xl-3 text-xl-end fw-bold mb-0">
-                Vigor
-            </div>
-            <div class="col-5 mb-2">
-                TODO: Add
-            </div>
-        </div>
+        <div class="row mt-1">
+            <partial name="_PropertyCard" model='@new KeyValuePair<string, string>("Pollen", Model.Variety.PollenType.ToString())' />
+            <partial name="_PropertyCard" model='@new KeyValuePair<string, string>("Vigor", "TODO")' />
+            <partial name="_PropertyCard" model='@new KeyValuePair<string, string>("Erect", "TODO")' />
+            <partial name="_PropertyCard" model='@new KeyValuePair<string, string>("Blight Resistance", @Model.Variety.ChestnutBlightResistance.ToString())' />
+            <partial name="_PropertyCard" model='@new KeyValuePair<string, string>("Ink Disease Resistance", @Model.Variety.InkDiseaseResistance.ToString())' />
 
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 text-lg-end col-xl-3 text-xl-end fw-bold mb-0">
-                Erect
-            </div>
-            <div class="col-5 mb-2">
-                TODO: Add
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 text-lg-end col-xl-3 text-xl-end fw-bold mb-0">
-                Blight Resistance
-            </div>
-            <div class="col-5 mb-2">
-                @Model.Variety.ChestnutBlightResistance
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-2 text-lg-end col-xl-3 text-xl-end fw-bold mb-0">
-                Ink Disease Resistance
-            </div>
-            <div class="col-5 mb-2">
-                @Model.Variety.InkDiseaseResistance
-            </div>
         </div>
 
     </div>
@@ -155,11 +114,7 @@
 
 @*Fruit*@
 <div class="row mt-1">
-    <div class="col-1">
-        <h3 class="mt-1">
-            Fruit
-        </h3>
-    </div>
+    <partial name="_SectionTitle" model='@new string("Fruit")' />
 
     <div class="col-11">
         <div class="row">
