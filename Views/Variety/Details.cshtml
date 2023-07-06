@@ -1,7 +1,7 @@
 ﻿@model KestenApp.Models.Varieties.VarietyDetailsModel;
 
 @{
-    ViewData["Title"] = Model.Variety.VarietyName;
+    ViewData["Title"] = Model.VarietyName;
 }
 
 @*Photo and Description*@
@@ -12,10 +12,10 @@
         <div class="row">
             <div class="col-xs-12 mb-xs-2 col-sm-12 mb-sm-2 col-md-12 col-lg-6 col-xl-8">
                 <h2>
-                    @Model.Variety.VarietyName
+                    @Model.VarietyName
                 </h2>
                 <span>
-                    @Model.Variety.Description
+                    @Model.Description
                 </span>
             </div>
 
@@ -44,7 +44,7 @@
             </a>
             <a asp-controller="Variety"
                asp-action="Form"
-               asp-route-id="@Model.Variety.VarietyId"
+               asp-route-id="@Model.VarietyId"
                class="btn btn-outline-success mb-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
                     <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
@@ -99,12 +99,10 @@
 
 
         <div class="row mt-1">
-            <partial name="_PropertyCard" model='@new KeyValuePair<string, string>("Pollen", Model.Variety.PollenType.ToString())' />
-            <partial name="_PropertyCard" model='@new KeyValuePair<string, string>("Vigor", "TODO")' />
-            <partial name="_PropertyCard" model='@new KeyValuePair<string, string>("Erect", "TODO")' />
-            <partial name="_PropertyCard" model='@new KeyValuePair<string, string>("Blight Resistance", @Model.Variety.ChestnutBlightResistance.ToString())' />
-            <partial name="_PropertyCard" model='@new KeyValuePair<string, string>("Ink Disease Resistance", @Model.Variety.InkDiseaseResistance.ToString())' />
-
+            @foreach (KeyValuePair<string, string> kvp in Model.Tree)
+            {
+                <partial name="_PropertyCard" model='@new KeyValuePair<string, string?>(kvp.Key, kvp.Value)' />
+            }
         </div>
 
     </div>
@@ -116,7 +114,7 @@
 <div class="row mt-1">
     <partial name="_SectionTitle" model='@new string("Fruit")' />
 
-    <div class="col-11">
+    @*<div class="col-11">
         <div class="row">
             <div class="col-3 text-end">
                 <p class="fw-bold">
@@ -185,5 +183,5 @@
                 @Model.Variety.MaturityPeriod
             </div>
         </div>
-    </div>
+    </div>*@
 </div>

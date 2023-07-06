@@ -7,6 +7,7 @@ using KestenApp.Models.Varieties;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
 
 namespace KestenApp.Controllers
 {
@@ -49,66 +50,35 @@ namespace KestenApp.Controllers
 
             //string contentRootPath = _environment.WebRootPath;
 
-            return View(GenerateVatieryViewModel(variety));
+            return View(GenerateVatieryDetailsViewModel(variety));
         }
 
         [HttpGet]
         public IActionResult Form(int? id)
         {
-            VarietyDetailsModel? varietyViewModel = default;
+            //Empty form
+            VarietyFormModel formModel = new VarietyFormModel
+            {
+                VarietyId = id,
+                ThumbnailImagePath = $"/Images/no-image.jpg",
 
-            //If id is not null, then load variety details to view
+                //Tree
+                SpeciesCheckboxes = GenerateSpeciesCheckboxes(),
+                PollenOptions = GeneratePollenOptions()
+            };
+
+            //Load exiating variety details
             if (id != null)
             {
-                ViewBag.Title = "Edit Variety";
-
-                var variety = _varietyService.GetDetailsViewById((int)id);
+                Variety? variety = _varietyService.GetDetailsViewById((int)id);
 
                 if (variety == null)
                     return NotFound();
 
-                //Species
-                varietyViewModel = GenerateVatieryViewModel(variety);
-            }
-            else
-            {
-                //Create an empty view by default
-                ViewBag.Title = "Create Variety";
-                var speciesCheckboxes = _speciesService
-                    .AllSpecies()
-                    .Select(s => new CheckboxModel
-                    {
-                        Id = s.SpeciesId,
-                        LabelName = s.ShortLatinName,
-                        IsChecked = false
-                    })
-                    .ToArray()
-                    .AsReadOnly();
-
-                varietyViewModel = new VarietyDetailsModel(new Variety(), speciesCheckboxes);
+                PopulateFormModelFromVariety(formModel, variety);
             }
 
-            //Populate model
-            VarietyFormModel form = new VarietyFormModel
-            {
-                VarietyId = id == null ? null : (int)id,
-                VarietyName = varietyViewModel.Variety.VarietyName,
-                Description = varietyViewModel.Variety.Description,
-                ThumbnailImagePath = varietyViewModel.ThumbnailImagePath,
-                SpeciesCheckboxes = varietyViewModel.SpeciesCheckboxes,
-                PollenOptions = EnumExtensions
-                    .GetEnumValuesCollection<PollenTypeEnum>()
-                    .Select(p => new SelectListItem
-                    {
-                        Value = ((int)p).ToString(),
-                        Text = p.ToString(),
-                        Selected = varietyViewModel.Variety.PollenType == p
-                    })
-                    .ToList().AsReadOnly(),
-                ConfirmButtonText = id == null ? "Create" : "Save"
-            };
-
-            return View(form);
+            return View(formModel);
         }
 
         [HttpPost]
@@ -200,14 +170,65 @@ namespace KestenApp.Controllers
             return new VarietyListModel(varietiesViewModels);
         }
 
-        private VarietyDetailsModel GenerateVatieryViewModel(Variety variety)
+        private VarietyDetailsModel GenerateVatieryDetailsViewModel(Variety variety)
         {
             int[] varietySpecies = variety
                 .Species
                 .Select(vs => vs.SpeciesId)
-                .ToArray() ?? new int[0];
+                .ToArray();
 
-            IReadOnlyList<CheckboxModel> speciesCheckboxes = _speciesService
+            IList<CheckboxModel> speciesCheckboxes = GenerateSpeciesCheckboxes(varietySpecies);
+
+            return new VarietyDetailsModel(variety, speciesCheckboxes);
+        }
+
+        #region Form
+        private void PopulateFormModelFromVariety(VarietyFormModel formModel, Variety variety)
+        {
+            //Details
+            formModel.VarietyName = variety.VarietyName;
+            formModel.Description = variety.Description;
+            if (variety.Images.Any())
+            {
+                formModel.ThumbnailImagePath =
+                    $"/Images/Varieties/{variety.VarietyId}/{variety.Images.First().FileName}.jpg";
+            }
+
+            //Tree
+            int[] varietySpecies = variety
+                .Species
+                .Select(vs => vs.SpeciesId)
+                .ToArray();
+            formModel.SpeciesCheckboxes = GenerateSpeciesCheckboxes(varietySpecies);
+            formModel.PollenOptions = GeneratePollenOptions(variety.PollenType);
+
+            //Fruit
+            formModel.ChestnutBlightResistance = variety.ChestnutBlightResistance;
+            formModel.InkDiseaseResistance = variety.InkDiseaseResistance;
+        }
+
+        private ReadOnlyCollection<SelectListItem> GeneratePollenOptions(PollenTypeEnum pollenType = PollenTypeEnum.None)
+        {
+            return EnumExtensions
+                .GetEnumValuesCollection<PollenTypeEnum>()
+                .Select(p => new SelectListItem
+                {
+                    Value = ((int)p).ToString(),
+                    Text = p.ToString(),
+                    Selected = pollenType == p
+                })
+                .ToList()
+                .AsReadOnly();
+        }
+
+        private IList<CheckboxModel> GenerateSpeciesCheckboxes(IEnumerable<int>? varietySpecies = null)
+        {
+            if (varietySpecies == null)
+            {
+                varietySpecies = new int[0];
+            }
+
+            return _speciesService
                 .AllSpecies()
                 .Select(s => new CheckboxModel
                 {
@@ -215,11 +236,9 @@ namespace KestenApp.Controllers
                     LabelName = s.ShortLatinName,
                     IsChecked = varietySpecies.Contains(s.SpeciesId)
                 })
-                .ToArray()
-                .AsReadOnly();
-
-            return new VarietyDetailsModel(variety, speciesCheckboxes);
+                .ToList();
         }
+        #endregion
 
         private static string GetStringValueOfNullableEnum<T>(T enumValue)
         {

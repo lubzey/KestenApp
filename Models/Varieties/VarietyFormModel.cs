@@ -7,6 +7,9 @@ namespace KestenApp.Models.Varieties
 {
     public class VarietyFormModel
     {
+        [ValidateNever]
+        public int? VarietyId { get; internal set; }
+
         [Required]
         [StringLength(50, MinimumLength = 3)]
         public string VarietyName { get; set; } = string.Empty;
@@ -18,28 +21,56 @@ namespace KestenApp.Models.Varieties
         [Required]
         public PollenTypeEnum PollenType { get; set; } = PollenTypeEnum.None;
 
+        [Required]
+        public ConditionTypeEnum ChestnutBlightResistance { get; set; } = ConditionTypeEnum.None;
+
+        [Required]
+        public ConditionTypeEnum InkDiseaseResistance { get; set; } = ConditionTypeEnum.None;
+
+
         //Used to display data
         [ValidateNever]
-        public IReadOnlyList<CheckboxModel> SpeciesCheckboxes { get; set; } = null!;
+        public string ThumbnailImagePath { get; set; } = null!;
 
         [ValidateNever]
-        public IReadOnlyList<SelectListItem> PollenOptions { get; set; } = null!;
+        public IList<CheckboxModel> SpeciesCheckboxes { get; set; } = null!;
 
         [ValidateNever]
-        public string? ThumbnailImagePath { get; set; }
+        public IEnumerable<SelectListItem> PollenOptions { get; set; } = null!;
 
+
+        //Text
         [ValidateNever]
-        public string? ConfirmButtonText { get; internal set; }
-
-        [ValidateNever]
-        public int? VarietyId { get; internal set; }
-
-        public string AspAction {
+        public string AspAction
+        {
             get
             {
                 return VarietyId != null ?
-                    "Details" : 
+                    "Details" :
                     "List";
-            }}
+            }
+        }
+
+        [ValidateNever]
+        public string PageTitle
+        {
+            get
+            {
+                return VarietyId != null ?
+                    "Edit Variety" :
+                    "Create Variety";
+            }
+        }
+
+        [ValidateNever]
+        public string SubmitButtonText
+        {
+            get
+            {
+                return VarietyId != null ?
+                    "Save" :
+                    "Create";
+            }
+        }
     }
 }

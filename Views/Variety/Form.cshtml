@@ -5,16 +5,14 @@
 
 @*Photo and Description*@
 <form asp-action="Form" method="post">
+    @*Header*@
     <div class="row">
         <div class="col-11">
-
             <div class="row">
-                <h2 class="text-start">@ViewBag.Title</h2>
+                <h2 class="text-start">@Model.PageTitle</h2>
             </div>
 
-            <div class="row">
-            </div>
-
+            @*Summary*@
             <div class="row">
                 <div class="col-7">
                     <div class="row">
@@ -51,6 +49,7 @@
             </div>
         </div>
 
+        @*Buttons*@
         <div class="col-1 container">
             <div class="row no-gutters">
                 <a asp-controller="Variety"
@@ -66,12 +65,11 @@
                 <button asp-controller="Variety"
                         asp-action="Form"
                         asp-route-id="@Model.VarietyId"
-                        value="@Model.ConfirmButtonText"
                         class="btn btn-outline-success">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
                         <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
                     </svg>
-                    <span>@Model.ConfirmButtonText</span>
+                    <span>@Model.SubmitButtonText</span>
                 </button>
             </div>
         </div>
