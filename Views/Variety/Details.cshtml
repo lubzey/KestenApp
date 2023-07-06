@@ -114,74 +114,13 @@
 <div class="row mt-1">
     <partial name="_SectionTitle" model='@new string("Fruit")' />
 
-    @*<div class="col-11">
-        <div class="row">
-            <div class="col-3 text-end">
-                <p class="fw-bold">
-                    Size
-                </p>
-            </div>
-            <div class="col-5">
-                @String.Join(", ", Model.Variety.FruitSizes.Select(s=>s.Name))
-            </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-11 col-xl-11">
+        <div class="row mt-1">
+            @foreach (KeyValuePair<string, string> kvp in Model.Fruit)
+            {
+                <partial name="_PropertyCard" model='@new KeyValuePair<string, string?>(kvp.Key, kvp.Value)' />
+            }
         </div>
+    </div>
 
-        @if (Model.Variety.IsMarron != null)
-        {
-            <div class="row">
-                <div class="col-3 text-end">
-                    <p class="fw-bold">
-                        Is Marron
-                    </p>
-                </div>
-                <div class="col-5">
-                    @Model.Variety.IsMarron
-                </div>
-            </div>
-        }
-
-        <div class="row">
-            <div class="col-3 text-end">
-                <p class="fw-bold">
-                    Form
-                </p>
-            </div>
-            <div class="col-5">
-                TODO: Add
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-3 text-end">
-                <p class="fw-bold">
-                    Color
-                </p>
-            </div>
-            <div class="col-5">
-                TODO: Add
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-3 text-end">
-                <p class="fw-bold">
-                    Peeling
-                </p>
-            </div>
-            <div class="col-5">
-                @Model.Variety.Peeling
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-3 text-end">
-                <p class="fw-bold">
-                    Maturity Period
-                </p>
-            </div>
-            <div class="col-5">
-                @Model.Variety.MaturityPeriod
-            </div>
-        </div>
-    </div>*@
 </div>
