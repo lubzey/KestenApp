@@ -71,6 +71,15 @@ namespace KestenApp.Services
             return variety;
         }
 
+        public Variety? GetVarietyByName(string name)
+        {
+            Variety? variety = _context
+                .Varieties
+                .FirstOrDefault(p => p.VarietyName.ToLower() == name);
+
+            return variety;
+        }
+
 
         //Search - Must have filters!!!
         public IEnumerable<Variety> SearchVarieties(string searchQuery)
@@ -115,7 +124,7 @@ namespace KestenApp.Services
             {
                 return null;
             }
-            
+
             variety.VarietyName = model.VarietyName;
             variety.Description = model.Description;
 
@@ -138,6 +147,6 @@ namespace KestenApp.Services
 
 
 
-        
+
     }
 }

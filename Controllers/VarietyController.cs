@@ -84,10 +84,15 @@ namespace KestenApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Form(VarietyFormModel form, int? id) //[FromQuery]
         {
-            if (string.IsNullOrEmpty(form.VarietyName))
-            {
-                ModelState.AddModelError(nameof(form.VarietyName), "Please enter variety name");
+            var variety = _varietyService
+                .GetVarietyByName(form.VarietyName);
 
+            if (variety != null)
+            {
+                ModelState.AddModelError(nameof(form.VarietyName), $"Variety '{form.VarietyName}' already exists.");
+
+                form.SpeciesCheckboxes = GenerateSpeciesCheckboxes();
+                form.PollenOptions = GeneratePollenOptions();
                 return View(form);
             }
 
@@ -98,6 +103,8 @@ namespace KestenApp.Controllers
                     .Where(e => e?.Count > 0)
                     .ToList();
 
+                form.SpeciesCheckboxes = GenerateSpeciesCheckboxes();
+                form.PollenOptions = GeneratePollenOptions();
                 return View(form);
             }
 
