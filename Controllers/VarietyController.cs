@@ -87,7 +87,8 @@ namespace KestenApp.Controllers
             var variety = _varietyService
                 .GetVarietyByName(form.VarietyName);
 
-            if (variety != null)
+            if ((id == null && variety != null)
+                || (id != null && variety != null && variety.VarietyId != id))
             {
                 ModelState.AddModelError(nameof(form.VarietyName), $"Variety '{form.VarietyName}' already exists.");
 
