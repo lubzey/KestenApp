@@ -4,6 +4,7 @@ using KestenApp.Infrastructure.Enums;
 using KestenApp.Infrastructure.Enums.EnumHelpers;
 using KestenApp.Models;
 using KestenApp.Models.Varieties;
+using KestenApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -30,12 +31,10 @@ namespace KestenApp.Controllers
 
         public ViewResult List()
         {
-            var allVarieties = _varietyService
-                .AllVarieties()
-                .ToList()
-                .OrderBy(v => v.VarietyName);
+            VarietyServiceModel allVarieties = _varietyService
+                .AllVarieties(currentPage: 1);
 
-            VarietyListModel listViewModel = GenerateListViewModel(allVarieties);
+            VarietyListModel listViewModel = GenerateListViewModel(allVarieties.Varieties);
 
             return View(listViewModel);
         }
@@ -164,8 +163,7 @@ namespace KestenApp.Controllers
                         v.IsGraftedOn
                         .Select(p => p.RootstockVariety.VarietyName)
                         .OrderBy(n => n))
-                })
-                .OrderBy(p => p.VarietyId);
+                });
 
             return new VarietyListModel(varietiesViewModels);
         }

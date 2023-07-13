@@ -1,5 +1,6 @@
 ﻿using KestenApp.Infrastructure.Enums;
 using System.ComponentModel.DataAnnotations;
+using static KestenApp.Data.DataConstants.Variety;
 
 namespace KestenApp.Data.Models
 {
@@ -8,11 +9,11 @@ namespace KestenApp.Data.Models
         public int VarietyId { get; set; }
 
         [Required]
-        [StringLength(50, MinimumLength = 3)]
+        [MaxLength(NameMaxLength)]
         public string VarietyName { get; set; } = string.Empty;
 
         [Required]
-        [StringLength(1000, MinimumLength = 5)]
+        [MaxLength(DescriptionMaxLength)]
         public string Description { get; set; } = string.Empty;
 
         public ConditionTypeEnum ChestnutBlightResistance { get; set; } = ConditionTypeEnum.None;
@@ -21,7 +22,7 @@ namespace KestenApp.Data.Models
         public PollenTypeEnum PollenType { get; set; } = PollenTypeEnum.None;
         public PeriodTypeEnum MaturityPeriod { get; set; } = PeriodTypeEnum.None;
         public bool? IsMarron { get; set; }
-        public DateTime CreatedOn { get; set; }
+        public DateTime DateCreated { get; set; }
 
         public List<Species> Species { get; set; } = new List<Species>();
         public List<FruitSize> FruitSizes { get; set; } = new List<FruitSize>();

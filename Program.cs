@@ -69,7 +69,7 @@ namespace KestenApp
 
             app.MapRazorPages();
 
-            //DbInitializer.Seed(app);
+            DbInitializer.Seed(app);
 
             app.Run();
         }

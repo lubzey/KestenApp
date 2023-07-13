@@ -1,6 +1,7 @@
 ﻿using KestenApp.Contracts;
 using KestenApp.Data;
 using KestenApp.Data.Models;
+using KestenApp.Infrastructure.Enums;
 using KestenApp.Models.Varieties;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,16 +17,44 @@ namespace KestenApp.Services
         }
 
         //List varieties - add paging
-        public IQueryable<Variety> AllVarieties()
+        public VarietyServiceModel AllVarieties(
+            string? name = null,
+            VarietySorting sorting = VarietySorting.DateCreated,
+            int currentPage = 1,
+            int countPerPage = int.MaxValue)
         {
-            return _context
+            IQueryable<Variety> varietiesQuery = _context
                 .Varieties
                 .Include(v => v.Species)
-                .Include(v => v.FruitSizes)
-                .Include(v => v.IsGraftedOn)
-                .Include(v => v.IsRootstockFor)
-                .Include(v => v.IsPollenizedBy)
-                .Include(v => v.IsPollenizerFor);
+                .Include(v => v.FruitSizes);
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                varietiesQuery = varietiesQuery
+                    .Where(c => c.VarietyName.ToLower().Contains(name.ToLower()));
+            }
+
+            varietiesQuery = sorting switch
+            {
+                VarietySorting.VarietyName => varietiesQuery.OrderByDescending(c => c.VarietyName),
+                VarietySorting.FruitSizes => varietiesQuery.OrderBy(c => c.FruitSizes).ThenBy(c => c.VarietyName),
+                VarietySorting.DateCreated or _ => varietiesQuery.OrderByDescending(c => c.DateCreated)
+            };
+
+            int totalCount = varietiesQuery.Count();
+
+            IEnumerable<Variety> varieties = varietiesQuery
+                .Skip((currentPage - 1) * countPerPage)
+                .Take(countPerPage)
+                .ToList();
+
+            return new VarietyServiceModel
+            {
+                TotalCount = totalCount,
+                CurrentPage = currentPage,
+                CountPerPage = countPerPage,
+                Varieties = varieties
+            };
         }
 
         //Details

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
+using static KestenApp.Data.DataConstants.Variety;
 
 namespace KestenApp.Models.Varieties
 {
@@ -10,12 +11,19 @@ namespace KestenApp.Models.Varieties
         [ValidateNever]
         public int? VarietyId { get; internal set; }
 
-        [Required]
-        [StringLength(50, MinimumLength = 3)]
+        [Required(ErrorMessage = "Please enter variety name.")]
+        [StringLength(
+            NameMaxLength,
+            MinimumLength = NameMinLength,
+            ErrorMessage = "The name must be a string with a minimum length of {2}.")]
         public string VarietyName { get; set; } = string.Empty;
 
-        [Required]
-        [StringLength(1000, MinimumLength = 5)]
+        [Required(ErrorMessage = "Please enter variety description.")]
+        [StringLength(
+            DescriptionMaxLength,
+            MinimumLength = DescriptionMinLength,
+            ErrorMessage = "The description must be a string with a minimum length of {2}."
+            )]
         public string Description { get; set; } = string.Empty;
 
         [Required]

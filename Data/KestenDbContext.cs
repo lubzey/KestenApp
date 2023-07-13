@@ -42,7 +42,7 @@ namespace KestenApp.Data
 
             //Default value
             modelBuilder.Entity<Variety>()
-               .Property(v => v.CreatedOn)
+               .Property(v => v.DateCreated)
                .HasDefaultValueSql("getdate()");
 
             //todo:Remove additional tables and stick with enums
