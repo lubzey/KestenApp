@@ -61,7 +61,7 @@ namespace KestenApp.Controllers
                 VarietyId = id,
                 ThumbnailImagePath = $"/Images/no-image.jpg",
 
-                //Tree
+                //Render selects
                 SpeciesCheckboxes = GenerateSpeciesCheckboxes(),
                 PollenOptions = GeneratePollenOptions()
             };
@@ -84,19 +84,23 @@ namespace KestenApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Form(VarietyFormModel form, int? id) //[FromQuery]
         {
-            var variety = _varietyService
+            //Render selects
+            form.SpeciesCheckboxes = GenerateSpeciesCheckboxes();
+            form.PollenOptions = GeneratePollenOptions();
+
+            Variety? variety = _varietyService
                 .GetVarietyByName(form.VarietyName);
 
-            if ((id == null && variety != null)
-                || (id != null && variety != null && variety.VarietyId != id))
+            //Avoid using an existing name
+            if ((id == null && variety != null) //when creating
+                || (id != null && variety != null && variety.VarietyId != id)) //when updating
             {
                 ModelState.AddModelError(nameof(form.VarietyName), $"Variety '{form.VarietyName}' already exists.");
-
-                form.SpeciesCheckboxes = GenerateSpeciesCheckboxes();
-                form.PollenOptions = GeneratePollenOptions();
+                
                 return View(form);
             }
 
+            //Other errors
             if (!ModelState.IsValid)
             {
                 var errors = ModelState
@@ -104,11 +108,10 @@ namespace KestenApp.Controllers
                     .Where(e => e?.Count > 0)
                     .ToList();
 
-                form.SpeciesCheckboxes = GenerateSpeciesCheckboxes();
-                form.PollenOptions = GeneratePollenOptions();
                 return View(form);
             }
 
+            //Update existing variety
             if (id != null)
             {
                 int? varietyIndex = await _varietyService.UpdateVarietyAsync((int)id, form);
@@ -121,7 +124,8 @@ namespace KestenApp.Controllers
                 return RedirectToAction("Details", "Variety", new { id });
             }
 
-            var newVarietyIndex = await _varietyService.AddVarietyAsync(form);
+            //Create a new variety
+            int newVarietyIndex = await _varietyService.AddVarietyAsync(form);
 
             return RedirectToAction("Details", "Variety", new { id = newVarietyIndex });
         }
