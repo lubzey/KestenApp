@@ -4,7 +4,7 @@
 @Html.AntiForgeryToken()
 
 @*Photo and Description*@
-<form asp-action="Form" method="post">
+<form asp-action="@Model.AspAction" method="post">
     @*Header*@
     <div class="row">
         <div class="col-11">
@@ -53,7 +53,7 @@
         <div class="col-1 container">
             <div class="row no-gutters">
                 <a asp-controller="Variety"
-                   asp-action="@Model.AspAction"
+                   asp-action="@Model.AspActionRedirect"
                    asp-route-id="@Model.VarietyId"
                    class="btn btn-outline-secondary mb-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
@@ -63,7 +63,7 @@
                 </a>
 
                 <button asp-controller="Variety"
-                        asp-action="Form"
+                        asp-action="@Model.AspAction"
                         asp-route-id="@Model.VarietyId"
                         class="btn btn-outline-success">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">

@@ -53,36 +53,25 @@ namespace KestenApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Form(int? id)
+        [Route("Variety/Add")]
+        public IActionResult Add()
         {
             //Empty form
-            VarietyFormModel formModel = new VarietyFormModel
+            VarietyFormModel form = new VarietyFormModel
             {
-                VarietyId = id,
-                ThumbnailImagePath = $"/Images/no-image.jpg",
+                //ThumbnailImagePath = $"/Images/no-image.jpg",
 
                 //Render selects
                 SpeciesCheckboxes = GenerateSpeciesCheckboxes(),
                 PollenOptions = GeneratePollenOptions()
             };
 
-            //Load exiating variety details
-            if (id != null)
-            {
-                Variety? variety = _varietyService.GetDetailsViewById((int)id);
-
-                if (variety == null)
-                    return NotFound();
-
-                PopulateFormModelFromVariety(formModel, variety);
-            }
-
-            return View(formModel);
+            return View("Form", form);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Form(VarietyFormModel form, int? id) //[FromQuery]
+        public async Task<IActionResult> Add([FromForm] VarietyFormModel form)
         {
             //Render selects
             form.SpeciesCheckboxes = GenerateSpeciesCheckboxes();
@@ -92,12 +81,11 @@ namespace KestenApp.Controllers
                 .GetVarietyByName(form.VarietyName);
 
             //Avoid using an existing name
-            if ((id == null && variety != null) //when creating
-                || (id != null && variety != null && variety.VarietyId != id)) //when updating
+            if (variety != null) //when creating
             {
                 ModelState.AddModelError(nameof(form.VarietyName), $"Variety '{form.VarietyName}' already exists.");
-                
-                return View(form);
+
+                return View("Form", form);
             }
 
             //Other errors
@@ -108,26 +96,96 @@ namespace KestenApp.Controllers
                     .Where(e => e?.Count > 0)
                     .ToList();
 
-                return View(form);
-            }
-
-            //Update existing variety
-            if (id != null)
-            {
-                int? varietyIndex = await _varietyService.UpdateVarietyAsync((int)id, form);
-
-                if (varietyIndex == null)
-                {
-                    return RedirectToAction("List", "Variety");
-                }
-
-                return RedirectToAction("Details", "Variety", new { id });
+                return View("Form", form);
             }
 
             //Create a new variety
             int newVarietyIndex = await _varietyService.AddVarietyAsync(form);
 
             return RedirectToAction("Details", "Variety", new { id = newVarietyIndex });
+        }
+
+        [HttpGet]
+        [Route("Variety/Edit/{id}")]
+        public IActionResult Edit([FromRoute] int id)
+        {
+            Variety? variety = _varietyService.GetDetailsViewById((int)id);
+
+            if (variety == null)
+                return NotFound();
+
+            int[] varietySpeciesIds = variety
+                .Species
+                .Select(vs => vs.SpeciesId)
+                .ToArray();
+
+            VarietyFormModel formModel = new VarietyFormModel
+            {
+                //Details
+                VarietyId = id,
+                VarietyName = variety.VarietyName,
+                Description = variety.Description,
+                //ThumbnailImagePath = variety.Images.Any() ?
+                //    $"/Images/Varieties/{variety.VarietyId}/{variety.Images.First().FileName}.jpg" :
+                //    "/Images/no-image.jpg", //Move to constants
+
+                //Tree
+                SpeciesCheckboxes = GenerateSpeciesCheckboxes(varietySpeciesIds),
+                PollenOptions = GeneratePollenOptions(variety.PollenType),
+
+                //Fruit
+                ChestnutBlightResistance = variety.ChestnutBlightResistance,
+                InkDiseaseResistance = variety.InkDiseaseResistance
+            };
+
+            return View("Form", formModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit([FromForm] VarietyFormModel form, [FromRoute] int id)
+        {
+            Variety? variety = _varietyService
+                .GetVarietyByName(form.VarietyName);
+
+            //if (variety != null && variety.VarietyId != id)
+            //{
+            //    return NotFound(id);
+            //}
+
+            //Render selects
+            form.VarietyId = id;
+            form.SpeciesCheckboxes = GenerateSpeciesCheckboxes();
+            form.PollenOptions = GeneratePollenOptions();
+
+            //Avoid using an existing name
+            if (variety != null && variety.VarietyId != id) //when updating
+            {
+                ModelState.AddModelError(nameof(form.VarietyName), $"Variety '{form.VarietyName}' already exists.");
+
+                return View("Form", form);
+            }
+
+            //Other errors
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState
+                    .Select(x => x.Value?.Errors)
+                    .Where(e => e?.Count > 0)
+                    .ToList();
+
+                return View("Form", form);
+            }
+
+            //Update existing variety
+            int? varietyIndex = await _varietyService.UpdateVarietyAsync((int)id, form);
+
+            if (varietyIndex == null)
+            {
+                return RedirectToAction("List", "Variety");
+            }
+
+            return RedirectToAction("Details", "Variety", new { id });
         }
 
         public IActionResult Search()

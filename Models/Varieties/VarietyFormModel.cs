@@ -54,6 +54,17 @@ namespace KestenApp.Models.Varieties
             get
             {
                 return VarietyId != null ?
+                    "Edit" :
+                    "Add";
+            }
+        }
+
+        [ValidateNever]
+        public string AspActionRedirect
+        {
+            get
+            {
+                return VarietyId != null ?
                     "Details" :
                     "List";
             }
