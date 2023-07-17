@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using KestenApp.Services;
 using KestenApp.Contracts;
 using KestenApp.Data;
+using KestenApp.Infrastructure.Extensions;
 
 namespace KestenApp
 {
@@ -46,6 +47,8 @@ namespace KestenApp
 
 
             var app = builder.Build();
+
+            //app.PrepareDatabase();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

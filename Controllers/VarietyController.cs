@@ -63,7 +63,7 @@ namespace KestenApp.Controllers
 
                 //Render selects
                 SpeciesCheckboxes = GenerateSpeciesCheckboxes(),
-                PollenOptions = GeneratePollenOptions()
+                PollenOptions = GeneratePollenOptions(PollenTypeEnum.None)
             };
 
             return View("Form", form);
@@ -73,16 +73,16 @@ namespace KestenApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add([FromForm] VarietyFormModel form)
         {
-            //Render selects
-            form.SpeciesCheckboxes = GenerateSpeciesCheckboxes();
-            form.PollenOptions = GeneratePollenOptions();
-
             Variety? variety = _varietyService
                 .GetVarietyByName(form.VarietyName);
 
             //Avoid using an existing name
             if (variety != null) //when creating
             {
+                //Render selects
+                form.SpeciesCheckboxes = GenerateSpeciesCheckboxes(form.SpeciesCheckboxes.Where(x => x.IsChecked).Select(x => x.Id));
+                form.PollenOptions = GeneratePollenOptions(form.PollenType);
+
                 ModelState.AddModelError(nameof(form.VarietyName), $"Variety '{form.VarietyName}' already exists.");
 
                 return View("Form", form);
@@ -155,13 +155,14 @@ namespace KestenApp.Controllers
 
             //Render selects
             form.VarietyId = id;
-            form.SpeciesCheckboxes = GenerateSpeciesCheckboxes();
-            form.PollenOptions = GeneratePollenOptions();
 
             //Avoid using an existing name
             if (variety != null && variety.VarietyId != id) //when updating
             {
                 ModelState.AddModelError(nameof(form.VarietyName), $"Variety '{form.VarietyName}' already exists.");
+
+                form.SpeciesCheckboxes = GenerateSpeciesCheckboxes(form.SpeciesCheckboxes.Where(x => x.IsChecked).Select(x => x.Id));
+                form.PollenOptions = GeneratePollenOptions(form.PollenType);
 
                 return View("Form", form);
             }
@@ -251,31 +252,7 @@ namespace KestenApp.Controllers
         }
 
         #region Form
-        private void PopulateFormModelFromVariety(VarietyFormModel formModel, Variety variety)
-        {
-            //Details
-            formModel.VarietyName = variety.VarietyName;
-            formModel.Description = variety.Description;
-            if (variety.Images.Any())
-            {
-                formModel.ThumbnailImagePath =
-                    $"/Images/Varieties/{variety.VarietyId}/{variety.Images.First().FileName}.jpg";
-            }
-
-            //Tree
-            int[] varietySpecies = variety
-                .Species
-                .Select(vs => vs.SpeciesId)
-                .ToArray();
-            formModel.SpeciesCheckboxes = GenerateSpeciesCheckboxes(varietySpecies);
-            formModel.PollenOptions = GeneratePollenOptions(variety.PollenType);
-
-            //Fruit
-            formModel.ChestnutBlightResistance = variety.ChestnutBlightResistance;
-            formModel.InkDiseaseResistance = variety.InkDiseaseResistance;
-        }
-
-        private ReadOnlyCollection<SelectListItem> GeneratePollenOptions(PollenTypeEnum pollenType = PollenTypeEnum.None)
+        private ReadOnlyCollection<SelectListItem> GeneratePollenOptions(PollenTypeEnum pollenType)
         {
             return EnumExtensions
                 .GetEnumValuesCollection<PollenTypeEnum>()
