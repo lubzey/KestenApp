@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using static KestenApp.Common.GeneralApplicationConstants
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -44,7 +46,11 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - Kesten -
+            &copy; Kesten @ReleaseYear
+            @if (DateTime.UtcNow.Year != ReleaseYear)
+            {
+                @Html.Raw($" - {DateTime.UtcNow.Year}")
+            }
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
