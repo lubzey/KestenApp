@@ -1,6 +1,7 @@
 ﻿using KestenApp.Data.Enums;
 using KestenApp.Data.Enums.EnumHelpers;
 using KestenApp.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace KestenApp.Data
 {
@@ -9,6 +10,13 @@ namespace KestenApp.Data
         private static FruitSize[]? fruitSizes;
         private static Species[]? species;
         private static Variety[]? varieties;
+        private static List<string> names = new List<string>()
+        {
+            "Bouche de Bétizac",
+            "Marigoule",
+            "Marsol",
+            "Précoce Migoule",
+        };
 
         public static FruitSize[] FruitSizes
         {
@@ -93,7 +101,7 @@ namespace KestenApp.Data
                 {
                         new Variety //1
                         {
-                            VarietyName = "Bouche de Bétizac",
+                            VarietyName = names[0], //"Bouche de Bétizac"
                             Species = sativaCrenataSpecies,
                             Description =
                                 @"Bouche de Bétizac is a French chestnut cultivar developed in 1962 by INRA at the station of Malemort-sur-Corrèze near Brive. It is a controlled hybrid between Castanea sativa and Castanea crenata (female Bouche rouge × male Castanea crenata CA04). This variety produces large to very large chestnuts. It has very good flavor for a hybrid. With Marigoule, it is the variety currently most cultivated in the French chestnut groves because it is very productive (3 tons per hectare on average). Its fruit is bright, light chestnut-brown quickly turning brown and dark brown.",
@@ -113,7 +121,7 @@ namespace KestenApp.Data
                         },
                         new Variety //2
                         {
-                            VarietyName = "Marigoule",
+                            VarietyName = names[1], //"Marigoule"
                             Species = sativaCrenataSpecies,
                             Description =
                                 @"Marigoule is the name of a french hybrid of chestnut (synonym M.15 or CA 15), cross between a European chestnut (Castanea sativa) and Japanese (Castanea crenata). In 1986, it originated from a Migoule orchard in Ussac in Corrèze. Marigoule (a contraction of Marron of Migoule) is a very tasty chestnut. It should be planted in rather low altitude in very sunny areas and protected from the wind (up to 300 m elevation for South-West orchard orientation or up to 400 m elevation in South-East orchard orientation). Otherwise its productivity remains small. In France, it is grown mainly South of the Dordogne and Lot-et-Garonne for the fresh market production because of the nuts beautiful appearance.",
@@ -134,7 +142,7 @@ namespace KestenApp.Data
                         },
                         new Variety //3
                         {
-                            VarietyName = "Marsol",
+                            VarietyName = names[2], //"Marsol",
                             Species = sativaCrenataSpecies,
                             Description =
                                 @"Marsol (aka Marisol) is a natural chestnut hybrid, a cross between a European chestnut (Castanea sativa) and Japanese (Castanea crenata) (CA 07). INRA produced this variety from Lalevade-d'Ardèche. It is mainly used as a rootstock because of its good graft compatibility with many varieties. As a rootstock, it is more vigorous than Maraval (equal to Bouche de Betizac or Comballe).",
@@ -154,7 +162,7 @@ namespace KestenApp.Data
                         },
                         new Variety //4
                         {
-                            VarietyName = "Précoce Migoule",
+                            VarietyName = names[3], //"Précoce Migoule",
                             Species = sativaCrenataSpecies,
                             Description =
                                 @"The Precoce Migoule is a chestnut hybrid (CA 48), a natural cross between a European chestnut (Castanea sativa) and a Japanese chestnut (Castanea crenata). It was discovered by J. Dufrenoy at the orchard of Migoule in Brive-la-Gaillarde. The tree is vigorous and erect growing with growth of a metre (3 ft) or more in a season if the conditions are right. It is a large sized chestnut tree with height reaching 20 m (60 ft) or more and 7.5-10 m (25-35 ft) wide. Trees start to bear after 3 to 5 years. Full nut production in 12 - 20 years depending on the location.",
@@ -195,74 +203,90 @@ namespace KestenApp.Data
 
         public static void Seed(IApplicationBuilder applicationBuilder)
         {
-            KestenDbContext context = applicationBuilder
+            KestenDbContext data = applicationBuilder
                 .ApplicationServices
                 .CreateScope()
                 .ServiceProvider
                 .GetRequiredService<KestenDbContext>();
 
-            context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();
+            data.Database.EnsureDeleted();
+            data.Database.EnsureCreated();
 
-            if (!context.Species.Any())
+            if (!data.Species.Any())
             {
-                context.Species.AddRange(Species);
-                context.SaveChanges();
+                data.Species.AddRange(Species);
+                data.SaveChanges();
             }
 
-            if (!context.FruitSizes.Any())
+            if (!data.FruitSizes.Any())
             {
-                context.FruitSizes.AddRange(FruitSizes);
-                context.SaveChanges();
+                data.FruitSizes.AddRange(FruitSizes);
+                data.SaveChanges();
             }
 
-            if (!context.Varieties.Any())
+            if (!data.Varieties.Any())
             {
-                context.Varieties.AddRange(Varieties);
-                context.SaveChanges();
+                data.Varieties.AddRange(Varieties);
+                data.SaveChanges();
 
                 //Pollenizers
+                Variety bdbId = GetVarietyIdFromName(data, names[0]);
+                Variety marigouleId = GetVarietyIdFromName(data, names[1]);
+                Variety marsolId = GetVarietyIdFromName(data, names[2]);
+                Variety pmId = GetVarietyIdFromName(data, names[3]);
+
                 var pollenizer = new List<VarietyPollenCompatibility>
                 {
                     new VarietyPollenCompatibility
                     {
-                        PollinizerVarietyId = 2, TargetVarietyId = 1
+                        PollinizerVarietyId = marigouleId.VarietyId,
+                        TargetVarietyId = bdbId.VarietyId
                     },
                     new VarietyPollenCompatibility
                     {
-                        PollinizerVarietyId = 3, TargetVarietyId = 1
+                        PollinizerVarietyId = marsolId.VarietyId,
+                        TargetVarietyId = bdbId.VarietyId
                     },
                     new VarietyPollenCompatibility
                     {
-                        PollinizerVarietyId = 4, TargetVarietyId = 1
+                        PollinizerVarietyId = pmId.VarietyId,
+                        TargetVarietyId = bdbId.VarietyId
                     }
                 };
-                context.VarietyPollenizers.AddRange(pollenizer);
+                data.VarietyPollenizers.AddRange(pollenizer);
 
                 //Grafting
                 var grafts = new List<VarietyGraftingCompatibility>
                 {
                     new VarietyGraftingCompatibility
                     {
-                        RootstockVarietyId = 3,
-                        GraftedVarietyId = 1
+                        RootstockVarietyId = marsolId.VarietyId,
+                        GraftedVarietyId = bdbId.VarietyId
                     },
                     new VarietyGraftingCompatibility
                     {
-                        RootstockVarietyId = 3,
-                        GraftedVarietyId = 4
+                        RootstockVarietyId = marsolId.VarietyId,
+                        GraftedVarietyId = pmId.VarietyId
                     },
                     new VarietyGraftingCompatibility
                     {
-                        RootstockVarietyId = 2,
-                        GraftedVarietyId = 4
+                        RootstockVarietyId = marigouleId.VarietyId,
+                        GraftedVarietyId = pmId.VarietyId
                     },
                 };
 
-                context.VarietyGrafting.AddRange(grafts);
+                data.VarietyGrafting.AddRange(grafts);
 
-                context.SaveChanges();
+                data.SaveChanges();
             }
+        }
+
+        private static Variety GetVarietyIdFromName(KestenDbContext data, string varietyName)
+        {
+            return data
+                .Varieties
+                .AsNoTracking()
+                .Single(v => v.VarietyName == varietyName);
         }
     }
 }

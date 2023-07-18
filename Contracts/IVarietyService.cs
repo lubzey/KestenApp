@@ -8,10 +8,10 @@ namespace KestenApp.Contracts
     public interface IVarietyService
     {
         VarietyServiceModel AllVarieties(string? name = null, VarietySorting sorting = VarietySorting.DateCreated, int currentPage = 1, int countPerPage = int.MaxValue);
-        Variety? GetDetailsViewById(int id);
+        Variety? GetDetailsViewById(Guid id);
         IEnumerable<Variety> SearchVarieties(string searchQuery);
-        Task<int> AddVarietyAsync(VarietyFormModel model);
-        Task<int?> UpdateVarietyAsync(int id, VarietyFormModel model);
+        Task<Guid> AddVarietyAsync(VarietyFormModel model);
+        Task<Guid?> UpdateVarietyAsync(Guid id, VarietyFormModel model);
         Variety? GetVarietyByName(string name);
     }
 }

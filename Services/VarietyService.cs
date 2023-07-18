@@ -26,7 +26,11 @@ namespace KestenApp.Services
             IQueryable<Variety> varietiesQuery = _context
                 .Varieties
                 .Include(v => v.Species)
-                .Include(v => v.FruitSizes);
+                .Include(v => v.FruitSizes)
+                .Include(v => v.IsPollenizedBy)
+                .Include(v => v.IsPollenizerFor)
+                .Include(v => v.IsGraftedOn)
+                .Include(v => v.IsRootstockFor);
 
             if (!string.IsNullOrWhiteSpace(name))
             {
@@ -58,7 +62,7 @@ namespace KestenApp.Services
         }
 
         //Details
-        public Variety? GetDetailsViewById(int id)
+        public Variety? GetDetailsViewById(Guid id)
         {
             Variety? variety = _context
                 .Varieties
@@ -90,7 +94,7 @@ namespace KestenApp.Services
         }
 
         //Add
-        public async Task<int> AddVarietyAsync(VarietyFormModel model)
+        public async Task<Guid> AddVarietyAsync(VarietyFormModel model)
         {
             int[] selectedSpeciesIds = model.SpeciesCheckboxes
                 .Where(sp => sp.IsChecked)
@@ -113,7 +117,7 @@ namespace KestenApp.Services
         }
 
         //Update
-        public async Task<int?> UpdateVarietyAsync(int id, VarietyFormModel model)
+        public async Task<Guid?> UpdateVarietyAsync(Guid id, VarietyFormModel model)
         {
             var variety = await _context.Varieties
                 .Where(v => v.VarietyId == id)

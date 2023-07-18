@@ -41,7 +41,7 @@ namespace KestenApp.Controllers
             return View(listViewModel);
         }
 
-        public IActionResult Details(int id)
+        public IActionResult Details(Guid id)
         {
             Variety? variety = _varietyService
                 .GetDetailsViewById(id);
@@ -102,16 +102,16 @@ namespace KestenApp.Controllers
             }
 
             //Create a new variety
-            int newVarietyIndex = await _varietyService.AddVarietyAsync(form);
+            Guid newVarietyIndex = await _varietyService.AddVarietyAsync(form);
 
             return RedirectToAction("Details", "Variety", new { id = newVarietyIndex });
         }
 
         [HttpGet]
         [Route("Variety/Edit/{id}")]
-        public IActionResult Edit([FromRoute] int id)
+        public IActionResult Edit([FromRoute] Guid id)
         {
-            Variety? variety = _varietyService.GetDetailsViewById((int)id);
+            Variety? variety = _varietyService.GetDetailsViewById(id);
 
             if (variety == null)
                 return NotFound();
@@ -145,7 +145,7 @@ namespace KestenApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([FromForm] VarietyFormModel form, [FromRoute] int id)
+        public async Task<IActionResult> Edit([FromForm] VarietyFormModel form, [FromRoute] Guid id)
         {
             Variety? variety = _varietyService
                 .GetVarietyByName(form.VarietyName);
@@ -181,7 +181,7 @@ namespace KestenApp.Controllers
             }
 
             //Update existing variety
-            int? varietyIndex = await _varietyService.UpdateVarietyAsync((int)id, form);
+            Guid? varietyIndex = await _varietyService.UpdateVarietyAsync(id, form);
 
             if (varietyIndex == null)
             {
