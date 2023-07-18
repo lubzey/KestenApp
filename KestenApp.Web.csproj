@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Images\Varieties\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\KestenApp.Data.Models\KestenApp.Data.Models.csproj" />
     <ProjectReference Include="..\KestenApp.Data\KestenApp.Data.csproj" />
     <ProjectReference Include="..\KestenApp.Web.ViewModels\KestenApp.Web.ViewModels.csproj" />
