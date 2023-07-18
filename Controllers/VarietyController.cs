@@ -125,7 +125,7 @@ namespace KestenApp.Controllers
             {
                 //Details
                 VarietyId = id,
-                VarietyName = variety.VarietyName,
+                VarietyName = variety.Name,
                 Description = variety.Description,
                 //ThumbnailImagePath = variety.Images.Any() ?
                 //    $"/Images/Varieties/{variety.VarietyId}/{variety.Images.First().FileName}.jpg" :
@@ -204,7 +204,7 @@ namespace KestenApp.Controllers
                 .Select(v => new VarietyListDetailsModel
                 {
                     VarietyId = v.VarietyId,
-                    VarietyName = v.VarietyName,
+                    VarietyName = v.Name,
                     Species = JoinStrings(
                         v.Species
                         .OrderBy(s => s.ShortLatinName)
@@ -222,19 +222,19 @@ namespace KestenApp.Controllers
                     MaturityPeriod = GetStringValueOfNullableEnum(v.MaturityPeriod),
                     IsPollenizedBy = JoinStrings(
                         v.IsPollenizedBy
-                        .Select(p => p.PollenizerVariety.VarietyName)
+                        .Select(p => p.PollenizerVariety.Name)
                         .OrderBy(n => n)),
                     IsPollenizerFor = JoinStrings(
                         v.IsPollenizerFor
-                        .Select(p => p.PollenizerVariety.VarietyName)
+                        .Select(p => p.PollenizerVariety.Name)
                         .OrderBy(n => n)),
                     IsRootstockFor = JoinStrings(
                         v.IsRootstockFor
-                        .Select(p => p.GraftedVariety.VarietyName)
+                        .Select(p => p.GraftedVariety.Name)
                         .OrderBy(n => n)),
                     IsGraftedOn = JoinStrings(
                         v.IsGraftedOn
-                        .Select(p => p.RootstockVariety.VarietyName)
+                        .Select(p => p.RootstockVariety.Name)
                         .OrderBy(n => n))
                 });
 

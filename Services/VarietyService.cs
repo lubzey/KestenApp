@@ -35,13 +35,13 @@ namespace KestenApp.Services
             if (!string.IsNullOrWhiteSpace(name))
             {
                 varietiesQuery = varietiesQuery
-                    .Where(c => c.VarietyName.ToLower().Contains(name.ToLower()));
+                    .Where(c => c.Name.ToLower().Contains(name.ToLower()));
             }
 
             varietiesQuery = sorting switch
             {
-                VarietySorting.VarietyName => varietiesQuery.OrderByDescending(c => c.VarietyName),
-                VarietySorting.FruitSizes => varietiesQuery.OrderBy(c => c.FruitSizes).ThenBy(c => c.VarietyName),
+                VarietySorting.VarietyName => varietiesQuery.OrderByDescending(c => c.Name),
+                VarietySorting.FruitSizes => varietiesQuery.OrderBy(c => c.FruitSizes).ThenBy(c => c.Name),
                 VarietySorting.DateCreated or _ => varietiesQuery.OrderByDescending(c => c.DateCreated)
             };
 
@@ -79,7 +79,7 @@ namespace KestenApp.Services
         {
             Variety? variety = _context
                 .Varieties
-                .FirstOrDefault(p => p.VarietyName.ToLower() == name);
+                .FirstOrDefault(p => p.Name.ToLower() == name);
 
             return variety;
         }
@@ -90,7 +90,7 @@ namespace KestenApp.Services
         {
             return _context
                 .Varieties
-                .Where(p => p.VarietyName.Contains(searchQuery));
+                .Where(p => p.Name.Contains(searchQuery));
         }
 
         //Add
@@ -102,7 +102,7 @@ namespace KestenApp.Services
 
             Variety variety = new Variety
             {
-                VarietyName = model.VarietyName,
+                Name = model.VarietyName,
                 Species = _context.Species
                     .Where(s => selectedSpeciesIds.Contains(s.SpeciesId))
                     .ToList(),
@@ -129,7 +129,7 @@ namespace KestenApp.Services
                 return null;
             }
 
-            variety.VarietyName = model.VarietyName;
+            variety.Name = model.VarietyName;
             variety.Description = model.Description;
 
             int[] selectedSpeciesIds = model.SpeciesCheckboxes

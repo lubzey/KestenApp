@@ -101,7 +101,7 @@ namespace KestenApp.Data
                 {
                         new Variety //1
                         {
-                            VarietyName = names[0], //"Bouche de Bétizac"
+                            Name = names[0], //"Bouche de Bétizac"
                             Species = sativaCrenataSpecies,
                             Description =
                                 @"Bouche de Bétizac is a French chestnut cultivar developed in 1962 by INRA at the station of Malemort-sur-Corrèze near Brive. It is a controlled hybrid between Castanea sativa and Castanea crenata (female Bouche rouge × male Castanea crenata CA04). This variety produces large to very large chestnuts. It has very good flavor for a hybrid. With Marigoule, it is the variety currently most cultivated in the French chestnut groves because it is very productive (3 tons per hectare on average). Its fruit is bright, light chestnut-brown quickly turning brown and dark brown.",
@@ -121,7 +121,7 @@ namespace KestenApp.Data
                         },
                         new Variety //2
                         {
-                            VarietyName = names[1], //"Marigoule"
+                            Name = names[1], //"Marigoule"
                             Species = sativaCrenataSpecies,
                             Description =
                                 @"Marigoule is the name of a french hybrid of chestnut (synonym M.15 or CA 15), cross between a European chestnut (Castanea sativa) and Japanese (Castanea crenata). In 1986, it originated from a Migoule orchard in Ussac in Corrèze. Marigoule (a contraction of Marron of Migoule) is a very tasty chestnut. It should be planted in rather low altitude in very sunny areas and protected from the wind (up to 300 m elevation for South-West orchard orientation or up to 400 m elevation in South-East orchard orientation). Otherwise its productivity remains small. In France, it is grown mainly South of the Dordogne and Lot-et-Garonne for the fresh market production because of the nuts beautiful appearance.",
@@ -142,7 +142,7 @@ namespace KestenApp.Data
                         },
                         new Variety //3
                         {
-                            VarietyName = names[2], //"Marsol",
+                            Name = names[2], //"Marsol",
                             Species = sativaCrenataSpecies,
                             Description =
                                 @"Marsol (aka Marisol) is a natural chestnut hybrid, a cross between a European chestnut (Castanea sativa) and Japanese (Castanea crenata) (CA 07). INRA produced this variety from Lalevade-d'Ardèche. It is mainly used as a rootstock because of its good graft compatibility with many varieties. As a rootstock, it is more vigorous than Maraval (equal to Bouche de Betizac or Comballe).",
@@ -162,7 +162,7 @@ namespace KestenApp.Data
                         },
                         new Variety //4
                         {
-                            VarietyName = names[3], //"Précoce Migoule",
+                            Name = names[3], //"Précoce Migoule",
                             Species = sativaCrenataSpecies,
                             Description =
                                 @"The Precoce Migoule is a chestnut hybrid (CA 48), a natural cross between a European chestnut (Castanea sativa) and a Japanese chestnut (Castanea crenata). It was discovered by J. Dufrenoy at the orchard of Migoule in Brive-la-Gaillarde. The tree is vigorous and erect growing with growth of a metre (3 ft) or more in a season if the conditions are right. It is a large sized chestnut tree with height reaching 20 m (60 ft) or more and 7.5-10 m (25-35 ft) wide. Trees start to bear after 3 to 5 years. Full nut production in 12 - 20 years depending on the location.",
@@ -177,24 +177,24 @@ namespace KestenApp.Data
                             MaturityPeriod = PeriodTypeEnum.Early,
                             PollenType = PollenTypeEnum.Medium
                         },
-                        new Variety { VarietyName = "Pandora" },
-                        new Variety { VarietyName = "Nevada" },
-                        new Variety { VarietyName = "Long Street" },
-                        new Variety { VarietyName = "AU 2-18" },
-                        new Variety { VarietyName = "AU Super" },
-                        new Variety { VarietyName = "Black Satin" },
-                        new Variety { VarietyName = "Chushuhong" },
-                        new Variety { VarietyName = "Emalyn's Purple" },
-                        new Variety { VarietyName = "Gideon" },
-                        new Variety { VarietyName = "Jenny" },
-                        new Variety { VarietyName = "Jiaoza" },
-                        new Variety { VarietyName = "Payne" },
-                        new Variety { VarietyName = "Peach" },
-                        new Variety { VarietyName = "Qing" },
-                        new Variety { VarietyName = "Qingza" },
-                        new Variety { VarietyName = "Royalmark" },
-                        new Variety { VarietyName = "YGF" },
-                        new Variety { VarietyName = "Yixian Large" },
+                        new Variety { Name = "Pandora" },
+                        new Variety { Name = "Nevada" },
+                        new Variety { Name = "Long Street" },
+                        new Variety { Name = "AU 2-18" },
+                        new Variety { Name = "AU Super" },
+                        new Variety { Name = "Black Satin" },
+                        new Variety { Name = "Chushuhong" },
+                        new Variety { Name = "Emalyn's Purple" },
+                        new Variety { Name = "Gideon" },
+                        new Variety { Name = "Jenny" },
+                        new Variety { Name = "Jiaoza" },
+                        new Variety { Name = "Payne" },
+                        new Variety { Name = "Peach" },
+                        new Variety { Name = "Qing" },
+                        new Variety { Name = "Qingza" },
+                        new Variety { Name = "Royalmark" },
+                        new Variety { Name = "YGF" },
+                        new Variety { Name = "Yixian Large" },
                 };
 
                 return varieties;
@@ -286,7 +286,7 @@ namespace KestenApp.Data
             return data
                 .Varieties
                 .AsNoTracking()
-                .Single(v => v.VarietyName == varietyName);
+                .Single(v => v.Name == varietyName);
         }
     }
 }

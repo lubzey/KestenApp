@@ -6,6 +6,7 @@ namespace KestenApp
     using KestenApp.Services;
     using KestenApp.Contracts;
     using KestenApp.Data;
+    using KestenApp.Data.Models;
 
     public class Program
     {
@@ -23,20 +24,17 @@ namespace KestenApp
 
             //Identity
             builder.Services
-                .AddDefaultIdentity<IdentityUser>()
-                .AddRoles<IdentityRole>()
-                //.AddDefaultUI()
-                .AddEntityFrameworkStores<KestenDbContext>();
-
-            builder.Services
-                .Configure<IdentityOptions>(options =>
+                .AddDefaultIdentity<ApplicationUser>(options =>
                 {
+                    options.SignIn.RequireConfirmedAccount = false;
+
                     options.Password.RequireDigit = false;
                     options.Password.RequiredLength = 6;
                     options.Password.RequireLowercase = false;
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = false;
-                });
+                })
+                .AddEntityFrameworkStores<KestenDbContext>();
 
 
             // Add services to the container.
@@ -72,7 +70,7 @@ namespace KestenApp
 
             app.MapRazorPages();
 
-            //DbInitializer.Seed(app);
+            DbInitializer.Seed(app);
 
             app.Run();
         }
