@@ -1,8 +1,8 @@
 ﻿using KestenApp.Contracts;
 using KestenApp.Data;
+using KestenApp.Data.Enums;
 using KestenApp.Data.Models;
-using KestenApp.Infrastructure.Enums;
-using KestenApp.Models.Varieties;
+using KestenApp.Web.Models.Varieties;
 using Microsoft.EntityFrameworkCore;
 
 namespace KestenApp.Services

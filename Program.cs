@@ -1,12 +1,12 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using KestenApp.Services;
-using KestenApp.Contracts;
-using KestenApp.Data;
-using KestenApp.Infrastructure.Extensions;
-
 namespace KestenApp
 {
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.AspNetCore.Identity;
+
+    using KestenApp.Services;
+    using KestenApp.Contracts;
+    using KestenApp.Data;
+
     public class Program
     {
         public static void Main(string[] args)

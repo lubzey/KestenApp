@@ -1,14 +1,16 @@
-﻿using KestenApp.Contracts;
-using KestenApp.Data.Models;
-using KestenApp.Infrastructure.Enums;
-using KestenApp.Infrastructure.Enums.EnumHelpers;
-using KestenApp.Models;
-using KestenApp.Models.Varieties;
-using KestenApp.Services;
+﻿using System.Collections.ObjectModel;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.ObjectModel;
+
+using KestenApp.Contracts;
+using KestenApp.Data.Enums;
+using KestenApp.Data.Enums.EnumHelpers;
+using KestenApp.Data.Models;
+using KestenApp.Web.Models;
+using KestenApp.Web.Models.Varieties;
+using KestenApp.Services;
 
 namespace KestenApp.Controllers
 {

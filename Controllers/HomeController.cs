@@ -1,5 +1,5 @@
 ﻿using KestenApp.Contracts;
-using KestenApp.Models;
+using KestenApp.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

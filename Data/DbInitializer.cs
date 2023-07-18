@@ -1,6 +1,6 @@
-﻿using KestenApp.Data.Models;
-using KestenApp.Infrastructure.Enums;
-using KestenApp.Infrastructure.Enums.EnumHelpers;
+﻿using KestenApp.Data.Enums;
+using KestenApp.Data.Enums.EnumHelpers;
+using KestenApp.Data.Models;
 
 namespace KestenApp.Data
 {
