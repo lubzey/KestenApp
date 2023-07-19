@@ -230,10 +230,10 @@ namespace KestenApp.Data
                 data.SaveChanges();
 
                 //Pollenizers
-                Variety bdbId = GetVarietyIdFromName(data, names[0]);
-                Variety marigouleId = GetVarietyIdFromName(data, names[1]);
-                Variety marsolId = GetVarietyIdFromName(data, names[2]);
-                Variety pmId = GetVarietyIdFromName(data, names[3]);
+                Variety bdbId = GetVarietyFromName(data, names[0]);
+                Variety marigouleId = GetVarietyFromName(data, names[1]);
+                Variety marsolId = GetVarietyFromName(data, names[2]);
+                Variety pmId = GetVarietyFromName(data, names[3]);
 
                 var pollenizer = new List<VarietyPollenCompatibility>
                 {
@@ -279,9 +279,26 @@ namespace KestenApp.Data
 
                 data.SaveChanges();
             }
+
+            //TODO: Seed user
+            //TODO: Seed garden
+            //TODO: Seed specimens
+            if (!data.Specimens.Any())
+            {
+                //Variety marigouleId = GetVarietyFromName(data, names[1]);
+                //var specimen = new Specimen
+                //{
+                //    Variety = marigouleId,
+                //    Altitude = 650,
+                //    User =
+                //};
+
+                //data.Specimens.Add(specimen);
+                //data.SaveChanges();
+            }
         }
 
-        private static Variety GetVarietyIdFromName(KestenDbContext data, string varietyName)
+        private static Variety GetVarietyFromName(KestenDbContext data, string varietyName)
         {
             return data
                 .Varieties
