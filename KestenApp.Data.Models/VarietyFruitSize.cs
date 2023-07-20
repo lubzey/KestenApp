@@ -3,9 +3,8 @@
     using System.ComponentModel.DataAnnotations;
 
     public class VarietyFruitSize
-    {
-        [Key]
-        public int VarietyFruitSizeId { get; set; }
+    {        
+        //public int VarietyFruitSizeId { get; set; }
 
         public int FruitSizeId { get; set; }
         public FruitSize FruitSize { get; set; } = null!;

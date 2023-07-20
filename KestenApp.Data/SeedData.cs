@@ -166,34 +166,28 @@
 
             varietyfruitSizes = new VarietyFruitSize[]{
                 new VarietyFruitSize {
-                    FruitSizeId = 1,
-                    VarietyId = varieties[0].VarietyId,
-                    VarietyFruitSizeId = (int)FruitSizeTypeEnum.XL
+                    FruitSizeId = (int)FruitSizeTypeEnum.XL,
+                    VarietyId = varieties[0].VarietyId
                 },
                 new VarietyFruitSize {
-                    FruitSizeId = 2,
-                    VarietyId = varieties[1].VarietyId,
-                    VarietyFruitSizeId = (int)FruitSizeTypeEnum.Large
+                    FruitSizeId = (int)FruitSizeTypeEnum.Large,
+                    VarietyId = varieties[1].VarietyId
                 },
                 new VarietyFruitSize {
-                    FruitSizeId = 3,
-                    VarietyId = varieties[1].VarietyId,
-                    VarietyFruitSizeId = (int)FruitSizeTypeEnum.XL
+                    FruitSizeId = (int)FruitSizeTypeEnum.XL,
+                    VarietyId = varieties[1].VarietyId
                 },
                 new VarietyFruitSize {
-                    FruitSizeId = 4,
-                    VarietyId = varieties[2].VarietyId,
-                    VarietyFruitSizeId = (int)FruitSizeTypeEnum.XL
+                    FruitSizeId = (int)FruitSizeTypeEnum.XL,
+                    VarietyId = varieties[2].VarietyId
                 },
                 new VarietyFruitSize {
-                    FruitSizeId = 5,
-                    VarietyId = varieties[3].VarietyId,
-                    VarietyFruitSizeId = (int)FruitSizeTypeEnum.Medium
+                    FruitSizeId = (int)FruitSizeTypeEnum.Medium,
+                    VarietyId = varieties[3].VarietyId
                 },
                 new VarietyFruitSize {
-                    FruitSizeId = 6,
-                    VarietyId = varieties[3].VarietyId,
-                    VarietyFruitSizeId = (int)FruitSizeTypeEnum.Large
+                    FruitSizeId = (int)FruitSizeTypeEnum.Large,
+                    VarietyId = varieties[3].VarietyId
                 }
             };
 

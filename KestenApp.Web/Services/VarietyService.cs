@@ -26,7 +26,9 @@ namespace KestenApp.Services
             IQueryable<Variety> varietiesQuery = _context
                 .Varieties
                 .Include(v => v.Species)
+                    .ThenInclude(fs => fs.Species)
                 .Include(v => v.FruitSizes)
+                    .ThenInclude(fs => fs.FruitSize)
                 .Include(v => v.IsPollenizedBy)
                 .Include(v => v.IsPollenizerFor)
                 .Include(v => v.IsGraftedOn)
@@ -69,7 +71,9 @@ namespace KestenApp.Services
                 //Include more data
                 .Include(v => v.Images)
                 .Include(v => v.Species)
+                    .ThenInclude(v => v.Species)
                 .Include(v => v.FruitSizes)
+                    .ThenInclude(v => v.FruitSize)
                 .FirstOrDefault(p => p.VarietyId == id);
 
             return variety;

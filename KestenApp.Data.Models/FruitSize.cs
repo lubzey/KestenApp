@@ -1,7 +1,10 @@
 ﻿namespace KestenApp.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class FruitSize
     {
+        [Key]
         public int FruitSizeId { get; set; }
         public string Name { get; set; } = string.Empty;
         public int? FruitsPerKgMin { get; set; }
