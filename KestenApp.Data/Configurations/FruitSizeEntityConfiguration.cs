@@ -8,7 +8,7 @@
     {
         public void Configure(EntityTypeBuilder<FruitSize> builder)
         {
-            builder.HasData(SeedData.GetFruitSizes());
+            builder.HasData(SeedData.FruitSizes);
         }
     }
 }

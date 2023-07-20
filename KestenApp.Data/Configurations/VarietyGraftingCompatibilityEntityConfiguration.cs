@@ -6,13 +6,6 @@
 
     public class VarietyGraftingCompatibilityEntityConfiguration : IEntityTypeConfiguration<VarietyGraftingCompatibility>
     {
-        //private KestenDbContext dbContext;
-
-        public VarietyGraftingCompatibilityEntityConfiguration()//(KestenDbContext dbContext)
-        {
-            //this.dbContext = dbContext;
-        }
-
         public void Configure(EntityTypeBuilder<VarietyGraftingCompatibility> builder)
         {
             builder
