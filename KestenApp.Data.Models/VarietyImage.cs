@@ -1,10 +1,11 @@
 ﻿namespace KestenApp.Data.Models
 {
-    public class VarietyFruitSize
-    {
-        public int FruitSizeId { get; set; }
-        public FruitSize FruitSize { get; set; } = null!;
+    using System.ComponentModel.DataAnnotations;
 
+    public class VarietyImage
+    {
+        [Key]
+        public Guid ImageId { get; set; }
         public Guid VarietyId { get; set; }
         public Variety Variety { get; set; } = null!;
     }

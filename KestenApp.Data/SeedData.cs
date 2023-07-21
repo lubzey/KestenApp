@@ -13,6 +13,7 @@
         private static VarietyFruitSize[] varietyfruitSizes = null!;
         private static VarietyPollenCompatibility[] varietyPollenCompatibilities = null!;
         private static VarietyGraftingCompatibility[] varietyGraftingCompatibilities = null!;
+        private static VarietyImage[] varietyImages = null!;
 
         //used to map data
         private static DateTime dateCreated = new DateTime(2023, 7, 7, 7, 0, 0);
@@ -29,6 +30,7 @@
         public static VarietyFruitSize[] VarietyFruitSizes { get { return GetVarietyFruitSizes(); } }
         public static VarietyPollenCompatibility[] VarietyPollenCompatibilities { get { return GetVarietyPollenCompatibilities(); } }
         public static VarietyGraftingCompatibility[] VarietyGraftingCompatibilities { get { return GetVarietyGraftingCompatibilities(); } }
+        public static VarietyImage[] VarietyImages { get { return GetVarietyImages(); } }
 
         private static Species[] GetSpecies()
         {
@@ -80,7 +82,7 @@
                 },
                 new Variety //2
                 {
-                    VarietyId = Guid.NewGuid(),
+                    VarietyId = new Guid("FBA92871-4A3C-4978-FCD6-08DB87B43C2D"),
                     Name = "Marigoule",
                     Description = @"Marigoule is the name of a french hybrid of chestnut (synonym M.15 or CA 15), cross between a European chestnut (Castanea sativa) and Japanese (Castanea crenata). In 1986, it originated from a Migoule orchard in Ussac in Corrèze. Marigoule (a contraction of Marron of Migoule) is a very tasty chestnut. It should be planted in rather low altitude in very sunny areas and protected from the wind (up to 300 m elevation for South-West orchard orientation or up to 400 m elevation in South-East orchard orientation). Otherwise its productivity remains small. In France, it is grown mainly South of the Dordogne and Lot-et-Garonne for the fresh market production because of the nuts beautiful appearance.",
                     Peeling = ConditionTypeEnum.Good,
@@ -93,7 +95,7 @@
                 },
                 new Variety //3
                 {
-                    VarietyId = Guid.NewGuid(),
+                    VarietyId = new Guid("8FC8F311-3CE9-42E2-FCD7-08DB87B43C2D"),
                     Name = "Marsol",
                     Description = @"Marsol (aka Marisol) is a natural chestnut hybrid, a cross between a European chestnut (Castanea sativa) and Japanese (Castanea crenata) (CA 07). INRA produced this variety from Lalevade-d'Ardèche. It is mainly used as a rootstock because of its good graft compatibility with many varieties. As a rootstock, it is more vigorous than Maraval (equal to Bouche de Betizac or Comballe).",
                     Peeling = ConditionTypeEnum.Good,
@@ -319,6 +321,31 @@
             };
 
             return varietyGraftingCompatibilities;
+        }
+
+        private static VarietyImage[] GetVarietyImages()
+        {
+            if (varietyImages != null)
+            {
+                return varietyImages;
+            }
+
+            varietyImages = new VarietyImage[]{
+                new VarietyImage {
+                    ImageId = new Guid("BE9CCA3D-4E9A-4E75-B813-9279F79F7F75"),
+                    VarietyId = boucheDeBetizac.VarietyId,
+                },
+                new VarietyImage {
+                    ImageId = new Guid("BF77FF2D-A488-4F6D-847B-3C880239A53F"),
+                    VarietyId = marigoule.VarietyId
+                },
+                new VarietyImage {
+                    ImageId = new Guid("EE93870C-A4AD-46F7-B5DC-F36AE12ED3A3"),
+                    VarietyId = marsol.VarietyId
+                },
+            };
+
+            return varietyImages;
         }
 
         //Helper methods

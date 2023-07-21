@@ -19,7 +19,10 @@ namespace KestenApp
                 ?? throw new InvalidOperationException("Connection string 'KestenDbContextConnection' not found.");
 
             builder.Services.AddDbContext<KestenDbContext>(options =>
-                options.UseSqlServer(connectionString));
+            {
+                options.UseSqlServer(connectionString);
+                options.EnableSensitiveDataLogging();
+            });
 
             //Identity
             builder.Services

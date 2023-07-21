@@ -27,7 +27,7 @@
 
         public ICollection<VarietySpecies> Species { get; set; } = new List<VarietySpecies>();
         public ICollection<VarietyFruitSize> FruitSizes { get; set; } = new List<VarietyFruitSize>();
-        public ICollection<Image> Images { get; set; } = new List<Image>();
+        public ICollection<VarietyImage> VarietyImages { get; set; } = new List<VarietyImage>();
 
         public ICollection<VarietyPollenCompatibility> IsPollenizerFor { get; set; } = new List<VarietyPollenCompatibility>();
         public ICollection<VarietyPollenCompatibility> IsPollenizedBy { get; set; } = new List<VarietyPollenCompatibility>();

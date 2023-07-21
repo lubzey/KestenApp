@@ -142,7 +142,7 @@
             Variety? variety = await _context
                 .Varieties
                 //Include more data
-                .Include(v => v.Images)
+                .Include(v => v.VarietyImages)
                 .Include(v => v.Species)
                     .ThenInclude(v => v.Species)
                 .Include(v => v.FruitSizes)

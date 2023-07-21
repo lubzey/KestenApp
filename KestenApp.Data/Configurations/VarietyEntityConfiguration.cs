@@ -14,9 +14,9 @@
                .HasDefaultValueSql("GETDATE()");
 
             builder
-                .HasMany(e => e.Images)
-                .WithMany(e => e.Varieties)
-                .UsingEntity("VarietyImages");
+                .HasMany(v => v.VarietyImages)
+                .WithOne(v => v.Variety)
+                .HasForeignKey(e => e.ImageId);
 
             builder
                 .ToTable("Varieties");

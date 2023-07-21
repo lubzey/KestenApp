@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KestenApp.Data.Migrations
 {
     [DbContext(typeof(KestenDbContext))]
-    [Migration("20230721062801_grafting")]
-    partial class grafting
+    [Migration("20230721154500_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -180,22 +180,7 @@ namespace KestenApp.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Gardens");
-                });
-
-            modelBuilder.Entity("KestenApp.Data.Models.Image", b =>
-                {
-                    b.Property<Guid>("ImageId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ImageId");
-
-                    b.ToTable("Images");
+                    b.ToTable("Garden");
                 });
 
             modelBuilder.Entity("KestenApp.Data.Models.Species", b =>
@@ -321,7 +306,7 @@ namespace KestenApp.Data.Migrations
 
                     b.HasIndex("VarietyId");
 
-                    b.ToTable("Specimens");
+                    b.ToTable("Specimen");
                 });
 
             modelBuilder.Entity("KestenApp.Data.Models.Variety", b =>
@@ -383,7 +368,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("057f4364-b8c3-4e3b-94bc-bc2270719061"),
+                            VarietyId = new Guid("fba92871-4a3c-4978-fcd6-08db87b43c2d"),
                             ChestnutBlightResistance = 2,
                             DateCreated = new DateTime(2023, 7, 7, 7, 0, 1, 0, DateTimeKind.Unspecified),
                             Description = "Marigoule is the name of a french hybrid of chestnut (synonym M.15 or CA 15), cross between a European chestnut (Castanea sativa) and Japanese (Castanea crenata). In 1986, it originated from a Migoule orchard in Ussac in Corrèze. Marigoule (a contraction of Marron of Migoule) is a very tasty chestnut. It should be planted in rather low altitude in very sunny areas and protected from the wind (up to 300 m elevation for South-West orchard orientation or up to 400 m elevation in South-East orchard orientation). Otherwise its productivity remains small. In France, it is grown mainly South of the Dordogne and Lot-et-Garonne for the fresh market production because of the nuts beautiful appearance.",
@@ -396,7 +381,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("2dc9d360-2b6b-4074-8f2c-de7eae40f9b2"),
+                            VarietyId = new Guid("8fc8f311-3ce9-42e2-fcd7-08db87b43c2d"),
                             ChestnutBlightResistance = 3,
                             DateCreated = new DateTime(2023, 7, 7, 7, 0, 2, 0, DateTimeKind.Unspecified),
                             Description = "Marsol (aka Marisol) is a natural chestnut hybrid, a cross between a European chestnut (Castanea sativa) and Japanese (Castanea crenata) (CA 07). INRA produced this variety from Lalevade-d'Ardèche. It is mainly used as a rootstock because of its good graft compatibility with many varieties. As a rootstock, it is more vigorous than Maraval (equal to Bouche de Betizac or Comballe).",
@@ -409,7 +394,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("d1602b56-cbbb-407f-b71f-c2b2ca0e9588"),
+                            VarietyId = new Guid("4007ef65-d96d-45a4-a328-98d01fd95767"),
                             ChestnutBlightResistance = 1,
                             DateCreated = new DateTime(2023, 7, 7, 7, 0, 3, 0, DateTimeKind.Unspecified),
                             Description = "The Precoce Migoule is a chestnut hybrid (CA 48), a natural cross between a European chestnut (Castanea sativa) and a Japanese chestnut (Castanea crenata). It was discovered by J. Dufrenoy at the orchard of Migoule in Brive-la-Gaillarde. The tree is vigorous and erect growing with growth of a metre (3 ft) or more in a season if the conditions are right. It is a large sized chestnut tree with height reaching 20 m (60 ft) or more and 7.5-10 m (25-35 ft) wide. Trees start to bear after 3 to 5 years. Full nut production in 12 - 20 years depending on the location.",
@@ -422,7 +407,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("c3e5a4c8-6d40-4ce2-b850-24c91739300d"),
+                            VarietyId = new Guid("e9193db1-ae9f-45a6-bfa3-ba916fa017d2"),
                             ChestnutBlightResistance = 0,
                             DateCreated = new DateTime(2023, 7, 7, 7, 0, 4, 0, DateTimeKind.Unspecified),
                             Description = "",
@@ -434,7 +419,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("8a70a17b-2b6f-4b2c-9d1e-f15bfed12e29"),
+                            VarietyId = new Guid("8c5ff5cb-e115-4600-9f95-081d85418207"),
                             ChestnutBlightResistance = 0,
                             DateCreated = new DateTime(2023, 7, 7, 7, 0, 5, 0, DateTimeKind.Unspecified),
                             Description = "",
@@ -446,7 +431,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("3ff98be9-9056-4c30-bc59-e24603340ca6"),
+                            VarietyId = new Guid("40aee496-7cdd-4b29-a799-7290b58a4cdc"),
                             ChestnutBlightResistance = 0,
                             DateCreated = new DateTime(2023, 7, 7, 7, 0, 6, 0, DateTimeKind.Unspecified),
                             Description = "",
@@ -458,7 +443,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("e338d49d-05d1-4aff-81ad-91c7646eac41"),
+                            VarietyId = new Guid("186b071d-da9e-4fa8-b3dc-50fea75b1d8a"),
                             ChestnutBlightResistance = 0,
                             DateCreated = new DateTime(2023, 7, 7, 7, 0, 7, 0, DateTimeKind.Unspecified),
                             Description = "",
@@ -470,7 +455,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("3eff8c10-a6f0-4a61-bdb2-7dd9a8d572eb"),
+                            VarietyId = new Guid("68a79dc5-acbb-45db-a2e0-49ebcdf30c73"),
                             ChestnutBlightResistance = 0,
                             DateCreated = new DateTime(2023, 7, 7, 7, 0, 8, 0, DateTimeKind.Unspecified),
                             Description = "",
@@ -482,7 +467,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("021c3d36-b523-4123-a118-9ab4f2fa4f01"),
+                            VarietyId = new Guid("209e5667-5ad2-4ba8-b46b-c6880af5342a"),
                             ChestnutBlightResistance = 0,
                             DateCreated = new DateTime(2023, 7, 7, 7, 0, 9, 0, DateTimeKind.Unspecified),
                             Description = "",
@@ -494,7 +479,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("4d0e9d11-bed9-4047-b45c-0eda57762322"),
+                            VarietyId = new Guid("dda5156b-1815-4f48-8f7d-262f6c4dacf1"),
                             ChestnutBlightResistance = 0,
                             DateCreated = new DateTime(2023, 7, 7, 7, 0, 10, 0, DateTimeKind.Unspecified),
                             Description = "",
@@ -506,7 +491,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("0a24652e-1c80-4e19-9f86-933275b9bb91"),
+                            VarietyId = new Guid("6715cce7-bda2-465a-ac43-8f6f462957ec"),
                             ChestnutBlightResistance = 0,
                             DateCreated = new DateTime(2023, 7, 7, 7, 0, 11, 0, DateTimeKind.Unspecified),
                             Description = "",
@@ -518,7 +503,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("b6d73d9a-cfb9-444f-80fe-1a148f6a35ad"),
+                            VarietyId = new Guid("12778bae-91fb-4027-a5d6-310a4a13d6ac"),
                             ChestnutBlightResistance = 0,
                             DateCreated = new DateTime(2023, 7, 7, 7, 0, 12, 0, DateTimeKind.Unspecified),
                             Description = "",
@@ -530,7 +515,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("00b71379-1eb8-4f3d-9b76-8f38757a9e9d"),
+                            VarietyId = new Guid("ac8a2931-738b-4537-9ae5-a1e01732f9b1"),
                             ChestnutBlightResistance = 0,
                             DateCreated = new DateTime(2023, 7, 7, 7, 0, 13, 0, DateTimeKind.Unspecified),
                             Description = "",
@@ -542,7 +527,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("b91287d7-8059-4663-93f6-3a19fd64e678"),
+                            VarietyId = new Guid("940b55dd-a5b7-4e60-893b-fb5de42cd542"),
                             ChestnutBlightResistance = 0,
                             DateCreated = new DateTime(2023, 7, 7, 7, 0, 14, 0, DateTimeKind.Unspecified),
                             Description = "",
@@ -554,7 +539,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("e0e9ab9a-e197-48c6-93c0-f8701d5ff05c"),
+                            VarietyId = new Guid("10446473-cc44-4f2d-96be-42367003ce2f"),
                             ChestnutBlightResistance = 0,
                             DateCreated = new DateTime(2023, 7, 7, 7, 0, 15, 0, DateTimeKind.Unspecified),
                             Description = "",
@@ -566,7 +551,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("cf22eeff-7a1a-4865-ba5f-cc0e4c9eaa06"),
+                            VarietyId = new Guid("f3408d1d-99da-45b3-8e8d-b5f7b0a448f9"),
                             ChestnutBlightResistance = 0,
                             DateCreated = new DateTime(2023, 7, 7, 7, 0, 16, 0, DateTimeKind.Unspecified),
                             Description = "",
@@ -578,7 +563,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("b5780454-ec14-414c-8c7c-f9a352e04700"),
+                            VarietyId = new Guid("c02e0dae-a61d-42dd-bf96-807c47f9765d"),
                             ChestnutBlightResistance = 0,
                             DateCreated = new DateTime(2023, 7, 7, 7, 0, 17, 0, DateTimeKind.Unspecified),
                             Description = "",
@@ -590,7 +575,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("c8d4abcc-012b-444a-986a-76aa63f794d4"),
+                            VarietyId = new Guid("5d5d4a2a-77fe-4dc4-be06-d36f28a47a3e"),
                             ChestnutBlightResistance = 0,
                             DateCreated = new DateTime(2023, 7, 7, 7, 0, 18, 0, DateTimeKind.Unspecified),
                             Description = "",
@@ -602,7 +587,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("443e83f3-146a-49a5-8e5b-7e2a3750db3a"),
+                            VarietyId = new Guid("607b57a0-aa59-4608-ba0a-fb5d72adc7a9"),
                             ChestnutBlightResistance = 0,
                             DateCreated = new DateTime(2023, 7, 7, 7, 0, 19, 0, DateTimeKind.Unspecified),
                             Description = "",
@@ -614,7 +599,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("cbea91e8-e2dd-4542-9ff1-98a759da40e8"),
+                            VarietyId = new Guid("6028dc84-2fa1-4f86-917e-4e154db8ea0a"),
                             ChestnutBlightResistance = 0,
                             DateCreated = new DateTime(2023, 7, 7, 7, 0, 20, 0, DateTimeKind.Unspecified),
                             Description = "",
@@ -626,7 +611,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("a9967381-dd6d-42d9-9814-f40deedcdde7"),
+                            VarietyId = new Guid("d0777e23-635e-41fa-a8f9-3db9a0f3dd97"),
                             ChestnutBlightResistance = 0,
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "",
@@ -660,27 +645,27 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("057f4364-b8c3-4e3b-94bc-bc2270719061"),
+                            VarietyId = new Guid("fba92871-4a3c-4978-fcd6-08db87b43c2d"),
                             FruitSizeId = 4
                         },
                         new
                         {
-                            VarietyId = new Guid("057f4364-b8c3-4e3b-94bc-bc2270719061"),
+                            VarietyId = new Guid("fba92871-4a3c-4978-fcd6-08db87b43c2d"),
                             FruitSizeId = 5
                         },
                         new
                         {
-                            VarietyId = new Guid("2dc9d360-2b6b-4074-8f2c-de7eae40f9b2"),
+                            VarietyId = new Guid("8fc8f311-3ce9-42e2-fcd7-08db87b43c2d"),
                             FruitSizeId = 5
                         },
                         new
                         {
-                            VarietyId = new Guid("d1602b56-cbbb-407f-b71f-c2b2ca0e9588"),
+                            VarietyId = new Guid("4007ef65-d96d-45a4-a328-98d01fd95767"),
                             FruitSizeId = 3
                         },
                         new
                         {
-                            VarietyId = new Guid("d1602b56-cbbb-407f-b71f-c2b2ca0e9588"),
+                            VarietyId = new Guid("4007ef65-d96d-45a4-a328-98d01fd95767"),
                             FruitSizeId = 4
                         });
                 });
@@ -702,18 +687,51 @@ namespace KestenApp.Data.Migrations
                     b.HasData(
                         new
                         {
-                            RootstockVarietyId = new Guid("2dc9d360-2b6b-4074-8f2c-de7eae40f9b2"),
+                            RootstockVarietyId = new Guid("8fc8f311-3ce9-42e2-fcd7-08db87b43c2d"),
                             GraftedVarietyId = new Guid("46bd8dc8-ca0a-4648-a9a9-ea4ad91e1b77")
                         },
                         new
                         {
-                            RootstockVarietyId = new Guid("2dc9d360-2b6b-4074-8f2c-de7eae40f9b2"),
-                            GraftedVarietyId = new Guid("d1602b56-cbbb-407f-b71f-c2b2ca0e9588")
+                            RootstockVarietyId = new Guid("8fc8f311-3ce9-42e2-fcd7-08db87b43c2d"),
+                            GraftedVarietyId = new Guid("4007ef65-d96d-45a4-a328-98d01fd95767")
                         },
                         new
                         {
-                            RootstockVarietyId = new Guid("057f4364-b8c3-4e3b-94bc-bc2270719061"),
-                            GraftedVarietyId = new Guid("d1602b56-cbbb-407f-b71f-c2b2ca0e9588")
+                            RootstockVarietyId = new Guid("fba92871-4a3c-4978-fcd6-08db87b43c2d"),
+                            GraftedVarietyId = new Guid("4007ef65-d96d-45a4-a328-98d01fd95767")
+                        });
+                });
+
+            modelBuilder.Entity("KestenApp.Data.Models.VarietyImage", b =>
+                {
+                    b.Property<Guid>("ImageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("VarietyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ImageId");
+
+                    b.HasIndex("VarietyId");
+
+                    b.ToTable("VarietyImages", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            ImageId = new Guid("be9cca3d-4e9a-4e75-b813-9279f79f7f75"),
+                            VarietyId = new Guid("46bd8dc8-ca0a-4648-a9a9-ea4ad91e1b77")
+                        },
+                        new
+                        {
+                            ImageId = new Guid("bf77ff2d-a488-4f6d-847b-3c880239a53f"),
+                            VarietyId = new Guid("fba92871-4a3c-4978-fcd6-08db87b43c2d")
+                        },
+                        new
+                        {
+                            ImageId = new Guid("ee93870c-a4ad-46f7-b5dc-f36ae12ed3a3"),
+                            VarietyId = new Guid("8fc8f311-3ce9-42e2-fcd7-08db87b43c2d")
                         });
                 });
 
@@ -734,17 +752,17 @@ namespace KestenApp.Data.Migrations
                     b.HasData(
                         new
                         {
-                            PollenizerVarietyId = new Guid("057f4364-b8c3-4e3b-94bc-bc2270719061"),
+                            PollenizerVarietyId = new Guid("fba92871-4a3c-4978-fcd6-08db87b43c2d"),
                             TargetVarietyId = new Guid("46bd8dc8-ca0a-4648-a9a9-ea4ad91e1b77")
                         },
                         new
                         {
-                            PollenizerVarietyId = new Guid("2dc9d360-2b6b-4074-8f2c-de7eae40f9b2"),
+                            PollenizerVarietyId = new Guid("8fc8f311-3ce9-42e2-fcd7-08db87b43c2d"),
                             TargetVarietyId = new Guid("46bd8dc8-ca0a-4648-a9a9-ea4ad91e1b77")
                         },
                         new
                         {
-                            PollenizerVarietyId = new Guid("d1602b56-cbbb-407f-b71f-c2b2ca0e9588"),
+                            PollenizerVarietyId = new Guid("4007ef65-d96d-45a4-a328-98d01fd95767"),
                             TargetVarietyId = new Guid("46bd8dc8-ca0a-4648-a9a9-ea4ad91e1b77")
                         });
                 });
@@ -776,42 +794,42 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("057f4364-b8c3-4e3b-94bc-bc2270719061"),
+                            VarietyId = new Guid("fba92871-4a3c-4978-fcd6-08db87b43c2d"),
                             SpeciesId = 1
                         },
                         new
                         {
-                            VarietyId = new Guid("057f4364-b8c3-4e3b-94bc-bc2270719061"),
+                            VarietyId = new Guid("fba92871-4a3c-4978-fcd6-08db87b43c2d"),
                             SpeciesId = 2
                         },
                         new
                         {
-                            VarietyId = new Guid("2dc9d360-2b6b-4074-8f2c-de7eae40f9b2"),
+                            VarietyId = new Guid("8fc8f311-3ce9-42e2-fcd7-08db87b43c2d"),
                             SpeciesId = 1
                         },
                         new
                         {
-                            VarietyId = new Guid("2dc9d360-2b6b-4074-8f2c-de7eae40f9b2"),
+                            VarietyId = new Guid("8fc8f311-3ce9-42e2-fcd7-08db87b43c2d"),
                             SpeciesId = 2
                         },
                         new
                         {
-                            VarietyId = new Guid("d1602b56-cbbb-407f-b71f-c2b2ca0e9588"),
+                            VarietyId = new Guid("4007ef65-d96d-45a4-a328-98d01fd95767"),
                             SpeciesId = 1
                         },
                         new
                         {
-                            VarietyId = new Guid("d1602b56-cbbb-407f-b71f-c2b2ca0e9588"),
+                            VarietyId = new Guid("4007ef65-d96d-45a4-a328-98d01fd95767"),
                             SpeciesId = 2
                         },
                         new
                         {
-                            VarietyId = new Guid("c3e5a4c8-6d40-4ce2-b850-24c91739300d"),
+                            VarietyId = new Guid("e9193db1-ae9f-45a6-bfa3-ba916fa017d2"),
                             SpeciesId = 3
                         },
                         new
                         {
-                            VarietyId = new Guid("c3e5a4c8-6d40-4ce2-b850-24c91739300d"),
+                            VarietyId = new Guid("e9193db1-ae9f-45a6-bfa3-ba916fa017d2"),
                             SpeciesId = 8
                         });
                 });
@@ -951,21 +969,6 @@ namespace KestenApp.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("VarietyImages", b =>
-                {
-                    b.Property<Guid>("ImagesImageId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("VarietiesVarietyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ImagesImageId", "VarietiesVarietyId");
-
-                    b.HasIndex("VarietiesVarietyId");
-
-                    b.ToTable("VarietyImages");
-                });
-
             modelBuilder.Entity("KestenApp.Data.Models.Garden", b =>
                 {
                     b.HasOne("KestenApp.Data.Models.ApplicationUser", "User")
@@ -1036,6 +1039,17 @@ namespace KestenApp.Data.Migrations
                     b.Navigation("GraftedVariety");
 
                     b.Navigation("RootstockVariety");
+                });
+
+            modelBuilder.Entity("KestenApp.Data.Models.VarietyImage", b =>
+                {
+                    b.HasOne("KestenApp.Data.Models.Variety", "Variety")
+                        .WithMany("VarietyImages")
+                        .HasForeignKey("VarietyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Variety");
                 });
 
             modelBuilder.Entity("KestenApp.Data.Models.VarietyPollenCompatibility", b =>
@@ -1127,21 +1141,6 @@ namespace KestenApp.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("VarietyImages", b =>
-                {
-                    b.HasOne("KestenApp.Data.Models.Image", null)
-                        .WithMany()
-                        .HasForeignKey("ImagesImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("KestenApp.Data.Models.Variety", null)
-                        .WithMany()
-                        .HasForeignKey("VarietiesVarietyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("KestenApp.Data.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Gardens");
@@ -1177,6 +1176,8 @@ namespace KestenApp.Data.Migrations
                     b.Navigation("IsRootstockFor");
 
                     b.Navigation("Species");
+
+                    b.Navigation("VarietyImages");
                 });
 #pragma warning restore 612, 618
         }

@@ -17,10 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\KestenApp.Data.Models\KestenApp.Data.Models.csproj" />
-    <ProjectReference Include="..\KestenApp.Data\KestenApp.Data.csproj" />
     <ProjectReference Include="..\KestenApp.Services\KestenApp.Services.csproj" />
-    <ProjectReference Include="..\KestenApp.Web.ViewModels\KestenApp.Web.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

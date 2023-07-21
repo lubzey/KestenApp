@@ -52,8 +52,8 @@ namespace KestenApp.Web.Models.Varieties
             AddKeyValuePairToCollection(Fruit, "Shell Type", "Fuzzy, Shiny?");
 
             SpeciesCheckboxes = speciesCheckboxes;
-            ThumbnailImagePath = variety.Images.Any()
-                ? $"/Images/Varieties/{variety.VarietyId}/{variety.Images.First().FileName}.jpg"
+            ThumbnailImagePath = variety.VarietyImages.Any()
+                ? $"/Images/Varieties/{variety.VarietyId}/{variety.VarietyImages.First().ImageId}.jpg"
                 : $"/Images/no-image.jpg";
         }
 
