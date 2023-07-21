@@ -1,12 +1,15 @@
 ﻿namespace KestenApp.Services
 {
+    using Microsoft.EntityFrameworkCore;
+
     using KestenApp.Data;
     using KestenApp.Data.Enums;
     using KestenApp.Data.Models;
     using KestenApp.Services.Contracts;
     using KestenApp.Services.Models;
+    using KestenApp.Services.Extensions;
     using KestenApp.Web.Models.Varieties;
-    using Microsoft.EntityFrameworkCore;
+    using KestenApp.Web.Models;
 
     public class VarietyService : IVarietyService
     {
@@ -18,7 +21,21 @@
         }
 
         //List varieties - add paging
-        public VarietyServiceModel AllVarieties(
+        public async Task<VarietyListModel> AllVarietiesAsync(
+            string? name = null,
+            VarietySorting sorting = VarietySorting.DateCreated,
+            int currentPage = 1,
+            int countPerPage = int.MaxValue)
+        {
+            VarietyServiceModel varietiesPage = await AllVarietiesServiceModelAsync(currentPage: currentPage);
+
+            VarietyListModel listViewModel = GenerateListViewModel(varietiesPage.Varieties);
+
+            return listViewModel;
+        }
+
+
+        private async Task<VarietyServiceModel> AllVarietiesServiceModelAsync(
             string? name = null,
             VarietySorting sorting = VarietySorting.DateCreated,
             int currentPage = 1,
@@ -50,10 +67,10 @@
 
             int totalCount = varietiesQuery.Count();
 
-            IEnumerable<Variety> varieties = varietiesQuery
+            IEnumerable<Variety> varieties = await varietiesQuery
                 .Skip((currentPage - 1) * countPerPage)
                 .Take(countPerPage)
-                .ToList();
+                .ToListAsync();
 
             return new VarietyServiceModel
             {
@@ -64,10 +81,65 @@
             };
         }
 
-        //Details
-        public Variety? GetDetailsViewById(Guid id)
+
+        private static VarietyListModel GenerateListViewModel(IEnumerable<Variety> allVarieties)
         {
-            Variety? variety = _context
+            var varietiesViewModels = allVarieties
+                .Select(v => ConstructVarietyModel(v));
+
+            return new VarietyListModel(varietiesViewModels);
+        }
+
+        private static VarietyListDetailsModel ConstructVarietyModel(Variety v)
+        {
+            IEnumerable<string> species = v.Species
+                .OrderBy(s => s.Species.ShortLatinName)
+                .Select(s => s.Species.ShortLatinName)
+                .ToList();
+
+            IEnumerable<string> fruitSizes = v.FruitSizes
+                .OrderBy(fs => fs.FruitSizeId)
+                .Select(fs => fs.FruitSize.Name)
+                .ToList();
+
+            return new VarietyListDetailsModel
+            {
+                VarietyId = v.VarietyId,
+                VarietyName = v.Name,
+                Species = ServiceExtensions.JoinStrings(species),
+                FruitSizes = ServiceExtensions.JoinStrings(fruitSizes),
+                IsMarron = ServiceExtensions.GetStringFromNullableBoolean(v.IsMarron),
+                ChestnutBlightResistance = ServiceExtensions.GetStringValueOfNullableEnum(v.ChestnutBlightResistance),
+                InkDiseaseResistance = ServiceExtensions.GetStringValueOfNullableEnum(v.InkDiseaseResistance),
+                Peeling = ServiceExtensions.GetStringValueOfNullableEnum(v.Peeling),
+                PollenFertility = ServiceExtensions.GetStringValueOfNullableEnum(v.PollenType),
+                MaturityPeriod = ServiceExtensions.GetStringValueOfNullableEnum(v.MaturityPeriod),
+                IsPollenizedBy = ServiceExtensions.JoinStrings(
+                    v.IsPollenizedBy
+                    .Select(p => p.PollenizerVariety.Name)
+                    .OrderBy(n => n)),
+                IsPollenizerFor = ServiceExtensions.JoinStrings(
+                    v.IsPollenizerFor
+                    .Select(p => p.PollenizerVariety.Name)
+                    .OrderBy(n => n)),
+                IsRootstockFor = ServiceExtensions.JoinStrings(
+                    v.IsRootstockFor
+                    .Select(p => p.GraftedVariety.Name)
+                    .OrderBy(n => n)),
+                IsGraftedOn = ServiceExtensions.JoinStrings(
+                    v.IsGraftedOn
+                    .Select(p => p.RootstockVariety.Name)
+                    .OrderBy(n => n))
+            };
+        }
+
+
+
+
+        //Details
+        public async Task<Variety?> GetDetailsViewByIdAsync(Guid id)
+        {
+            Variety? variety = await _context
                 .Varieties
                 //Include more data
                 .Include(v => v.Images)
@@ -75,27 +147,28 @@
                     .ThenInclude(v => v.Species)
                 .Include(v => v.FruitSizes)
                     .ThenInclude(v => v.FruitSize)
-                .FirstOrDefault(p => p.VarietyId == id);
+                .FirstOrDefaultAsync(p => p.VarietyId == id);
 
             return variety;
         }
 
-        public Variety? GetVarietyByName(string name)
+        public async Task<Variety?> GetVarietyByNameAsync(string name)
         {
-            Variety? variety = _context
+            Variety? variety = await _context
                 .Varieties
-                .FirstOrDefault(p => p.Name.ToLower() == name);
+                .FirstOrDefaultAsync(p => p.Name.ToLower() == name);
 
             return variety;
         }
 
 
         //Search - Must have filters!!!
-        public IEnumerable<Variety> SearchVarieties(string searchQuery)
+        public async Task<IEnumerable<Variety>> SearchVarietiesAsync(string searchQuery)
         {
-            return _context
+            return await _context
                 .Varieties
-                .Where(p => p.Name.Contains(searchQuery));
+                .Where(p => p.Name.Contains(searchQuery))
+                .ToListAsync();
         }
 
         //Add

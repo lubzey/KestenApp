@@ -3,6 +3,7 @@
     using KestenApp.Data;
     using KestenApp.Data.Models;
     using KestenApp.Services.Contracts;
+    using Microsoft.EntityFrameworkCore;
 
     public class SpeciesService : ISpeciesService
     {
@@ -13,11 +14,11 @@
             this.dbContext = dbContext;
         }
 
-        public IEnumerable<Species> AllSpecies()
+        public async Task<IEnumerable<Species>> AllSpecies()
         {
-            return dbContext
+            return await this.dbContext
                 .Species
-                .ToList();
+                .ToArrayAsync();
         }
     }
 }

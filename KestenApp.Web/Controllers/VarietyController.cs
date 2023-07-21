@@ -1,19 +1,16 @@
-﻿using System.Collections.ObjectModel;
-
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-
-using KestenApp.Services.Contracts;
-using KestenApp.Data.Enums;
-using KestenApp.Data.Enums.EnumHelpers;
-using KestenApp.Data.Models;
-using KestenApp.Web.Models;
-using KestenApp.Web.Models.Varieties;
-using KestenApp.Services.Models;
-
-namespace KestenApp.Controllers
+﻿namespace KestenApp.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.EntityFrameworkCore;
+
+    using KestenApp.Services.Contracts;
+    using KestenApp.Data.Enums;
+    using KestenApp.Data.Enums.EnumHelpers;
+    using KestenApp.Data.Models;
+    using KestenApp.Web.Models;
+    using KestenApp.Web.Models.Varieties;
+
     public class VarietyController : BaseController
     {
         private readonly IVarietyService _varietyService;
@@ -31,58 +28,57 @@ namespace KestenApp.Controllers
             _environment = environment; //Needed to get local path to images in case of file deletion
         }
 
-        public ViewResult List()
+        public async Task<IActionResult> List()
         {
-            VarietyServiceModel allVarieties = _varietyService
-                .AllVarieties(currentPage: 1);
-
-            VarietyListModel listViewModel = GenerateListViewModel(allVarieties.Varieties);
+            VarietyListModel listViewModel = await _varietyService
+                .AllVarietiesAsync(currentPage: 1);
 
             return View(listViewModel);
         }
 
-        public IActionResult Details(Guid id)
+        public async Task<IActionResult> Details(Guid id)
         {
-            Variety? variety = _varietyService
-                .GetDetailsViewById(id);
+            Variety? variety = await _varietyService
+                .GetDetailsViewByIdAsync(id);
 
             if (variety == null)
                 return NotFound();
 
             //string contentRootPath = _environment.WebRootPath;
+            VarietyDetailsModel model = await GenerateVatieryDetailsViewModelAsync(variety);
 
-            return View(GenerateVatieryDetailsViewModel(variety));
+            return View(model);
         }
 
         [HttpGet]
         [Route("Variety/Add")]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
             //Empty form
-            VarietyFormModel form = new VarietyFormModel
+            VarietyFormModel formModel = new VarietyFormModel
             {
                 //ThumbnailImagePath = $"/Images/no-image.jpg",
 
                 //Render selects
-                SpeciesCheckboxes = GenerateSpeciesCheckboxes(),
+                SpeciesCheckboxes = await GenerateSpeciesCheckboxesAsync(),
                 PollenOptions = GeneratePollenOptions(PollenTypeEnum.None)
             };
 
-            return View("Form", form);
+            return View("Form", formModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add([FromForm] VarietyFormModel form)
         {
-            Variety? variety = _varietyService
-                .GetVarietyByName(form.VarietyName);
+            Variety? variety = await _varietyService
+                .GetVarietyByNameAsync(form.VarietyName);
 
             //Avoid using an existing name
             if (variety != null) //when creating
             {
                 //Render selects
-                form.SpeciesCheckboxes = GenerateSpeciesCheckboxes(form.SpeciesCheckboxes.Where(x => x.IsChecked).Select(x => x.Id));
+                form.SpeciesCheckboxes = await GenerateSpeciesCheckboxesAsync(form.SpeciesCheckboxes.Where(x => x.IsChecked).Select(x => x.Id));
                 form.PollenOptions = GeneratePollenOptions(form.PollenType);
 
                 ModelState.AddModelError(nameof(form.VarietyName), $"Variety '{form.VarietyName}' already exists.");
@@ -109,9 +105,9 @@ namespace KestenApp.Controllers
 
         [HttpGet]
         [Route("Variety/Edit/{id}")]
-        public IActionResult Edit([FromRoute] Guid id)
+        public async Task<IActionResult> Edit([FromRoute] Guid id)
         {
-            Variety? variety = _varietyService.GetDetailsViewById(id);
+            Variety? variety = await _varietyService.GetDetailsViewByIdAsync(id);
 
             if (variety == null)
                 return NotFound();
@@ -132,7 +128,7 @@ namespace KestenApp.Controllers
                 //    "/Images/no-image.jpg", //Move to constants
 
                 //Tree
-                SpeciesCheckboxes = GenerateSpeciesCheckboxes(varietySpeciesIds),
+                SpeciesCheckboxes = await GenerateSpeciesCheckboxesAsync(varietySpeciesIds),
                 PollenOptions = GeneratePollenOptions(variety.PollenType),
 
                 //Fruit
@@ -147,8 +143,8 @@ namespace KestenApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([FromForm] VarietyFormModel form, [FromRoute] Guid id)
         {
-            Variety? variety = _varietyService
-                .GetVarietyByName(form.VarietyName);
+            Variety? variety = await _varietyService
+                .GetVarietyByNameAsync(form.VarietyName);
 
             //if (variety != null && variety.VarietyId != id)
             //{
@@ -163,7 +159,7 @@ namespace KestenApp.Controllers
             {
                 ModelState.AddModelError(nameof(form.VarietyName), $"Variety '{form.VarietyName}' already exists.");
 
-                form.SpeciesCheckboxes = GenerateSpeciesCheckboxes(form.SpeciesCheckboxes.Where(x => x.IsChecked).Select(x => x.Id));
+                form.SpeciesCheckboxes = await GenerateSpeciesCheckboxesAsync(form.SpeciesCheckboxes.Where(x => x.IsChecked).Select(x => x.Id));
                 form.PollenOptions = GeneratePollenOptions(form.PollenType);
 
                 return View("Form", form);
@@ -198,71 +194,20 @@ namespace KestenApp.Controllers
 
 
         //Private methods
-        private static VarietyListModel GenerateListViewModel(IEnumerable<Variety> allVarieties)
-        {
-            var varietiesViewModels = allVarieties
-                .Select(v => ConstructVarietyModel(v));
-
-            return new VarietyListModel(varietiesViewModels);
-        }
-
-        private static VarietyListDetailsModel ConstructVarietyModel(Variety v)
-        {
-            IEnumerable<string> species = v.Species
-                .OrderBy(s => s.Species.ShortLatinName)
-                .Select(s => s.Species.ShortLatinName)
-                .ToList();
-
-            IEnumerable<string> fruitSizes = v.FruitSizes
-                .OrderBy(fs => fs.FruitSizeId)
-                .Select(fs => fs.FruitSize.Name)
-                .ToList();
-
-            return new VarietyListDetailsModel
-            {
-                VarietyId = v.VarietyId,
-                VarietyName = v.Name,
-                Species = JoinStrings(species),
-                FruitSizes = JoinStrings(fruitSizes),
-                IsMarron = GetStringFromNullableBoolean(v.IsMarron),
-                ChestnutBlightResistance = GetStringValueOfNullableEnum(v.ChestnutBlightResistance),
-                InkDiseaseResistance = GetStringValueOfNullableEnum(v.InkDiseaseResistance),
-                Peeling = GetStringValueOfNullableEnum(v.Peeling),
-                PollenFertility = GetStringValueOfNullableEnum(v.PollenType),
-                MaturityPeriod = GetStringValueOfNullableEnum(v.MaturityPeriod),
-                IsPollenizedBy = JoinStrings(
-                                    v.IsPollenizedBy
-                                    .Select(p => p.PollenizerVariety.Name)
-                                    .OrderBy(n => n)),
-                IsPollenizerFor = JoinStrings(
-                                    v.IsPollenizerFor
-                                    .Select(p => p.PollenizerVariety.Name)
-                                    .OrderBy(n => n)),
-                IsRootstockFor = JoinStrings(
-                                    v.IsRootstockFor
-                                    .Select(p => p.GraftedVariety.Name)
-                                    .OrderBy(n => n)),
-                IsGraftedOn = JoinStrings(
-                                    v.IsGraftedOn
-                                    .Select(p => p.RootstockVariety.Name)
-                                    .OrderBy(n => n))
-            };
-        }
-
-        private VarietyDetailsModel GenerateVatieryDetailsViewModel(Variety variety)
+        private async Task<VarietyDetailsModel> GenerateVatieryDetailsViewModelAsync(Variety variety)
         {
             int[] varietySpecies = variety
                 .Species
                 .Select(vs => vs.SpeciesId)
                 .ToArray();
 
-            IList<CheckboxModel> speciesCheckboxes = GenerateSpeciesCheckboxes(varietySpecies);
+            IList<CheckboxModel> speciesCheckboxes = await GenerateSpeciesCheckboxesAsync(varietySpecies);
 
             return new VarietyDetailsModel(variety, speciesCheckboxes);
         }
 
         #region Form
-        private ReadOnlyCollection<SelectListItem> GeneratePollenOptions(PollenTypeEnum pollenType)
+        private IEnumerable<SelectListItem> GeneratePollenOptions(PollenTypeEnum pollenType)
         {
             return EnumExtensions
                 .GetEnumValuesCollection<PollenTypeEnum>()
@@ -276,15 +221,17 @@ namespace KestenApp.Controllers
                 .AsReadOnly();
         }
 
-        private IList<CheckboxModel> GenerateSpeciesCheckboxes(IEnumerable<int>? varietySpecies = null)
+        private async Task<IList<CheckboxModel>> GenerateSpeciesCheckboxesAsync(IEnumerable<int>? varietySpecies = null)
         {
             if (varietySpecies == null)
             {
                 varietySpecies = new int[0];
             }
 
-            return _speciesService
-                .AllSpecies()
+            var allSpecies = await _speciesService
+                .AllSpecies();
+
+            return allSpecies
                 .Select(s => new CheckboxModel
                 {
                     Id = s.SpeciesId,
@@ -293,32 +240,6 @@ namespace KestenApp.Controllers
                 })
                 .ToList();
         }
-        #endregion
-
-        private static string GetStringValueOfNullableEnum<T>(T enumValue)
-        {
-            if (enumValue == null
-                || enumValue.ToString() == "None")
-            {
-                return "";
-            }
-
-            return Enum.GetName(typeof(T), enumValue) ?? "";
-        }
-
-        private static string JoinStrings(IEnumerable<string> names)
-        {
-            string separator = $",{Environment.NewLine}";
-            return string.Join(separator, names);
-        }
-
-        private static string GetStringFromNullableBoolean(bool? isMarron)
-        {
-            return isMarron != null
-                ? (bool)isMarron
-                    ? "\u2713"
-                    : "\u2717"
-                : "";
-        }
+        #endregion        
     }
 }
