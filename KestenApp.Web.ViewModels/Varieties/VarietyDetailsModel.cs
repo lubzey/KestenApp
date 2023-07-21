@@ -1,4 +1,6 @@
-﻿using KestenApp.Data.Models;
+﻿using KestenApp.Data.Enums;
+using KestenApp.Data.Models;
+using System.Reflection.Metadata.Ecma335;
 
 namespace KestenApp.Web.Models.Varieties
 {
@@ -19,37 +21,40 @@ namespace KestenApp.Web.Models.Varieties
             Description = variety.Description;
 
             //Tree
-            AddKeyValuePairToCollection(Tree, "Pollen", variety.PollenType.ToString());
-            AddKeyValuePairToCollection(Tree, "Vigor", variety.Vigor.ToString());
-            AddKeyValuePairToCollection(Tree, "Erect", "Semi-Erect, Very Erect, Apical Dominance");
-            AddKeyValuePairToCollection(Tree, "Budding Period", "VeryEarly, Early, SemiEarly, SemiLate, Late, VeryLate");
-            AddKeyValuePairToCollection(Tree, "Flowering Period", "VeryEarly, Early, SemiEarly, SemiLate, Late, VeryLate");
-            AddKeyValuePairToCollection(Tree, "Maturity Period", "VeryEarly, Early, SemiEarly, SemiLate, Late, VeryLate");
             AddKeyValuePairToCollection(Tree, "Blight Resistance", variety.ChestnutBlightResistance.ToString());
             AddKeyValuePairToCollection(Tree, "Ink Disease Resistance", variety.InkDiseaseResistance.ToString());
-            AddKeyValuePairToCollection(Tree, "Gall Wasp Resistance", "Bad, Medium, Good");
-            AddKeyValuePairToCollection(Tree, "Cold Hardiness", "Bad, Medium, Good");
-            AddKeyValuePairToCollection(Tree, "Spring Frost Sensitivity", "True/False/None V/X/");
-            AddKeyValuePairToCollection(Tree, "Kernel Rot Susceptibility", "True/False/None V/X/");
-            AddKeyValuePairToCollection(Tree, "Catkins Type", "astamine, brachistamine, mesostamine, longistamine");
-            AddKeyValuePairToCollection(Tree, "Crop Volume", "Poor, Medium, Abundant");
+
+            AddKeyValuePairToCollection(Tree, "Pollen", variety.PollenType.ToString());
+            AddKeyValuePairToCollection(Tree, "Vigor", variety.Vigor.ToString());
+            //AddKeyValuePairToCollection(Tree, "Erect*", "Semi-Erect, Very Erect, Apical Dominance");
+
+            AddKeyValuePairToCollection(Tree, "Budding Period", GetStringFromEnum<PeriodType>((int)variety.BuddingPeriod));
+            AddKeyValuePairToCollection(Tree, "Flowering Period", GetStringFromEnum<PeriodType>((int)variety.FloweringPeriod));
+            AddKeyValuePairToCollection(Tree, "Maturity Period", GetStringFromEnum<PeriodType>((int)variety.MaturityPeriod));
+            
+            //AddKeyValuePairToCollection(Tree, "Gall Wasp Resistance*", "Bad, Medium, Good");
+            //AddKeyValuePairToCollection(Tree, "Cold Hardiness*", "Bad, Medium, Good");
+            //AddKeyValuePairToCollection(Tree, "Spring Frost Sensitivity*", "True/False/None V/X/");
+            //AddKeyValuePairToCollection(Tree, "Kernel Rot Susceptibility*", "True/False/None V/X/");
+            //AddKeyValuePairToCollection(Tree, "Catkins Type*", "astamine, brachistamine, mesostamine, longistamine");
+            AddKeyValuePairToCollection(Tree, "Crop Volume", GetStringFromEnum<VolumeType>((int)variety.Crop));
 
             //Rootstock and pollentation
 
             //Fruit
-            AddKeyValuePairToCollection(Fruit, "Taste", "Bad, Medium, Good");
+            //AddKeyValuePairToCollection(Fruit, "Taste*", "Bad, Medium, Good");
             AddKeyValuePairToCollection(Fruit, "Size", string.Join(", ", variety.FruitSizes.Select(s => s.FruitSize.Name)));
             AddKeyValuePairToCollection(Fruit, "Is Marron", GetStringFromNullableBoolean(variety.IsMarron)); //<12%
-            AddKeyValuePairToCollection(Fruit, "Kernel Splitting", "None,Some,Many?");
-            AddKeyValuePairToCollection(Fruit, "Kernel Intrusion", "Deep,Shallow,None");
-            AddKeyValuePairToCollection(Fruit, "Shape", "Oval, Triangular, Irregular ???");
-            AddKeyValuePairToCollection(Fruit, "Shell Color", "Dark brown, Brown, Red, Orange, Yellow ???");
-            AddKeyValuePairToCollection(Fruit, "Kernel Color", "Milky White, Dark Yellow?");
+            //AddKeyValuePairToCollection(Fruit, "Kernel Splitting*", "None,Some,Many?");
+            //AddKeyValuePairToCollection(Fruit, "Kernel Intrusion*", "Deep,Shallow,None");
+            //AddKeyValuePairToCollection(Fruit, "Shape*", "Oval, Triangular, Irregular ???");
+            //AddKeyValuePairToCollection(Fruit, "Shell Color*", "Dark brown, Brown, Red, Orange, Yellow ???");
+            //AddKeyValuePairToCollection(Fruit, "Kernel Color*", "Milky White, Dark Yellow?");
             AddKeyValuePairToCollection(Fruit, "Peeling", variety.Peeling.ToString());
-            AddKeyValuePairToCollection(Fruit, "Conservation", "Medium");
-            AddKeyValuePairToCollection(Fruit, "Nuts per Bur", "3");
-            AddKeyValuePairToCollection(Fruit, "Hilum Size", "Small, Medium, Large");
-            AddKeyValuePairToCollection(Fruit, "Shell Type", "Fuzzy, Shiny?");
+            AddKeyValuePairToCollection(Fruit, "Conservation", variety.Conservation.ToString());
+            //AddKeyValuePairToCollection(Fruit, "Nuts per Bur*", "3");
+            //AddKeyValuePairToCollection(Fruit, "Hilum Size*", "Small, Medium, Large");
+            //AddKeyValuePairToCollection(Fruit, "Shell Type*", "Fuzzy, Shiny?");
 
             SpeciesCheckboxes = speciesCheckboxes;
             ThumbnailImagePath = variety.VarietyImages.Any()
@@ -59,10 +64,10 @@ namespace KestenApp.Web.Models.Varieties
 
         private void AddKeyValuePairToCollection(List<KeyValuePair<string, string>> collection, string key, string? value)
         {
-            //if (string.IsNullOrEmpty(value))
-            //{
-            //    return;
-            //}
+            if (string.IsNullOrEmpty(value))
+            {
+                return;
+            }
 
             collection.Add(new KeyValuePair<string, string>(key, value ?? "None"));
         }
@@ -74,6 +79,16 @@ namespace KestenApp.Web.Models.Varieties
                     ? "\u2713"
                     : "\u2717"
                 : "";
+        }
+
+        public static string GetStringFromEnum<TEnum>(int value) where TEnum : Enum
+        {
+            if (value > 0 && Enum.IsDefined(typeof(TEnum), value))
+            {
+                return Enum.GetName(typeof(TEnum), value) ?? "";
+            }
+
+            return "";
         }
     }
 }

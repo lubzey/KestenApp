@@ -20,7 +20,11 @@
         public ConditionType ChestnutBlightResistance { get; set; } = ConditionType.None;
         public ConditionType InkDiseaseResistance { get; set; } = ConditionType.None;
         public ConditionType Peeling { get; set; } = ConditionType.None;
+        public ConditionType Conservation { get; set; } = ConditionType.None;
+        public VolumeType Crop { get; set; } = VolumeType.None;
         public PollenType PollenType { get; set; } = PollenType.None;
+        public PeriodType BuddingPeriod { get; set; } = PeriodType.None;
+        public PeriodType FloweringPeriod { get; set; } = PeriodType.None;
         public PeriodType MaturityPeriod { get; set; } = PeriodType.None;
         public StrengthType Vigor { get; set; } = StrengthType.None;
         public bool? IsMarron { get; set; }
@@ -34,6 +38,6 @@
         public ICollection<VarietyPollenCompatibility> IsPollenizedBy { get; set; } = new List<VarietyPollenCompatibility>();
 
         public ICollection<VarietyGraftingCompatibility> IsGraftedOn { get; set; } = new List<VarietyGraftingCompatibility>();
-        public ICollection<VarietyGraftingCompatibility> IsRootstockFor { get; set; } = new List<VarietyGraftingCompatibility>();       
+        public ICollection<VarietyGraftingCompatibility> IsRootstockFor { get; set; } = new List<VarietyGraftingCompatibility>();
     }
 }

@@ -106,15 +106,28 @@
             {
                 VarietyId = v.VarietyId,
                 VarietyName = v.Name,
+
+
+                //Tree
+
                 Species = ServiceExtensions.JoinStrings(species),
-                FruitSizes = ServiceExtensions.JoinStrings(fruitSizes),
-                IsMarron = ServiceExtensions.GetStringFromNullableBoolean(v.IsMarron),
                 ChestnutBlightResistance = ServiceExtensions.GetStringValueOfNullableEnum(v.ChestnutBlightResistance),
                 InkDiseaseResistance = ServiceExtensions.GetStringValueOfNullableEnum(v.InkDiseaseResistance),
-                Peeling = ServiceExtensions.GetStringValueOfNullableEnum(v.Peeling),
                 PollenFertility = ServiceExtensions.GetStringValueOfNullableEnum(v.PollenType),
                 Vigor = ServiceExtensions.GetStringValueOfNullableEnum(v.Vigor),
+                BuddingPeriod = ServiceExtensions.GetStringValueOfNullableEnum(v.BuddingPeriod),
+                FloweringPeriod = ServiceExtensions.GetStringValueOfNullableEnum(v.FloweringPeriod),
                 MaturityPeriod = ServiceExtensions.GetStringValueOfNullableEnum(v.MaturityPeriod),
+
+                //Fruit
+
+                //Taste
+                FruitSizes = ServiceExtensions.JoinStrings(fruitSizes),
+                IsMarron = ServiceExtensions.GetStringFromNullableBoolean(v.IsMarron),
+
+                Peeling = ServiceExtensions.GetStringValueOfNullableEnum(v.Peeling),
+                Conservation = ServiceExtensions.GetStringValueOfNullableEnum(v.Conservation),
+
                 IsPollenizedBy = ServiceExtensions.JoinStrings(
                     v.IsPollenizedBy
                     .Select(p => p.PollenizerVariety.Name)
