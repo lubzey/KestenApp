@@ -123,9 +123,9 @@
                 VarietyId = id,
                 VarietyName = variety.Name,
                 Description = variety.Description,
-                //ThumbnailImagePath = variety.Images.Any() ?
-                //    $"/Images/Varieties/{variety.VarietyId}/{variety.Images.First().FileName}.jpg" :
-                //    "/Images/no-image.jpg", //Move to constants
+                ThumbnailImagePath = variety.VarietyImages.Any() ?
+                    $"/Images/Varieties/{variety.VarietyId}/{variety.VarietyImages.First().ImageId}.jpg" :
+                    "/Images/no-image.jpg", //Move to constants
 
                 //Tree
                 SpeciesCheckboxes = await GenerateSpeciesCheckboxesAsync(varietySpeciesIds),

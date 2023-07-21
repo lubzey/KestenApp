@@ -28,13 +28,16 @@ namespace KestenApp
             builder.Services
                 .AddDefaultIdentity<ApplicationUser>(options =>
                 {
-                    options.SignIn.RequireConfirmedAccount = false;
-
-                    options.Password.RequireDigit = false;
-                    options.Password.RequiredLength = 6;
-                    options.Password.RequireLowercase = false;
-                    options.Password.RequireNonAlphanumeric = false;
-                    options.Password.RequireUppercase = false;
+                    options.SignIn.RequireConfirmedAccount =
+                        builder.Configuration.GetValue<bool>("Identity:SignIn:RequireConfirmedAccount");
+                    options.Password.RequireLowercase =
+                        builder.Configuration.GetValue<bool>("Identity:Password:RequireLowercase");
+                    options.Password.RequireUppercase =
+                        builder.Configuration.GetValue<bool>("Identity:Password:RequireUppercase");
+                    options.Password.RequireNonAlphanumeric =
+                        builder.Configuration.GetValue<bool>("Identity:Password:RequireNonAlphanumeric");
+                    options.Password.RequiredLength =
+                        builder.Configuration.GetValue<int>("Identity:Password:RequiredLength");
                 })
                 .AddEntityFrameworkStores<KestenDbContext>();
 
@@ -47,8 +50,6 @@ namespace KestenApp
 
 
             var app = builder.Build();
-
-            //app.PrepareDatabase();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
