@@ -1,6 +1,6 @@
 ﻿using KestenApp.Data.Models;
 
-namespace KestenApp.Contracts
+namespace KestenApp.Services.Contracts
 {
     public interface ISpeciesService
     {

@@ -1,4 +1,4 @@
-﻿using KestenApp.Contracts;
+﻿using KestenApp.Services.Contracts;
 using KestenApp.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;

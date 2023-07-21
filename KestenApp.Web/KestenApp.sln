@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KestenApp.Web.ViewModels", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{68982A4E-65E4-4673-8BF2-373A32A67749}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KestenApp.Services", "..\KestenApp.Services\KestenApp.Services.csproj", "{58FAFC23-5FA9-4691-8EDA-F3FDE3B3B462}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KestenApp.Services", "..\KestenApp.Services\KestenApp.Services.csproj", "{58FAFC23-5FA9-4691-8EDA-F3FDE3B3B462}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KestenApp.Services.Models", "..\KestenApp.Services.Models\KestenApp.Services.Models.csproj", "{CAABAD44-F2A2-4FF0-A373-BFF83C766102}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{58FAFC23-5FA9-4691-8EDA-F3FDE3B3B462}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58FAFC23-5FA9-4691-8EDA-F3FDE3B3B462}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58FAFC23-5FA9-4691-8EDA-F3FDE3B3B462}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAABAD44-F2A2-4FF0-A373-BFF83C766102}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAABAD44-F2A2-4FF0-A373-BFF83C766102}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAABAD44-F2A2-4FF0-A373-BFF83C766102}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAABAD44-F2A2-4FF0-A373-BFF83C766102}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{5604E043-9718-472A-8455-958256442CC1} = {F6E196F9-26D0-4206-AE78-4D07AC67A2A9}
 		{23163BEC-2302-4849-A21F-A72A32DBB4E9} = {85F9890F-850A-4F24-BB7F-1D9EEF3D0356}
 		{58FAFC23-5FA9-4691-8EDA-F3FDE3B3B462} = {68982A4E-65E4-4673-8BF2-373A32A67749}
+		{CAABAD44-F2A2-4FF0-A373-BFF83C766102} = {68982A4E-65E4-4673-8BF2-373A32A67749}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7E2566ED-EB2A-4265-BB79-3480906F5550}

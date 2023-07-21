@@ -1,9 +1,9 @@
 ﻿using KestenApp.Data.Enums;
 using KestenApp.Data.Models;
+using KestenApp.Services.Models;
 using KestenApp.Web.Models.Varieties;
-using KestenApp.Services;
 
-namespace KestenApp.Contracts
+namespace KestenApp.Services.Contracts
 {
     public interface IVarietyService
     {

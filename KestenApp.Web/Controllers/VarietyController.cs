@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-using KestenApp.Contracts;
+using KestenApp.Services.Contracts;
 using KestenApp.Data.Enums;
 using KestenApp.Data.Enums.EnumHelpers;
 using KestenApp.Data.Models;
 using KestenApp.Web.Models;
 using KestenApp.Web.Models.Varieties;
-using KestenApp.Services;
+using KestenApp.Services.Models;
 
 namespace KestenApp.Controllers
 {

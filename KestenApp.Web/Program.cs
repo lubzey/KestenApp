@@ -1,10 +1,9 @@
 namespace KestenApp
 {
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.AspNetCore.Identity;
 
     using KestenApp.Services;
-    using KestenApp.Contracts;
+    using KestenApp.Services.Contracts;
     using KestenApp.Data;
     using KestenApp.Data.Models;
 

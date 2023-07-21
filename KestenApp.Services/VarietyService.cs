@@ -1,12 +1,13 @@
-﻿using KestenApp.Contracts;
-using KestenApp.Data;
-using KestenApp.Data.Enums;
-using KestenApp.Data.Models;
-using KestenApp.Web.Models.Varieties;
-using Microsoft.EntityFrameworkCore;
-
-namespace KestenApp.Services
+﻿namespace KestenApp.Services
 {
+    using KestenApp.Data;
+    using KestenApp.Data.Enums;
+    using KestenApp.Data.Models;
+    using KestenApp.Services.Contracts;
+    using KestenApp.Services.Models;
+    using KestenApp.Web.Models.Varieties;
+    using Microsoft.EntityFrameworkCore;
+
     public class VarietyService : IVarietyService
     {
         private readonly KestenDbContext _context;

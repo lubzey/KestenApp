@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KestenApp.Data\KestenApp.Data.csproj" />
+    <ProjectReference Include="..\KestenApp.Services.Models\KestenApp.Services.Models.csproj" />
+    <ProjectReference Include="..\KestenApp.Web.ViewModels\KestenApp.Web.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

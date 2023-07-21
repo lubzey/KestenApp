@@ -2,8 +2,9 @@
 {
     using KestenApp.Data;
     using KestenApp.Data.Models;
+    using KestenApp.Services.Contracts;
 
-    public class SpeciesService
+    public class SpeciesService : ISpeciesService
     {
         private readonly KestenDbContext dbContext;
 
