@@ -8,13 +8,27 @@
     {
         private static Species[] species = null!;
         private static Variety[] varieties = null!;
+        private static VarietySpecies[] varietySpecies = null!;
         private static FruitSize[] fruitSizes = null!;
         private static VarietyFruitSize[] varietyfruitSizes = null!;
+        private static VarietyPollenCompatibility[] varietyPollenCompatibilities = null!;
+        private static VarietyGraftingCompatibility[] varietyGraftingCompatibilities = null!;
+
+        //used to map data
+        private static DateTime dateCreated = new DateTime(2023, 7, 7, 7, 0, 0);
+        private static Variety boucheDeBetizac = GetVarietyFromName("Bouche de Bétizac");
+        private static Variety marigoule = GetVarietyFromName("Marigoule");
+        private static Variety marsol = GetVarietyFromName("Marsol");
+        private static Variety precoceMigoule = GetVarietyFromName("Précoce Migoule");
+        private static Variety pandora = GetVarietyFromName("Pandora");
 
         public static Species[] Species { get { return GetSpecies(); } }
         public static Variety[] Varieties { get { return GetVarieties(); } }
+        public static VarietySpecies[] VarietySpecies { get { return GetVarietySpecies(); } }
         public static FruitSize[] FruitSizes { get { return GetFruitSizes(); } }
         public static VarietyFruitSize[] VarietyFruitSizes { get { return GetVarietyFruitSizes(); } }
+        public static VarietyPollenCompatibility[] VarietyPollenCompatibilities { get { return GetVarietyPollenCompatibilities(); } }
+        public static VarietyGraftingCompatibility[] VarietyGraftingCompatibilities { get { return GetVarietyGraftingCompatibilities(); } }
 
         private static Species[] GetSpecies()
         {
@@ -61,7 +75,8 @@
                     ChestnutBlightResistance = ConditionTypeEnum.Good,
                     InkDiseaseResistance = ConditionTypeEnum.Bad,
                     MaturityPeriod = PeriodTypeEnum.Early,
-                    PollenType = PollenTypeEnum.Sterile
+                    PollenType = PollenTypeEnum.Sterile,
+                    DateCreated = dateCreated
                 },
                 new Variety //2
                 {
@@ -73,7 +88,8 @@
                     ChestnutBlightResistance = ConditionTypeEnum.Medium,
                     InkDiseaseResistance = ConditionTypeEnum.Good,
                     MaturityPeriod = PeriodTypeEnum.SemiEarly,
-                    PollenType = PollenTypeEnum.Medium
+                    PollenType = PollenTypeEnum.Medium,
+                    DateCreated = GetNextSecond()
                 },
                 new Variety //3
                 {
@@ -85,7 +101,8 @@
                     ChestnutBlightResistance = ConditionTypeEnum.Good,
                     InkDiseaseResistance = ConditionTypeEnum.Good,
                     MaturityPeriod = PeriodTypeEnum.SemiEarly,
-                    PollenType = PollenTypeEnum.Abundant
+                    PollenType = PollenTypeEnum.Abundant,
+                    DateCreated = GetNextSecond()
                 },
                 new Variety //4
                 {
@@ -97,29 +114,89 @@
                     ChestnutBlightResistance = ConditionTypeEnum.Bad,
                     InkDiseaseResistance = ConditionTypeEnum.Medium,
                     MaturityPeriod = PeriodTypeEnum.Early,
-                    PollenType = PollenTypeEnum.Medium
+                    PollenType = PollenTypeEnum.Medium,
+                    DateCreated = GetNextSecond()
                 },
-                new Variety { VarietyId = Guid.NewGuid(), Name = "Pandora" },
-                new Variety { VarietyId = Guid.NewGuid(), Name = "Nevada" },
-                new Variety { VarietyId = Guid.NewGuid(), Name = "Long Street" },
-                new Variety { VarietyId = Guid.NewGuid(), Name = "AU 2-18" },
-                new Variety { VarietyId = Guid.NewGuid(), Name = "AU Super" },
-                new Variety { VarietyId = Guid.NewGuid(), Name = "Black Satin" },
-                new Variety { VarietyId = Guid.NewGuid(), Name = "Chushuhong" },
-                new Variety { VarietyId = Guid.NewGuid(), Name = "Emalyn's Purple" },
-                new Variety { VarietyId = Guid.NewGuid(), Name = "Gideon" },
-                new Variety { VarietyId = Guid.NewGuid(), Name = "Jenny" },
-                new Variety { VarietyId = Guid.NewGuid(), Name = "Jiaoza" },
-                new Variety { VarietyId = Guid.NewGuid(), Name = "Payne" },
-                new Variety { VarietyId = Guid.NewGuid(), Name = "Peach" },
-                new Variety { VarietyId = Guid.NewGuid(), Name = "Qing" },
-                new Variety { VarietyId = Guid.NewGuid(), Name = "Qingza" },
-                new Variety { VarietyId = Guid.NewGuid(), Name = "Royalmark" },
-                new Variety { VarietyId = Guid.NewGuid(), Name = "YGF" },
+                new Variety { VarietyId = Guid.NewGuid(), Name = "Pandora", DateCreated = GetNextSecond() },
+                new Variety { VarietyId = Guid.NewGuid(), Name = "Nevada", DateCreated = GetNextSecond() },
+                new Variety { VarietyId = Guid.NewGuid(), Name = "Long Street", DateCreated = GetNextSecond() },
+                new Variety { VarietyId = Guid.NewGuid(), Name = "AU 2-18", DateCreated = GetNextSecond() },
+                new Variety { VarietyId = Guid.NewGuid(), Name = "AU Super", DateCreated = GetNextSecond() },
+                new Variety { VarietyId = Guid.NewGuid(), Name = "Black Satin", DateCreated = GetNextSecond() },
+                new Variety { VarietyId = Guid.NewGuid(), Name = "Chushuhong", DateCreated = GetNextSecond() },
+                new Variety { VarietyId = Guid.NewGuid(), Name = "Emalyn's Purple", DateCreated = GetNextSecond() },
+                new Variety { VarietyId = Guid.NewGuid(), Name = "Gideon", DateCreated = GetNextSecond() },
+                new Variety { VarietyId = Guid.NewGuid(), Name = "Jenny", DateCreated = GetNextSecond() },
+                new Variety { VarietyId = Guid.NewGuid(), Name = "Jiaoza", DateCreated = GetNextSecond() },
+                new Variety { VarietyId = Guid.NewGuid(), Name = "Payne", DateCreated = GetNextSecond() },
+                new Variety { VarietyId = Guid.NewGuid(), Name = "Peach", DateCreated = GetNextSecond() },
+                new Variety { VarietyId = Guid.NewGuid(), Name = "Qing", DateCreated = GetNextSecond() },
+                new Variety { VarietyId = Guid.NewGuid(), Name = "Qingza", DateCreated = GetNextSecond() },
+                new Variety { VarietyId = Guid.NewGuid(), Name = "Royalmark", DateCreated = GetNextSecond() },
+                new Variety { VarietyId = Guid.NewGuid(), Name = "YGF", DateCreated = GetNextSecond() },
                 new Variety { VarietyId = Guid.NewGuid(), Name = "Yixian Large" },
             };
 
             return varieties;
+        }
+
+        private static VarietySpecies[] GetVarietySpecies()
+        {
+            if (varietySpecies != null)
+            {
+                return varietySpecies;
+            }
+
+            varietySpecies = new VarietySpecies[]
+            {
+                new VarietySpecies {
+                    VarietyId = boucheDeBetizac.VarietyId,
+                    SpeciesId = (int)SpeciesTypeEnum.Sativa
+                },
+                new VarietySpecies {
+                    VarietyId = boucheDeBetizac.VarietyId,
+                    SpeciesId = (int)SpeciesTypeEnum.Crenata
+                },
+
+                new VarietySpecies {
+                    VarietyId = marigoule.VarietyId,
+                    SpeciesId = (int)SpeciesTypeEnum.Sativa
+                },
+                new VarietySpecies {
+                    VarietyId = marigoule.VarietyId,
+                    SpeciesId = (int)SpeciesTypeEnum.Crenata
+                },
+
+                new VarietySpecies {
+                    VarietyId = marsol.VarietyId,
+                    SpeciesId = (int)SpeciesTypeEnum.Sativa
+                },
+                new VarietySpecies {
+                    VarietyId = marsol.VarietyId,
+                    SpeciesId = (int)SpeciesTypeEnum.Crenata
+                },
+
+                new VarietySpecies {
+                    VarietyId = precoceMigoule.VarietyId,
+                    SpeciesId = (int)SpeciesTypeEnum.Sativa
+                },
+                new VarietySpecies {
+                    VarietyId = precoceMigoule.VarietyId,
+                    SpeciesId = (int)SpeciesTypeEnum.Crenata
+                },
+
+                //Pandora
+                new VarietySpecies {
+                    VarietyId = pandora.VarietyId,
+                    SpeciesId = (int)SpeciesTypeEnum.Mollissima
+                },
+                new VarietySpecies {
+                    VarietyId = pandora.VarietyId,
+                    SpeciesId = (int)SpeciesTypeEnum.Seguinii
+                }
+            };
+
+            return varietySpecies;
         }
 
         private static FruitSize[] GetFruitSizes()
@@ -167,31 +244,97 @@
             varietyfruitSizes = new VarietyFruitSize[]{
                 new VarietyFruitSize {
                     FruitSizeId = (int)FruitSizeTypeEnum.XL,
-                    VarietyId = varieties[0].VarietyId
+                    VarietyId = boucheDeBetizac.VarietyId
                 },
                 new VarietyFruitSize {
                     FruitSizeId = (int)FruitSizeTypeEnum.Large,
-                    VarietyId = varieties[1].VarietyId
+                    VarietyId = marigoule.VarietyId
                 },
                 new VarietyFruitSize {
                     FruitSizeId = (int)FruitSizeTypeEnum.XL,
-                    VarietyId = varieties[1].VarietyId
+                    VarietyId = marigoule.VarietyId
                 },
                 new VarietyFruitSize {
                     FruitSizeId = (int)FruitSizeTypeEnum.XL,
-                    VarietyId = varieties[2].VarietyId
+                    VarietyId = marsol.VarietyId
                 },
                 new VarietyFruitSize {
                     FruitSizeId = (int)FruitSizeTypeEnum.Medium,
-                    VarietyId = varieties[3].VarietyId
+                    VarietyId = precoceMigoule.VarietyId
                 },
                 new VarietyFruitSize {
                     FruitSizeId = (int)FruitSizeTypeEnum.Large,
-                    VarietyId = varieties[3].VarietyId
+                    VarietyId = precoceMigoule.VarietyId
                 }
             };
 
             return varietyfruitSizes;
+        }
+
+        private static VarietyPollenCompatibility[] GetVarietyPollenCompatibilities()
+        {
+            if (varietyPollenCompatibilities != null)
+            {
+                return varietyPollenCompatibilities;
+            }
+
+            varietyPollenCompatibilities = new VarietyPollenCompatibility[]{
+                new VarietyPollenCompatibility {
+                    TargetVarietyId = boucheDeBetizac.VarietyId,
+                    PollenizerVarietyId = marigoule.VarietyId
+                },
+                new VarietyPollenCompatibility {
+                    TargetVarietyId = boucheDeBetizac.VarietyId,
+                    PollenizerVarietyId = marsol.VarietyId
+                },
+                new VarietyPollenCompatibility {
+                    TargetVarietyId = boucheDeBetizac.VarietyId,
+                    PollenizerVarietyId = precoceMigoule.VarietyId
+                },
+            };
+
+            return varietyPollenCompatibilities;
+        }
+
+        private static VarietyGraftingCompatibility[] GetVarietyGraftingCompatibilities()
+        {
+            if (varietyGraftingCompatibilities != null)
+            {
+                return varietyGraftingCompatibilities;
+            }
+
+            varietyGraftingCompatibilities = new VarietyGraftingCompatibility[]{
+                new VarietyGraftingCompatibility {
+                    GraftedVarietyId = boucheDeBetizac.VarietyId,
+                    RootstockVarietyId = marsol.VarietyId
+                },
+                new VarietyGraftingCompatibility {
+                    GraftedVarietyId = precoceMigoule.VarietyId,
+                    RootstockVarietyId = marsol.VarietyId
+                },
+                new VarietyGraftingCompatibility {
+                    GraftedVarietyId = precoceMigoule.VarietyId,
+                    RootstockVarietyId = marigoule.VarietyId
+                },
+            };
+
+            return varietyGraftingCompatibilities;
+        }
+
+        //Helper methods
+        private static Variety GetVarietyFromName(string varietyName)
+        {
+            //Used to get specific varieties instead of getting them by index
+            return Varieties
+                .Single(v => v.Name == varietyName);
+        }
+
+        private static DateTime GetNextSecond()
+        {
+            //Used to keep variety records in some order
+            dateCreated = dateCreated.AddSeconds(1);
+
+            return dateCreated;
         }
     }
 }

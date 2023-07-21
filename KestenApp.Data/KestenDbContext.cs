@@ -27,7 +27,12 @@
         public KestenDbContext(DbContextOptions<KestenDbContext> options)
             : base(options)
         {
+            // migrate any database changes on startup (includes initial db creation)
 
+            if (this.Database.GetPendingMigrations().Any())
+            {
+                this.Database.Migrate();
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

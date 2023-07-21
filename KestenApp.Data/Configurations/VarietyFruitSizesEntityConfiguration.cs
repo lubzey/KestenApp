@@ -15,6 +15,9 @@
                     e.VarietyId, e.FruitSizeId
                 });
 
+            builder
+                .ToTable("VarietyFruitSizes");
+
             builder.HasData(SeedData.VarietyFruitSizes);
         }
     }

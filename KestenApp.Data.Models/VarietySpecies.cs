@@ -4,9 +4,6 @@
 
     public class VarietySpecies
     {
-        [Key]
-        public int VarietySpeciesId { get; set; }
-
         public int SpeciesId { get; set; }
         public Species Species { get; set; } = null!;
 

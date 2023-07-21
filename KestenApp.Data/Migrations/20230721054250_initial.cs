@@ -238,7 +238,7 @@ namespace KestenApp.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "VarietyFruitSize",
+                name: "VarietyFruitSizes",
                 columns: table => new
                 {
                     FruitSizeId = table.Column<int>(type: "int", nullable: false),
@@ -246,15 +246,15 @@ namespace KestenApp.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VarietyFruitSize", x => new { x.VarietyId, x.FruitSizeId });
+                    table.PrimaryKey("PK_VarietyFruitSizes", x => new { x.VarietyId, x.FruitSizeId });
                     table.ForeignKey(
-                        name: "FK_VarietyFruitSize_FruitSizes_FruitSizeId",
+                        name: "FK_VarietyFruitSizes_FruitSizes_FruitSizeId",
                         column: x => x.FruitSizeId,
                         principalTable: "FruitSizes",
                         principalColumn: "FruitSizeId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_VarietyFruitSize_Varieties_VarietyId",
+                        name: "FK_VarietyFruitSizes_Varieties_VarietyId",
                         column: x => x.VarietyId,
                         principalTable: "Varieties",
                         principalColumn: "VarietyId",
@@ -337,14 +337,12 @@ namespace KestenApp.Data.Migrations
                 name: "VarietySpecies",
                 columns: table => new
                 {
-                    VarietySpeciesId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     SpeciesId = table.Column<int>(type: "int", nullable: false),
                     VarietyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VarietySpecies", x => x.VarietySpeciesId);
+                    table.PrimaryKey("PK_VarietySpecies", x => new { x.VarietyId, x.SpeciesId });
                     table.ForeignKey(
                         name: "FK_VarietySpecies_Species_SpeciesId",
                         column: x => x.SpeciesId,
@@ -422,53 +420,72 @@ namespace KestenApp.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Varieties",
-                columns: new[] { "VarietyId", "ChestnutBlightResistance", "Description", "InkDiseaseResistance", "IsMarron", "MaturityPeriod", "Name", "Peeling", "PollenType" },
+                columns: new[] { "VarietyId", "ChestnutBlightResistance", "DateCreated", "Description", "InkDiseaseResistance", "IsMarron", "MaturityPeriod", "Name", "Peeling", "PollenType" },
                 values: new object[,]
                 {
-                    { new Guid("061dc865-d58d-4f68-8ebb-e409819c7c1a"), 0, "", 0, null, 0, "Qing", 0, 0 },
-                    { new Guid("07b2417c-b1b4-4a28-81e5-880915e0ba9e"), 0, "", 0, null, 0, "Yixian Large", 0, 0 },
-                    { new Guid("16f81d57-8d2a-4f1e-bc46-793e17138491"), 0, "", 0, null, 0, "Nevada", 0, 0 },
-                    { new Guid("2570968e-3fdc-4d19-8d13-b10f660b2509"), 0, "", 0, null, 0, "Payne", 0, 0 },
-                    { new Guid("2efbfe74-061f-4682-812b-e39885504c39"), 0, "", 0, null, 0, "AU 2-18", 0, 0 },
-                    { new Guid("32802866-9e8a-42af-8f0f-b7de649284a4"), 3, "Marsol (aka Marisol) is a natural chestnut hybrid, a cross between a European chestnut (Castanea sativa) and Japanese (Castanea crenata) (CA 07). INRA produced this variety from Lalevade-d'Ardèche. It is mainly used as a rootstock because of its good graft compatibility with many varieties. As a rootstock, it is more vigorous than Maraval (equal to Bouche de Betizac or Comballe).", 3, true, 3, "Marsol", 3, 3 },
-                    { new Guid("3b770733-91c1-49c9-95e3-e5ab66a4896e"), 0, "", 0, null, 0, "Jiaoza", 0, 0 },
-                    { new Guid("3e07d035-e38c-4950-a3bc-a158ba8786d9"), 0, "", 0, null, 0, "Black Satin", 0, 0 },
-                    { new Guid("46bd8dc8-ca0a-4648-a9a9-ea4ad91e1b77"), 3, "Bouche de Bétizac is a French chestnut cultivar developed in 1962 by INRA at the station of Malemort-sur-Corrèze near Brive. It is a controlled hybrid between Castanea sativa and Castanea crenata (female Bouche rouge × male Castanea crenata CA04). This variety produces large to very large chestnuts. It has very good flavor for a hybrid. With Marigoule, it is the variety currently most cultivated in the French chestnut groves because it is very productive (3 tons per hectare on average). Its fruit is bright, light chestnut-brown quickly turning brown and dark brown.", 1, true, 2, "Bouche de Bétizac", 3, 1 },
-                    { new Guid("46c3d3af-31de-4e8d-956b-b342aee292c1"), 0, "", 0, null, 0, "Long Street", 0, 0 },
-                    { new Guid("58a7f45d-84c8-4ed1-a46c-9f920a4205b2"), 0, "", 0, null, 0, "Peach", 0, 0 },
-                    { new Guid("5f633911-c1da-4b97-b931-731540767fdb"), 2, "Marigoule is the name of a french hybrid of chestnut (synonym M.15 or CA 15), cross between a European chestnut (Castanea sativa) and Japanese (Castanea crenata). In 1986, it originated from a Migoule orchard in Ussac in Corrèze. Marigoule (a contraction of Marron of Migoule) is a very tasty chestnut. It should be planted in rather low altitude in very sunny areas and protected from the wind (up to 300 m elevation for South-West orchard orientation or up to 400 m elevation in South-East orchard orientation). Otherwise its productivity remains small. In France, it is grown mainly South of the Dordogne and Lot-et-Garonne for the fresh market production because of the nuts beautiful appearance.", 3, true, 3, "Marigoule", 3, 2 },
-                    { new Guid("75965271-3f74-4b8b-8709-95069dc847ed"), 0, "", 0, null, 0, "AU Super", 0, 0 },
-                    { new Guid("81f4e185-6c94-4996-9370-e11155227285"), 0, "", 0, null, 0, "Emalyn's Purple", 0, 0 },
-                    { new Guid("aae30cf2-b627-47eb-9ebe-267337385f2b"), 0, "", 0, null, 0, "Chushuhong", 0, 0 },
-                    { new Guid("ae3af6b7-de9e-445d-8b3d-7a3adefd77f5"), 0, "", 0, null, 0, "Gideon", 0, 0 },
-                    { new Guid("be128efb-74cd-4a7d-ac88-b6a0ddc0a48d"), 0, "", 0, null, 0, "Qingza", 0, 0 },
-                    { new Guid("bf33a54f-0a3c-4758-8a1a-85c62da4c88d"), 0, "", 0, null, 0, "Pandora", 0, 0 },
-                    { new Guid("cc2f2f4b-24d0-458b-8442-ac721f32e0c4"), 0, "", 0, null, 0, "YGF", 0, 0 },
-                    { new Guid("dabc242c-cd4b-45e5-acd2-e976a6e19c7c"), 0, "", 0, null, 0, "Jenny", 0, 0 },
-                    { new Guid("e2281a46-4523-4cff-99da-a4b815327589"), 0, "", 0, null, 0, "Royalmark", 0, 0 },
-                    { new Guid("eef4edd6-1516-4015-8ea6-c9da32a20739"), 1, "The Precoce Migoule is a chestnut hybrid (CA 48), a natural cross between a European chestnut (Castanea sativa) and a Japanese chestnut (Castanea crenata). It was discovered by J. Dufrenoy at the orchard of Migoule in Brive-la-Gaillarde. The tree is vigorous and erect growing with growth of a metre (3 ft) or more in a season if the conditions are right. It is a large sized chestnut tree with height reaching 20 m (60 ft) or more and 7.5-10 m (25-35 ft) wide. Trees start to bear after 3 to 5 years. Full nut production in 12 - 20 years depending on the location.", 2, true, 2, "Précoce Migoule", 3, 2 }
+                    { new Guid("0c35ad96-d691-41c7-9bdf-5a263d99252d"), 0, new DateTime(2023, 7, 7, 7, 0, 6, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Long Street", 0, 0 },
+                    { new Guid("22de47dc-f37e-4e7b-94bf-30ddd0456ff6"), 0, new DateTime(2023, 7, 7, 7, 0, 14, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Jiaoza", 0, 0 },
+                    { new Guid("27a9b1ac-66f2-49af-8665-a949514cfb91"), 0, new DateTime(2023, 7, 7, 7, 0, 9, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Black Satin", 0, 0 }
                 });
 
             migrationBuilder.InsertData(
-                table: "VarietyFruitSize",
+                table: "Varieties",
+                columns: new[] { "VarietyId", "ChestnutBlightResistance", "Description", "InkDiseaseResistance", "IsMarron", "MaturityPeriod", "Name", "Peeling", "PollenType" },
+                values: new object[] { new Guid("308690d8-c6f2-4ce3-8bc3-e3e06f920807"), 0, "", 0, null, 0, "Yixian Large", 0, 0 });
+
+            migrationBuilder.InsertData(
+                table: "Varieties",
+                columns: new[] { "VarietyId", "ChestnutBlightResistance", "DateCreated", "Description", "InkDiseaseResistance", "IsMarron", "MaturityPeriod", "Name", "Peeling", "PollenType" },
+                values: new object[,]
+                {
+                    { new Guid("43a112fd-57cd-4835-ac9e-76b23e5485ec"), 2, new DateTime(2023, 7, 7, 7, 0, 1, 0, DateTimeKind.Unspecified), "Marigoule is the name of a french hybrid of chestnut (synonym M.15 or CA 15), cross between a European chestnut (Castanea sativa) and Japanese (Castanea crenata). In 1986, it originated from a Migoule orchard in Ussac in Corrèze. Marigoule (a contraction of Marron of Migoule) is a very tasty chestnut. It should be planted in rather low altitude in very sunny areas and protected from the wind (up to 300 m elevation for South-West orchard orientation or up to 400 m elevation in South-East orchard orientation). Otherwise its productivity remains small. In France, it is grown mainly South of the Dordogne and Lot-et-Garonne for the fresh market production because of the nuts beautiful appearance.", 3, true, 3, "Marigoule", 3, 2 },
+                    { new Guid("46bd8dc8-ca0a-4648-a9a9-ea4ad91e1b77"), 3, new DateTime(2023, 7, 7, 7, 0, 0, 0, DateTimeKind.Unspecified), "Bouche de Bétizac is a French chestnut cultivar developed in 1962 by INRA at the station of Malemort-sur-Corrèze near Brive. It is a controlled hybrid between Castanea sativa and Castanea crenata (female Bouche rouge × male Castanea crenata CA04). This variety produces large to very large chestnuts. It has very good flavor for a hybrid. With Marigoule, it is the variety currently most cultivated in the French chestnut groves because it is very productive (3 tons per hectare on average). Its fruit is bright, light chestnut-brown quickly turning brown and dark brown.", 1, true, 2, "Bouche de Bétizac", 3, 1 },
+                    { new Guid("47f3e1ee-3454-4369-85bd-2633080bd77e"), 0, new DateTime(2023, 7, 7, 7, 0, 16, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Peach", 0, 0 },
+                    { new Guid("5900863f-e12a-4555-a01e-1c8da42ac6cc"), 3, new DateTime(2023, 7, 7, 7, 0, 2, 0, DateTimeKind.Unspecified), "Marsol (aka Marisol) is a natural chestnut hybrid, a cross between a European chestnut (Castanea sativa) and Japanese (Castanea crenata) (CA 07). INRA produced this variety from Lalevade-d'Ardèche. It is mainly used as a rootstock because of its good graft compatibility with many varieties. As a rootstock, it is more vigorous than Maraval (equal to Bouche de Betizac or Comballe).", 3, true, 3, "Marsol", 3, 3 },
+                    { new Guid("655e3c05-c416-4e9b-abc8-374718d4ca9d"), 0, new DateTime(2023, 7, 7, 7, 0, 8, 0, DateTimeKind.Unspecified), "", 0, null, 0, "AU Super", 0, 0 },
+                    { new Guid("6b0a7ce2-9807-44bc-a74c-96bf549ee729"), 0, new DateTime(2023, 7, 7, 7, 0, 17, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Qing", 0, 0 },
+                    { new Guid("903b51f4-744d-44f7-8938-24834d090b92"), 0, new DateTime(2023, 7, 7, 7, 0, 4, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Pandora", 0, 0 },
+                    { new Guid("9ed21c3b-029d-404e-907b-8a2c227286d9"), 1, new DateTime(2023, 7, 7, 7, 0, 3, 0, DateTimeKind.Unspecified), "The Precoce Migoule is a chestnut hybrid (CA 48), a natural cross between a European chestnut (Castanea sativa) and a Japanese chestnut (Castanea crenata). It was discovered by J. Dufrenoy at the orchard of Migoule in Brive-la-Gaillarde. The tree is vigorous and erect growing with growth of a metre (3 ft) or more in a season if the conditions are right. It is a large sized chestnut tree with height reaching 20 m (60 ft) or more and 7.5-10 m (25-35 ft) wide. Trees start to bear after 3 to 5 years. Full nut production in 12 - 20 years depending on the location.", 2, true, 2, "Précoce Migoule", 3, 2 },
+                    { new Guid("aa31015f-9df6-46a9-9b99-796f5c5ead97"), 0, new DateTime(2023, 7, 7, 7, 0, 7, 0, DateTimeKind.Unspecified), "", 0, null, 0, "AU 2-18", 0, 0 },
+                    { new Guid("adf33b6a-1b6a-4604-8cbd-a08e1f287428"), 0, new DateTime(2023, 7, 7, 7, 0, 11, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Emalyn's Purple", 0, 0 },
+                    { new Guid("af0fef5a-dfa0-43ab-b4fc-d7a8f4ca7a22"), 0, new DateTime(2023, 7, 7, 7, 0, 5, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Nevada", 0, 0 },
+                    { new Guid("b135210b-d771-4cff-aae4-98f6c4dbc8f4"), 0, new DateTime(2023, 7, 7, 7, 0, 13, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Jenny", 0, 0 },
+                    { new Guid("b7262f95-1479-4d4a-b6cd-1e5d50baf700"), 0, new DateTime(2023, 7, 7, 7, 0, 20, 0, DateTimeKind.Unspecified), "", 0, null, 0, "YGF", 0, 0 },
+                    { new Guid("d4e36ba4-53d8-4044-a561-ea1ee47bc1e3"), 0, new DateTime(2023, 7, 7, 7, 0, 10, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Chushuhong", 0, 0 },
+                    { new Guid("d54b5d06-fb12-44f8-bf1f-ac1a049a1be1"), 0, new DateTime(2023, 7, 7, 7, 0, 15, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Payne", 0, 0 },
+                    { new Guid("d9f1b56a-2544-4a15-8fab-a10adf98b6f2"), 0, new DateTime(2023, 7, 7, 7, 0, 18, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Qingza", 0, 0 },
+                    { new Guid("e0295f04-0ad5-4d39-887b-5d2fdd6265af"), 0, new DateTime(2023, 7, 7, 7, 0, 12, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Gideon", 0, 0 },
+                    { new Guid("eeb4562d-935e-4afc-b2b5-d37753a4bffe"), 0, new DateTime(2023, 7, 7, 7, 0, 19, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Royalmark", 0, 0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "VarietyFruitSizes",
                 columns: new[] { "FruitSizeId", "VarietyId" },
                 values: new object[,]
                 {
-                    { 5, new Guid("32802866-9e8a-42af-8f0f-b7de649284a4") },
+                    { 4, new Guid("43a112fd-57cd-4835-ac9e-76b23e5485ec") },
+                    { 5, new Guid("43a112fd-57cd-4835-ac9e-76b23e5485ec") },
                     { 5, new Guid("46bd8dc8-ca0a-4648-a9a9-ea4ad91e1b77") },
-                    { 4, new Guid("5f633911-c1da-4b97-b931-731540767fdb") },
-                    { 5, new Guid("5f633911-c1da-4b97-b931-731540767fdb") },
-                    { 3, new Guid("eef4edd6-1516-4015-8ea6-c9da32a20739") },
-                    { 4, new Guid("eef4edd6-1516-4015-8ea6-c9da32a20739") }
+                    { 5, new Guid("5900863f-e12a-4555-a01e-1c8da42ac6cc") },
+                    { 3, new Guid("9ed21c3b-029d-404e-907b-8a2c227286d9") },
+                    { 4, new Guid("9ed21c3b-029d-404e-907b-8a2c227286d9") }
                 });
 
             migrationBuilder.InsertData(
                 table: "VarietySpecies",
-                columns: new[] { "VarietySpeciesId", "SpeciesId", "VarietyId" },
+                columns: new[] { "SpeciesId", "VarietyId" },
                 values: new object[,]
                 {
-                    { 1, 1, new Guid("46bd8dc8-ca0a-4648-a9a9-ea4ad91e1b77") },
-                    { 2, 2, new Guid("46bd8dc8-ca0a-4648-a9a9-ea4ad91e1b77") }
+                    { 1, new Guid("43a112fd-57cd-4835-ac9e-76b23e5485ec") },
+                    { 2, new Guid("43a112fd-57cd-4835-ac9e-76b23e5485ec") },
+                    { 1, new Guid("46bd8dc8-ca0a-4648-a9a9-ea4ad91e1b77") },
+                    { 2, new Guid("46bd8dc8-ca0a-4648-a9a9-ea4ad91e1b77") },
+                    { 1, new Guid("5900863f-e12a-4555-a01e-1c8da42ac6cc") },
+                    { 2, new Guid("5900863f-e12a-4555-a01e-1c8da42ac6cc") },
+                    { 3, new Guid("903b51f4-744d-44f7-8938-24834d090b92") },
+                    { 8, new Guid("903b51f4-744d-44f7-8938-24834d090b92") },
+                    { 1, new Guid("9ed21c3b-029d-404e-907b-8a2c227286d9") },
+                    { 2, new Guid("9ed21c3b-029d-404e-907b-8a2c227286d9") }
                 });
 
             migrationBuilder.CreateIndex(
@@ -531,8 +548,8 @@ namespace KestenApp.Data.Migrations
                 column: "VarietyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_VarietyFruitSize_FruitSizeId",
-                table: "VarietyFruitSize",
+                name: "IX_VarietyFruitSizes_FruitSizeId",
+                table: "VarietyFruitSizes",
                 column: "FruitSizeId");
 
             migrationBuilder.CreateIndex(
@@ -554,11 +571,6 @@ namespace KestenApp.Data.Migrations
                 name: "IX_VarietySpecies_SpeciesId",
                 table: "VarietySpecies",
                 column: "SpeciesId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VarietySpecies_VarietyId",
-                table: "VarietySpecies",
-                column: "VarietyId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -582,7 +594,7 @@ namespace KestenApp.Data.Migrations
                 name: "Specimens");
 
             migrationBuilder.DropTable(
-                name: "VarietyFruitSize");
+                name: "VarietyFruitSizes");
 
             migrationBuilder.DropTable(
                 name: "VarietyGrafting");

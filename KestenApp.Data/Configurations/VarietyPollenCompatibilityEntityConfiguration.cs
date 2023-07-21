@@ -33,43 +33,7 @@
             builder
                 .ToTable("VarietyPollenizers");
 
-            //builder.HasData(this.GenerateVarietyPollenCompatibilities());
+            builder.HasData(SeedData.VarietyPollenCompatibilities);
         }
-
-        //private VarietyPollenCompatibility[] GenerateVarietyPollenCompatibilities()
-        //{
-        //    //Pollenizers
-        //    Variety bdbId = GetVarietyFromName("Bouche de Bétizac");
-        //    Variety marigoule = GetVarietyFromName("Marigoule");
-        //    Variety marsol = GetVarietyFromName("Marsol");
-        //    Variety pmId = GetVarietyFromName("Précoce Migoule");
-
-        //    return new VarietyPollenCompatibility[]
-        //    {
-        //        new VarietyPollenCompatibility
-        //        {
-        //            PollenizerVariety = marigoule,
-        //            TargetVariety = bdbId
-        //        },
-        //        new VarietyPollenCompatibility
-        //        {
-        //            PollenizerVarietyId = marsol.VarietyId,
-        //            TargetVarietyId = bdbId.VarietyId
-        //        },
-        //        new VarietyPollenCompatibility
-        //        {
-        //            PollenizerVarietyId = pmId.VarietyId,
-        //            TargetVarietyId = bdbId.VarietyId
-        //        }
-        //    };
-        //}
-
-        //private Variety GetVarietyFromName(string varietyName)
-        //{
-        //    return dbContext
-        //        .Varieties
-        //        .AsNoTracking()
-        //        .Single(v => v.Name == varietyName);
-        //}
     }
 }

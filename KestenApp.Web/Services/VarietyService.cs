@@ -44,7 +44,7 @@ namespace KestenApp.Services
             {
                 VarietySorting.VarietyName => varietiesQuery.OrderByDescending(c => c.Name),
                 VarietySorting.FruitSizes => varietiesQuery.OrderBy(c => c.FruitSizes).ThenBy(c => c.Name),
-                VarietySorting.DateCreated or _ => varietiesQuery.OrderByDescending(c => c.DateCreated)
+                VarietySorting.DateCreated or _ => varietiesQuery.OrderBy(c => c.DateCreated)
             };
 
             int totalCount = varietiesQuery.Count();
