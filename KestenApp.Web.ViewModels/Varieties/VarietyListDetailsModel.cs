@@ -16,5 +16,6 @@
         public string IsPollenizerFor { get; set; } = default!;
         public string IsRootstockFor { get; set; } = default!;
         public string IsGraftedOn { get; set; } = default!;
+        public string Vigor { get; set; } = default!;
     }
 }

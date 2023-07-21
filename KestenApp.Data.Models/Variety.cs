@@ -17,11 +17,12 @@
         [MaxLength(DescriptionMaxLength)]
         public string Description { get; set; } = string.Empty;
 
-        public ConditionTypeEnum ChestnutBlightResistance { get; set; } = ConditionTypeEnum.None;
-        public ConditionTypeEnum InkDiseaseResistance { get; set; } = ConditionTypeEnum.None;
-        public ConditionTypeEnum Peeling { get; set; } = ConditionTypeEnum.None;
-        public PollenTypeEnum PollenType { get; set; } = PollenTypeEnum.None;
-        public PeriodTypeEnum MaturityPeriod { get; set; } = PeriodTypeEnum.None;
+        public ConditionType ChestnutBlightResistance { get; set; } = ConditionType.None;
+        public ConditionType InkDiseaseResistance { get; set; } = ConditionType.None;
+        public ConditionType Peeling { get; set; } = ConditionType.None;
+        public PollenType PollenType { get; set; } = PollenType.None;
+        public PeriodType MaturityPeriod { get; set; } = PeriodType.None;
+        public StrengthType Vigor { get; set; } = StrengthType.None;
         public bool? IsMarron { get; set; }
         public DateTime DateCreated { get; set; }
 

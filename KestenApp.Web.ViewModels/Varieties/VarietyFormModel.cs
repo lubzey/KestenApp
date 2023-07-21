@@ -29,13 +29,13 @@ namespace KestenApp.Web.Models.Varieties
         public string Description { get; set; } = string.Empty;
 
         [Required]
-        public PollenTypeEnum PollenType { get; set; } = PollenTypeEnum.None;
+        public PollenType PollenType { get; set; } = PollenType.None;
 
         [Required]
-        public ConditionTypeEnum ChestnutBlightResistance { get; set; } = ConditionTypeEnum.None;
+        public ConditionType ChestnutBlightResistance { get; set; } = ConditionType.None;
 
         [Required]
-        public ConditionTypeEnum InkDiseaseResistance { get; set; } = ConditionTypeEnum.None;
+        public ConditionType InkDiseaseResistance { get; set; } = ConditionType.None;
 
 
         //Used to display data

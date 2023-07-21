@@ -5,7 +5,7 @@
     {
         public int Minimun { get; private set; }
         public int Maximum { get; private set; }
-        public IntRangeTypeEnum Type { get; private set; }
+        public IntRangeType Type { get; private set; }
 
         /// <summary>
         /// Fruit weight range in grams
@@ -14,7 +14,7 @@
         /// <param name="maximum">Maximum weight of fruit</param>
         /// <param name="type">Range enum type</param>
         /// <exception cref="InvalidOperationException"></exception>
-        public RangeInt(int minimum, int maximum, IntRangeTypeEnum type)
+        public RangeInt(int minimum, int maximum, IntRangeType type)
         {
             if (minimum >= maximum)
             {

@@ -1,6 +1,6 @@
 ﻿namespace KestenApp.Data.Enums
 {
-    public enum ConditionTypeEnum
+    public enum ConditionType
     {
         None = 0,
         Bad = 1,

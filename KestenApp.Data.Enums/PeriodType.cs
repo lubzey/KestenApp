@@ -1,6 +1,6 @@
 ﻿namespace KestenApp.Data.Enums
 {
-    public enum PeriodTypeEnum
+    public enum PeriodType
     {
         None = 0,
         VeryEarly = 1,

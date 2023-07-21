@@ -1,6 +1,6 @@
 ﻿namespace KestenApp.Data.Enums
 {
-    public enum IntRangeTypeEnum
+    public enum IntRangeType
     {
         FruitWeight,
         FruitsPerKg

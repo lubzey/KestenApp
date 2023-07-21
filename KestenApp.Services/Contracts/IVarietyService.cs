@@ -6,7 +6,7 @@ namespace KestenApp.Services.Contracts
 {
     public interface IVarietyService
     {
-        Task<VarietyListModel> AllVarietiesAsync(string? name = null, VarietySorting sorting = VarietySorting.DateCreated, int currentPage = 1, int countPerPage = int.MaxValue);
+        Task<VarietyListModel> AllVarietiesAsync(string? name = null, VarietySortingType sorting = VarietySortingType.DateCreated, int currentPage = 1, int countPerPage = int.MaxValue);
         Task<Variety?> GetDetailsViewByIdAsync(Guid id);
         Task<Variety?> GetVarietyByNameAsync(string name);
         Task<IEnumerable<Variety>> SearchVarietiesAsync(string searchQuery);

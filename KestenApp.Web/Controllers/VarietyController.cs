@@ -61,7 +61,7 @@
 
                 //Render selects
                 SpeciesCheckboxes = await GenerateSpeciesCheckboxesAsync(),
-                PollenOptions = GeneratePollenOptions(PollenTypeEnum.None)
+                PollenOptions = GeneratePollenOptions(PollenType.None)
             };
 
             return View("Form", formModel);
@@ -207,10 +207,10 @@
         }
 
         #region Form
-        private IEnumerable<SelectListItem> GeneratePollenOptions(PollenTypeEnum pollenType)
+        private IEnumerable<SelectListItem> GeneratePollenOptions(PollenType pollenType)
         {
             return EnumExtensions
-                .GetEnumValuesCollection<PollenTypeEnum>()
+                .GetEnumValuesCollection<PollenType>()
                 .Select(p => new SelectListItem
                 {
                     Value = ((int)p).ToString(),

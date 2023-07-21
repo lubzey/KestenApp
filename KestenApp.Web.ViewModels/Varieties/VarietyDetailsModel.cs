@@ -20,7 +20,7 @@ namespace KestenApp.Web.Models.Varieties
 
             //Tree
             AddKeyValuePairToCollection(Tree, "Pollen", variety.PollenType.ToString());
-            AddKeyValuePairToCollection(Tree, "Vigor", "Low, Medium, Strong");
+            AddKeyValuePairToCollection(Tree, "Vigor", variety.Vigor.ToString());
             AddKeyValuePairToCollection(Tree, "Erect", "Semi-Erect, Very Erect, Apical Dominance");
             AddKeyValuePairToCollection(Tree, "Budding Period", "VeryEarly, Early, SemiEarly, SemiLate, Late, VeryLate");
             AddKeyValuePairToCollection(Tree, "Flowering Period", "VeryEarly, Early, SemiEarly, SemiLate, Late, VeryLate");

@@ -1,6 +1,6 @@
 ﻿namespace KestenApp.Data.Enums
 {
-    public enum PollenTypeEnum
+    public enum PollenType
     {
         None = 0,
         Sterile = 1,

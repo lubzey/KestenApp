@@ -23,7 +23,7 @@
         //List varieties - add paging
         public async Task<VarietyListModel> AllVarietiesAsync(
             string? name = null,
-            VarietySorting sorting = VarietySorting.DateCreated,
+            VarietySortingType sorting = VarietySortingType.DateCreated,
             int currentPage = 1,
             int countPerPage = int.MaxValue)
         {
@@ -37,7 +37,7 @@
 
         private async Task<VarietyServiceModel> AllVarietiesServiceModelAsync(
             string? name = null,
-            VarietySorting sorting = VarietySorting.DateCreated,
+            VarietySortingType sorting = VarietySortingType.DateCreated,
             int currentPage = 1,
             int countPerPage = int.MaxValue)
         {
@@ -60,9 +60,9 @@
 
             varietiesQuery = sorting switch
             {
-                VarietySorting.VarietyName => varietiesQuery.OrderByDescending(c => c.Name),
-                VarietySorting.FruitSizes => varietiesQuery.OrderBy(c => c.FruitSizes).ThenBy(c => c.Name),
-                VarietySorting.DateCreated or _ => varietiesQuery.OrderBy(c => c.DateCreated)
+                VarietySortingType.VarietyName => varietiesQuery.OrderByDescending(c => c.Name),
+                VarietySortingType.FruitSizes => varietiesQuery.OrderBy(c => c.FruitSizes).ThenBy(c => c.Name),
+                VarietySortingType.DateCreated or _ => varietiesQuery.OrderBy(c => c.DateCreated)
             };
 
             int totalCount = varietiesQuery.Count();
@@ -113,6 +113,7 @@
                 InkDiseaseResistance = ServiceExtensions.GetStringValueOfNullableEnum(v.InkDiseaseResistance),
                 Peeling = ServiceExtensions.GetStringValueOfNullableEnum(v.Peeling),
                 PollenFertility = ServiceExtensions.GetStringValueOfNullableEnum(v.PollenType),
+                Vigor = ServiceExtensions.GetStringValueOfNullableEnum(v.Vigor),
                 MaturityPeriod = ServiceExtensions.GetStringValueOfNullableEnum(v.MaturityPeriod),
                 IsPollenizedBy = ServiceExtensions.JoinStrings(
                     v.IsPollenizedBy

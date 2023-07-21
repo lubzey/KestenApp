@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace KestenApp.Data.Enums
+﻿namespace KestenApp.Data.Enums
 {
-    public enum SpeciesTypeEnum
+    using System.ComponentModel.DataAnnotations;
+
+    public enum SpeciesType
     {
         [Display(
             Name = "Castanea sativa",
