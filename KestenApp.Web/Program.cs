@@ -6,6 +6,7 @@ namespace KestenApp
     using KestenApp.Services.Contracts;
     using KestenApp.Data;
     using KestenApp.Data.Models;
+    using Microsoft.AspNetCore.Identity;
 
     public class Program
     {
@@ -39,6 +40,7 @@ namespace KestenApp
                     options.Password.RequiredLength =
                         builder.Configuration.GetValue<int>("Identity:Password:RequiredLength");
                 })
+                .AddRoles<IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<KestenDbContext>();
 
 
