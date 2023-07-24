@@ -30,7 +30,7 @@
                         <li class="nav-item">
                             @if (User.Identity?.IsAuthenticated == true)
                             {
-                                <a class="nav-link @(Context.Request.Path == "/"? "active":"")" asp-area="" asp-controller="Variety" asp-action="List">Varieties</a>
+                                <a class="nav-link @(Context.Request.Path == "/" || Context.Request.Path.ToString().StartsWith("/Variety") ? "active":"")" asp-area="" asp-controller="Variety" asp-action="List">Varieties</a>
                             }
                         </li>
 
