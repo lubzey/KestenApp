@@ -2,7 +2,9 @@
 {
     using Enums;
     using Enums.EnumHelpers;
+    using Microsoft.AspNetCore.Identity;
     using Models;
+    using System.Xml.Linq;
 
     public static class SeedData
     {
@@ -14,6 +16,7 @@
         private static VarietyPollenCompatibility[] varietyPollenCompatibilities = null!;
         private static VarietyGraftingCompatibility[] varietyGraftingCompatibilities = null!;
         private static VarietyImage[] varietyImages = null!;
+        private static IdentityRole[] identityRoles = null!;
 
         //used to map data
         private static DateTime dateCreated = new DateTime(2023, 7, 7, 7, 0, 0);
@@ -31,6 +34,25 @@
         public static VarietyPollenCompatibility[] VarietyPollenCompatibilities { get { return GetVarietyPollenCompatibilities(); } }
         public static VarietyGraftingCompatibility[] VarietyGraftingCompatibilities { get { return GetVarietyGraftingCompatibilities(); } }
         public static VarietyImage[] VarietyImages { get { return GetVarietyImages(); } }
+
+        public static IdentityRole[] IdentityRoles { get { return GetIdentityRoles(); } }
+
+        private static IdentityRole[] GetIdentityRoles()
+        {
+            if (identityRoles != null)
+            {
+                return identityRoles;
+            }
+
+            identityRoles = new IdentityRole[]
+            {
+                new IdentityRole { Name = "Admin", NormalizedName = "Admin".ToUpper() },
+                new IdentityRole { Name = "Expert", NormalizedName = "Expert".ToUpper() },
+                new IdentityRole { Name = "Gardener", NormalizedName = "Gardener".ToUpper() }
+            };
+
+            return identityRoles;
+        }
 
         private static Species[] GetSpecies()
         {
