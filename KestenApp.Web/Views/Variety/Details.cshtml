@@ -4,58 +4,61 @@
     ViewData["Title"] = Model.VarietyName;
 }
 
-@*Photo and Description*@
+@*Buttons, Photo and Description*@
 <div class="row">
-
-    @*Buttons*@
-    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-2 col-xl-1">
-        <div class="row no-gutters">
-            <a asp-controller="Variety"
-               asp-action="List"
-               class="btn btn-outline-secondary mb-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"></path>
-                </svg>
-                <span>Back</span>
-            </a>
-            <a asp-controller="Variety"
-               asp-action="Edit"
-               asp-route-id="@Model.VarietyId"
-               class="btn btn-outline-success mb-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
-                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
-                </svg>
-                <span>Edit</span>
-            </a>
-            <a asp-controller="Variety"
-               asp-action="Delete"
-               class="btn btn-outline-danger ml-0">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
-                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
-                </svg>
-                <span>Delete</span>
-            </a>
-        </div>
+    <div class="col-xs-12 mb-xs-2 mb-lg-3 col-sm-12 mb-sm-2 col-md-12 col-lg-6 col-xl-6">
+    @*<div class="col-xs-12 mb-xs-2 mb-lg-3 col-sm-12 mb-sm-2 col-md-12 col-lg-6 col-xl-7">*@
+        <h2>
+            @Model.VarietyName
+        </h2>
     </div>
 
-    @*Name, Description, Buttons*@
-    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-10 col-xl-10 offset-xl-1">
+    @*Buttons*@
+    <div class="col-6">
         <div class="row">
-            <div class="col-xs-12 mb-xs-2 col-sm-12 mb-sm-2 col-md-12 col-lg-6 col-xl-8">
-                <h2>
-                    @Model.VarietyName
-                </h2>
-                <span>
-                    @Model.Description
-                </span>
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4">
-                <img alt=""
-                     class="img-fluid"
-                     src=@Model.ThumbnailImagePath />
+            <div class="d-flex justify-content-end">                
+                <a asp-controller="Variety"
+                   asp-action="Edit"
+                   asp-route-id="@Model.VarietyId"
+                   class="col-3 m-1 btn btn-outline-success">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+                        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+                    </svg>
+                    <span>Edit</span>
+                </a>
+                <a asp-controller="Variety"
+                   asp-action="Delete"
+                   class="col-3 m-1 btn btn-outline-danger">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                    </svg>
+                    <span>Delete</span>
+                </a>
+                <a asp-controller="Variety"
+                   asp-action="List"
+                   class="col-3 m-1 btn btn-outline-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"></path>
+                    </svg>
+                    <span>Back</span>
+                </a>
             </div>
         </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-xs-12 mb-xs-2 col-sm-12 mb-sm-2 col-md-12 col-lg-6 col-xl-7 offset-xl-2">
+        <span>
+            @Model.Description
+        </span>
+    </div>    
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-3 d-flex justify-content-end">
+        <img alt=""
+             class="img-fluid"
+             src=@Model.ThumbnailImagePath />
     </div>
 </div>
 <hr />
