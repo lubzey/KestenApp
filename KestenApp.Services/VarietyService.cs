@@ -7,8 +7,7 @@
     using KestenApp.Data.Models;
     using KestenApp.Services.Contracts;
     using KestenApp.Services.Models;
-    using KestenApp.Services.Extensions;
-    using KestenApp.Web.Models.Varieties;
+    using KestenApp.Web.ViewModels.Varieties;
 
     public class VarietyService : IVarietyService
     {

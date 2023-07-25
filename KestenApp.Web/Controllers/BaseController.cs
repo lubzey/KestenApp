@@ -1,4 +1,4 @@
-﻿namespace KestenApp.Controllers
+﻿namespace KestenApp.Web.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

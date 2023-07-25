@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace KestenApp.Views.Variety
+namespace KestenApp.Web.Views.Variety
 {
     public class DetailsModel : PageModel
     {

@@ -1,4 +1,4 @@
-﻿namespace KestenApp.Controllers
+﻿namespace KestenApp.Web.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,9 +8,9 @@
     using KestenApp.Data.Enums;
     using KestenApp.Data.Enums.EnumHelpers;
     using KestenApp.Data.Models;
-    using KestenApp.Web.Models;
-    using KestenApp.Web.Models.Varieties;
     using Microsoft.AspNetCore.Authorization;
+    using KestenApp.Web.ViewModels.Varieties;
+    using KestenApp.Web.ViewModels;
 
     public class VarietyController : BaseController
     {

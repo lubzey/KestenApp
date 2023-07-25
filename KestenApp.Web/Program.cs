@@ -1,4 +1,4 @@
-namespace KestenApp
+namespace KestenApp.Web
 {
     using Microsoft.EntityFrameworkCore;
 

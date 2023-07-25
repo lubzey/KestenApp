@@ -1,7 +1,8 @@
 ﻿using KestenApp.Data.Enums;
 using KestenApp.Data.Models;
+using KestenApp.Web.ViewModels;
 
-namespace KestenApp.Web.Models.Varieties
+namespace KestenApp.Web.ViewModels.Varieties
 {
     public class VarietyDetailsModel
     {
@@ -30,7 +31,7 @@ namespace KestenApp.Web.Models.Varieties
             AddKeyValuePairToCollection(Tree, "Budding Period", GetStringFromEnum<PeriodType>((int)variety.BuddingPeriod));
             AddKeyValuePairToCollection(Tree, "Flowering Period", GetStringFromEnum<PeriodType>((int)variety.FloweringPeriod));
             AddKeyValuePairToCollection(Tree, "Maturity Period", GetStringFromEnum<PeriodType>((int)variety.MaturityPeriod));
-            
+
             //AddKeyValuePairToCollection(Tree, "Gall Wasp Resistance*", "Bad, Medium, Good");
             //AddKeyValuePairToCollection(Tree, "Cold Hardiness*", "Bad, Medium, Good");
             //AddKeyValuePairToCollection(Tree, "Spring Frost Sensitivity*", "True/False/None V/X/");

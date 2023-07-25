@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using KestenApp.Data.Enums;
 using static KestenApp.Common.EntityValidationConstants.Variety;
 
-namespace KestenApp.Web.Models.Varieties
+namespace KestenApp.Web.ViewModels.Varieties
 {
     public class VarietyFormModel
     {

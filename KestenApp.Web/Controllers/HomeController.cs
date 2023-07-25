@@ -1,10 +1,10 @@
 ﻿using KestenApp.Services;
 using KestenApp.Services.Contracts;
-using KestenApp.Web.Models;
+using KestenApp.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace KestenApp.Controllers
+namespace KestenApp.Web.Controllers
 {
     public class HomeController : BaseController
     {

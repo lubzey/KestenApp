@@ -1,4 +1,4 @@
-﻿namespace KestenApp.Services.Extensions
+﻿namespace KestenApp.Services
 {
     internal static class ServiceExtensions
     {

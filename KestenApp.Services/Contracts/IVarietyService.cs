@@ -1,6 +1,6 @@
 ﻿using KestenApp.Data.Enums;
 using KestenApp.Data.Models;
-using KestenApp.Web.Models.Varieties;
+using KestenApp.Web.ViewModels.Varieties;
 
 namespace KestenApp.Services.Contracts
 {

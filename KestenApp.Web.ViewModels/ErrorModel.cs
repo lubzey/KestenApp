@@ -1,4 +1,4 @@
-namespace KestenApp.Web.Models
+namespace KestenApp.Web.ViewModels
 {
     public class ErrorModel
     {
