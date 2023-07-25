@@ -1,7 +1,6 @@
 ﻿@using KestenApp.Data.Enums;
 @using KestenApp.Web.Models.Varieties;
 @model VarietyFormModel
-@Html.AntiForgeryToken()
 
 @{
     ViewData["Title"] = $"Edit {Model.VarietyName}";
@@ -9,6 +8,7 @@
 
 @*Photo and Description*@
 <form asp-action="@Model.AspAction" method="post">
+    @Html.AntiForgeryToken()
 
     @*Title and Back Button*@
     <div class="row">

@@ -22,7 +22,7 @@ namespace KestenApp
             builder.Services.AddDbContext<KestenDbContext>(options =>
             {
                 options.UseSqlServer(connectionString);
-                options.EnableSensitiveDataLogging();
+                //options.EnableSensitiveDataLogging();
             });
 
             //Identity
@@ -43,13 +43,13 @@ namespace KestenApp
                 .AddRoles<IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<KestenDbContext>();
 
-
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddScoped<IVarietyService, VarietyService>();
             builder.Services.AddScoped<ISpeciesService, SpeciesService>();
 
+            builder.Services.AddAntiforgery();
 
             var app = builder.Build();
 

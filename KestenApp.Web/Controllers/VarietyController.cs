@@ -10,6 +10,7 @@
     using KestenApp.Data.Models;
     using KestenApp.Web.Models;
     using KestenApp.Web.Models.Varieties;
+    using Microsoft.AspNetCore.Authorization;
 
     public class VarietyController : BaseController
     {
@@ -28,6 +29,7 @@
             _environment = environment; //Needed to get local path to images in case of file deletion
         }
 
+        [Authorize]
         public async Task<IActionResult> List()
         {
             VarietyListModel listViewModel = await _varietyService
@@ -36,6 +38,7 @@
             return View(listViewModel);
         }
 
+        [Authorize]
         public async Task<IActionResult> Details(Guid id)
         {
             Variety? variety = await _varietyService
@@ -51,6 +54,7 @@
         }
 
         [HttpGet]
+        [Authorize]
         [Route("Variety/Add")]
         public async Task<IActionResult> Add()
         {
@@ -68,6 +72,7 @@
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add([FromForm] VarietyFormModel form)
         {
@@ -104,6 +109,7 @@
         }
 
         [HttpGet]
+        [Authorize]
         [Route("Variety/Edit/{id}")]
         public async Task<IActionResult> Edit([FromRoute] Guid id)
         {
@@ -140,6 +146,7 @@
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([FromForm] VarietyFormModel form, [FromRoute] Guid id)
         {
@@ -187,6 +194,7 @@
             return RedirectToAction("Details", "Variety", new { id });
         }
 
+        [Authorize]
         public IActionResult Search()
         {
             return View();

@@ -9,7 +9,6 @@
     using KestenApp.Services.Models;
     using KestenApp.Services.Extensions;
     using KestenApp.Web.Models.Varieties;
-    using KestenApp.Web.Models;
 
     public class VarietyService : IVarietyService
     {

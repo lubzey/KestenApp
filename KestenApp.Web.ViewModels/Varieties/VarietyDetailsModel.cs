@@ -1,6 +1,5 @@
 ﻿using KestenApp.Data.Enums;
 using KestenApp.Data.Models;
-using System.Reflection.Metadata.Ecma335;
 
 namespace KestenApp.Web.Models.Varieties
 {
