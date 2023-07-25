@@ -19,6 +19,7 @@
             _context = context;
         }
 
+        #region List
         //List varieties - add paging
         public async Task<VarietyListModel> AllVarietiesAsync(
             string? name = null,
@@ -145,9 +146,7 @@
                     .OrderBy(n => n))
             };
         }
-
-
-
+        #endregion
 
         //Details
         public async Task<Variety?> GetDetailsViewByIdAsync(Guid id)
