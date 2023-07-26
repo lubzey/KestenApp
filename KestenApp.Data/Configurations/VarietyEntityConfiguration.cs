@@ -16,7 +16,8 @@
             builder
                 .HasMany(v => v.VarietyImages)
                 .WithOne(v => v.Variety)
-                .HasForeignKey(e => e.ImageId);
+                .HasForeignKey(e => e.ImageId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .ToTable("Varieties");

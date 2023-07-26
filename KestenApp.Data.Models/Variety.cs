@@ -2,12 +2,15 @@
 {
     using KestenApp.Data.Enums;
     using System.ComponentModel.DataAnnotations;
-    using static KestenApp.Common.EntityValidationConstants.Variety;
+    using static KestenApp.Common.EntityValidationConstants.VarietyConstants;
 
     public class Variety
     {
         [Key]
         public Guid VarietyId { get; set; }
+
+        public bool IsActive { get; set; } = true;
+        public bool IsPublished { get; set; } = true;
 
         [Required]
         [MaxLength(NameMaxLength)]
@@ -38,6 +41,6 @@
         public ICollection<VarietyPollenCompatibility> IsPollenizedBy { get; set; } = new List<VarietyPollenCompatibility>();
 
         public ICollection<VarietyGraftingCompatibility> IsGraftedOn { get; set; } = new List<VarietyGraftingCompatibility>();
-        public ICollection<VarietyGraftingCompatibility> IsRootstockFor { get; set; } = new List<VarietyGraftingCompatibility>();
+        public ICollection<VarietyGraftingCompatibility> IsRootstockFor { get; set; } = new List<VarietyGraftingCompatibility>();        
     }
 }

@@ -8,6 +8,8 @@
     using KestenApp.Services.Contracts;
     using KestenApp.Services.Models;
     using KestenApp.Web.ViewModels.Varieties;
+    using static KestenApp.Common.EntityValidationConstants;
+    using Microsoft.AspNetCore.Routing.Tree;
 
     public class VarietyService : IVarietyService
     {
@@ -24,9 +26,10 @@
             string? name = null,
             VarietySortingType sorting = VarietySortingType.DateCreated,
             int currentPage = 1,
-            int countPerPage = int.MaxValue)
+            int countPerPage = int.MaxValue,
+            bool isPublished = true)
         {
-            VarietyServiceModel varietiesPage = await AllVarietiesServiceModelAsync(currentPage: currentPage);
+            VarietyServiceModel varietiesPage = await AllVarietiesServiceModelAsync(currentPage: currentPage, isPublished: isPublished);
 
             VarietyListModel listViewModel = GenerateListViewModel(varietiesPage.Varieties);
 
@@ -38,7 +41,8 @@
             string? name = null,
             VarietySortingType sorting = VarietySortingType.DateCreated,
             int currentPage = 1,
-            int countPerPage = int.MaxValue)
+            int countPerPage = int.MaxValue,
+            bool isPublished = true)
         {
             IQueryable<Variety> varietiesQuery = _context
                 .Varieties
@@ -46,10 +50,14 @@
                     .ThenInclude(fs => fs.Species)
                 .Include(v => v.FruitSizes)
                     .ThenInclude(fs => fs.FruitSize)
-                .Include(v => v.IsPollenizedBy)
-                .Include(v => v.IsPollenizerFor)
-                .Include(v => v.IsGraftedOn)
-                .Include(v => v.IsRootstockFor);
+
+                .Include(v => v.IsPollenizedBy.Where(v => v.PollenizerVariety.IsPublished == isPublished))
+                .Include(v => v.IsPollenizerFor.Where(v => v.TargetVariety.IsPublished == isPublished))
+
+                .Include(v => v.IsGraftedOn.Where(v => v.RootstockVariety.IsPublished == isPublished))
+                .Include(v => v.IsRootstockFor.Where(v => v.GraftedVariety.IsPublished == isPublished))
+
+                .Where(v => v.IsPublished == isPublished && v.IsActive);
 
             if (!string.IsNullOrWhiteSpace(name))
             {
@@ -63,6 +71,8 @@
                 VarietySortingType.FruitSizes => varietiesQuery.OrderBy(c => c.FruitSizes).ThenBy(c => c.Name),
                 VarietySortingType.DateCreated or _ => varietiesQuery.OrderBy(c => c.DateCreated)
             };
+
+            var query = varietiesQuery.ToString();
 
             int totalCount = varietiesQuery.Count();
 
@@ -105,7 +115,6 @@
             {
                 VarietyId = v.VarietyId,
                 VarietyName = v.Name,
-
 
                 //Tree
 
@@ -212,7 +221,8 @@
         //Update
         public async Task<Guid?> UpdateVarietyAsync(Guid id, VarietyFormModel model)
         {
-            var variety = await _context.Varieties
+            var variety = await _context
+                .Varieties
                 .Where(v => v.VarietyId == id)
                 .Include(v => v.Species)
                 .FirstOrDefaultAsync();
@@ -243,11 +253,39 @@
             return id;
         }
 
-        //Remove
+        public async Task ArchiveByIdAsync(Guid id, bool restore = false)
+        {
+            Variety variety = await this._context
+                .Varieties
+                .FirstAsync(h => h.VarietyId == id);
 
+            if (restore)
+            {
+                variety.IsActive = true;
+            }
+            else
+            {
+                variety.IsActive = false;
+                variety.IsPublished = false;
+            }
 
+            await this._context.SaveChangesAsync();
+        }
 
+        public async Task PublishVarietyAsync(Guid id, bool unpublish = false)
+        {
+            Variety variety = await this._context
+                .Varieties
+                .FirstAsync(h => h.VarietyId == id);
 
+            variety.IsPublished = true;
 
+            if (unpublish)
+            {
+                variety.IsPublished = false;
+            }
+
+            await this._context.SaveChangesAsync();
+        }
     }
 }

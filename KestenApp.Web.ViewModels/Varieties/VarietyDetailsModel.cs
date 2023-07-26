@@ -1,14 +1,18 @@
 ﻿using KestenApp.Data.Enums;
 using KestenApp.Data.Models;
-using KestenApp.Web.ViewModels;
 
 namespace KestenApp.Web.ViewModels.Varieties
 {
     public class VarietyDetailsModel
     {
-        public Guid VarietyId;
-        public string VarietyName;
-        public string Description;
+        public Guid VarietyId { get; }
+        public string VarietyName { get; }
+        public string Description { get; }
+        public bool HideArchiveButton { get; }
+        public bool HideRestoreButton { get; }
+        public bool HidePublishButton { get; }
+        public bool HideUnpublishButton { get; }
+
         public List<KeyValuePair<string, string>> Tree = new List<KeyValuePair<string, string>>();
         public List<KeyValuePair<string, string>> Fruit = new List<KeyValuePair<string, string>>();
         public IList<CheckboxModel> SpeciesCheckboxes;
@@ -19,6 +23,11 @@ namespace KestenApp.Web.ViewModels.Varieties
             VarietyId = variety.VarietyId;
             VarietyName = variety.Name;
             Description = variety.Description;
+
+            HideArchiveButton = !variety.IsActive;
+            HideRestoreButton = !HideArchiveButton;
+            HidePublishButton = variety.IsPublished || !variety.IsActive;
+            HideUnpublishButton = !variety.IsPublished || !variety.IsActive;
 
             //Tree
             AddKeyValuePairToCollection(Tree, "Blight Resistance", variety.ChestnutBlightResistance.ToString());

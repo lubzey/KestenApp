@@ -53,6 +53,42 @@
             return View(model);
         }
 
+        [Authorize]
+        public async Task<IActionResult> Publish(Guid id)
+        {
+            await _varietyService
+                .PublishVarietyAsync(id);
+
+            return RedirectToAction("Details", "Variety", new { id });
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Unpublish(Guid id)
+        {
+            await _varietyService
+                .PublishVarietyAsync(id, true);
+
+            return RedirectToAction("Details", "Variety", new { id });
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Archive(Guid id)
+        {
+            await _varietyService
+                .ArchiveByIdAsync(id);
+
+            return RedirectToAction("Details", "Variety", new { id });
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Restore(Guid id)
+        {
+            await _varietyService
+                .ArchiveByIdAsync(id, true);
+
+            return RedirectToAction("Details", "Variety", new { id });
+        }
+
         [HttpGet]
         [Authorize]
         [Route("Variety/Add")]
@@ -61,8 +97,6 @@
             //Empty form
             VarietyFormModel formModel = new VarietyFormModel
             {
-                //ThumbnailImagePath = $"/Images/no-image.jpg",
-
                 //Render selects
                 SpeciesCheckboxes = await GenerateSpeciesCheckboxesAsync(),
                 PollenOptions = GeneratePollenOptions(PollenType.None)
@@ -74,21 +108,21 @@
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add([FromForm] VarietyFormModel form)
+        public async Task<IActionResult> Add([FromForm] VarietyFormModel formModel)
         {
             Variety? variety = await _varietyService
-                .GetVarietyByNameAsync(form.VarietyName);
+                .GetVarietyByNameAsync(formModel.VarietyName);
 
             //Avoid using an existing name
             if (variety != null) //when creating
             {
                 //Render selects
-                form.SpeciesCheckboxes = await GenerateSpeciesCheckboxesAsync(form.SpeciesCheckboxes.Where(x => x.IsChecked).Select(x => x.Id));
-                form.PollenOptions = GeneratePollenOptions(form.PollenType);
+                formModel.SpeciesCheckboxes = await GenerateSpeciesCheckboxesAsync(formModel.SpeciesCheckboxes.Where(x => x.IsChecked).Select(x => x.Id));
+                formModel.PollenOptions = GeneratePollenOptions(formModel.PollenType);
 
-                ModelState.AddModelError(nameof(form.VarietyName), $"Variety '{form.VarietyName}' already exists.");
+                ModelState.AddModelError(nameof(formModel.VarietyName), $"Variety '{formModel.VarietyName}' already exists.");
 
-                return View("Form", form);
+                return View("Form", formModel);
             }
 
             //Other errors
@@ -99,11 +133,11 @@
                     .Where(e => e?.Count > 0)
                     .ToList();
 
-                return View("Form", form);
+                return View("Form", formModel);
             }
 
             //Create a new variety
-            Guid newVarietyIndex = await _varietyService.AddVarietyAsync(form);
+            Guid newVarietyIndex = await _varietyService.AddVarietyAsync(formModel);
 
             return RedirectToAction("Details", "Variety", new { id = newVarietyIndex });
         }
@@ -118,6 +152,13 @@
             if (variety == null)
                 return NotFound();
 
+            VarietyFormModel formModel = await GenerateEditFormModel(id, variety);
+
+            return View("Form", formModel);
+        }
+
+        private async Task<VarietyFormModel> GenerateEditFormModel(Guid id, Variety variety)
+        {
             int[] varietySpeciesIds = variety
                 .Species
                 .Select(vs => vs.SpeciesId)
@@ -142,34 +183,35 @@
                 InkDiseaseResistance = variety.InkDiseaseResistance
             };
 
-            return View("Form", formModel);
+            return formModel;
         }
 
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([FromForm] VarietyFormModel form, [FromRoute] Guid id)
+        public async Task<IActionResult> Edit([FromForm] VarietyFormModel formModel, [FromRoute] Guid id)
         {
             Variety? variety = await _varietyService
-                .GetVarietyByNameAsync(form.VarietyName);
+                .GetVarietyByNameAsync(formModel.VarietyName);
 
-            //if (variety != null && variety.VarietyId != id)
-            //{
-            //    return NotFound(id);
-            //}
+            //TODO Improve
+            if (variety != null && variety.VarietyId != id)
+            {
+                return NotFound(id);
+            }
 
             //Render selects
-            form.VarietyId = id;
+            formModel.VarietyId = id;
 
             //Avoid using an existing name
             if (variety != null && variety.VarietyId != id) //when updating
             {
-                ModelState.AddModelError(nameof(form.VarietyName), $"Variety '{form.VarietyName}' already exists.");
+                ModelState.AddModelError(nameof(formModel.VarietyName), $"Variety '{formModel.VarietyName}' already exists.");
 
-                form.SpeciesCheckboxes = await GenerateSpeciesCheckboxesAsync(form.SpeciesCheckboxes.Where(x => x.IsChecked).Select(x => x.Id));
-                form.PollenOptions = GeneratePollenOptions(form.PollenType);
+                formModel.SpeciesCheckboxes = await GenerateSpeciesCheckboxesAsync(formModel.SpeciesCheckboxes.Where(x => x.IsChecked).Select(x => x.Id));
+                formModel.PollenOptions = GeneratePollenOptions(formModel.PollenType);
 
-                return View("Form", form);
+                return View("Form", formModel);
             }
 
             //Other errors
@@ -180,11 +222,11 @@
                     .Where(e => e?.Count > 0)
                     .ToList();
 
-                return View("Form", form);
+                return View("Form", formModel);
             }
 
             //Update existing variety
-            Guid? varietyIndex = await _varietyService.UpdateVarietyAsync(id, form);
+            Guid? varietyIndex = await _varietyService.UpdateVarietyAsync(id, formModel);
 
             if (varietyIndex == null)
             {
@@ -200,7 +242,6 @@
             return View();
         }
 
-
         //Private methods
         private async Task<VarietyDetailsModel> GenerateVatieryDetailsViewModelAsync(Variety variety)
         {
@@ -214,7 +255,6 @@
             return new VarietyDetailsModel(variety, speciesCheckboxes);
         }
 
-        #region Form
         private IEnumerable<SelectListItem> GeneratePollenOptions(PollenType pollenType)
         {
             return EnumExtensions
@@ -248,6 +288,5 @@
                 })
                 .ToList();
         }
-        #endregion        
     }
 }

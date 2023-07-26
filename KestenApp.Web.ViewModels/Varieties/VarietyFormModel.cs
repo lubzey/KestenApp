@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 using KestenApp.Data.Enums;
-using static KestenApp.Common.EntityValidationConstants.Variety;
+using static KestenApp.Common.EntityValidationConstants.VarietyConstants;
 
 namespace KestenApp.Web.ViewModels.Varieties
 {

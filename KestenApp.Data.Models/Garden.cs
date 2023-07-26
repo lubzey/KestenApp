@@ -1,7 +1,7 @@
 ﻿namespace KestenApp.Data.Models
 {
     using System.ComponentModel.DataAnnotations;
-    using static KestenApp.Common.EntityValidationConstants.Garden;
+    using static KestenApp.Common.EntityValidationConstants.GardenConstants;
 
     public class Garden
     {

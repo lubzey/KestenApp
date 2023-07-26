@@ -2,7 +2,7 @@
 {
     using Microsoft.EntityFrameworkCore;
     using System.ComponentModel.DataAnnotations;
-    using static KestenApp.Common.EntityValidationConstants.Specimen;
+    using static KestenApp.Common.EntityValidationConstants.SpecimenConstants;
 
     public class Specimen
     {
