@@ -10,85 +10,75 @@
 <form asp-action="@Model.AspAction" method="post">
     @Html.AntiForgeryToken()
 
-    @*Title and Back Button*@
+    @*Header*@
     <div class="row">
-        <div class="col-10 col-lg-11">
-            <h2 class="text-start">@Model.PageTitle</h2>
+
+        <div class="col-10 offset-xl-1">
+            @*Variety Name*@
+            <h2 class="fw-bold mb-2">
+                @Model.VarietyName
+            </h2>
+
+            @*Buttons*@
+            <button asp-controller="Variety"
+                    asp-action="@Model.AspAction"
+                    asp-route-id="@Model.VarietyId"
+                    class="btn btn-outline-success">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
+                    <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
+                </svg>
+                <span>@Model.SubmitButtonText</span>
+            </button>
         </div>
 
         <div class="col-2 col-lg-1">
-            <div class="row d-md-flex justify-content-end">
+            <div class="row no-gutters">
                 <a asp-controller="Variety"
                    asp-action="@Model.AspActionRedirect"
                    asp-route-id="@Model.VarietyId"
-                   class="btn btn-outline-secondary">
+                   class="btn mr-1 btn-outline-secondary">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"></path>
                     </svg>
                     <span>Back</span>
                 </a>
             </div>
-        </div>
-    </div>
 
-    @*Action Buttons*@
-    <div class="row">
-        <div class="col-2 offset-10 col-lg-1 offset-lg-11">
-            <div class="row d-md-flex justify-content-end">
-                <button asp-controller="Variety"
-                        asp-action="@Model.AspAction"
-                        asp-route-id="@Model.VarietyId"
-                        class="btn btn-outline-success">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
-                        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
-                    </svg>
-                    <span>@Model.SubmitButtonText</span>
-                </button>
-            </div>
         </div>
     </div>
 
     @*Errors*@
     <div class="row">
-        <div asp-validation-summary="All" class="text-danger">
+        <div class="offset-3">
+            <div asp-validation-summary="All" class="text-danger">
+            </div>
         </div>
     </div>
 
-    <div class="col-11">
-        @*Summary*@
-        <div class="row">
-            <div class="col-7">
-                <div class="row">
-                    <div class="col-3">
-                        <label asp-for="@Model.VarietyName" class="form-label fw-bold">Variety Name</label>
-                    </div>
-                    <div class="col-9">
-                        <input asp-for="@Model.VarietyName" class="form-control" aria-required="true" />
-                        <small>
-                            <span asp-validation-for="@Model.VarietyName" class="text-danger" />
-                        </small>
-                    </div>
+    @*Name*@
+    <div class="row">
+        <div class="col-3 text-lg-end fw-bold mb-2">
+            <label asp-for="@Model.VarietyName" class="form-label fw-bold">Variety Name</label>
+        </div>
+        <div class="col-9 col-lg-8 col-xl-6 mb-2">
+            <input asp-for="@Model.VarietyName" class="form-control" aria-required="true" />
+            <small>
+                <span asp-validation-for="@Model.VarietyName" class="text-danger" />
+            </small>
+        </div>
+    </div>
 
-                    <div class="col-3 mt-3">
-                        <label asp-for="@Model.Description" class="form-label fw-bold">Description</label>
-                    </div>
-                    <div class="col-9 mt-3">
-                        <textarea asp-for="@Model.Description" class="form-control" rows="8" aria-required="true">
-                            </textarea>
-                        <small>
-                            <span asp-validation-for="@Model.Description" class="text-danger" />
-                        </small>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-5">
-                <div class="col-10 offset-1">
-                    <img alt=""
-                         class="img-fluid"
-                         src=@Model.ThumbnailImagePath />
-                </div>
-            </div>
+    @*Description*@
+    <div class="row mt-1">
+        <div class="col-3 text-lg-end fw-bold mb-2">
+            <label asp-for="@Model.Description" class="form-label fw-bold">Description</label>
+        </div>
+        <div class="col-9 col-lg-8 col-xl-6 mb-2">
+            <textarea asp-for="@Model.Description" class="form-control" rows="8" aria-required="true">
+                </textarea>
+            <small>
+                <span asp-validation-for="@Model.Description" class="text-danger" />
+            </small>
         </div>
     </div>
 
@@ -96,57 +86,57 @@
 
     @*Tree*@
     <div class="row mt-1">
-        <div class="col-1">
+        <div class="col-lg-1">
             <h3 class="mt-1">
                 Tree
             </h3>
         </div>
 
-        <div class="col-11">
+        @*Species*@
+        <div class="col-2 text-lg-end fw-bold mb-2">
+            <label asp-for="@Model.Description" class="form-label fw-bold">Species</label>
+        </div>
 
-            @*Species*@
-            <div class="row mt-1">
-                <div class="col-3 text-end">
-                    <label class="form-label fw-bold">Species</label>
-                </div>
-                <div class="col-5 mb-2">
-                    <div class="row">
-                        @for (int index = 0; index < Model.SpeciesCheckboxes.Count; index++)
-                        {
-                            <div class="col-3">
-                                <input type="checkbox"
-                                   asp-for="@Model.SpeciesCheckboxes[index].IsChecked"
-                                       class="form-check-input" />
-
-                                <label class="form-check-label">
-                                    @Model.SpeciesCheckboxes[index].LabelName
-                                </label>
-
-                                <input type="hidden" asp-for="@Model.SpeciesCheckboxes[index].Id" />
-                                <input type="hidden" asp-for="@Model.SpeciesCheckboxes[index].LabelName" />
-                                <br />
-                            </div>
-                        }
-                    </div>
-                </div>
-            </div>
-
+        <div class="col-12 col-sm-10 col-lg-9 col-xl-6 mb-2">
             <div class="row">
-                <div class="col-3 text-end">
-                    <label asp-for="@Model.PollenType" class="form-label fw-bold">Pollen</label>
-                </div>
-                <div class="col-5">
-                    <select asp-for="@Model.PollenType" class="form-control">
-                        @foreach (SelectListItem pollenType in Model.PollenOptions)
-                        {
-                            <option selected="@pollenType.Selected"
-                                value="@(pollenType.Value)">@pollenType.Text</option>
-                        }
-                    </select>
-                </div>
+                @for (int index = 0; index < Model.SpeciesCheckboxes.Count; index++)
+                {
+                    <div class="col-3">
+                        <input type="checkbox"
+                           asp-for="@Model.SpeciesCheckboxes[index].IsChecked"
+                               class="form-check-input" />
+
+                        <label class="form-check-label">
+                            @Model.SpeciesCheckboxes[index].LabelName
+                        </label>
+
+                        <input type="hidden" asp-for="@Model.SpeciesCheckboxes[index].Id" />
+                        <input type="hidden" asp-for="@Model.SpeciesCheckboxes[index].LabelName" />
+                        <br />
+                    </div>
+                }
             </div>
         </div>
     </div>
+
+    <div class="row mt-1">
+
+        @*Pollen*@
+        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
+            <label asp-for="@Model.PollenType" class="form-label fw-bold">Pollen</label>
+        </div>
+
+        <div class="col-6 col-lg-3 mb-2">
+            <select asp-for="@Model.PollenType" class="form-control">
+                @foreach (SelectListItem pollenType in Model.PollenOptions)
+                {
+                    <option selected="@pollenType.Selected"
+                        value="@(pollenType.Value)">@pollenType.Text</option>
+                }
+            </select>
+        </div>
+    </div>
+    
 </form>
 
 @section Scripts {

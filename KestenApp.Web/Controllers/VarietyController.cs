@@ -194,12 +194,6 @@
             Variety? variety = await _varietyService
                 .GetVarietyByNameAsync(formModel.VarietyName);
 
-            //TODO Improve
-            if (variety != null && variety.VarietyId != id)
-            {
-                return NotFound(id);
-            }
-
             //Render selects
             formModel.VarietyId = id;
 
