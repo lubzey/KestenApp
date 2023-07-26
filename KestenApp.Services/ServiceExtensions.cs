@@ -1,4 +1,7 @@
-﻿namespace KestenApp.Services
+﻿using KestenApp.Data.Enums.EnumHelpers;
+using KestenApp.Web.ViewModels;
+
+namespace KestenApp.Services
 {
     internal static class ServiceExtensions
     {

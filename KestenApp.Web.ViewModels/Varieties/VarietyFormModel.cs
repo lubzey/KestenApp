@@ -46,9 +46,11 @@ namespace KestenApp.Web.ViewModels.Varieties
         public IList<CheckboxModel> SpeciesCheckboxes { get; set; } = null!;
 
         [ValidateNever]
-        public IEnumerable<SelectListItem> PollenOptions { get; set; } = null!;
+        public IEnumerable<DropdownModel> PollenOptions { get; set; } = null!;
 
-
+        [ValidateNever]
+        public IEnumerable<DropdownModel> BlightResistanceOptions { get; set; } = null!;
+        
         //Text
         [ValidateNever]
         public string AspAction

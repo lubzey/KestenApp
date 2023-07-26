@@ -10,6 +10,8 @@
     using KestenApp.Web.ViewModels.Varieties;
     using static KestenApp.Common.EntityValidationConstants;
     using Microsoft.AspNetCore.Routing.Tree;
+    using KestenApp.Data.Enums.EnumHelpers;
+    using KestenApp.Web.ViewModels;
 
     public class VarietyService : IVarietyService
     {
@@ -209,7 +211,8 @@
                     })
                     .ToList(),
                 Description = model.Description,
-                PollenType = model.PollenType
+                PollenType = model.PollenType,
+                ChestnutBlightResistance = model.ChestnutBlightResistance
             };
 
             await _context.Varieties.AddAsync(variety);
@@ -247,6 +250,7 @@
                 .ToList();
 
             variety.PollenType = model.PollenType;
+            variety.ChestnutBlightResistance = model.ChestnutBlightResistance;
 
             await _context.SaveChangesAsync();
 
@@ -286,6 +290,48 @@
             }
 
             await this._context.SaveChangesAsync();
+        }
+
+        public IEnumerable<DropdownModel> GenerateConditionOptions()
+        {
+            return MapDropdown<ConditionType>();
+        }
+
+        public IEnumerable<DropdownModel> GeneratePollenOptions()
+        {
+            return MapDropdown<PollenType>();
+        }
+
+        private IEnumerable<DropdownModel> MapDropdown<TEnum>()
+        {
+            return EnumExtensions
+                .GetEnumValuesCollection<TEnum>()
+                .Select(p => new DropdownModel
+                {
+                    Id = (int)(object)p,
+                    Name = p.ToString()
+                }).ToList();
+        }
+
+        public async Task<IList<CheckboxModel>> GenerateSpeciesCheckboxesAsync(IEnumerable<int>? varietySpecies = null)
+        {
+            if (varietySpecies == null)
+            {
+                varietySpecies = new int[0];
+            }
+
+            var allSpecies = await _context.Species
+                .AsNoTracking()
+                .ToArrayAsync();
+
+            return allSpecies
+                .Select(s => new CheckboxModel
+                {
+                    Id = s.SpeciesId,
+                    LabelName = s.ShortLatinName,
+                    IsChecked = varietySpecies.Contains(s.SpeciesId)
+                })
+                .ToList();
         }
     }
 }

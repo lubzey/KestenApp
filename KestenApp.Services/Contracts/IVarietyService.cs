@@ -1,5 +1,6 @@
 ﻿using KestenApp.Data.Enums;
 using KestenApp.Data.Models;
+using KestenApp.Web.ViewModels;
 using KestenApp.Web.ViewModels.Varieties;
 
 namespace KestenApp.Services.Contracts
@@ -14,5 +15,8 @@ namespace KestenApp.Services.Contracts
         Task<Guid?> UpdateVarietyAsync(Guid id, VarietyFormModel model);
         Task PublishVarietyAsync(Guid id, bool unpublish = false);
         Task ArchiveByIdAsync(Guid varietyId, bool restore = false);
+        IEnumerable<DropdownModel> GenerateConditionOptions();
+        IEnumerable<DropdownModel> GeneratePollenOptions();
+        Task<IList<CheckboxModel>> GenerateSpeciesCheckboxesAsync(IEnumerable<int>? varietySpecies = null);
     }
 }

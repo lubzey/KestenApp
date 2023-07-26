@@ -98,8 +98,9 @@
             VarietyFormModel formModel = new VarietyFormModel
             {
                 //Render selects
-                SpeciesCheckboxes = await GenerateSpeciesCheckboxesAsync(),
-                PollenOptions = GeneratePollenOptions(PollenType.None)
+                SpeciesCheckboxes = await _varietyService.GenerateSpeciesCheckboxesAsync(),
+                PollenOptions = _varietyService.GeneratePollenOptions(),
+                BlightResistanceOptions = _varietyService.GenerateConditionOptions(),
             };
 
             return View("Form", formModel);
@@ -117,8 +118,8 @@
             if (variety != null) //when creating
             {
                 //Render selects
-                formModel.SpeciesCheckboxes = await GenerateSpeciesCheckboxesAsync(formModel.SpeciesCheckboxes.Where(x => x.IsChecked).Select(x => x.Id));
-                formModel.PollenOptions = GeneratePollenOptions(formModel.PollenType);
+                formModel.SpeciesCheckboxes = await _varietyService.GenerateSpeciesCheckboxesAsync(formModel.SpeciesCheckboxes.Where(x => x.IsChecked).Select(x => x.Id));
+                formModel.PollenOptions = _varietyService.GeneratePollenOptions();
 
                 ModelState.AddModelError(nameof(formModel.VarietyName), $"Variety '{formModel.VarietyName}' already exists.");
 
@@ -175,8 +176,10 @@
                     "/Images/no-image.jpg", //Move to constants
 
                 //Tree
-                SpeciesCheckboxes = await GenerateSpeciesCheckboxesAsync(varietySpeciesIds),
-                PollenOptions = GeneratePollenOptions(variety.PollenType),
+                SpeciesCheckboxes = await _varietyService.GenerateSpeciesCheckboxesAsync(varietySpeciesIds),
+                PollenType = variety.PollenType,
+                PollenOptions = _varietyService.GeneratePollenOptions(),
+                BlightResistanceOptions = _varietyService.GenerateConditionOptions(),
 
                 //Fruit
                 ChestnutBlightResistance = variety.ChestnutBlightResistance,
@@ -202,8 +205,8 @@
             {
                 ModelState.AddModelError(nameof(formModel.VarietyName), $"Variety '{formModel.VarietyName}' already exists.");
 
-                formModel.SpeciesCheckboxes = await GenerateSpeciesCheckboxesAsync(formModel.SpeciesCheckboxes.Where(x => x.IsChecked).Select(x => x.Id));
-                formModel.PollenOptions = GeneratePollenOptions(formModel.PollenType);
+                formModel.SpeciesCheckboxes = await _varietyService.GenerateSpeciesCheckboxesAsync(formModel.SpeciesCheckboxes.Where(x => x.IsChecked).Select(x => x.Id));
+                formModel.PollenOptions = _varietyService.GeneratePollenOptions();
 
                 return View("Form", formModel);
             }
@@ -244,43 +247,21 @@
                 .Select(vs => vs.SpeciesId)
                 .ToArray();
 
-            IList<CheckboxModel> speciesCheckboxes = await GenerateSpeciesCheckboxesAsync(varietySpecies);
+            IList<CheckboxModel> speciesCheckboxes = await _varietyService.GenerateSpeciesCheckboxesAsync(varietySpecies);
 
             return new VarietyDetailsModel(variety, speciesCheckboxes);
         }
 
-        private IEnumerable<SelectListItem> GeneratePollenOptions(PollenType pollenType)
-        {
-            return EnumExtensions
-                .GetEnumValuesCollection<PollenType>()
-                .Select(p => new SelectListItem
-                {
-                    Value = ((int)p).ToString(),
-                    Text = p.ToString(),
-                    Selected = pollenType == p
-                })
-                .ToList()
-                .AsReadOnly();
-        }
+        //private async Task<IEnumerable<SelectListItem>> GeneratePollenOptionsAsync(PollenType pollenType)
+        //{
+        //    var enumValues = await Task.Run(() => EnumExtensions.GetEnumValuesCollection<PollenType>());
 
-        private async Task<IList<CheckboxModel>> GenerateSpeciesCheckboxesAsync(IEnumerable<int>? varietySpecies = null)
-        {
-            if (varietySpecies == null)
-            {
-                varietySpecies = new int[0];
-            }
-
-            var allSpecies = await _speciesService
-                .AllSpecies();
-
-            return allSpecies
-                .Select(s => new CheckboxModel
-                {
-                    Id = s.SpeciesId,
-                    LabelName = s.ShortLatinName,
-                    IsChecked = varietySpecies.Contains(s.SpeciesId)
-                })
-                .ToList();
-        }
+        //    return enumValues.Select(p => new SelectListItem
+        //    {
+        //        Value = ((int)p).ToString(),
+        //        Text = p.ToString(),
+        //        Selected = pollenType == p
+        //    }).ToList().AsReadOnly();
+        //}
     }
 }

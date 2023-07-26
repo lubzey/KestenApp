@@ -30,11 +30,11 @@ namespace KestenApp.Web.ViewModels.Varieties
             HideUnpublishButton = !variety.IsPublished || !variety.IsActive;
 
             //Tree
-            AddKeyValuePairToCollection(Tree, "Blight Resistance", variety.ChestnutBlightResistance.ToString());
-            AddKeyValuePairToCollection(Tree, "Ink Disease Resistance", variety.InkDiseaseResistance.ToString());
+            AddKeyValuePairToCollection(Tree, "Blight Resistance", GetStringFromEnum<ConditionType>((int)variety.ChestnutBlightResistance));
+            AddKeyValuePairToCollection(Tree, "Ink Disease Resistance", GetStringFromEnum<ConditionType>((int)variety.InkDiseaseResistance));
 
-            AddKeyValuePairToCollection(Tree, "Pollen", variety.PollenType.ToString());
-            AddKeyValuePairToCollection(Tree, "Vigor", variety.Vigor.ToString());
+            AddKeyValuePairToCollection(Tree, "Pollen", GetStringFromEnum<PollenType>((int)variety.PollenType));
+            AddKeyValuePairToCollection(Tree, "Vigor", GetStringFromEnum<StrengthType>((int)variety.Vigor));
             //AddKeyValuePairToCollection(Tree, "Erect*", "Semi-Erect, Very Erect, Apical Dominance");
 
             AddKeyValuePairToCollection(Tree, "Budding Period", GetStringFromEnum<PeriodType>((int)variety.BuddingPeriod));
@@ -59,8 +59,8 @@ namespace KestenApp.Web.ViewModels.Varieties
             //AddKeyValuePairToCollection(Fruit, "Shape*", "Oval, Triangular, Irregular ???");
             //AddKeyValuePairToCollection(Fruit, "Shell Color*", "Dark brown, Brown, Red, Orange, Yellow ???");
             //AddKeyValuePairToCollection(Fruit, "Kernel Color*", "Milky White, Dark Yellow?");
-            AddKeyValuePairToCollection(Fruit, "Peeling", variety.Peeling.ToString());
-            AddKeyValuePairToCollection(Fruit, "Conservation", variety.Conservation.ToString());
+            AddKeyValuePairToCollection(Fruit, "Peeling", GetStringFromEnum<ConditionType>((int)variety.Peeling));
+            AddKeyValuePairToCollection(Fruit, "Conservation", GetStringFromEnum<ConditionType>((int)variety.Conservation));
             //AddKeyValuePairToCollection(Fruit, "Nuts per Bur*", "3");
             //AddKeyValuePairToCollection(Fruit, "Hilum Size*", "Small, Medium, Large");
             //AddKeyValuePairToCollection(Fruit, "Shell Type*", "Fuzzy, Shiny?");
