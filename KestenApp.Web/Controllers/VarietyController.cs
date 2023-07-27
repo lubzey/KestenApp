@@ -208,6 +208,9 @@
             formModel.BuddingPeriodOptions = _varietyService.GeneratePeriodOptions();
             formModel.FloweringPeriodOptions = _varietyService.GeneratePeriodOptions();
             formModel.MaturityPeriodOptions = _varietyService.GeneratePeriodOptions();
+
+            formModel.PeelingOptions = _varietyService.GenerateConditionOptions();
+            formModel.ConservationOptions = _varietyService.GenerateConditionOptions();
         }
     }
 }

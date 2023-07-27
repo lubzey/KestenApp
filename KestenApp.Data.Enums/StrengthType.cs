@@ -1,14 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace KestenApp.Data.Enums
+﻿namespace KestenApp.Data.Enums
 {
+    using System.ComponentModel;
+
     public enum StrengthType
     {
         None = 0,
         Weak = 1,
         Medium = 2,
         Strong = 3,
-        [Display(Name = "Very strong")]
+        [Description("Very Strong")]
         VeryStrong = 4
     }
 }

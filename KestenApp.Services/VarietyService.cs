@@ -10,7 +10,9 @@
     using KestenApp.Web.ViewModels.Varieties;
     using KestenApp.Data.Enums.EnumHelpers;
     using KestenApp.Web.ViewModels;
-    using KestenApp.Data.Migrations;
+    using Newtonsoft.Json.Linq;
+    using System.ComponentModel;
+    using System.Reflection;
 
     public class VarietyService : IVarietyService
     {
@@ -194,7 +196,7 @@
 
                 //Tree
                 SpeciesCheckboxes = await GenerateSpeciesCheckboxesAsync(varietySpeciesIds),
-                
+
                 BlightResistanceOptions = GenerateConditionOptions(),
                 InkDiseaseResistanceOptions = GenerateConditionOptions(),
 
@@ -212,6 +214,15 @@
 
                 MaturityPeriod = variety.MaturityPeriod,
                 MaturityPeriodOptions = GeneratePeriodOptions(),
+
+                Peeling = variety.Peeling,
+                PeelingOptions = GenerateConditionOptions(),
+
+                Crop = variety.Crop,
+                CropVolumeOptions = GenerateCropVolumeOptions(),
+
+                Conservation = variety.Conservation,
+                ConservationOptions = GenerateConditionOptions(),
 
                 //Fruit
                 ChestnutBlightResistance = variety.ChestnutBlightResistance,
@@ -281,7 +292,10 @@
                 Vigor = model.Vigor,
                 BuddingPeriod = model.BuddingPeriod,
                 FloweringPeriod = model.FloweringPeriod,
-                MaturityPeriod = model.MaturityPeriod
+                MaturityPeriod = model.MaturityPeriod,
+                Peeling = model.Peeling,
+                Crop = model.Crop,
+                Conservation = model.Conservation
             };
 
             await _context.Varieties.AddAsync(variety);
@@ -325,7 +339,9 @@
             variety.BuddingPeriod = model.BuddingPeriod;
             variety.FloweringPeriod = model.FloweringPeriod;
             variety.MaturityPeriod = model.MaturityPeriod;
-
+            variety.Crop = model.Crop;
+            variety.Peeling = model.Peeling;
+            variety.Conservation = model.Conservation;
 
             await _context.SaveChangesAsync();
 
@@ -387,14 +403,19 @@
             return MapDropdown<PeriodType>();
         }
 
-        private IEnumerable<DropdownModel> MapDropdown<TEnum>()
+        public IEnumerable<DropdownModel> GenerateCropVolumeOptions()
+        {
+            return MapDropdown<VolumeType>();
+        }
+
+        private IEnumerable<DropdownModel> MapDropdown<T>() where T : Enum
         {
             return EnumExtensions
-                .GetEnumValuesCollection<TEnum>()
+                .GetEnumValuesCollection<T>()
                 .Select(p => new DropdownModel
                 {
                     Id = (int)(object)p,
-                    Name = p.ToString()
+                    Name = EnumExtensions.GetStringFromEnumValue<T>(p)
                 }).ToList();
         }
 
@@ -417,6 +438,15 @@
                     IsChecked = varietySpecies.Contains(s.SpeciesId)
                 })
                 .ToList();
+        }
+
+        public string GetStringFromNullableBoolean(bool? isMarron)
+        {
+            return isMarron != null
+                ? (bool)isMarron
+                    ? "\u2713"
+                    : "\u2717"
+                : "";
         }
     }
 }

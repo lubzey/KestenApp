@@ -48,6 +48,15 @@
         [Required]
         public PeriodType MaturityPeriod { get; set; } = PeriodType.None;
 
+        [Required]
+        public VolumeType Crop { get; set; } = VolumeType.None;
+
+        [Required]
+        public ConditionType Peeling { get; set; } = ConditionType.None;
+
+        [Required]
+        public ConditionType Conservation { get; set; } = ConditionType.None;
+        
 
         //Used to display data
         [ValidateNever]
@@ -74,6 +83,12 @@
         public IEnumerable<DropdownModel> FloweringPeriodOptions { get; set; } = null!;
         [ValidateNever]
         public IEnumerable<DropdownModel> MaturityPeriodOptions { get; set; } = null!;
+        [ValidateNever]
+        public IEnumerable<DropdownModel> CropVolumeOptions { get; set; } = null!;
+        [ValidateNever]
+        public IEnumerable<DropdownModel> PeelingOptions { get; set; } = null!;
+        [ValidateNever]
+        public IEnumerable<DropdownModel> ConservationOptions { get; set; } = null!;
 
         //Text
         [ValidateNever]

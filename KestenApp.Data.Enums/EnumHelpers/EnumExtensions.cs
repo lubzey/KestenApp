@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
 namespace KestenApp.Data.Enums.EnumHelpers
@@ -46,7 +47,23 @@ namespace KestenApp.Data.Enums.EnumHelpers
 
         public static IReadOnlyList<T> GetEnumValuesCollection<T>()
         {
-            return Enum.GetValues(typeof(T)).Cast<T>().ToList();
+            return Enum.GetValues(typeof(T))
+                .Cast<T>()
+                .ToList();
+        }
+
+        public static string GetStringFromEnumValue<T>(T value) where T : Enum
+        {
+            if (value != null
+                && Convert.ToInt32(value) > 0
+                && Enum.IsDefined(typeof(T), value))
+            {
+                FieldInfo? field = value.GetType().GetField(value.ToString());
+                DescriptionAttribute? attribute = field?.GetCustomAttribute<DescriptionAttribute>();
+                return attribute?.Description ?? value.ToString();
+            }
+
+            return "";
         }
     }
 }

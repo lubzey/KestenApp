@@ -1,5 +1,8 @@
 ﻿using KestenApp.Data.Enums;
+using KestenApp.Data.Enums.EnumHelpers;
 using KestenApp.Data.Models;
+using System.ComponentModel;
+using System.Reflection;
 
 namespace KestenApp.Web.ViewModels.Varieties
 {
@@ -35,23 +38,23 @@ namespace KestenApp.Web.ViewModels.Varieties
                 : $"/Images/no-image.jpg";
 
             //Tree
-            AddKeyValuePairToCollection(Tree, "Blight Resistance", GetStringFromEnum<ConditionType>((int)variety.ChestnutBlightResistance));
-            AddKeyValuePairToCollection(Tree, "Ink Disease Resistance", GetStringFromEnum<ConditionType>((int)variety.InkDiseaseResistance));
+            AddKeyValuePairToCollection(Tree, "Blight Resistance", EnumExtensions.GetStringFromEnumValue<ConditionType>(variety.ChestnutBlightResistance));
+            AddKeyValuePairToCollection(Tree, "Ink Disease Resistance", EnumExtensions.GetStringFromEnumValue<ConditionType>(variety.InkDiseaseResistance));
 
-            AddKeyValuePairToCollection(Tree, "Pollen", GetStringFromEnum<PollenType>((int)variety.PollenType));
-            AddKeyValuePairToCollection(Tree, "Vigor", GetStringFromEnum<StrengthType>((int)variety.Vigor));
+            AddKeyValuePairToCollection(Tree, "Pollen", EnumExtensions.GetStringFromEnumValue<PollenType>(variety.PollenType));
+            AddKeyValuePairToCollection(Tree, "Vigor", EnumExtensions.GetStringFromEnumValue<StrengthType>(variety.Vigor));
             //AddKeyValuePairToCollection(Tree, "Erect*", "Semi-Erect, Very Erect, Apical Dominance");
 
-            AddKeyValuePairToCollection(Tree, "Budding Period", GetStringFromEnum<PeriodType>((int)variety.BuddingPeriod));
-            AddKeyValuePairToCollection(Tree, "Flowering Period", GetStringFromEnum<PeriodType>((int)variety.FloweringPeriod));
-            AddKeyValuePairToCollection(Tree, "Maturity Period", GetStringFromEnum<PeriodType>((int)variety.MaturityPeriod));
+            AddKeyValuePairToCollection(Tree, "Budding Period", EnumExtensions.GetStringFromEnumValue<PeriodType>(variety.BuddingPeriod));
+            AddKeyValuePairToCollection(Tree, "Flowering Period", EnumExtensions.GetStringFromEnumValue<PeriodType>(variety.FloweringPeriod));
+            AddKeyValuePairToCollection(Tree, "Maturity Period", EnumExtensions.GetStringFromEnumValue<PeriodType>(variety.MaturityPeriod));
 
             //AddKeyValuePairToCollection(Tree, "Gall Wasp Resistance*", "Bad, Medium, Good");
             //AddKeyValuePairToCollection(Tree, "Cold Hardiness*", "Bad, Medium, Good");
             //AddKeyValuePairToCollection(Tree, "Spring Frost Sensitivity*", "True/False/None V/X/");
             //AddKeyValuePairToCollection(Tree, "Kernel Rot Susceptibility*", "True/False/None V/X/");
             //AddKeyValuePairToCollection(Tree, "Catkins Type*", "astamine, brachistamine, mesostamine, longistamine");
-            AddKeyValuePairToCollection(Tree, "Crop Volume", GetStringFromEnum<VolumeType>((int)variety.Crop));
+            AddKeyValuePairToCollection(Tree, "Crop Volume", EnumExtensions.GetStringFromEnumValue<VolumeType>(variety.Crop));
 
             //Rootstock and pollentation
 
@@ -64,8 +67,8 @@ namespace KestenApp.Web.ViewModels.Varieties
             //AddKeyValuePairToCollection(Fruit, "Shape*", "Oval, Triangular, Irregular ???");
             //AddKeyValuePairToCollection(Fruit, "Shell Color*", "Dark brown, Brown, Red, Orange, Yellow ???");
             //AddKeyValuePairToCollection(Fruit, "Kernel Color*", "Milky White, Dark Yellow?");
-            AddKeyValuePairToCollection(Fruit, "Peeling", GetStringFromEnum<ConditionType>((int)variety.Peeling));
-            AddKeyValuePairToCollection(Fruit, "Conservation", GetStringFromEnum<ConditionType>((int)variety.Conservation));
+            AddKeyValuePairToCollection(Fruit, "Peeling", EnumExtensions.GetStringFromEnumValue<ConditionType>(variety.Peeling));
+            AddKeyValuePairToCollection(Fruit, "Conservation", EnumExtensions.GetStringFromEnumValue<ConditionType>(variety.Conservation));
             //AddKeyValuePairToCollection(Fruit, "Nuts per Bur*", "3");
             //AddKeyValuePairToCollection(Fruit, "Hilum Size*", "Small, Medium, Large");
             //AddKeyValuePairToCollection(Fruit, "Shell Type*", "Fuzzy, Shiny?");
@@ -90,16 +93,6 @@ namespace KestenApp.Web.ViewModels.Varieties
                     ? "\u2713"
                     : "\u2717"
                 : "";
-        }
-
-        public static string GetStringFromEnum<TEnum>(int value) where TEnum : Enum
-        {
-            if (value > 0 && Enum.IsDefined(typeof(TEnum), value))
-            {
-                return Enum.GetName(typeof(TEnum), value) ?? "";
-            }
-
-            return "";
         }
     }
 }

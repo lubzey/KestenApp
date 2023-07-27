@@ -232,6 +232,54 @@
         </div>
     </div>
 
+    @*Crop*@
+    <div class="row mt-1">
+        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
+            <label asp-for="@Model.Crop" class="form-label fw-bold">Crop Volume</label>
+        </div>
+
+        <div class="col-6 col-lg-3 mb-2">
+            <select asp-for="@Model.Crop" class="form-control">
+                @foreach (DropdownModel vigorType in Model.CropVolumeOptions)
+                {
+                    <option value="@vigorType.Id">@vigorType.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    @*Peeling*@
+    <div class="row mt-1">
+        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
+            <label asp-for="@Model.Peeling" class="form-label fw-bold">Peeling</label>
+        </div>
+
+        <div class="col-6 col-lg-3 mb-2">
+            <select asp-for="@Model.Peeling" class="form-control">
+                @foreach (DropdownModel vigorType in Model.PeelingOptions)
+                {
+                    <option value="@vigorType.Id">@vigorType.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    @*Conservation*@
+    <div class="row mt-1">
+        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
+            <label asp-for="@Model.Conservation" class="form-label fw-bold">Conservation</label>
+        </div>
+
+        <div class="col-6 col-lg-3 mb-2">
+            <select asp-for="@Model.Conservation" class="form-control">
+                @foreach (DropdownModel vigorType in Model.ConservationOptions)
+                {
+                    <option value="@vigorType.Id">@vigorType.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+
 </form>
 
 @section Scripts {
