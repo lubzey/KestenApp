@@ -6,7 +6,6 @@
 
     using KestenApp.Data.Enums;
     using static KestenApp.Common.EntityValidationConstants.VarietyConstants;
-    using KestenApp.Data.Models;
 
     public class VarietyFormModel
     {
