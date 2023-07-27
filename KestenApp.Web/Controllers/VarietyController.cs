@@ -41,16 +41,12 @@
         [Authorize]
         public async Task<IActionResult> Details(Guid id)
         {
-            Variety? variety = await _varietyService
+            VarietyDetailsModel detailsModel = await _varietyService
                 .GetDetailsViewByIdAsync(id);
 
-            if (variety == null)
-                return NotFound();
-
             //string contentRootPath = _environment.WebRootPath;
-            VarietyDetailsModel model = await GenerateVatieryDetailsViewModelAsync(variety);
 
-            return View(model);
+            return View(detailsModel);
         }
 
         [Authorize]
@@ -95,13 +91,8 @@
         public async Task<IActionResult> Add()
         {
             //Empty form
-            VarietyFormModel formModel = new VarietyFormModel
-            {
-                //Render selects
-                SpeciesCheckboxes = await _varietyService.GenerateSpeciesCheckboxesAsync(),
-                PollenOptions = _varietyService.GeneratePollenOptions(),
-                BlightResistanceOptions = _varietyService.GenerateConditionOptions(),
-            };
+            VarietyFormModel formModel = new VarietyFormModel();
+            await RenderFormSelects(formModel);
 
             return View("Form", formModel);
         }
@@ -117,9 +108,7 @@
             //Avoid using an existing name
             if (variety != null) //when creating
             {
-                //Render selects
-                formModel.SpeciesCheckboxes = await _varietyService.GenerateSpeciesCheckboxesAsync(formModel.SpeciesCheckboxes.Where(x => x.IsChecked).Select(x => x.Id));
-                formModel.PollenOptions = _varietyService.GeneratePollenOptions();
+                await RenderFormSelects(formModel);
 
                 ModelState.AddModelError(nameof(formModel.VarietyName), $"Variety '{formModel.VarietyName}' already exists.");
 
@@ -148,45 +137,9 @@
         [Route("Variety/Edit/{id}")]
         public async Task<IActionResult> Edit([FromRoute] Guid id)
         {
-            Variety? variety = await _varietyService.GetDetailsViewByIdAsync(id);
+            VarietyFormModel editModel = await _varietyService.GetFormViewByIdAsync(id);
 
-            if (variety == null)
-                return NotFound();
-
-            VarietyFormModel formModel = await GenerateEditFormModel(id, variety);
-
-            return View("Form", formModel);
-        }
-
-        private async Task<VarietyFormModel> GenerateEditFormModel(Guid id, Variety variety)
-        {
-            int[] varietySpeciesIds = variety
-                .Species
-                .Select(vs => vs.SpeciesId)
-                .ToArray();
-
-            VarietyFormModel formModel = new VarietyFormModel
-            {
-                //Details
-                VarietyId = id,
-                VarietyName = variety.Name,
-                Description = variety.Description,
-                ThumbnailImagePath = variety.VarietyImages.Any() ?
-                    $"/Images/Varieties/{variety.VarietyId}/{variety.VarietyImages.First().ImageId}.jpg" :
-                    "/Images/no-image.jpg", //Move to constants
-
-                //Tree
-                SpeciesCheckboxes = await _varietyService.GenerateSpeciesCheckboxesAsync(varietySpeciesIds),
-                PollenType = variety.PollenType,
-                PollenOptions = _varietyService.GeneratePollenOptions(),
-                BlightResistanceOptions = _varietyService.GenerateConditionOptions(),
-
-                //Fruit
-                ChestnutBlightResistance = variety.ChestnutBlightResistance,
-                InkDiseaseResistance = variety.InkDiseaseResistance
-            };
-
-            return formModel;
+            return View("Form", editModel);
         }
 
         [HttpPost]
@@ -205,8 +158,7 @@
             {
                 ModelState.AddModelError(nameof(formModel.VarietyName), $"Variety '{formModel.VarietyName}' already exists.");
 
-                formModel.SpeciesCheckboxes = await _varietyService.GenerateSpeciesCheckboxesAsync(formModel.SpeciesCheckboxes.Where(x => x.IsChecked).Select(x => x.Id));
-                formModel.PollenOptions = _varietyService.GeneratePollenOptions();
+                await RenderFormSelects(formModel);
 
                 return View("Form", formModel);
             }
@@ -239,29 +191,23 @@
             return View();
         }
 
-        //Private methods
-        private async Task<VarietyDetailsModel> GenerateVatieryDetailsViewModelAsync(Variety variety)
+        private async Task RenderFormSelects(VarietyFormModel formModel)
         {
-            int[] varietySpecies = variety
-                .Species
-                .Select(vs => vs.SpeciesId)
-                .ToArray();
+            int[] checkedSpecies = formModel.SpeciesCheckboxes != null
+                ? formModel.SpeciesCheckboxes
+                    .Where(x => x.IsChecked)
+                    .Select(x => x.Id).ToArray()
+                : new int[0];
 
-            IList<CheckboxModel> speciesCheckboxes = await _varietyService.GenerateSpeciesCheckboxesAsync(varietySpecies);
+            formModel.SpeciesCheckboxes = await _varietyService.GenerateSpeciesCheckboxesAsync(checkedSpecies);
+            formModel.PollenOptions = _varietyService.GeneratePollenOptions();
+            formModel.BlightResistanceOptions = _varietyService.GenerateConditionOptions();
+            formModel.InkDiseaseResistanceOptions = _varietyService.GenerateConditionOptions();
 
-            return new VarietyDetailsModel(variety, speciesCheckboxes);
+            formModel.VigorOptions = _varietyService.GenerateVigorOptions();
+            formModel.BuddingPeriodOptions = _varietyService.GeneratePeriodOptions();
+            formModel.FloweringPeriodOptions = _varietyService.GeneratePeriodOptions();
+            formModel.MaturityPeriodOptions = _varietyService.GeneratePeriodOptions();
         }
-
-        //private async Task<IEnumerable<SelectListItem>> GeneratePollenOptionsAsync(PollenType pollenType)
-        //{
-        //    var enumValues = await Task.Run(() => EnumExtensions.GetEnumValuesCollection<PollenType>());
-
-        //    return enumValues.Select(p => new SelectListItem
-        //    {
-        //        Value = ((int)p).ToString(),
-        //        Text = p.ToString(),
-        //        Selected = pollenType == p
-        //    }).ToList().AsReadOnly();
-        //}
     }
 }

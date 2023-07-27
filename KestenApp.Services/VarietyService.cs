@@ -8,10 +8,9 @@
     using KestenApp.Services.Contracts;
     using KestenApp.Services.Models;
     using KestenApp.Web.ViewModels.Varieties;
-    using static KestenApp.Common.EntityValidationConstants;
-    using Microsoft.AspNetCore.Routing.Tree;
     using KestenApp.Data.Enums.EnumHelpers;
     using KestenApp.Web.ViewModels;
+    using KestenApp.Data.Migrations;
 
     public class VarietyService : IVarietyService
     {
@@ -159,9 +158,74 @@
         #endregion
 
         //Details
-        public async Task<Variety?> GetDetailsViewByIdAsync(Guid id)
+        public async Task<VarietyDetailsModel> GetDetailsViewByIdAsync(Guid id)
         {
-            Variety? variety = await _context
+            Variety variety = await GetVarietyByIdAsync(id);
+
+            int[] varietySpecies = variety
+                .Species
+                .Select(vs => vs.SpeciesId)
+                .ToArray();
+
+            IList<CheckboxModel> speciesCheckboxes = await GenerateSpeciesCheckboxesAsync(varietySpecies);
+            VarietyDetailsModel detailsModel = new VarietyDetailsModel(variety, speciesCheckboxes);
+
+            return detailsModel;
+        }
+
+        public async Task<VarietyFormModel> GetFormViewByIdAsync(Guid id)
+        {
+            Variety variety = await GetVarietyByIdAsync(id);
+
+            int[] varietySpeciesIds = variety
+                .Species
+                .Select(vs => vs.SpeciesId)
+                .ToArray();
+
+            VarietyFormModel formModel = new VarietyFormModel
+            {
+                //Details
+                VarietyId = variety.VarietyId,
+                VarietyName = variety.Name,
+                Description = variety.Description,
+                ThumbnailImagePath = variety.VarietyImages.Any() ?
+                    $"/Images/Varieties/{variety.VarietyId}/{variety.VarietyImages.First().ImageId}.jpg" :
+                    "/Images/no-image.jpg", //Move to constants
+
+                //Tree
+                SpeciesCheckboxes = await GenerateSpeciesCheckboxesAsync(varietySpeciesIds),
+                
+                BlightResistanceOptions = GenerateConditionOptions(),
+                InkDiseaseResistanceOptions = GenerateConditionOptions(),
+
+                PollenType = variety.PollenType,
+                PollenOptions = GeneratePollenOptions(),
+
+                Vigor = variety.Vigor,
+                VigorOptions = GenerateVigorOptions(),
+
+                BuddingPeriod = variety.BuddingPeriod,
+                BuddingPeriodOptions = GeneratePeriodOptions(),
+
+                FloweringPeriod = variety.FloweringPeriod,
+                FloweringPeriodOptions = GeneratePeriodOptions(),
+
+                MaturityPeriod = variety.MaturityPeriod,
+                MaturityPeriodOptions = GeneratePeriodOptions(),
+
+                //Fruit
+                ChestnutBlightResistance = variety.ChestnutBlightResistance,
+                InkDiseaseResistance = variety.InkDiseaseResistance
+            };
+
+            return formModel;
+        }
+
+
+
+        private async Task<Variety> GetVarietyByIdAsync(Guid id)
+        {
+            Variety variety = await _context
                 .Varieties
                 //Include more data
                 .Include(v => v.VarietyImages)
@@ -169,7 +233,7 @@
                     .ThenInclude(v => v.Species)
                 .Include(v => v.FruitSizes)
                     .ThenInclude(v => v.FruitSize)
-                .FirstOrDefaultAsync(p => p.VarietyId == id);
+                .FirstAsync(p => p.VarietyId == id);
 
             return variety;
         }
@@ -212,7 +276,12 @@
                     .ToList(),
                 Description = model.Description,
                 PollenType = model.PollenType,
-                ChestnutBlightResistance = model.ChestnutBlightResistance
+                ChestnutBlightResistance = model.ChestnutBlightResistance,
+                InkDiseaseResistance = model.InkDiseaseResistance,
+                Vigor = model.Vigor,
+                BuddingPeriod = model.BuddingPeriod,
+                FloweringPeriod = model.FloweringPeriod,
+                MaturityPeriod = model.MaturityPeriod
             };
 
             await _context.Varieties.AddAsync(variety);
@@ -251,6 +320,12 @@
 
             variety.PollenType = model.PollenType;
             variety.ChestnutBlightResistance = model.ChestnutBlightResistance;
+            variety.InkDiseaseResistance = model.InkDiseaseResistance;
+            variety.Vigor = model.Vigor;
+            variety.BuddingPeriod = model.BuddingPeriod;
+            variety.FloweringPeriod = model.FloweringPeriod;
+            variety.MaturityPeriod = model.MaturityPeriod;
+
 
             await _context.SaveChangesAsync();
 
@@ -300,6 +375,16 @@
         public IEnumerable<DropdownModel> GeneratePollenOptions()
         {
             return MapDropdown<PollenType>();
+        }
+
+        public IEnumerable<DropdownModel> GenerateVigorOptions()
+        {
+            return MapDropdown<StrengthType>();
+        }
+
+        public IEnumerable<DropdownModel> GeneratePeriodOptions()
+        {
+            return MapDropdown<PeriodType>();
         }
 
         private IEnumerable<DropdownModel> MapDropdown<TEnum>()

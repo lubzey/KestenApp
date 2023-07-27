@@ -120,6 +120,38 @@
 
     </div>
 
+    @*Blight Resistance*@
+    <div class="row mt-1">
+        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
+            <label asp-for="@Model.ChestnutBlightResistance" class="form-label fw-bold">Blight Resistance</label>
+        </div>
+
+        <div class="col-6 col-lg-3 mb-2">
+            <select asp-for="@Model.ChestnutBlightResistance" class="form-control">
+                @foreach (DropdownModel blightResistance in Model.BlightResistanceOptions)
+                {
+                    <option value="@blightResistance.Id">@blightResistance.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    @*Ink Disease Resistance*@
+    <div class="row mt-1">
+        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
+            <label asp-for="@Model.InkDiseaseResistance" class="form-label fw-bold">Ink Disease Resistance</label>
+        </div>
+
+        <div class="col-6 col-lg-3 mb-2">
+            <select asp-for="@Model.InkDiseaseResistance" class="form-control">
+                @foreach (DropdownModel blightResistance in Model.InkDiseaseResistanceOptions)
+                {
+                    <option value="@blightResistance.Id">@blightResistance.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+
     @*Pollen*@
     <div class="row mt-1">
         <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
@@ -136,17 +168,65 @@
         </div>
     </div>
 
-    @*Pollen*@
+    @*Vigor*@
     <div class="row mt-1">
         <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
-            <label asp-for="@Model.ChestnutBlightResistance" class="form-label fw-bold">Blight Resistance</label>
+            <label asp-for="@Model.Vigor" class="form-label fw-bold">Vigor</label>
         </div>
 
         <div class="col-6 col-lg-3 mb-2">
-            <select asp-for="@Model.ChestnutBlightResistance" class="form-control">
-                @foreach (DropdownModel blightResistance in Model.BlightResistanceOptions)
+            <select asp-for="@Model.Vigor" class="form-control">
+                @foreach (DropdownModel vigorType in Model.VigorOptions)
                 {
-                    <option value="@blightResistance.Id">@blightResistance.Name</option>
+                    <option value="@vigorType.Id">@vigorType.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    @*Budding*@
+    <div class="row mt-1">
+        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
+            <label asp-for="@Model.BuddingPeriod" class="form-label fw-bold">Budding Period</label>
+        </div>
+
+        <div class="col-6 col-lg-3 mb-2">
+            <select asp-for="@Model.BuddingPeriod" class="form-control">
+                @foreach (DropdownModel vigorType in Model.BuddingPeriodOptions)
+                {
+                    <option value="@vigorType.Id">@vigorType.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    @*Budding*@
+    <div class="row mt-1">
+        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
+            <label asp-for="@Model.FloweringPeriod" class="form-label fw-bold">Flowering Period</label>
+        </div>
+
+        <div class="col-6 col-lg-3 mb-2">
+            <select asp-for="@Model.FloweringPeriod" class="form-control">
+                @foreach (DropdownModel vigorType in Model.FloweringPeriodOptions)
+                {
+                    <option value="@vigorType.Id">@vigorType.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    @*Budding*@
+    <div class="row mt-1">
+        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
+            <label asp-for="@Model.MaturityPeriod" class="form-label fw-bold">Maturity Period</label>
+        </div>
+
+        <div class="col-6 col-lg-3 mb-2">
+            <select asp-for="@Model.MaturityPeriod" class="form-control">
+                @foreach (DropdownModel vigorType in Model.MaturityPeriodOptions)
+                {
+                    <option value="@vigorType.Id">@vigorType.Name</option>
                 }
             </select>
         </div>

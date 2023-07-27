@@ -29,6 +29,11 @@ namespace KestenApp.Web.ViewModels.Varieties
             HidePublishButton = variety.IsPublished || !variety.IsActive;
             HideUnpublishButton = !variety.IsPublished || !variety.IsActive;
 
+            SpeciesCheckboxes = speciesCheckboxes;
+            ThumbnailImagePath = variety.VarietyImages.Any()
+                ? $"/Images/Varieties/{variety.VarietyId}/{variety.VarietyImages.First().ImageId}.jpg"
+                : $"/Images/no-image.jpg";
+
             //Tree
             AddKeyValuePairToCollection(Tree, "Blight Resistance", GetStringFromEnum<ConditionType>((int)variety.ChestnutBlightResistance));
             AddKeyValuePairToCollection(Tree, "Ink Disease Resistance", GetStringFromEnum<ConditionType>((int)variety.InkDiseaseResistance));
@@ -65,10 +70,7 @@ namespace KestenApp.Web.ViewModels.Varieties
             //AddKeyValuePairToCollection(Fruit, "Hilum Size*", "Small, Medium, Large");
             //AddKeyValuePairToCollection(Fruit, "Shell Type*", "Fuzzy, Shiny?");
 
-            SpeciesCheckboxes = speciesCheckboxes;
-            ThumbnailImagePath = variety.VarietyImages.Any()
-                ? $"/Images/Varieties/{variety.VarietyId}/{variety.VarietyImages.First().ImageId}.jpg"
-                : $"/Images/no-image.jpg";
+            
         }
 
         private void AddKeyValuePairToCollection(List<KeyValuePair<string, string>> collection, string key, string? value)

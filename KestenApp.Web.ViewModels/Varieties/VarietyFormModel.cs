@@ -1,13 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Microsoft.AspNetCore.Mvc.Rendering;
-
-using KestenApp.Data.Enums;
-using static KestenApp.Common.EntityValidationConstants.VarietyConstants;
-
-namespace KestenApp.Web.ViewModels.Varieties
+﻿namespace KestenApp.Web.ViewModels.Varieties
 {
+    using System.ComponentModel.DataAnnotations;
+
+    using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+
+    using KestenApp.Data.Enums;
+    using static KestenApp.Common.EntityValidationConstants.VarietyConstants;
+
     public class VarietyFormModel
     {
         [ValidateNever]
@@ -37,20 +36,45 @@ namespace KestenApp.Web.ViewModels.Varieties
         [Required]
         public ConditionType InkDiseaseResistance { get; set; } = ConditionType.None;
 
+        [Required]
+        public StrengthType Vigor { get; set; } = StrengthType.None;
+
+        [Required]
+        public PeriodType BuddingPeriod { get; set; } = PeriodType.None;
+
+        [Required]
+        public PeriodType FloweringPeriod { get; set; } = PeriodType.None;
+
+        [Required]
+        public PeriodType MaturityPeriod { get; set; } = PeriodType.None;
+
 
         //Used to display data
         [ValidateNever]
         public string ThumbnailImagePath { get; set; } = null!;
 
         [ValidateNever]
-        public IList<CheckboxModel> SpeciesCheckboxes { get; set; } = null!;
+        public IList<CheckboxModel> SpeciesCheckboxes { get; set; } = null!;        
+
+        [ValidateNever]
+        public IEnumerable<DropdownModel> BlightResistanceOptions { get; set; } = new DropdownModel[0];
+
+        [ValidateNever]
+        public IEnumerable<DropdownModel> InkDiseaseResistanceOptions { get; set; } = new DropdownModel[0];
 
         [ValidateNever]
         public IEnumerable<DropdownModel> PollenOptions { get; set; } = null!;
 
         [ValidateNever]
-        public IEnumerable<DropdownModel> BlightResistanceOptions { get; set; } = null!;
-        
+        public IEnumerable<DropdownModel> VigorOptions { get; set; } = null!;
+
+        [ValidateNever]
+        public IEnumerable<DropdownModel> BuddingPeriodOptions { get; set; } = null!;
+        [ValidateNever]
+        public IEnumerable<DropdownModel> FloweringPeriodOptions { get; set; } = null!;
+        [ValidateNever]
+        public IEnumerable<DropdownModel> MaturityPeriodOptions { get; set; } = null!;
+
         //Text
         [ValidateNever]
         public string AspAction
