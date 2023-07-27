@@ -156,7 +156,7 @@
             //Avoid using an existing name
             if (variety != null && variety.VarietyId != id) //when updating
             {
-                ModelState.AddModelError(nameof(formModel.VarietyName), $"Variety '{formModel.VarietyName}' already exists.");
+                ModelState.AddModelError(nameof(formModel.VarietyName), $"Variety '{variety.Name}' already exists.");
 
                 await RenderFormSelects(formModel);
 
@@ -199,6 +199,12 @@
                     .Select(x => x.Id).ToArray()
                 : new int[0];
 
+            int[] checkedFruitSizes = formModel.FruitSizeCheckboxes != null
+                ? formModel.FruitSizeCheckboxes
+                    .Where(x => x.IsChecked)
+                    .Select(x => x.Id).ToArray()
+                : new int[0];
+
             formModel.SpeciesCheckboxes = await _varietyService.GenerateSpeciesCheckboxesAsync(checkedSpecies);
             formModel.PollenOptions = _varietyService.GeneratePollenOptions();
             formModel.BlightResistanceOptions = _varietyService.GenerateConditionOptions();
@@ -208,9 +214,11 @@
             formModel.BuddingPeriodOptions = _varietyService.GeneratePeriodOptions();
             formModel.FloweringPeriodOptions = _varietyService.GeneratePeriodOptions();
             formModel.MaturityPeriodOptions = _varietyService.GeneratePeriodOptions();
+            formModel.CropVolumeOptions = _varietyService.GenerateConditionOptions();
 
+            formModel.FruitSizeCheckboxes = await _varietyService.GenerateFruitSizeCheckboxesAsync(checkedFruitSizes);
             formModel.PeelingOptions = _varietyService.GenerateConditionOptions();
-            formModel.ConservationOptions = _varietyService.GenerateConditionOptions();
+            formModel.ConservationOptions = _varietyService.GenerateConditionOptions();            
         }
     }
 }

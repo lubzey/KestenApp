@@ -49,7 +49,7 @@
 
     @*Errors*@
     <div class="row">
-        <div class="offset-3">
+        <div class="offset-xl-3">
             <div asp-validation-summary="All" class="text-danger">
             </div>
         </div>
@@ -94,7 +94,7 @@
 
         @*Species*@
         <div class="col-2 text-lg-end fw-bold mb-2">
-            <label asp-for="@Model.Description" class="form-label fw-bold">Species</label>
+            <label class="form-label fw-bold">Species</label>
         </div>
 
         <div class="col-12 col-sm-10 col-lg-9 col-xl-6 mb-2">
@@ -117,7 +117,6 @@
                 }
             </div>
         </div>
-
     </div>
 
     @*Blight Resistance*@
@@ -200,7 +199,7 @@
         </div>
     </div>
 
-    @*Budding*@
+    @*Flowering*@
     <div class="row mt-1">
         <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
             <label asp-for="@Model.FloweringPeriod" class="form-label fw-bold">Flowering Period</label>
@@ -216,7 +215,7 @@
         </div>
     </div>
 
-    @*Budding*@
+    @*Maturity*@
     <div class="row mt-1">
         <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
             <label asp-for="@Model.MaturityPeriod" class="form-label fw-bold">Maturity Period</label>
@@ -229,6 +228,41 @@
                     <option value="@vigorType.Id">@vigorType.Name</option>
                 }
             </select>
+        </div>
+    </div>
+
+    @*Fruit*@
+    <div class="row mt-1">
+        <div class="col-lg-1">
+            <h3 class="mt-1">
+                Fruit
+            </h3>
+        </div>
+
+        @*Fruit Size*@
+        <div class="col-12 col-sm-3 col-lg-2 text-lg-end fw-bold mb-2">
+            <label class="form-label fw-bold">Fruit Size</label>
+        </div>
+
+        <div class="col-12 col-sm-9 col-xl-7 mb-2">
+            <div class="row">
+                @for (int index = 0; index < Model.FruitSizeCheckboxes.Count; index++)
+                {
+                    <div class="col-12 col-lg-2">
+                        <input type="checkbox"
+                           asp-for="@Model.FruitSizeCheckboxes[index].IsChecked"
+                               class="form-check-input" />
+
+                        <label class="form-check-label">
+                            @Model.FruitSizeCheckboxes[index].LabelName
+                        </label>
+
+                        <input type="hidden" asp-for="@Model.FruitSizeCheckboxes[index].Id" />
+                        <input type="hidden" asp-for="@Model.FruitSizeCheckboxes[index].LabelName" />
+                        <br />
+                    </div>
+                }
+            </div>
         </div>
     </div>
 

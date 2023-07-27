@@ -6,6 +6,7 @@
 
     using KestenApp.Data.Enums;
     using static KestenApp.Common.EntityValidationConstants.VarietyConstants;
+    using KestenApp.Data.Models;
 
     public class VarietyFormModel
     {
@@ -56,14 +57,14 @@
 
         [Required]
         public ConditionType Conservation { get; set; } = ConditionType.None;
-        
+
 
         //Used to display data
         [ValidateNever]
         public string ThumbnailImagePath { get; set; } = null!;
 
         [ValidateNever]
-        public IList<CheckboxModel> SpeciesCheckboxes { get; set; } = null!;        
+        public IList<CheckboxModel> SpeciesCheckboxes { get; set; } = null!;
 
         [ValidateNever]
         public IEnumerable<DropdownModel> BlightResistanceOptions { get; set; } = new DropdownModel[0];
@@ -85,6 +86,8 @@
         public IEnumerable<DropdownModel> MaturityPeriodOptions { get; set; } = null!;
         [ValidateNever]
         public IEnumerable<DropdownModel> CropVolumeOptions { get; set; } = null!;
+        [ValidateNever]
+        public IList<CheckboxModel> FruitSizeCheckboxes { get; set; } = null!;
         [ValidateNever]
         public IEnumerable<DropdownModel> PeelingOptions { get; set; } = null!;
         [ValidateNever]

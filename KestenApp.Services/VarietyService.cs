@@ -184,6 +184,11 @@
                 .Select(vs => vs.SpeciesId)
                 .ToArray();
 
+            int[] varietyFruitSizeIds = variety
+                .FruitSizes
+                .Select(vs => vs.FruitSizeId)
+                .ToArray();
+
             VarietyFormModel formModel = new VarietyFormModel
             {
                 //Details
@@ -215,16 +220,18 @@
                 MaturityPeriod = variety.MaturityPeriod,
                 MaturityPeriodOptions = GeneratePeriodOptions(),
 
-                Peeling = variety.Peeling,
-                PeelingOptions = GenerateConditionOptions(),
-
                 Crop = variety.Crop,
                 CropVolumeOptions = GenerateCropVolumeOptions(),
+
+                //Fruit
+                FruitSizeCheckboxes = await GenerateFruitSizeCheckboxesAsync(varietyFruitSizeIds),
+
+                Peeling = variety.Peeling,
+                PeelingOptions = GenerateConditionOptions(),
 
                 Conservation = variety.Conservation,
                 ConservationOptions = GenerateConditionOptions(),
 
-                //Fruit
                 ChestnutBlightResistance = variety.ChestnutBlightResistance,
                 InkDiseaseResistance = variety.InkDiseaseResistance
             };
@@ -275,6 +282,10 @@
                 .Where(sp => sp.IsChecked)
                 .Select(sp => sp.Id).ToArray();
 
+            int[] selectedFruitSizeIds = model.FruitSizeCheckboxes
+                .Where(sp => sp.IsChecked)
+                .Select(sp => sp.Id).ToArray();
+
             Variety variety = new Variety
             {
                 Name = model.VarietyName,
@@ -293,9 +304,18 @@
                 BuddingPeriod = model.BuddingPeriod,
                 FloweringPeriod = model.FloweringPeriod,
                 MaturityPeriod = model.MaturityPeriod,
-                Peeling = model.Peeling,
                 Crop = model.Crop,
-                Conservation = model.Conservation
+
+                FruitSizes = _context.FruitSizes
+                    .Where(s => selectedFruitSizeIds.Contains(s.FruitSizeId))
+                    .Select(s => new VarietyFruitSize
+                    {
+                        FruitSizeId = s.FruitSizeId,
+                    })
+                    .ToList(),
+                Peeling = model.Peeling,
+                Conservation = model.Conservation,
+
             };
 
             await _context.Varieties.AddAsync(variety);
@@ -311,6 +331,7 @@
                 .Varieties
                 .Where(v => v.VarietyId == id)
                 .Include(v => v.Species)
+                .Include(v => v.FruitSizes)
                 .FirstOrDefaultAsync();
 
             if (variety == null)
@@ -324,6 +345,7 @@
             int[] selectedSpeciesIds = model.SpeciesCheckboxes
                 .Where(sp => sp.IsChecked)
                 .Select(sp => sp.Id).ToArray();
+
             variety.Species = _context.Species
                 .Where(s => selectedSpeciesIds.Contains(s.SpeciesId))
                 .Select(s => new VarietySpecies
@@ -340,6 +362,17 @@
             variety.FloweringPeriod = model.FloweringPeriod;
             variety.MaturityPeriod = model.MaturityPeriod;
             variety.Crop = model.Crop;
+
+            int[] selectedFruitSizeIds = model.FruitSizeCheckboxes
+               .Where(sp => sp.IsChecked)
+               .Select(sp => sp.Id).ToArray();
+            variety.FruitSizes = _context.FruitSizes
+                    .Where(s => selectedFruitSizeIds.Contains(s.FruitSizeId))
+                    .Select(s => new VarietyFruitSize
+                    {
+                        FruitSizeId = s.FruitSizeId,
+                    })
+                    .ToList();
             variety.Peeling = model.Peeling;
             variety.Conservation = model.Conservation;
 
@@ -440,13 +473,26 @@
                 .ToList();
         }
 
-        public string GetStringFromNullableBoolean(bool? isMarron)
+        public async Task<IList<CheckboxModel>> GenerateFruitSizeCheckboxesAsync(IEnumerable<int>? varietyFruitSizes = null)
         {
-            return isMarron != null
-                ? (bool)isMarron
-                    ? "\u2713"
-                    : "\u2717"
-                : "";
+            if (varietyFruitSizes == null)
+            {
+                varietyFruitSizes = new int[0];
+            }
+
+            var allSpecies = await _context.FruitSizes
+                .AsNoTracking()
+                .ToArrayAsync();
+
+            return allSpecies
+                .Select(s => new CheckboxModel
+                {
+                    Id = s.FruitSizeId,
+                    LabelName = s.Name,
+                    IsChecked = varietyFruitSizes.Contains(s.FruitSizeId)
+                })
+                .ToList();
         }
+
     }
 }
