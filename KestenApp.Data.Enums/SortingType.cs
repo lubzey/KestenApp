@@ -1,9 +1,9 @@
 ﻿namespace KestenApp.Data.Enums
 {
-    public enum VarietySortingType
+    public enum SortingType
     {
         DateCreated = 0,
-        VarietyName = 1,
+        Name = 1,
         FruitSizes = 2
     }
 }

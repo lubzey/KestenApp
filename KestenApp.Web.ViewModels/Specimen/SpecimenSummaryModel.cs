@@ -1,7 +1,7 @@
-﻿using KestenApp.Data.Models;
-
-namespace KestenApp.Web.ViewModels.Specimen
+﻿namespace KestenApp.Web.ViewModels.Specimen
 {
+    using KestenApp.Data.Models;
+
     public class SpecimenSummaryModel
     {
         public Guid SpecimenId { get; set; }

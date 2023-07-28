@@ -20,7 +20,7 @@
         public async Task<IActionResult> List()
         {
             SpecimenListModel listViewModel = await _specimenService
-                .AllSpecimenAsync(currentPage: 1);
+                .AllSpecimensAsync(currentPage: 1);
 
             return View(listViewModel);
         }

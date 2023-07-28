@@ -1,0 +1,24 @@
+﻿@using KestenApp.Web.ViewModels.Garden;
+
+@model GardenSummaryModel
+
+<tr>
+    <td>
+        <a asp-controller="Specimen"
+           asp-action="Details"
+           asp-route-id="@Model.Garden.GardenId"
+           class="text-decoration-none text-dark">@Model.Garden.Name</a>
+    </td>
+    <td>
+        @Model.Specimens.Count()
+    </td>
+    <td>
+        @if (Model.User != null)
+        {
+            <a asp-controller="Gardener"
+           asp-action="Details"
+           asp-route-id="@Model.User.Id"
+               class="text-decoration-none text-dark">@Model.User.UserName</a>
+        }
+    </td>
+</tr>

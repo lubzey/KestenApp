@@ -49,6 +49,7 @@ namespace KestenApp.Web
             builder.Services.AddScoped<IVarietyService, VarietyService>();
             builder.Services.AddScoped<ISpeciesService, SpeciesService>();
             builder.Services.AddScoped<ISpecimenService, SpecimenService>();
+            builder.Services.AddScoped<IGardenServices, GardenServices>();
 
             builder.Services.AddAntiforgery();
 

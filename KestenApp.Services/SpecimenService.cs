@@ -17,8 +17,8 @@
             _context = context;
         }
 
-        public async Task<SpecimenListModel> AllSpecimenAsync(
-            VarietySortingType sorting = VarietySortingType.DateCreated,
+        public async Task<SpecimenListModel> AllSpecimensAsync(
+            SortingType sorting = SortingType.DateCreated,
             int currentPage = 1,
             int countPerPage = int.MaxValue,
             bool isPublished = true)
@@ -32,8 +32,8 @@
 
             specimensQuery = sorting switch
             {
-                VarietySortingType.VarietyName => specimensQuery.OrderByDescending(c => c.Name),
-                VarietySortingType.DateCreated or _ => specimensQuery.OrderBy(c => c.DateCreated)
+                SortingType.Name => specimensQuery.OrderByDescending(c => c.Name),
+                SortingType.DateCreated or _ => specimensQuery.OrderBy(c => c.DateCreated)
             };
 
             int totalCount = specimensQuery.Count();

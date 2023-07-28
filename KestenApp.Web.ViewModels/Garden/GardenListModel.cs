@@ -1,19 +1,17 @@
-﻿namespace KestenApp.Web.ViewModels.Specimen
+﻿namespace KestenApp.Web.ViewModels.Garden
 {
-    public class SpecimenListModel
+    public class GardenListModel
     {
         public readonly List<string> HeaderTitles = new List<string>
             {
                 "Name",
-                "Year",
-                "Garden",
-                "Variety",
+                "Specimens",
                 "User"
             };
 
         public int TotalCount { get; set; }
         public int CurrentPage { get; set; }
         public int CountPerPage { get; set; }
-        public IEnumerable<SpecimenSummaryModel> Specimens { get; set; } = Enumerable.Empty<SpecimenSummaryModel>();
+        public IEnumerable<GardenSummaryModel> Gardens { get; set; } = Enumerable.Empty<GardenSummaryModel>();
     }
 }

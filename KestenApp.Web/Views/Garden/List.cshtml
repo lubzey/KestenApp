@@ -1,0 +1,47 @@
+﻿@using KestenApp.Web.ViewModels.Garden;
+@model GardenListModel;
+@{
+    ViewData["Title"] = "Gardens";
+}
+
+@*Header*@
+<div class="row">
+    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-10 col-xl-11">
+        <h2 class="text-start">@ViewBag.Title</h2>
+    </div>
+
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-2 col-xl-1">
+        <div class="row no-gutters">
+            <a class="btn btn-outline-success"
+               asp-area="" asp-controller="Garden" asp-action="Add">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                </svg>
+                <span>Create</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <small>@Model.Gardens.Count() specimens found</small>
+    <table class="table table-striped table-bordered table-sm" cellspacing="2" width="100%">
+        <thead>
+            <tr>
+                @foreach (string title in Model.HeaderTitles)
+                {
+                    <th class="th-sm align-top text-center">
+                        @title
+                    </th>
+                }
+            <tr>
+        </thead>
+        <tbody>
+            @foreach (GardenSummaryModel garden in Model.Gardens)
+            {
+                <partial name="_GardenSummary"
+                     model="garden" />
+            }
+        </tbody>
+    </table>
+</div>

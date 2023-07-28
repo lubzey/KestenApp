@@ -7,7 +7,7 @@
 
     public interface IVarietyService
     {
-        Task<VarietyListModel> AllVarietiesAsync(string? name = null, VarietySortingType sorting = VarietySortingType.DateCreated, int currentPage = 1, int countPerPage = int.MaxValue, bool isActive = true);
+        Task<VarietyListModel> AllVarietiesAsync(string? name = null, SortingType sorting = SortingType.DateCreated, int currentPage = 1, int countPerPage = int.MaxValue, bool isActive = true);
         Task<VarietyDetailsModel> GetDetailsViewByIdAsync(Guid id);
         Task<Variety?> GetVarietyByNameAsync(string name);
         Task<IEnumerable<Variety>> SearchVarietiesAsync(string searchQuery);

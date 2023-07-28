@@ -6,6 +6,6 @@ namespace KestenApp.Services.Contracts
 {
     public interface ISpecimenService
     {
-        Task<SpecimenListModel> AllSpecimenAsync(VarietySortingType sorting = VarietySortingType.DateCreated, int currentPage = 1, int countPerPage = int.MaxValue, bool isPublished = true);
+        Task<SpecimenListModel> AllSpecimensAsync(SortingType sorting = SortingType.DateCreated, int currentPage = 1, int countPerPage = int.MaxValue, bool isPublished = true);
     }
 }

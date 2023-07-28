@@ -23,7 +23,7 @@
         //List varieties - add paging
         public async Task<VarietyListModel> AllVarietiesAsync(
             string? name = null,
-            VarietySortingType sorting = VarietySortingType.DateCreated,
+            SortingType sorting = SortingType.DateCreated,
             int currentPage = 1,
             int countPerPage = int.MaxValue,
             bool isPublished = true)
@@ -35,7 +35,7 @@
 
         private async Task<VarietyListModel> AllVarietiesServiceModelAsync(
             string? name = null,
-            VarietySortingType sorting = VarietySortingType.DateCreated,
+            SortingType sorting = SortingType.DateCreated,
             int currentPage = 1,
             int countPerPage = int.MaxValue,
             bool isPublished = true)
@@ -63,9 +63,9 @@
 
             varietiesQuery = sorting switch
             {
-                VarietySortingType.VarietyName => varietiesQuery.OrderByDescending(c => c.Name),
-                VarietySortingType.FruitSizes => varietiesQuery.OrderBy(c => c.FruitSizes).ThenBy(c => c.Name),
-                VarietySortingType.DateCreated or _ => varietiesQuery.OrderBy(c => c.DateCreated)
+                SortingType.Name => varietiesQuery.OrderByDescending(c => c.Name),
+                SortingType.FruitSizes => varietiesQuery.OrderBy(c => c.FruitSizes).ThenBy(c => c.Name),
+                SortingType.DateCreated or _ => varietiesQuery.OrderBy(c => c.DateCreated)
             };
 
             int totalCount = varietiesQuery.Count();
