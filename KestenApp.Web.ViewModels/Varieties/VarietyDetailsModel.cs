@@ -38,23 +38,23 @@ namespace KestenApp.Web.ViewModels.Varieties
                 : $"/Images/no-image.jpg";
 
             //Tree
-            AddKeyValuePairToCollection(Tree, "Blight Resistance", EnumExtensions.GetStringFromEnumValue<ConditionType>(variety.ChestnutBlightResistance));
-            AddKeyValuePairToCollection(Tree, "Ink Disease Resistance", EnumExtensions.GetStringFromEnumValue<ConditionType>(variety.InkDiseaseResistance));
+            AddKeyValuePairToCollection(Tree, "Blight Resistance", EnumExtensions.GetStringFromEnumValue(variety.ChestnutBlightResistance));
+            AddKeyValuePairToCollection(Tree, "Ink Disease Resistance", EnumExtensions.GetStringFromEnumValue(variety.InkDiseaseResistance));
 
-            AddKeyValuePairToCollection(Tree, "Pollen", EnumExtensions.GetStringFromEnumValue<PollenType>(variety.PollenType));
-            AddKeyValuePairToCollection(Tree, "Vigor", EnumExtensions.GetStringFromEnumValue<StrengthType>(variety.Vigor));
+            AddKeyValuePairToCollection(Tree, "Pollen", EnumExtensions.GetStringFromEnumValue(variety.PollenType));
+            AddKeyValuePairToCollection(Tree, "Vigor", EnumExtensions.GetStringFromEnumValue(variety.Vigor));
             //AddKeyValuePairToCollection(Tree, "Erect*", "Semi-Erect, Very Erect, Apical Dominance");
 
-            AddKeyValuePairToCollection(Tree, "Budding Period", EnumExtensions.GetStringFromEnumValue<PeriodType>(variety.BuddingPeriod));
-            AddKeyValuePairToCollection(Tree, "Flowering Period", EnumExtensions.GetStringFromEnumValue<PeriodType>(variety.FloweringPeriod));
-            AddKeyValuePairToCollection(Tree, "Maturity Period", EnumExtensions.GetStringFromEnumValue<PeriodType>(variety.MaturityPeriod));
+            AddKeyValuePairToCollection(Tree, "Budding Period", EnumExtensions.GetStringFromEnumValue(variety.BuddingPeriod));
+            AddKeyValuePairToCollection(Tree, "Flowering Period", EnumExtensions.GetStringFromEnumValue(variety.FloweringPeriod));
+            AddKeyValuePairToCollection(Tree, "Maturity Period", EnumExtensions.GetStringFromEnumValue(variety.MaturityPeriod));
 
             //AddKeyValuePairToCollection(Tree, "Gall Wasp Resistance*", "Bad, Medium, Good");
             //AddKeyValuePairToCollection(Tree, "Cold Hardiness*", "Bad, Medium, Good");
             //AddKeyValuePairToCollection(Tree, "Spring Frost Sensitivity*", "True/False/None V/X/");
             //AddKeyValuePairToCollection(Tree, "Kernel Rot Susceptibility*", "True/False/None V/X/");
             //AddKeyValuePairToCollection(Tree, "Catkins Type*", "astamine, brachistamine, mesostamine, longistamine");
-            AddKeyValuePairToCollection(Tree, "Crop Volume", EnumExtensions.GetStringFromEnumValue<VolumeType>(variety.Crop));
+            AddKeyValuePairToCollection(Tree, "Crop Volume", EnumExtensions.GetStringFromEnumValue(variety.Crop));
 
             //Rootstock and pollentation
 
@@ -67,8 +67,8 @@ namespace KestenApp.Web.ViewModels.Varieties
             //AddKeyValuePairToCollection(Fruit, "Shape*", "Oval, Triangular, Irregular ???");
             //AddKeyValuePairToCollection(Fruit, "Shell Color*", "Dark brown, Brown, Red, Orange, Yellow ???");
             //AddKeyValuePairToCollection(Fruit, "Kernel Color*", "Milky White, Dark Yellow?");
-            AddKeyValuePairToCollection(Fruit, "Peeling", EnumExtensions.GetStringFromEnumValue<ConditionType>(variety.Peeling));
-            AddKeyValuePairToCollection(Fruit, "Conservation", EnumExtensions.GetStringFromEnumValue<ConditionType>(variety.Conservation));
+            AddKeyValuePairToCollection(Fruit, "Peeling", EnumExtensions.GetStringFromEnumValue(variety.Peeling));
+            AddKeyValuePairToCollection(Fruit, "Conservation", EnumExtensions.GetStringFromEnumValue(variety.Conservation));
             //AddKeyValuePairToCollection(Fruit, "Nuts per Bur*", "3");
             //AddKeyValuePairToCollection(Fruit, "Hilum Size*", "Small, Medium, Large");
             //AddKeyValuePairToCollection(Fruit, "Shell Type*", "Fuzzy, Shiny?");

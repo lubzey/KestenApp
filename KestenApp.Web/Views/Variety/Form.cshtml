@@ -180,9 +180,9 @@
 
         <div class="col-6 col-lg-3 mb-2">
             <select asp-for="@Model.BuddingPeriod" class="form-control">
-                @foreach (DropdownModel vigorType in Model.BuddingPeriodOptions)
+                @foreach (DropdownModel periodType in Model.BuddingPeriodOptions)
                 {
-                    <option value="@vigorType.Id">@vigorType.Name</option>
+                    <option value="@periodType.Id">@periodType.Name</option>
                 }
             </select>
         </div>
@@ -196,9 +196,9 @@
 
         <div class="col-6 col-lg-3 mb-2">
             <select asp-for="@Model.FloweringPeriod" class="form-control">
-                @foreach (DropdownModel vigorType in Model.FloweringPeriodOptions)
+                @foreach (DropdownModel periodType in Model.FloweringPeriodOptions)
                 {
-                    <option value="@vigorType.Id">@vigorType.Name</option>
+                    <option value="@periodType.Id">@periodType.Name</option>
                 }
             </select>
         </div>
@@ -212,9 +212,9 @@
 
         <div class="col-6 col-lg-3 mb-2">
             <select asp-for="@Model.MaturityPeriod" class="form-control">
-                @foreach (DropdownModel vigorType in Model.MaturityPeriodOptions)
+                @foreach (DropdownModel periodType in Model.MaturityPeriodOptions)
                 {
-                    <option value="@vigorType.Id">@vigorType.Name</option>
+                    <option value="@periodType.Id">@periodType.Name</option>
                 }
             </select>
         </div>
@@ -255,6 +255,22 @@
         </div>
     </div>
 
+    @*Is Marron*@
+    <div class="row mt-1">
+        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
+            <label asp-for="@Model.IsMarron" class="form-label fw-bold">Is Marron</label>
+        </div>
+
+        <div class="col-6 col-lg-3 mb-2">
+            <select asp-for="@Model.IsMarron" class="form-control">
+                @foreach (BooleanDropdownModel isMarron in Model.IsMarronOptions)
+                {
+                    <option value="@isMarron.Value">@isMarron.DisplayName</option>
+                }
+            </select>
+        </div>
+    </div>
+
     @*Crop*@
     <div class="row mt-1">
         <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
@@ -263,9 +279,9 @@
 
         <div class="col-6 col-lg-3 mb-2">
             <select asp-for="@Model.Crop" class="form-control">
-                @foreach (DropdownModel vigorType in Model.CropVolumeOptions)
+                @foreach (DropdownModel cropType in Model.CropVolumeOptions)
                 {
-                    <option value="@vigorType.Id">@vigorType.Name</option>
+                    <option value="@cropType.Id">@cropType.Name</option>
                 }
             </select>
         </div>
@@ -279,9 +295,9 @@
 
         <div class="col-6 col-lg-3 mb-2">
             <select asp-for="@Model.Peeling" class="form-control">
-                @foreach (DropdownModel vigorType in Model.PeelingOptions)
+                @foreach (DropdownModel peelingType in Model.PeelingOptions)
                 {
-                    <option value="@vigorType.Id">@vigorType.Name</option>
+                    <option value="@peelingType.Id">@peelingType.Name</option>
                 }
             </select>
         </div>
@@ -295,9 +311,9 @@
 
         <div class="col-6 col-lg-3 mb-2">
             <select asp-for="@Model.Conservation" class="form-control">
-                @foreach (DropdownModel vigorType in Model.ConservationOptions)
+                @foreach (DropdownModel conservationType in Model.ConservationOptions)
                 {
-                    <option value="@vigorType.Id">@vigorType.Name</option>
+                    <option value="@conservationType.Id">@conservationType.Name</option>
                 }
             </select>
         </div>

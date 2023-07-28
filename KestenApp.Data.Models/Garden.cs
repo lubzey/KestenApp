@@ -7,13 +7,16 @@
     {
         public Guid GardenId { get; set; }
 
+        public Guid UserId { get; set; }
+
+        public ApplicationUser User { get; set; } = null!;
+
         [Required]
         [MaxLength(NameMaxLength)]
         public string Name { get; set; } = null!;
 
-        public Guid UserId { get; set; }
-        public ApplicationUser User { get; set; } = null!;
+        public DateTime DateCreated { get; set; }
 
-        public ICollection<Specimen> Specimens { get; set; } = new HashSet<Specimen>();
+        public ICollection<Specimen> Specimens { get; set; } = new List<Specimen>();
     }
 }

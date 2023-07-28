@@ -4,7 +4,8 @@
 
     public enum PeriodType
     {
-        None = 0,
+        [Description("Not Selected")]
+        NotSelected = 0,
         [Description("Very Early")]
         VeryEarly = 1,
         Early = 2,

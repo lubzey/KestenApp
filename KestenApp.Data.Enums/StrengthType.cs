@@ -4,7 +4,8 @@
 
     public enum StrengthType
     {
-        None = 0,
+        [Description("Not Selected")]
+        NotSelected = 0,
         Weak = 1,
         Medium = 2,
         Strong = 3,

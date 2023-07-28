@@ -1,30 +1,22 @@
 ﻿namespace KestenApp.Web.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Rendering;
-    using Microsoft.EntityFrameworkCore;
 
     using KestenApp.Services.Contracts;
-    using KestenApp.Data.Enums;
-    using KestenApp.Data.Enums.EnumHelpers;
-    using KestenApp.Data.Models;
-    using Microsoft.AspNetCore.Authorization;
+    using KestenApp.Data.Models;    
     using KestenApp.Web.ViewModels.Varieties;
-    using KestenApp.Web.ViewModels;
 
     public class VarietyController : BaseController
     {
         private readonly IVarietyService _varietyService;
-        private readonly ISpeciesService _speciesService;
         public IWebHostEnvironment _environment { get; }
 
         public VarietyController(
             IVarietyService varietyService,
-            ISpeciesService speciesService,
             IWebHostEnvironment environment)
         {
             _varietyService = varietyService;
-            _speciesService = speciesService;
 
             _environment = environment; //Needed to get local path to images in case of file deletion
         }
@@ -217,6 +209,7 @@
             formModel.CropVolumeOptions = _varietyService.GenerateConditionOptions();
 
             formModel.FruitSizeCheckboxes = await _varietyService.GenerateFruitSizeCheckboxesAsync(checkedFruitSizes);
+            formModel.IsMarronOptions = _varietyService.GenerateBooleanOptions();
             formModel.PeelingOptions = _varietyService.GenerateConditionOptions();
             formModel.ConservationOptions = _varietyService.GenerateConditionOptions();            
         }

@@ -1,10 +1,10 @@
 ﻿namespace KestenApp.Data
 {
+    using Microsoft.AspNetCore.Identity;
+
     using Enums;
     using Enums.EnumHelpers;
-    using Microsoft.AspNetCore.Identity;
     using Models;
-    using System.Xml.Linq;
 
     public static class SeedData
     {
@@ -17,6 +17,8 @@
         private static VarietyGraftingCompatibility[] varietyGraftingCompatibilities = null!;
         private static VarietyImage[] varietyImages = null!;
         private static IdentityRole[] identityRoles = null!;
+        private static Garden[] gardens = null!;
+        private static Specimen[] specimens = null!;
 
         //used to map data
         private static DateTime dateCreated = new DateTime(2023, 7, 7, 7, 0, 0);
@@ -26,6 +28,7 @@
         private static Variety precoceMigoule = GetVarietyFromName("Précoce Migoule");
         private static Variety pandora = GetVarietyFromName("Pandora");
 
+
         public static Species[] Species { get { return GetSpecies(); } }
         public static Variety[] Varieties { get { return GetVarieties(); } }
         public static VarietySpecies[] VarietySpecies { get { return GetVarietySpecies(); } }
@@ -34,8 +37,74 @@
         public static VarietyPollenCompatibility[] VarietyPollenCompatibilities { get { return GetVarietyPollenCompatibilities(); } }
         public static VarietyGraftingCompatibility[] VarietyGraftingCompatibilities { get { return GetVarietyGraftingCompatibilities(); } }
         public static VarietyImage[] VarietyImages { get { return GetVarietyImages(); } }
+        public static Garden[] Gardens { get { return GetGardens(); } }
+        public static Specimen[] Specimens { get { return GetSpecimens(); } }
+
+
 
         public static IdentityRole[] IdentityRoles { get { return GetIdentityRoles(); } }
+
+        private static Specimen[] GetSpecimens()
+        {
+            if (specimens != null)
+            {
+                return specimens;
+            }
+
+            specimens = new Specimen[]
+            {
+                new Specimen
+                {
+                    SpecimenId = Guid.NewGuid(),
+                    Name = "Marigoule 2019",
+                    UserId = Guid.Parse("09E77621-FAC4-4150-B64C-3E5C2B1A40EE"),
+                    Elevation = 642,
+                    GardenId = gardens.First().GardenId,
+                    PlantedOnDate = new DateTime(2019, 3, 1),
+                    VarietyId = marigoule.VarietyId,
+                    Latitude = "43°1'2.27\"N",
+                    Longitude = "23°37'28.57\"E"
+                },
+                new Specimen
+                {
+                    SpecimenId = Guid.NewGuid(),
+                    Name = "Marsol 2022",
+                    UserId = Guid.Parse("09E77621-FAC4-4150-B64C-3E5C2B1A40EE"),
+                    Elevation = 641,
+                    GardenId = gardens.First().GardenId,
+                    PlantedOnDate = new DateTime(2022, 4, 1),
+                    VarietyId = marsol.VarietyId
+                },
+            };
+
+            return specimens;
+        }
+
+        private static Garden[] GetGardens()
+        {
+            if (gardens != null)
+            {
+                return gardens;
+            }
+
+            gardens = new Garden[]
+            {
+                new Garden
+                {
+                    GardenId = Guid.Parse("6CC4EDB7-1110-43AB-8C16-5F245EBD118C"),
+                    Name = "Sharp Mound",
+                    UserId = Guid.Parse("09E77621-FAC4-4150-B64C-3E5C2B1A40EE")
+                },
+                new Garden
+                {
+                    GardenId = Guid.NewGuid(),
+                    Name = "Veslets G",
+                    UserId = Guid.Parse("09E77621-FAC4-4150-B64C-3E5C2B1A40EE")
+                },
+            };
+
+            return gardens;
+        }
 
         private static IdentityRole[] GetIdentityRoles()
         {
@@ -46,9 +115,9 @@
 
             identityRoles = new IdentityRole[]
             {
-                new IdentityRole { Name = "Admin", NormalizedName = "Admin".ToUpper() },
+                new IdentityRole { Name = "Administrator", NormalizedName = "Administrator".ToUpper() },
                 new IdentityRole { Name = "Expert", NormalizedName = "Expert".ToUpper() },
-                new IdentityRole { Name = "Gardener", NormalizedName = "Gardener".ToUpper() }
+                new IdentityRole { Name = "User", NormalizedName = "User".ToUpper() }
             };
 
             return identityRoles;
@@ -91,7 +160,7 @@
             {
                 new Variety //1
                 {
-                    VarietyId = new Guid("46BD8DC8-CA0A-4648-A9A9-EA4AD91E1B77"),
+                    VarietyId = Guid.Parse("46BD8DC8-CA0A-4648-A9A9-EA4AD91E1B77"),
                     Name = "Bouche de Bétizac",
                     Description = @"Bouche de Bétizac is a French chestnut cultivar developed in 1962 by INRA at the station of Malemort-sur-Corrèze near Brive. It is a controlled hybrid between Castanea sativa and Castanea crenata (female Bouche rouge × male Castanea crenata CA04). This variety produces large to very large chestnuts. It has very good flavor for a hybrid. With Marigoule, it is the variety currently most cultivated in the French chestnut groves because it is very productive (3 tons per hectare on average). Its fruit is bright, light chestnut-brown quickly turning brown and dark brown.",
                     Peeling = ConditionType.Good,
@@ -107,7 +176,7 @@
                 },
                 new Variety //2
                 {
-                    VarietyId = new Guid("FBA92871-4A3C-4978-FCD6-08DB87B43C2D"),
+                    VarietyId = Guid.Parse("FBA92871-4A3C-4978-FCD6-08DB87B43C2D"),
                     Name = "Marigoule",
                     Description = @"Marigoule is the name of a french hybrid of chestnut (synonym M.15 or CA 15), cross between a European chestnut (Castanea sativa) and Japanese (Castanea crenata). In 1986, it originated from a Migoule orchard in Ussac in Corrèze. Marigoule (a contraction of Marron of Migoule) is a very tasty chestnut. It should be planted in rather low altitude in very sunny areas and protected from the wind (up to 300 m elevation for South-West orchard orientation or up to 400 m elevation in South-East orchard orientation). Otherwise its productivity remains small. In France, it is grown mainly South of the Dordogne and Lot-et-Garonne for the fresh market production because of the nuts beautiful appearance.",
                     Peeling = ConditionType.Good,
@@ -122,7 +191,7 @@
                 },
                 new Variety //3
                 {
-                    VarietyId = new Guid("8FC8F311-3CE9-42E2-FCD7-08DB87B43C2D"),
+                    VarietyId = Guid.Parse("8FC8F311-3CE9-42E2-FCD7-08DB87B43C2D"),
                     Name = "Marsol",
                     Description = @"Marsol (aka Marisol) is a natural chestnut hybrid, a cross between a European chestnut (Castanea sativa) and Japanese (Castanea crenata) (CA 07). INRA produced this variety from Lalevade-d'Ardèche. It is mainly used as a rootstock because of its good graft compatibility with many varieties. As a rootstock, it is more vigorous than Maraval (equal to Bouche de Betizac or Comballe).",
                     Peeling = ConditionType.Good,
@@ -363,15 +432,15 @@
 
             varietyImages = new VarietyImage[]{
                 new VarietyImage {
-                    ImageId = new Guid("BE9CCA3D-4E9A-4E75-B813-9279F79F7F75"),
+                    ImageId = Guid.Parse("BE9CCA3D-4E9A-4E75-B813-9279F79F7F75"),
                     VarietyId = boucheDeBetizac.VarietyId,
                 },
                 new VarietyImage {
-                    ImageId = new Guid("BF77FF2D-A488-4F6D-847B-3C880239A53F"),
+                    ImageId = Guid.Parse("BF77FF2D-A488-4F6D-847B-3C880239A53F"),
                     VarietyId = marigoule.VarietyId
                 },
                 new VarietyImage {
-                    ImageId = new Guid("EE93870C-A4AD-46F7-B5DC-F36AE12ED3A3"),
+                    ImageId = Guid.Parse("EE93870C-A4AD-46F7-B5DC-F36AE12ED3A3"),
                     VarietyId = marsol.VarietyId
                 },
             };

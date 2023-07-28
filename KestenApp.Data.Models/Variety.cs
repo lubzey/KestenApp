@@ -20,16 +20,16 @@
         [MaxLength(DescriptionMaxLength)]
         public string Description { get; set; } = string.Empty;
 
-        public ConditionType ChestnutBlightResistance { get; set; } = ConditionType.None;
-        public ConditionType InkDiseaseResistance { get; set; } = ConditionType.None;
-        public ConditionType Peeling { get; set; } = ConditionType.None;
-        public ConditionType Conservation { get; set; } = ConditionType.None;
-        public VolumeType Crop { get; set; } = VolumeType.None;
-        public PollenType PollenType { get; set; } = PollenType.None;
-        public PeriodType BuddingPeriod { get; set; } = PeriodType.None;
-        public PeriodType FloweringPeriod { get; set; } = PeriodType.None;
-        public PeriodType MaturityPeriod { get; set; } = PeriodType.None;
-        public StrengthType Vigor { get; set; } = StrengthType.None;
+        public ConditionType ChestnutBlightResistance { get; set; } = ConditionType.NotSelected;
+        public ConditionType InkDiseaseResistance { get; set; } = ConditionType.NotSelected;
+        public ConditionType Peeling { get; set; } = ConditionType.NotSelected;
+        public ConditionType Conservation { get; set; } = ConditionType.NotSelected;
+        public VolumeType Crop { get; set; } = VolumeType.NotSelected;
+        public PollenType PollenType { get; set; } = PollenType.NotSelected;
+        public PeriodType BuddingPeriod { get; set; } = PeriodType.NotSelected;
+        public PeriodType FloweringPeriod { get; set; } = PeriodType.NotSelected;
+        public PeriodType MaturityPeriod { get; set; } = PeriodType.NotSelected;
+        public StrengthType Vigor { get; set; } = StrengthType.NotSelected;
         public bool? IsMarron { get; set; }
         public DateTime DateCreated { get; set; }
 
@@ -41,6 +41,8 @@
         public ICollection<VarietyPollenCompatibility> IsPollenizedBy { get; set; } = new List<VarietyPollenCompatibility>();
 
         public ICollection<VarietyGraftingCompatibility> IsGraftedOn { get; set; } = new List<VarietyGraftingCompatibility>();
-        public ICollection<VarietyGraftingCompatibility> IsRootstockFor { get; set; } = new List<VarietyGraftingCompatibility>();        
+        public ICollection<VarietyGraftingCompatibility> IsRootstockFor { get; set; } = new List<VarietyGraftingCompatibility>();
+
+        public ICollection<Specimen> Specimens { get; set; } = new List<Specimen>();
     }
 }

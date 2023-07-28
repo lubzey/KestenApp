@@ -28,34 +28,36 @@
         public string Description { get; set; } = string.Empty;
 
         [Required]
-        public PollenType PollenType { get; set; } = PollenType.None;
+        public PollenType PollenType { get; set; } = PollenType.NotSelected;
 
         [Required]
-        public ConditionType ChestnutBlightResistance { get; set; } = ConditionType.None;
+        public ConditionType ChestnutBlightResistance { get; set; } = ConditionType.NotSelected;
 
         [Required]
-        public ConditionType InkDiseaseResistance { get; set; } = ConditionType.None;
+        public ConditionType InkDiseaseResistance { get; set; } = ConditionType.NotSelected;
 
         [Required]
-        public StrengthType Vigor { get; set; } = StrengthType.None;
+        public StrengthType Vigor { get; set; } = StrengthType.NotSelected;
 
         [Required]
-        public PeriodType BuddingPeriod { get; set; } = PeriodType.None;
+        public PeriodType BuddingPeriod { get; set; } = PeriodType.NotSelected;
 
         [Required]
-        public PeriodType FloweringPeriod { get; set; } = PeriodType.None;
+        public PeriodType FloweringPeriod { get; set; } = PeriodType.NotSelected;
 
         [Required]
-        public PeriodType MaturityPeriod { get; set; } = PeriodType.None;
+        public PeriodType MaturityPeriod { get; set; } = PeriodType.NotSelected;
 
         [Required]
-        public VolumeType Crop { get; set; } = VolumeType.None;
+        public VolumeType Crop { get; set; } = VolumeType.NotSelected;
+
+        public bool? IsMarron { get; set; } = null!;
 
         [Required]
-        public ConditionType Peeling { get; set; } = ConditionType.None;
+        public ConditionType Peeling { get; set; } = ConditionType.NotSelected;
 
         [Required]
-        public ConditionType Conservation { get; set; } = ConditionType.None;
+        public ConditionType Conservation { get; set; } = ConditionType.NotSelected;
 
 
         //Used to display data
@@ -90,7 +92,9 @@
         [ValidateNever]
         public IEnumerable<DropdownModel> PeelingOptions { get; set; } = null!;
         [ValidateNever]
-        public IEnumerable<DropdownModel> ConservationOptions { get; set; } = null!;
+        public IEnumerable<DropdownModel> ConservationOptions { get; set; } = null!;        
+        [ValidateNever]
+        public IEnumerable<BooleanDropdownModel> IsMarronOptions { get; set; } = null!;
 
         //Text
         [ValidateNever]

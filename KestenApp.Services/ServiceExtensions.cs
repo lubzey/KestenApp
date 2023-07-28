@@ -1,18 +1,10 @@
-﻿namespace KestenApp.Services
+﻿using KestenApp.Data.Enums.EnumHelpers;
+using KestenApp.Web.ViewModels;
+
+namespace KestenApp.Services
 {
     internal static class ServiceExtensions
     {
-        internal static string GetStringValueOfNullableEnum<T>(T enumValue)
-        {
-            if (enumValue == null
-                || enumValue.ToString() == "None")
-            {
-                return "";
-            }
-
-            return Enum.GetName(typeof(T), enumValue) ?? "";
-        }
-
         internal static string JoinStrings(IEnumerable<string> names)
         {
             string separator = $",{Environment.NewLine}";
@@ -26,6 +18,17 @@
                     ? "\u2713"
                     : "\u2717"
                 : "";
+        }
+
+        internal static IEnumerable<DropdownModel> MapDropdown<T>() where T : Enum
+        {
+            return EnumExtensions
+                .GetEnumValuesCollection<T>()
+                .Select(p => new DropdownModel
+                {
+                    Id = (int)(object)p,
+                    Name = EnumExtensions.GetStringFromEnumValue<T>(p)
+                }).ToList();
         }
     }
 }

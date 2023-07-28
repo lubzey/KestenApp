@@ -22,5 +22,6 @@
         IEnumerable<DropdownModel> GenerateVigorOptions();
         IEnumerable<DropdownModel> GeneratePeriodOptions();
         Task<IList<CheckboxModel>> GenerateFruitSizeCheckboxesAsync(IEnumerable<int>? varietyFruitSizes = null);
+        IEnumerable<BooleanDropdownModel> GenerateBooleanOptions();
     }
 }

@@ -1,8 +1,11 @@
-﻿namespace KestenApp.Data.Enums
+﻿using System.ComponentModel;
+
+namespace KestenApp.Data.Enums
 {
     public enum PollenType
     {
-        None = 0,
+        [Description("Not Selected")]
+        NotSelected = 0,
         Sterile = 1,
         Medium = 2,
         Abundant = 3

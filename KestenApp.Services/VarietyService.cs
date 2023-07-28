@@ -10,9 +10,6 @@
     using KestenApp.Web.ViewModels.Varieties;
     using KestenApp.Data.Enums.EnumHelpers;
     using KestenApp.Web.ViewModels;
-    using Newtonsoft.Json.Linq;
-    using System.ComponentModel;
-    using System.Reflection;
 
     public class VarietyService : IVarietyService
     {
@@ -38,7 +35,6 @@
 
             return listViewModel;
         }
-
 
         private async Task<VarietyServiceModel> AllVarietiesServiceModelAsync(
             string? name = null,
@@ -74,8 +70,6 @@
                 VarietySortingType.FruitSizes => varietiesQuery.OrderBy(c => c.FruitSizes).ThenBy(c => c.Name),
                 VarietySortingType.DateCreated or _ => varietiesQuery.OrderBy(c => c.DateCreated)
             };
-
-            var query = varietiesQuery.ToString();
 
             int totalCount = varietiesQuery.Count();
 
@@ -122,13 +116,13 @@
                 //Tree
 
                 Species = ServiceExtensions.JoinStrings(species),
-                ChestnutBlightResistance = ServiceExtensions.GetStringValueOfNullableEnum(v.ChestnutBlightResistance),
-                InkDiseaseResistance = ServiceExtensions.GetStringValueOfNullableEnum(v.InkDiseaseResistance),
-                PollenFertility = ServiceExtensions.GetStringValueOfNullableEnum(v.PollenType),
-                Vigor = ServiceExtensions.GetStringValueOfNullableEnum(v.Vigor),
-                BuddingPeriod = ServiceExtensions.GetStringValueOfNullableEnum(v.BuddingPeriod),
-                FloweringPeriod = ServiceExtensions.GetStringValueOfNullableEnum(v.FloweringPeriod),
-                MaturityPeriod = ServiceExtensions.GetStringValueOfNullableEnum(v.MaturityPeriod),
+                ChestnutBlightResistance = EnumExtensions.GetStringFromEnumValue(v.ChestnutBlightResistance),
+                InkDiseaseResistance = EnumExtensions.GetStringFromEnumValue(v.InkDiseaseResistance),
+                PollenFertility = EnumExtensions.GetStringFromEnumValue(v.PollenType),
+                Vigor = EnumExtensions.GetStringFromEnumValue(v.Vigor),
+                BuddingPeriod = EnumExtensions.GetStringFromEnumValue(v.BuddingPeriod),
+                FloweringPeriod = EnumExtensions.GetStringFromEnumValue(v.FloweringPeriod),
+                MaturityPeriod = EnumExtensions.GetStringFromEnumValue(v.MaturityPeriod),
 
                 //Fruit
 
@@ -136,8 +130,8 @@
                 FruitSizes = ServiceExtensions.JoinStrings(fruitSizes),
                 IsMarron = ServiceExtensions.GetStringFromNullableBoolean(v.IsMarron),
 
-                Peeling = ServiceExtensions.GetStringValueOfNullableEnum(v.Peeling),
-                Conservation = ServiceExtensions.GetStringValueOfNullableEnum(v.Conservation),
+                Peeling = EnumExtensions.GetStringFromEnumValue(v.Peeling),
+                Conservation = EnumExtensions.GetStringFromEnumValue(v.Conservation),
 
                 IsPollenizedBy = ServiceExtensions.JoinStrings(
                     v.IsPollenizedBy
@@ -226,6 +220,9 @@
                 //Fruit
                 FruitSizeCheckboxes = await GenerateFruitSizeCheckboxesAsync(varietyFruitSizeIds),
 
+                IsMarron = variety.IsMarron,
+                IsMarronOptions = GenerateBooleanOptions(),
+
                 Peeling = variety.Peeling,
                 PeelingOptions = GenerateConditionOptions(),
 
@@ -238,8 +235,6 @@
 
             return formModel;
         }
-
-
 
         private async Task<Variety> GetVarietyByIdAsync(Guid id)
         {
@@ -304,6 +299,7 @@
                 BuddingPeriod = model.BuddingPeriod,
                 FloweringPeriod = model.FloweringPeriod,
                 MaturityPeriod = model.MaturityPeriod,
+                IsMarron = model.IsMarron,
                 Crop = model.Crop,
 
                 FruitSizes = _context.FruitSizes
@@ -361,6 +357,7 @@
             variety.BuddingPeriod = model.BuddingPeriod;
             variety.FloweringPeriod = model.FloweringPeriod;
             variety.MaturityPeriod = model.MaturityPeriod;
+            variety.IsMarron = model.IsMarron;
             variety.Crop = model.Crop;
 
             int[] selectedFruitSizeIds = model.FruitSizeCheckboxes
@@ -416,41 +413,54 @@
             await this._context.SaveChangesAsync();
         }
 
+        public IEnumerable<BooleanDropdownModel> GenerateBooleanOptions()
+        {
+            return new List<BooleanDropdownModel>
+            {
+                new BooleanDropdownModel
+                {
+                    Value = null,
+                    DisplayName = ""
+                },
+                new BooleanDropdownModel
+                {
+                    Value = true,
+                    DisplayName = "Yes"
+                },
+                new BooleanDropdownModel
+                {
+                    Value = false,
+                    DisplayName = "No"
+                },
+            };
+        }
+
         public IEnumerable<DropdownModel> GenerateConditionOptions()
         {
-            return MapDropdown<ConditionType>();
+            return ServiceExtensions.MapDropdown<ConditionType>();
         }
 
         public IEnumerable<DropdownModel> GeneratePollenOptions()
         {
-            return MapDropdown<PollenType>();
+            return ServiceExtensions.MapDropdown<PollenType>();
         }
 
         public IEnumerable<DropdownModel> GenerateVigorOptions()
         {
-            return MapDropdown<StrengthType>();
+            return ServiceExtensions.MapDropdown<StrengthType>();
         }
 
         public IEnumerable<DropdownModel> GeneratePeriodOptions()
         {
-            return MapDropdown<PeriodType>();
+            return ServiceExtensions.MapDropdown<PeriodType>();
         }
 
         public IEnumerable<DropdownModel> GenerateCropVolumeOptions()
         {
-            return MapDropdown<VolumeType>();
+            return ServiceExtensions.MapDropdown<VolumeType>();
         }
 
-        private IEnumerable<DropdownModel> MapDropdown<T>() where T : Enum
-        {
-            return EnumExtensions
-                .GetEnumValuesCollection<T>()
-                .Select(p => new DropdownModel
-                {
-                    Id = (int)(object)p,
-                    Name = EnumExtensions.GetStringFromEnumValue<T>(p)
-                }).ToList();
-        }
+
 
         public async Task<IList<CheckboxModel>> GenerateSpeciesCheckboxesAsync(IEnumerable<int>? varietySpecies = null)
         {
@@ -473,7 +483,8 @@
                 .ToList();
         }
 
-        public async Task<IList<CheckboxModel>> GenerateFruitSizeCheckboxesAsync(IEnumerable<int>? varietyFruitSizes = null)
+        public async Task<IList<CheckboxModel>> GenerateFruitSizeCheckboxesAsync(
+            IEnumerable<int>? varietyFruitSizes = null)
         {
             if (varietyFruitSizes == null)
             {

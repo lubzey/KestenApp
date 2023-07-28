@@ -13,7 +13,7 @@
         public string Name { get; set; } = null!;
 
         public Guid? VarietyId { get; set; }
-        public Variety Variety { get; set; } = null!;        
+        public Variety? Variety { get; set; } = null!;        
 
         public Guid? GardenId { get; set; } = null!;
         public Garden? Garden { get; set; } = null!;
@@ -22,13 +22,19 @@
         public ApplicationUser User { get; set; } = null!;
 
         [Precision(LocationPrecision, LocationScale)]
-        public decimal? Latitude { get; set; }
+        public string? Latitude { get; set; }
 
         [Precision(LocationPrecision, LocationScale)]
-        public decimal? Longitude { get; set; }
+        public string? Longitude { get; set; }
 
         [Precision(LocationPrecision, LocationScale)]
-        public decimal? Altitude { get; set; }
+        public int? Elevation { get; set; }
+
+        public DateTime? PlantedOnDate { get; set; }
+        public DateTime? SowedOnDate { get; set; }
+        public DateTime? GraftedOnDate { get; set; }
+
+        public DateTime DateCreated { get; set; }
 
 
         //Separate table SpecimenPositionInGarden
