@@ -2,13 +2,7 @@
 {
     public class VarietyListModel
     {
-        public IEnumerable<VarietyListDetailsModel> Varieties;
-        public List<string> HeaderTitles;
-
-        public VarietyListModel(IEnumerable<VarietyListDetailsModel> varieties)
-        {
-            Varieties = varieties;
-            HeaderTitles = new List<string>
+        public readonly List<string> HeaderTitles = new List<string>
             {
                 "Name",
                 "Species",
@@ -24,6 +18,10 @@
                 "Rootstock For",
                 "Grafted On"
             };
-        }
+
+        public int TotalCount { get; set; }
+        public int CurrentPage { get; set; }
+        public int CountPerPage { get; set; }
+        public IEnumerable<VarietySummaryModel> Varieties { get; set; } = null!;
     }
 }

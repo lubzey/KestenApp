@@ -13,8 +13,8 @@
         public DbSet<Variety> Varieties { get; set; } = null!;
         public DbSet<Species> Species { get; set; } = null!;
         public DbSet<FruitSize> FruitSizes { get; set; } = null!;
-        //public DbSet<Garden> Gardens { get; set; } = null!;
-        //public DbSet<Specimen> Specimens { get; set; } = null!;
+        public DbSet<Garden> Gardens { get; set; } = null!;
+        public DbSet<Specimen> Specimens { get; set; } = null!;
 
         //Varieties
         public DbSet<VarietySpecies> VarietySpecies { get; set; } = null!;

@@ -30,14 +30,20 @@
                         <li class="nav-item">
                             @if (User.Identity?.IsAuthenticated == true)
                             {
-                                <a class="nav-link @(Context.Request.Path == "/" || Context.Request.Path.ToString().StartsWith("/Variety") ? "active":"")" asp-area="" asp-controller="Variety" asp-action="List">Varieties</a>
+                                <a asp-area="" asp-controller="Variety" asp-action="List"
+                                   class="nav-link @(Context.Request.Path == "/" || Context.Request.Path.ToString().StartsWith("/Variety") ? "active":"")">
+                                    Varieties
+                                </a>
                             }
                         </li>
 
                         <li class="nav-item">
                             @if (User.Identity?.IsAuthenticated == true)
                             {
-                                <a class="nav-link" asp-area="" asp-controller="Specimen" asp-action="List">Specimens</a>
+                                <a asp-area="" asp-controller="Specimen" asp-action="List"
+                                   class="nav-link @(Context.Request.Path.ToString().StartsWith("/Specimen") ? "active":"")">
+                                    Specimens
+                                </a>
                             }
                         </li>
 

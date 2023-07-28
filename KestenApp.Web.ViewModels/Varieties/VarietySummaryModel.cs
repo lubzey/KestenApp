@@ -1,6 +1,6 @@
 ﻿namespace KestenApp.Web.ViewModels.Varieties
 {
-    public class VarietyListDetailsModel
+    public class VarietySummaryModel
     {
         public Guid VarietyId { get; set; } = default!;
         public string VarietyName { get; set; } = default!;

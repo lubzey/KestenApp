@@ -6,7 +6,6 @@
     using KestenApp.Data.Enums;
     using KestenApp.Data.Models;
     using KestenApp.Services.Contracts;
-    using KestenApp.Services.Models;
     using KestenApp.Web.ViewModels.Varieties;
     using KestenApp.Data.Enums.EnumHelpers;
     using KestenApp.Web.ViewModels;
@@ -29,14 +28,12 @@
             int countPerPage = int.MaxValue,
             bool isPublished = true)
         {
-            VarietyServiceModel varietiesPage = await AllVarietiesServiceModelAsync(currentPage: currentPage, isPublished: isPublished);
+            VarietyListModel varietiesPage = await AllVarietiesServiceModelAsync(currentPage: currentPage, isPublished: isPublished);
 
-            VarietyListModel listViewModel = GenerateListViewModel(varietiesPage.Varieties);
-
-            return listViewModel;
+            return varietiesPage;
         }
 
-        private async Task<VarietyServiceModel> AllVarietiesServiceModelAsync(
+        private async Task<VarietyListModel> AllVarietiesServiceModelAsync(
             string? name = null,
             VarietySortingType sorting = VarietySortingType.DateCreated,
             int currentPage = 1,
@@ -78,25 +75,16 @@
                 .Take(countPerPage)
                 .ToListAsync();
 
-            return new VarietyServiceModel
+            return new VarietyListModel
             {
                 TotalCount = totalCount,
                 CurrentPage = currentPage,
                 CountPerPage = countPerPage,
-                Varieties = varieties
+                Varieties = varieties.Select(v => ConstructVarietyModel(v)).ToList()
             };
         }
 
-
-        private static VarietyListModel GenerateListViewModel(IEnumerable<Variety> allVarieties)
-        {
-            var varietiesViewModels = allVarieties
-                .Select(v => ConstructVarietyModel(v));
-
-            return new VarietyListModel(varietiesViewModels);
-        }
-
-        private static VarietyListDetailsModel ConstructVarietyModel(Variety v)
+        private static VarietySummaryModel ConstructVarietyModel(Variety v)
         {
             IEnumerable<string> species = v.Species
                 .OrderBy(s => s.Species.ShortLatinName)
@@ -108,7 +96,7 @@
                 .Select(fs => fs.FruitSize.Name)
                 .ToList();
 
-            return new VarietyListDetailsModel
+            return new VarietySummaryModel
             {
                 VarietyId = v.VarietyId,
                 VarietyName = v.Name,

@@ -1,0 +1,42 @@
+﻿@using KestenApp.Web.ViewModels.Specimen;
+
+@model SpecimenSummaryModel
+
+<tr>
+    <td>
+        <a asp-controller="Specimen"
+           asp-action="Details"
+           asp-route-id="@Model.SpecimenId"
+           class="text-decoration-none text-dark">@Model.SpecimenName</a>
+    </td>
+    <td>
+        @Model.Year
+    </td>
+    <td>
+        @if (Model.Garden != null)
+        {
+            <a asp-controller="Garden"
+           asp-action="Details"
+           asp-route-id="@Model.Garden.GardenId"
+               class="text-decoration-none text-dark">@Model.Garden.Name</a>
+        }
+    </td>
+    <td>
+        @if (Model.Variety != null)
+        {
+            <a asp-controller="Variety"
+           asp-action="Details"
+           asp-route-id="@Model.Variety.VarietyId"
+               class="text-decoration-none text-dark">@Model.Variety.Name</a>
+        }
+    </td>
+    <td>
+        @if (Model.User != null)
+        {
+            <a asp-controller="Gardener"
+           asp-action="Details"
+           asp-route-id="@Model.User.Id"
+               class="text-decoration-none text-dark">@Model.User.UserName</a>
+        }
+    </td>
+</tr>
