@@ -5,6 +5,7 @@
         public readonly List<string> HeaderTitles = new List<string>
             {
                 "Name",
+                "Varieties",
                 "Specimens",
                 "User"
             };

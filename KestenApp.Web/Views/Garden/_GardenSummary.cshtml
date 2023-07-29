@@ -4,10 +4,13 @@
 
 <tr>
     <td>
-        <a asp-controller="Specimen"
+        <a asp-controller="Garden"
            asp-action="Details"
            asp-route-id="@Model.Garden.GardenId"
            class="text-decoration-none text-dark">@Model.Garden.Name</a>
+    </td>
+    <td>
+        @Model.Specimens.Where(s => s.Variety != null).GroupBy(s => s.Variety?.Name).Count()
     </td>
     <td>
         @Model.Specimens.Count()

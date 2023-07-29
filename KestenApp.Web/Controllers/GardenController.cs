@@ -5,6 +5,8 @@
 
     using KestenApp.Services.Contracts;
     using KestenApp.Web.ViewModels.Garden;
+    using KestenApp.Services;
+    using KestenApp.Web.ViewModels.Varieties;
 
     public class GardenController : BaseController
     {
@@ -23,6 +25,17 @@
                 .AllGardensAsync(currentPage: 1);
 
             return View(listViewModel);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Details(Guid id)
+        {
+            GardenDetailsModel detailsModel = await _gardenService
+                .GetDetailsViewByIdAsync(id);
+
+            //string contentRootPath = _environment.WebRootPath;
+
+            return View(detailsModel);
         }
     }
 }

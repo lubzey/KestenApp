@@ -53,6 +53,7 @@
                 .Include(v => v.IsGraftedOn.Where(v => v.RootstockVariety.IsPublished == isPublished))
                 .Include(v => v.IsRootstockFor.Where(v => v.GraftedVariety.IsPublished == isPublished))
 
+                //.AsNoTracking()
                 .Where(v => v.IsPublished == isPublished && v.IsActive);
 
             if (!string.IsNullOrWhiteSpace(name))
@@ -84,7 +85,7 @@
             };
         }
 
-        private static VarietySummaryModel ConstructVarietyModel(Variety v)
+        private VarietySummaryModel ConstructVarietyModel(Variety v)
         {
             IEnumerable<string> species = v.Species
                 .OrderBy(s => s.Species.ShortLatinName)
@@ -234,6 +235,7 @@
                     .ThenInclude(v => v.Species)
                 .Include(v => v.FruitSizes)
                     .ThenInclude(v => v.FruitSize)
+                .AsNoTracking()
                 .FirstAsync(p => p.VarietyId == id);
 
             return variety;
@@ -243,6 +245,7 @@
         {
             Variety? variety = await _context
                 .Varieties
+                .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.Name.ToLower() == name);
 
             return variety;
@@ -255,6 +258,7 @@
             return await _context
                 .Varieties
                 .Where(p => p.Name.Contains(searchQuery))
+                .AsNoTracking()
                 .ToListAsync();
         }
 

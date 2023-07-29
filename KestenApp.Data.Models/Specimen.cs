@@ -1,5 +1,6 @@
 ﻿namespace KestenApp.Data.Models
 {
+    using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
     using Microsoft.EntityFrameworkCore;
     using System.ComponentModel.DataAnnotations;
     using static KestenApp.Common.EntityValidationConstants.SpecimenConstants;
@@ -13,7 +14,7 @@
         public string Name { get; set; } = null!;
 
         public Guid? VarietyId { get; set; }
-        public Variety? Variety { get; set; } = null!;        
+        public Variety? Variety { get; set; } = null!;
 
         public Guid? GardenId { get; set; } = null!;
         public Garden? Garden { get; set; } = null!;
@@ -36,6 +37,20 @@
 
         public DateTime DateCreated { get; set; }
 
+        public bool IsActive { get; set; } = true;
+
+        [ValidateNever]
+        public int? Year
+        {
+            get
+            {
+                return PlantedOnDate != null
+                        ? PlantedOnDate.Value.Year
+                        : SowedOnDate != null
+                            ? SowedOnDate.Value.Year
+                            : null;
+            }
+        }
 
         //Separate table SpecimenPositionInGarden
         //public decimal Row { get; set; }

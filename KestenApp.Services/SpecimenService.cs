@@ -52,17 +52,13 @@
             };
         }
 
-        private static SpecimenSummaryModel ConstructSpecimenModel(Specimen v)
+        private SpecimenSummaryModel ConstructSpecimenModel(Specimen v)
         {
             return new SpecimenSummaryModel
             {
                 SpecimenId = v.SpecimenId,
                 SpecimenName = v.Name,
-                Year = v.PlantedOnDate != null 
-                    ? v.PlantedOnDate.Value.Year 
-                    : v.SowedOnDate != null
-                        ? v.SowedOnDate.Value.Year
-                        : null,
+                Year = v.Year,
                 Garden = v.Garden,
                 Variety = v.Variety,
                 User = v.User
