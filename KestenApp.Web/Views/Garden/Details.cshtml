@@ -96,7 +96,7 @@
         @*Titles*@
         <div class="row mt-1">
             <div class="col-1 fw-bold">
-                Variety
+                Name
             </div>
 
             @foreach (int? year in Model.GardenYears)
@@ -105,6 +105,10 @@
                     @year
                 </div>
             }
+
+            <div class="col-1 fw-bold">
+                Total
+            </div>
         </div>
 
         @*Varieties*@
@@ -121,6 +125,10 @@
                         @Model.YearVarieties.Where(s => s.Year == year && s.VarietyName == varietyName).Count()
                     </div>
                 }
+
+                <div class="col-1">
+                    @Model.YearVarieties.Where(s => s.VarietyName == varietyName).Count()
+                </div>
             </div>
         }
 
@@ -136,6 +144,10 @@
                     @Model.YearVarieties.Where(s => s.Year == year).Count()
                 </div>
             }
+
+            <div class="col-1">
+                @Model.YearVarieties.Count()
+            </div>
         </div>
 
 

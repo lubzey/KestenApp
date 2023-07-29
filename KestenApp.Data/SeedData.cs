@@ -27,6 +27,7 @@
         private static Variety marsol = GetVarietyFromName("Marsol");
         private static Variety precoceMigoule = GetVarietyFromName("Précoce Migoule");
         private static Variety pandora = GetVarietyFromName("Pandora");
+        private static Variety hifas = GetVarietyFromName("Hifas");
 
 
         public static Species[] Species { get { return GetSpecies(); } }
@@ -74,6 +75,16 @@
                     GardenId = gardens.First().GardenId,
                     PlantedOnDate = new DateTime(2022, 4, 1),
                     VarietyId = marsol.VarietyId
+                },
+                new Specimen
+                {
+                    SpecimenId = Guid.NewGuid(),
+                    Name = "Hifas 2019",
+                    UserId = Guid.Parse("09E77621-FAC4-4150-B64C-3E5C2B1A40EE"),
+                    Elevation = 645,
+                    GardenId = gardens.First().GardenId,
+                    PlantedOnDate = new DateTime(2019, 3, 1),
+                    VarietyId = hifas.VarietyId
                 },
             };
 
@@ -158,7 +169,7 @@
 
             varieties = new Variety[]
             {
-                new Variety //1
+                new Variety
                 {
                     VarietyId = Guid.Parse("46BD8DC8-CA0A-4648-A9A9-EA4AD91E1B77"),
                     Name = "Bouche de Bétizac",
@@ -174,7 +185,7 @@
                     Vigor = StrengthType.Medium,
                     DateCreated = dateCreated,
                 },
-                new Variety //2
+                new Variety
                 {
                     VarietyId = Guid.Parse("FBA92871-4A3C-4978-FCD6-08DB87B43C2D"),
                     Name = "Marigoule",
@@ -189,7 +200,7 @@
                     Vigor = StrengthType.Strong,
                     DateCreated = GetNextSecond()
                 },
-                new Variety //3
+                new Variety
                 {
                     VarietyId = Guid.Parse("8FC8F311-3CE9-42E2-FCD7-08DB87B43C2D"),
                     Name = "Marsol",
@@ -204,7 +215,7 @@
                     Vigor = StrengthType.VeryStrong,
                     DateCreated = GetNextSecond()
                 },
-                new Variety //4
+                new Variety
                 {
                     VarietyId = Guid.NewGuid(),
                     Name = "Précoce Migoule",
@@ -219,6 +230,24 @@
                     Vigor = StrengthType.Medium,
                     DateCreated = GetNextSecond()
                 },
+                new Variety
+                {
+                    VarietyId = Guid.NewGuid(),
+                    Name = "Hifas",
+                    Description = @"Resistant hybrid chestnut from Hifas Foresta.",
+                    Peeling = ConditionType.Medium,
+                    Conservation = ConditionType.Medium,
+                    IsMarron = true,
+                    ChestnutBlightResistance = ConditionType.Medium,
+                    InkDiseaseResistance = ConditionType.Good,
+                    MaturityPeriod = PeriodType.Early,
+                    PollenType = PollenType.Abundant,
+                    Vigor = StrengthType.VeryStrong,
+                    Crop = VolumeType.Average,
+                    DateCreated = GetNextSecond()
+                },
+
+
                 new Variety { VarietyId = Guid.NewGuid(), Name = "Pandora", DateCreated = GetNextSecond() },
                 new Variety { VarietyId = Guid.NewGuid(), Name = "Nevada", DateCreated = GetNextSecond() },
                 new Variety { VarietyId = Guid.NewGuid(), Name = "Long Street", DateCreated = GetNextSecond() },
@@ -287,7 +316,6 @@
                     SpeciesId = (int)SpeciesType.Crenata
                 },
 
-                //Pandora
                 new VarietySpecies {
                     VarietyId = pandora.VarietyId,
                     SpeciesId = (int)SpeciesType.Mollissima
@@ -295,7 +323,16 @@
                 new VarietySpecies {
                     VarietyId = pandora.VarietyId,
                     SpeciesId = (int)SpeciesType.Seguinii
-                }
+                },
+
+                new VarietySpecies {
+                    VarietyId = hifas.VarietyId,
+                    SpeciesId = (int)SpeciesType.Sativa
+                },
+                new VarietySpecies {
+                    VarietyId = hifas.VarietyId,
+                    SpeciesId = (int)SpeciesType.Crenata
+                },
             };
 
             return varietySpecies;
@@ -367,7 +404,15 @@
                 new VarietyFruitSize {
                     FruitSizeId = (int)FruitSizeType.Large,
                     VarietyId = precoceMigoule.VarietyId
-                }
+                },
+                new VarietyFruitSize {
+                    FruitSizeId = (int)FruitSizeType.Large,
+                    VarietyId = hifas.VarietyId
+                },
+                new VarietyFruitSize {
+                    FruitSizeId = (int)FruitSizeType.XL,
+                    VarietyId = hifas.VarietyId
+                },
             };
 
             return varietyfruitSizes;

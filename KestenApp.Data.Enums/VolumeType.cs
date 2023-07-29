@@ -7,7 +7,7 @@ namespace KestenApp.Data.Enums
         [Description("Not Selected")]
         NotSelected = 0,
         Scarce = 1,
-        Medium = 2,
+        Average = 2,
         Abundant = 3
     }
 }
