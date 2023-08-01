@@ -3,16 +3,16 @@
 @model SpecimenSummaryModel
 
 <tr>
-    <td>
+    <th>
         <a asp-controller="Specimen"
            asp-action="Details"
            asp-route-id="@Model.SpecimenId"
            class="text-decoration-none text-dark">@Model.SpecimenName</a>
-    </td>
-    <td>
+    </th>
+    <td class="text-center">
         @Model.Year
     </td>
-    <td>
+    <td class="text-center">
         @if (Model.Garden != null)
         {
             <a asp-controller="Garden"
@@ -21,7 +21,7 @@
                class="text-decoration-none text-dark">@Model.Garden.Name</a>
         }
     </td>
-    <td>
+    <td class="text-center">
         @if (Model.Variety != null)
         {
             <a asp-controller="Variety"
@@ -30,7 +30,7 @@
                class="text-decoration-none text-dark">@Model.Variety.Name</a>
         }
     </td>
-    <td>
+    <td class="text-center">
         @if (Model.User != null)
         {
             <a asp-controller="Gardener"

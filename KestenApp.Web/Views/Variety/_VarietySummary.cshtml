@@ -2,32 +2,32 @@
 @model VarietySummaryModel
 
 <tr>
-    <td>
+    <th>
         <a asp-controller="Variety"
            asp-action="Details"
            asp-route-id="@Model.VarietyId"
-           class="text-decoration-none text-dark fw-bold">@Model.VarietyName</a>
-    </td>
+           scope="row" class="text-decoration-none text-dark">@Model.VarietyName</a>
+    </th>
     <td>
         @Model.Species
     </td>
-    <td style="white-space:pre-line;">@Model.FruitSizes</td>
-    <td>
+    <td style="white-space:pre-line;" class="text-center">@Model.FruitSizes</td>
+    <td class="text-center">
         @Model.IsMarron
     </td>
-    <td>
+    <td class="text-center">
         @Model.ChestnutBlightResistance
     </td>
-    <td>
+    <td class="text-center">
         @Model.InkDiseaseResistance
     </td>
-    <td>
+    <td class="text-center">
         @Model.Peeling
     </td>
-    <td>
+    <td class="text-center">
         @Model.PollenFertility
     </td>
-    <td>
+    <td class="text-center">
         @Model.MaturityPeriod
     </td>
     <td style="white-space:pre-line;">@Model.IsPollenizedBy</td>

@@ -221,12 +221,13 @@
                                 @if (Model.Specimens[row - 1, col - 1] != null)
                                 {
                                     <td class="col-1 text-center @Model.Specimens[row - 1,col - 1].BackgroundColor">
-                                        <h5 class="mb-0">
-                                            @Model.Specimens[row - 1,col - 1].Name
-                                        </h5>
-                                        <p class="small mb-0">
-                                            @Model.Specimens[row - 1,col - 1].Year
-                                        </p>
+                                        <a asp-controller="Specimen"  asp-action="Details" 
+                                        asp-route-id="@Model.Specimens[row - 1,col - 1].SpecimenId"
+                                           class="text-decoration-none text-dark fw-bold">
+                                                @Model.Specimens[row - 1,col - 1].Name
+                                        </a>
+
+                                        <small>@Model.Specimens[row - 1,col - 1].Year</small>
                                     </td>
                                 }
                                 else

@@ -24,13 +24,14 @@
 </div>
 
 <div class="row">
-    <small>@Model.Varieties.Count() varieties found</small>
-    <table class="table table-striped table-bordered table-sm" cellspacing="2" width="100%">
+    <hr class="mb-0" />
+    @*<small>@Model.Varieties.Count() varieties found</small>*@
+    <table class="table table-hover table-sm" cellspacing="2" width="100%">
         <thead>
-            <tr>
+            <tr class="table-light">
                 @foreach (string title in Model.HeaderTitles)
                 {
-                    <th class="th-sm align-top text-center">
+                    <th scope="col" class="th-sm align-top text-center">
                         @title
                     </th>
                 }
