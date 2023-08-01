@@ -21,5 +21,11 @@
 
         public bool IsActive { get; set; } = true;
         public bool IsPublished { get; set; } = true;
+
+        [Range(1, int.MaxValue)]
+        public int? TotalColumns { get; set; }
+
+        [Range(1, int.MaxValue)]
+        public int? TotalRows { get; set; }
     }
 }

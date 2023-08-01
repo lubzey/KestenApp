@@ -153,3 +153,93 @@
 
     </div>
 </div>
+
+@if (Model.TotalRows > 0 && Model.TotalColumns > 0)
+{
+    <hr />
+
+    <div class="row mt-1">
+        <div class="col-xs-12 col-lg-2 container">
+            <div class="row h-100">
+                <h3 class="mt-1 col-6 col-lg-12">
+                    Schema
+                </h3>
+
+                @*Legend*@
+                <div class="col-4 col-md-3 col-lg-10 offset-2 offset-md-3 mt-auto">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Pollen Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="table-danger">
+                                    Sterile
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="table-warning">
+                                    Medium
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="table-success">
+                                    Abundant
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-xs-12 col-lg-10">
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Row/Column</th>
+                        @for (int col = 1; col <= Model.TotalColumns; col++)
+                        {
+                            <th scope="col" class="text-center">@col</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int row = 1; row <= Model.TotalRows; row++)
+                    {
+                        <tr>
+                            <th scope="row" class="col-1">
+                                @row
+                            </th>
+
+                            @for (int col = 1; col <= Model.TotalColumns; col++)
+                            {
+                                @if (Model.Specimens[row - 1, col - 1] != null)
+                                {
+                                    <td class="@Model.Specimens[row - 1,col - 1].PollenType col-1 text-center">
+                                        @Model.Specimens[row - 1,col - 1].Name<br>
+                                        @Model.Specimens[row - 1,col - 1].Year
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="col-1 text-center">
+                                        <div class="btn">
+                                            add
+                                        </div>
+                                    </td>
+                                }
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+}

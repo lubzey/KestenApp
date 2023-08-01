@@ -1,4 +1,6 @@
-﻿namespace KestenApp.Web.ViewModels.Garden
+﻿using System.Data;
+
+namespace KestenApp.Web.ViewModels.Garden
 {
     public class GardenDetailsModel
     {
@@ -32,8 +34,11 @@
                     .ToList();
             }
         }
-        public IEnumerable<YearSpecimens> YearVarieties { get; set; } = Enumerable.Empty<YearSpecimens>();
+        public IEnumerable<GardenDetailsYearSpecimens> YearVarieties { get; set; } = Enumerable.Empty<GardenDetailsYearSpecimens>();
         public bool IsActive { get; set; }
         public bool IsPublished { get; set; }
+        public int TotalRows { get; set; }
+        public int TotalColumns { get; set; }
+        public GardenDetailsSchemaModel[,] Specimens { get; set; } = null!;
     }
 }

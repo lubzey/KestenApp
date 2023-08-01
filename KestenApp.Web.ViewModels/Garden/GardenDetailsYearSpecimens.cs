@@ -1,6 +1,6 @@
 ﻿namespace KestenApp.Web.ViewModels.Garden
 {
-    public class YearSpecimens
+    public class GardenDetailsYearSpecimens
     {
         public int? Year { get; set; }
         public string VarietyName { get; set; } = null!;
