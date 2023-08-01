@@ -12,11 +12,11 @@
                .Property(v => v.DateCreated)
                .HasDefaultValueSql("GETDATE()");
 
-            builder
-                .HasOne(v => v.Variety)
-                .WithMany(v => v.Specimens)
-                .HasForeignKey(e => e.VarietyId)
-                .OnDelete(DeleteBehavior.Restrict);
+            //builder
+            //    .HasOne(v => v.Variety)
+            //    .WithMany(v => v.Specimens)
+            //    .HasForeignKey(e => e.VarietyId)
+            //    .OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .HasOne(v => v.Garden)
@@ -25,7 +25,17 @@
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
+                .HasOne(v => v.SpecimenPosition)
+                .WithOne(v => v.Specimen)
+                .HasForeignKey<SpecimenPosition>(sp => sp.SpecimenId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder
                 .ToTable("Specimens");
+
+            builder
+                .HasKey(s => s.SpecimenId);
 
             builder.HasData(SeedData.Specimens);
         }

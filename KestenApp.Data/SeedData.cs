@@ -19,6 +19,8 @@
         private static IdentityRole[] identityRoles = null!;
         private static Garden[] gardens = null!;
         private static Specimen[] specimens = null!;
+        private static SpecimenPosition[] specimenPositions = null!;
+        private static ApplicationUser[] applicationUsers = null!;
 
         //used to map data
         private static DateTime dateCreated = new DateTime(2023, 7, 7, 7, 0, 0);
@@ -29,22 +31,72 @@
         private static Variety pandora = GetVarietyFromName("Pandora");
         private static Variety hifas = GetVarietyFromName("Hifas");
 
-
-        public static Species[] Species { get { return GetSpecies(); } }
-        public static Variety[] Varieties { get { return GetVarieties(); } }
-        public static VarietySpecies[] VarietySpecies { get { return GetVarietySpecies(); } }
-        public static FruitSize[] FruitSizes { get { return GetFruitSizes(); } }
-        public static VarietyFruitSize[] VarietyFruitSizes { get { return GetVarietyFruitSizes(); } }
-        public static VarietyPollenCompatibility[] VarietyPollenCompatibilities { get { return GetVarietyPollenCompatibilities(); } }
-        public static VarietyGraftingCompatibility[] VarietyGraftingCompatibilities { get { return GetVarietyGraftingCompatibilities(); } }
-        public static VarietyImage[] VarietyImages { get { return GetVarietyImages(); } }
-        public static Garden[] Gardens { get { return GetGardens(); } }
-        public static Specimen[] Specimens { get { return GetSpecimens(); } }
-
-
-
+        public static ApplicationUser[] ApplicationUsers { get => GetApplicationUsers(); }
+        public static Species[] Species { get => GetSpecies(); }
+        public static Variety[] Varieties { get => GetVarieties(); }
+        public static VarietySpecies[] VarietySpecies { get => GetVarietySpecies(); }
+        public static FruitSize[] FruitSizes { get => GetFruitSizes(); }
+        public static VarietyFruitSize[] VarietyFruitSizes { get => GetVarietyFruitSizes(); }
+        public static VarietyPollenCompatibility[] VarietyPollenCompatibilities { get => GetVarietyPollenCompatibilities(); }
+        public static VarietyGraftingCompatibility[] VarietyGraftingCompatibilities { get => GetVarietyGraftingCompatibilities(); }
+        public static VarietyImage[] VarietyImages { get => GetVarietyImages(); }
+        public static Garden[] Gardens { get => GetGardens(); }
+        public static Specimen[] Specimens { get => GetSpecimens(); }
+        public static SpecimenPosition[] SpecimenPositions { get => GetSpecimenPositions(); }
         public static IdentityRole[] IdentityRoles { get { return GetIdentityRoles(); } }
 
+        #region Private methods
+        private static ApplicationUser[] GetApplicationUsers()
+        {
+            if (applicationUsers != null)
+            {
+                return applicationUsers;
+            }
+
+            var hasher = new PasswordHasher<ApplicationUser>();
+            var adminEmail = "lubzdudz@gmail.com";
+            var expertEmail = "jn@chestnut.com";
+            var userEmail = "user@chestnut.com";
+
+            applicationUsers = new List<ApplicationUser>
+            {
+                new ApplicationUser
+                {
+                    Id = Guid.Parse("09E77621-FAC4-4150-B64C-3E5C2B1A40EE"),
+                    UserName = adminEmail,
+                    NormalizedUserName = adminEmail.ToUpper(),
+                    PasswordHash = hasher.HashPassword(null, "123456a!"),
+                    Email = adminEmail,
+                    NormalizedEmail = adminEmail.ToUpper(),
+                    EmailConfirmed = true,
+                    SecurityStamp = Guid.NewGuid().ToString()
+                },
+                new ApplicationUser
+                {
+                    Id = Guid.Parse("8a5f6807-b43f-40fa-b836-e21874e67d51"),
+                    UserName = expertEmail,
+                    NormalizedUserName = expertEmail.ToUpper(),
+                    PasswordHash = hasher.HashPassword(null, "jn123456!"),
+                    Email = expertEmail,
+                    NormalizedEmail = expertEmail.ToUpper(),
+                    EmailConfirmed = true,
+                    SecurityStamp = Guid.NewGuid().ToString()
+                },
+                new ApplicationUser
+                {
+                    Id = Guid.Parse("b0a8cb2c-4908-431e-a07b-f3ddd7b45bce"),
+                    UserName = userEmail,
+                    NormalizedUserName = userEmail.ToUpper(),
+                    PasswordHash = hasher.HashPassword(null, "temp123456!"),
+                    Email = userEmail,
+                    NormalizedEmail = userEmail.ToUpper(),
+                    EmailConfirmed = true,
+                    SecurityStamp = Guid.NewGuid().ToString()
+                }
+            }.ToArray();
+
+            return applicationUsers;
+        }
         private static Specimen[] GetSpecimens()
         {
             if (specimens != null)
@@ -56,7 +108,7 @@
             {
                 new Specimen
                 {
-                    SpecimenId = Guid.NewGuid(),
+                    SpecimenId = Guid.Parse("5ceeb8c1-9735-4c99-987e-22461216b9db"),
                     Name = "Marigoule 2019",
                     UserId = Guid.Parse("09E77621-FAC4-4150-B64C-3E5C2B1A40EE"),
                     Elevation = 642,
@@ -68,7 +120,7 @@
                 },
                 new Specimen
                 {
-                    SpecimenId = Guid.NewGuid(),
+                    SpecimenId = Guid.Parse("7eeeb5ea-4461-4bb4-95a6-fca45b7c69e6"),
                     Name = "Marsol 2022",
                     UserId = Guid.Parse("09E77621-FAC4-4150-B64C-3E5C2B1A40EE"),
                     Elevation = 641,
@@ -78,7 +130,7 @@
                 },
                 new Specimen
                 {
-                    SpecimenId = Guid.NewGuid(),
+                    SpecimenId = Guid.Parse("1d4c17b8-ac58-466d-828a-90eb59fa509b"),
                     Name = "Hifas 2019",
                     UserId = Guid.Parse("09E77621-FAC4-4150-B64C-3E5C2B1A40EE"),
                     Elevation = 645,
@@ -90,7 +142,37 @@
 
             return specimens;
         }
+        private static SpecimenPosition[] GetSpecimenPositions()
+        {
+            if (specimenPositions != null)
+            {
+                return specimenPositions;
+            }
 
+            specimenPositions = new SpecimenPosition[]
+                {
+                    new SpecimenPosition //Marigoule
+                    {
+                        SpecimenId = Guid.Parse("5ceeb8c1-9735-4c99-987e-22461216b9db"),
+                        Row = 4,
+                        Column = 2,
+                    },
+                    new SpecimenPosition //Marsol
+                    {
+                        SpecimenId = Guid.Parse("7eeeb5ea-4461-4bb4-95a6-fca45b7c69e6"),
+                        Row = 4,
+                        Column = 1,
+                    },
+                    new SpecimenPosition //Hifas
+                    {
+                        SpecimenId = Guid.Parse("1d4c17b8-ac58-466d-828a-90eb59fa509b"),
+                        Row = 2,
+                        Column = 1,
+                    }
+                };
+
+            return specimenPositions;
+        }
         private static Garden[] GetGardens()
         {
             if (gardens != null)
@@ -116,7 +198,6 @@
 
             return gardens;
         }
-
         private static IdentityRole[] GetIdentityRoles()
         {
             if (identityRoles != null)
@@ -508,5 +589,6 @@
 
             return dateCreated;
         }
+        #endregion
     }
 }

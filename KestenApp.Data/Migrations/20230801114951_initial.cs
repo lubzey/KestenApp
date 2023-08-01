@@ -66,6 +66,20 @@ namespace KestenApp.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "IdentityRole",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IdentityRole", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Species",
                 columns: table => new
                 {
@@ -85,13 +99,20 @@ namespace KestenApp.Data.Migrations
                 columns: table => new
                 {
                     VarietyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsPublished = table.Column<bool>(type: "bit", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     ChestnutBlightResistance = table.Column<int>(type: "int", nullable: false),
                     InkDiseaseResistance = table.Column<int>(type: "int", nullable: false),
                     Peeling = table.Column<int>(type: "int", nullable: false),
+                    Conservation = table.Column<int>(type: "int", nullable: false),
+                    Crop = table.Column<int>(type: "int", nullable: false),
                     PollenType = table.Column<int>(type: "int", nullable: false),
+                    BuddingPeriod = table.Column<int>(type: "int", nullable: false),
+                    FloweringPeriod = table.Column<int>(type: "int", nullable: false),
                     MaturityPeriod = table.Column<int>(type: "int", nullable: false),
+                    Vigor = table.Column<int>(type: "int", nullable: false),
                     IsMarron = table.Column<bool>(type: "bit", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()")
                 },
@@ -207,18 +228,21 @@ namespace KestenApp.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Garden",
+                name: "Gardens",
                 columns: table => new
                 {
                     GardenId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsPublished = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Garden", x => x.GardenId);
+                    table.PrimaryKey("PK_Gardens", x => x.GardenId);
                     table.ForeignKey(
-                        name: "FK_Garden_AspNetUsers_UserId",
+                        name: "FK_Gardens_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -340,7 +364,7 @@ namespace KestenApp.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Specimen",
+                name: "Specimens",
                 columns: table => new
                 {
                     SpecimenId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -348,29 +372,65 @@ namespace KestenApp.Data.Migrations
                     VarietyId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     GardenId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Latitude = table.Column<decimal>(type: "decimal(9,6)", precision: 9, scale: 6, nullable: true),
-                    Longitude = table.Column<decimal>(type: "decimal(9,6)", precision: 9, scale: 6, nullable: true),
-                    Altitude = table.Column<decimal>(type: "decimal(9,6)", precision: 9, scale: 6, nullable: true)
+                    Latitude = table.Column<string>(type: "nvarchar(max)", precision: 9, scale: 6, nullable: true),
+                    Longitude = table.Column<string>(type: "nvarchar(max)", precision: 9, scale: 6, nullable: true),
+                    Elevation = table.Column<int>(type: "int", precision: 9, scale: 6, nullable: true),
+                    PlantedOnDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    SowedOnDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    GraftedOnDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Specimen", x => x.SpecimenId);
+                    table.PrimaryKey("PK_Specimens", x => x.SpecimenId);
                     table.ForeignKey(
-                        name: "FK_Specimen_AspNetUsers_UserId",
+                        name: "FK_Specimens_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Specimen_Garden_GardenId",
+                        name: "FK_Specimens_Gardens_GardenId",
                         column: x => x.GardenId,
-                        principalTable: "Garden",
-                        principalColumn: "GardenId");
+                        principalTable: "Gardens",
+                        principalColumn: "GardenId",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Specimen_Varieties_VarietyId",
+                        name: "FK_Specimens_Varieties_VarietyId",
                         column: x => x.VarietyId,
                         principalTable: "Varieties",
-                        principalColumn: "VarietyId");
+                        principalColumn: "VarietyId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SpecimenPositions",
+                columns: table => new
+                {
+                    SpecimenId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Row = table.Column<int>(type: "int", nullable: false),
+                    Column = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SpecimenPositions", x => x.SpecimenId);
+                    table.ForeignKey(
+                        name: "FK_SpecimenPositions_Specimens_SpecimenId",
+                        column: x => x.SpecimenId,
+                        principalTable: "Specimens",
+                        principalColumn: "SpecimenId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { new Guid("09e77621-fac4-4150-b64c-3e5c2b1a40ee"), 0, "a6f0ba3c-5048-4fa0-84e7-c0417dc0b3ee", "lubzdudz@gmail.com", true, false, null, "LUBZDUDZ@GMAIL.COM", "LUBZDUDZ@GMAIL.COM", "AQAAAAIAAYagAAAAEHVWmJCY6bQpOnJ4U43p2PuNLLqBey6GhGG1tbfIZ3/AkocVbKgfPWEAByO7NSDa7Q==", null, false, "1816d8db-8d61-423c-8646-9110c21bc254", false, "lubzdudz@gmail.com" },
+                    { new Guid("8a5f6807-b43f-40fa-b836-e21874e67d51"), 0, "5472514e-6e15-43f7-b9eb-8baacffba636", "jn@chestnut.com", true, false, null, "JN@CHESTNUT.COM", "JN@CHESTNUT.COM", "AQAAAAIAAYagAAAAEMOJCIS1oYHujjaaaRVnNc4zv9iAWPSEzWbhxG4DbFYQsCEf7HyyayGFwVMULE3n8g==", null, false, "ea12a8f8-f869-4a36-bb78-dc817038a3bd", false, "jn@chestnut.com" },
+                    { new Guid("b0a8cb2c-4908-431e-a07b-f3ddd7b45bce"), 0, "03942ec6-1fa0-404f-b031-480b2b52618f", "user@chestnut.com", true, false, null, "USER@CHESTNUT.COM", "USER@CHESTNUT.COM", "AQAAAAIAAYagAAAAEDsjz61ACkViWuHTqPztQhEZmAsDqCEUpgFChGSc7w8oFakdb0L5Wod7XOJB6hkfjg==", null, false, "0115a4ea-5931-4f0a-a35a-03541b8af01a", false, "user@chestnut.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -383,6 +443,16 @@ namespace KestenApp.Data.Migrations
                     { 3, 83, 67, 15, 13, "Medium" },
                     { 4, 66, 56, 18, 16, "Large" },
                     { 5, 55, 15, 100, 18, "XL" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "IdentityRole",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "43f66e88-3b1d-4b5d-9d59-580f8bc10cf8", null, "User", "USER" },
+                    { "5cda96a1-63fe-4c68-a3df-efb9920d0983", null, "Expert", "EXPERT" },
+                    { "86dea3b3-22cc-421d-9f1e-500987320840", null, "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.InsertData(
@@ -402,42 +472,52 @@ namespace KestenApp.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Varieties",
-                columns: new[] { "VarietyId", "ChestnutBlightResistance", "DateCreated", "Description", "InkDiseaseResistance", "IsMarron", "MaturityPeriod", "Name", "Peeling", "PollenType" },
+                columns: new[] { "VarietyId", "BuddingPeriod", "ChestnutBlightResistance", "Conservation", "Crop", "DateCreated", "Description", "FloweringPeriod", "InkDiseaseResistance", "IsActive", "IsMarron", "IsPublished", "MaturityPeriod", "Name", "Peeling", "PollenType", "Vigor" },
                 values: new object[,]
                 {
-                    { new Guid("10446473-cc44-4f2d-96be-42367003ce2f"), 0, new DateTime(2023, 7, 7, 7, 0, 15, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Payne", 0, 0 },
-                    { new Guid("12778bae-91fb-4027-a5d6-310a4a13d6ac"), 0, new DateTime(2023, 7, 7, 7, 0, 12, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Gideon", 0, 0 },
-                    { new Guid("186b071d-da9e-4fa8-b3dc-50fea75b1d8a"), 0, new DateTime(2023, 7, 7, 7, 0, 7, 0, DateTimeKind.Unspecified), "", 0, null, 0, "AU 2-18", 0, 0 },
-                    { new Guid("209e5667-5ad2-4ba8-b46b-c6880af5342a"), 0, new DateTime(2023, 7, 7, 7, 0, 9, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Black Satin", 0, 0 },
-                    { new Guid("4007ef65-d96d-45a4-a328-98d01fd95767"), 1, new DateTime(2023, 7, 7, 7, 0, 3, 0, DateTimeKind.Unspecified), "The Precoce Migoule is a chestnut hybrid (CA 48), a natural cross between a European chestnut (Castanea sativa) and a Japanese chestnut (Castanea crenata). It was discovered by J. Dufrenoy at the orchard of Migoule in Brive-la-Gaillarde. The tree is vigorous and erect growing with growth of a metre (3 ft) or more in a season if the conditions are right. It is a large sized chestnut tree with height reaching 20 m (60 ft) or more and 7.5-10 m (25-35 ft) wide. Trees start to bear after 3 to 5 years. Full nut production in 12 - 20 years depending on the location.", 2, true, 2, "Précoce Migoule", 3, 2 },
-                    { new Guid("40aee496-7cdd-4b29-a799-7290b58a4cdc"), 0, new DateTime(2023, 7, 7, 7, 0, 6, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Long Street", 0, 0 },
-                    { new Guid("46bd8dc8-ca0a-4648-a9a9-ea4ad91e1b77"), 3, new DateTime(2023, 7, 7, 7, 0, 0, 0, DateTimeKind.Unspecified), "Bouche de Bétizac is a French chestnut cultivar developed in 1962 by INRA at the station of Malemort-sur-Corrèze near Brive. It is a controlled hybrid between Castanea sativa and Castanea crenata (female Bouche rouge × male Castanea crenata CA04). This variety produces large to very large chestnuts. It has very good flavor for a hybrid. With Marigoule, it is the variety currently most cultivated in the French chestnut groves because it is very productive (3 tons per hectare on average). Its fruit is bright, light chestnut-brown quickly turning brown and dark brown.", 1, true, 2, "Bouche de Bétizac", 3, 1 },
-                    { new Guid("5d5d4a2a-77fe-4dc4-be06-d36f28a47a3e"), 0, new DateTime(2023, 7, 7, 7, 0, 18, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Qingza", 0, 0 },
-                    { new Guid("6028dc84-2fa1-4f86-917e-4e154db8ea0a"), 0, new DateTime(2023, 7, 7, 7, 0, 20, 0, DateTimeKind.Unspecified), "", 0, null, 0, "YGF", 0, 0 },
-                    { new Guid("607b57a0-aa59-4608-ba0a-fb5d72adc7a9"), 0, new DateTime(2023, 7, 7, 7, 0, 19, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Royalmark", 0, 0 },
-                    { new Guid("6715cce7-bda2-465a-ac43-8f6f462957ec"), 0, new DateTime(2023, 7, 7, 7, 0, 11, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Emalyn's Purple", 0, 0 },
-                    { new Guid("68a79dc5-acbb-45db-a2e0-49ebcdf30c73"), 0, new DateTime(2023, 7, 7, 7, 0, 8, 0, DateTimeKind.Unspecified), "", 0, null, 0, "AU Super", 0, 0 },
-                    { new Guid("8c5ff5cb-e115-4600-9f95-081d85418207"), 0, new DateTime(2023, 7, 7, 7, 0, 5, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Nevada", 0, 0 },
-                    { new Guid("8fc8f311-3ce9-42e2-fcd7-08db87b43c2d"), 3, new DateTime(2023, 7, 7, 7, 0, 2, 0, DateTimeKind.Unspecified), "Marsol (aka Marisol) is a natural chestnut hybrid, a cross between a European chestnut (Castanea sativa) and Japanese (Castanea crenata) (CA 07). INRA produced this variety from Lalevade-d'Ardèche. It is mainly used as a rootstock because of its good graft compatibility with many varieties. As a rootstock, it is more vigorous than Maraval (equal to Bouche de Betizac or Comballe).", 3, true, 3, "Marsol", 3, 3 },
-                    { new Guid("940b55dd-a5b7-4e60-893b-fb5de42cd542"), 0, new DateTime(2023, 7, 7, 7, 0, 14, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Jiaoza", 0, 0 },
-                    { new Guid("ac8a2931-738b-4537-9ae5-a1e01732f9b1"), 0, new DateTime(2023, 7, 7, 7, 0, 13, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Jenny", 0, 0 },
-                    { new Guid("c02e0dae-a61d-42dd-bf96-807c47f9765d"), 0, new DateTime(2023, 7, 7, 7, 0, 17, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Qing", 0, 0 }
+                    { new Guid("0028fedd-0179-45fb-aa7b-1d5e054bd73e"), 0, 0, 0, 0, new DateTime(2023, 7, 7, 7, 0, 14, 0, DateTimeKind.Unspecified), "", 0, 0, true, null, true, 0, "Jenny", 0, 0, 0 },
+                    { new Guid("03b56364-4f52-4274-b229-3f95af0c6414"), 0, 0, 0, 0, new DateTime(2023, 7, 7, 7, 0, 9, 0, DateTimeKind.Unspecified), "", 0, 0, true, null, true, 0, "AU Super", 0, 0, 0 },
+                    { new Guid("14646c3b-6bfa-4805-962e-0ab9f591821e"), 0, 0, 0, 0, new DateTime(2023, 7, 7, 7, 0, 19, 0, DateTimeKind.Unspecified), "", 0, 0, true, null, true, 0, "Qingza", 0, 0, 0 },
+                    { new Guid("16c0aebf-195a-43b8-a439-1ad4bcf9792e"), 0, 0, 0, 0, new DateTime(2023, 7, 7, 7, 0, 17, 0, DateTimeKind.Unspecified), "", 0, 0, true, null, true, 0, "Peach", 0, 0, 0 },
+                    { new Guid("2f4572fa-52fb-42e9-a8fe-c3250d745038"), 0, 0, 0, 0, new DateTime(2023, 7, 7, 7, 0, 10, 0, DateTimeKind.Unspecified), "", 0, 0, true, null, true, 0, "Black Satin", 0, 0, 0 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Varieties",
-                columns: new[] { "VarietyId", "ChestnutBlightResistance", "Description", "InkDiseaseResistance", "IsMarron", "MaturityPeriod", "Name", "Peeling", "PollenType" },
-                values: new object[] { new Guid("d0777e23-635e-41fa-a8f9-3db9a0f3dd97"), 0, "", 0, null, 0, "Yixian Large", 0, 0 });
+                columns: new[] { "VarietyId", "BuddingPeriod", "ChestnutBlightResistance", "Conservation", "Crop", "Description", "FloweringPeriod", "InkDiseaseResistance", "IsActive", "IsMarron", "IsPublished", "MaturityPeriod", "Name", "Peeling", "PollenType", "Vigor" },
+                values: new object[] { new Guid("31c4b1f8-a4b6-48f4-8fd3-c2f4e9664fc5"), 0, 0, 0, 0, "", 0, 0, true, null, true, 0, "Yixian Large", 0, 0, 0 });
 
             migrationBuilder.InsertData(
                 table: "Varieties",
-                columns: new[] { "VarietyId", "ChestnutBlightResistance", "DateCreated", "Description", "InkDiseaseResistance", "IsMarron", "MaturityPeriod", "Name", "Peeling", "PollenType" },
+                columns: new[] { "VarietyId", "BuddingPeriod", "ChestnutBlightResistance", "Conservation", "Crop", "DateCreated", "Description", "FloweringPeriod", "InkDiseaseResistance", "IsActive", "IsMarron", "IsPublished", "MaturityPeriod", "Name", "Peeling", "PollenType", "Vigor" },
                 values: new object[,]
                 {
-                    { new Guid("dda5156b-1815-4f48-8f7d-262f6c4dacf1"), 0, new DateTime(2023, 7, 7, 7, 0, 10, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Chushuhong", 0, 0 },
-                    { new Guid("e9193db1-ae9f-45a6-bfa3-ba916fa017d2"), 0, new DateTime(2023, 7, 7, 7, 0, 4, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Pandora", 0, 0 },
-                    { new Guid("f3408d1d-99da-45b3-8e8d-b5f7b0a448f9"), 0, new DateTime(2023, 7, 7, 7, 0, 16, 0, DateTimeKind.Unspecified), "", 0, null, 0, "Peach", 0, 0 },
-                    { new Guid("fba92871-4a3c-4978-fcd6-08db87b43c2d"), 2, new DateTime(2023, 7, 7, 7, 0, 1, 0, DateTimeKind.Unspecified), "Marigoule is the name of a french hybrid of chestnut (synonym M.15 or CA 15), cross between a European chestnut (Castanea sativa) and Japanese (Castanea crenata). In 1986, it originated from a Migoule orchard in Ussac in Corrèze. Marigoule (a contraction of Marron of Migoule) is a very tasty chestnut. It should be planted in rather low altitude in very sunny areas and protected from the wind (up to 300 m elevation for South-West orchard orientation or up to 400 m elevation in South-East orchard orientation). Otherwise its productivity remains small. In France, it is grown mainly South of the Dordogne and Lot-et-Garonne for the fresh market production because of the nuts beautiful appearance.", 3, true, 3, "Marigoule", 3, 2 }
+                    { new Guid("33b50263-cce7-4bb4-9eb0-55e753cea085"), 0, 0, 0, 0, new DateTime(2023, 7, 7, 7, 0, 11, 0, DateTimeKind.Unspecified), "", 0, 0, true, null, true, 0, "Chushuhong", 0, 0, 0 },
+                    { new Guid("45c8981d-a65a-44b8-80a2-647f31ad7372"), 0, 0, 0, 0, new DateTime(2023, 7, 7, 7, 0, 20, 0, DateTimeKind.Unspecified), "", 0, 0, true, null, true, 0, "Royalmark", 0, 0, 0 },
+                    { new Guid("46bd8dc8-ca0a-4648-a9a9-ea4ad91e1b77"), 0, 3, 2, 3, new DateTime(2023, 7, 7, 7, 0, 0, 0, DateTimeKind.Unspecified), "Bouche de Bétizac is a French chestnut cultivar developed in 1962 by INRA at the station of Malemort-sur-Corrèze near Brive. It is a controlled hybrid between Castanea sativa and Castanea crenata (female Bouche rouge × male Castanea crenata CA04). This variety produces large to very large chestnuts. It has very good flavor for a hybrid. With Marigoule, it is the variety currently most cultivated in the French chestnut groves because it is very productive (3 tons per hectare on average). Its fruit is bright, light chestnut-brown quickly turning brown and dark brown.", 0, 1, true, true, true, 2, "Bouche de Bétizac", 3, 1, 2 },
+                    { new Guid("5391d2cc-bc5f-46e0-a53b-3fae9e321c4f"), 0, 0, 0, 0, new DateTime(2023, 7, 7, 7, 0, 12, 0, DateTimeKind.Unspecified), "", 0, 0, true, null, true, 0, "Emalyn's Purple", 0, 0, 0 },
+                    { new Guid("57d67415-bf8f-42db-8350-89c7ea4b06bb"), 0, 0, 0, 0, new DateTime(2023, 7, 7, 7, 0, 7, 0, DateTimeKind.Unspecified), "", 0, 0, true, null, true, 0, "Long Street", 0, 0, 0 },
+                    { new Guid("5d431f88-6f97-40bf-bb5d-47a48e1d552a"), 0, 0, 0, 0, new DateTime(2023, 7, 7, 7, 0, 13, 0, DateTimeKind.Unspecified), "", 0, 0, true, null, true, 0, "Gideon", 0, 0, 0 },
+                    { new Guid("6606a396-f8f9-4df6-bc1d-bf2ec5cabef6"), 0, 1, 2, 0, new DateTime(2023, 7, 7, 7, 0, 3, 0, DateTimeKind.Unspecified), "The Precoce Migoule is a chestnut hybrid (CA 48), a natural cross between a European chestnut (Castanea sativa) and a Japanese chestnut (Castanea crenata). It was discovered by J. Dufrenoy at the orchard of Migoule in Brive-la-Gaillarde. The tree is vigorous and erect growing with growth of a metre (3 ft) or more in a season if the conditions are right. It is a large sized chestnut tree with height reaching 20 m (60 ft) or more and 7.5-10 m (25-35 ft) wide. Trees start to bear after 3 to 5 years. Full nut production in 12 - 20 years depending on the location.", 0, 2, true, true, true, 2, "Précoce Migoule", 3, 2, 2 },
+                    { new Guid("69875086-678d-4956-a662-6dc81548ade0"), 0, 0, 0, 0, new DateTime(2023, 7, 7, 7, 0, 21, 0, DateTimeKind.Unspecified), "", 0, 0, true, null, true, 0, "YGF", 0, 0, 0 },
+                    { new Guid("7454826c-0063-4a95-9502-b5d275e31b8f"), 0, 0, 0, 0, new DateTime(2023, 7, 7, 7, 0, 16, 0, DateTimeKind.Unspecified), "", 0, 0, true, null, true, 0, "Payne", 0, 0, 0 },
+                    { new Guid("76b45fbf-53c9-4c81-91a5-fe9533593a60"), 0, 0, 0, 0, new DateTime(2023, 7, 7, 7, 0, 8, 0, DateTimeKind.Unspecified), "", 0, 0, true, null, true, 0, "AU 2-18", 0, 0, 0 },
+                    { new Guid("7727e86d-03a9-4af9-8d63-2cb38eff500c"), 0, 0, 0, 0, new DateTime(2023, 7, 7, 7, 0, 15, 0, DateTimeKind.Unspecified), "", 0, 0, true, null, true, 0, "Jiaoza", 0, 0, 0 },
+                    { new Guid("8eb1f8e6-404d-4f31-9773-9a5a30769b24"), 0, 0, 0, 0, new DateTime(2023, 7, 7, 7, 0, 18, 0, DateTimeKind.Unspecified), "", 0, 0, true, null, true, 0, "Qing", 0, 0, 0 },
+                    { new Guid("8fc8f311-3ce9-42e2-fcd7-08db87b43c2d"), 0, 3, 3, 0, new DateTime(2023, 7, 7, 7, 0, 2, 0, DateTimeKind.Unspecified), "Marsol (aka Marisol) is a natural chestnut hybrid, a cross between a European chestnut (Castanea sativa) and Japanese (Castanea crenata) (CA 07). INRA produced this variety from Lalevade-d'Ardèche. It is mainly used as a rootstock because of its good graft compatibility with many varieties. As a rootstock, it is more vigorous than Maraval (equal to Bouche de Betizac or Comballe).", 0, 3, true, true, true, 3, "Marsol", 3, 3, 4 },
+                    { new Guid("ba5fbc64-7561-4a74-874f-c94f7bf8a839"), 0, 0, 0, 0, new DateTime(2023, 7, 7, 7, 0, 5, 0, DateTimeKind.Unspecified), "", 0, 0, true, null, true, 0, "Pandora", 0, 0, 0 },
+                    { new Guid("d09f6db4-1714-4afa-8f78-3ee37ab266b9"), 0, 0, 0, 0, new DateTime(2023, 7, 7, 7, 0, 6, 0, DateTimeKind.Unspecified), "", 0, 0, true, null, true, 0, "Nevada", 0, 0, 0 },
+                    { new Guid("f4498b05-40e5-4add-81e2-f579a361aef4"), 0, 2, 2, 2, new DateTime(2023, 7, 7, 7, 0, 4, 0, DateTimeKind.Unspecified), "Resistant hybrid chestnut from Hifas Foresta.", 0, 3, true, true, true, 2, "Hifas", 2, 3, 4 },
+                    { new Guid("fba92871-4a3c-4978-fcd6-08db87b43c2d"), 0, 2, 3, 0, new DateTime(2023, 7, 7, 7, 0, 1, 0, DateTimeKind.Unspecified), "Marigoule is the name of a french hybrid of chestnut (synonym M.15 or CA 15), cross between a European chestnut (Castanea sativa) and Japanese (Castanea crenata). In 1986, it originated from a Migoule orchard in Ussac in Corrèze. Marigoule (a contraction of Marron of Migoule) is a very tasty chestnut. It should be planted in rather low altitude in very sunny areas and protected from the wind (up to 300 m elevation for South-West orchard orientation or up to 400 m elevation in South-East orchard orientation). Otherwise its productivity remains small. In France, it is grown mainly South of the Dordogne and Lot-et-Garonne for the fresh market production because of the nuts beautiful appearance.", 0, 3, true, true, true, 3, "Marigoule", 3, 2, 3 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Gardens",
+                columns: new[] { "GardenId", "IsActive", "IsPublished", "Name", "UserId" },
+                values: new object[,]
+                {
+                    { new Guid("6cc4edb7-1110-43ab-8c16-5f245ebd118c"), true, true, "Sharp Mound", new Guid("09e77621-fac4-4150-b64c-3e5c2b1a40ee") },
+                    { new Guid("83dea3f7-6434-4b87-bbcb-13642083b0b6"), true, true, "Veslets G", new Guid("09e77621-fac4-4150-b64c-3e5c2b1a40ee") }
                 });
 
             migrationBuilder.InsertData(
@@ -445,10 +525,12 @@ namespace KestenApp.Data.Migrations
                 columns: new[] { "FruitSizeId", "VarietyId" },
                 values: new object[,]
                 {
-                    { 3, new Guid("4007ef65-d96d-45a4-a328-98d01fd95767") },
-                    { 4, new Guid("4007ef65-d96d-45a4-a328-98d01fd95767") },
                     { 5, new Guid("46bd8dc8-ca0a-4648-a9a9-ea4ad91e1b77") },
+                    { 3, new Guid("6606a396-f8f9-4df6-bc1d-bf2ec5cabef6") },
+                    { 4, new Guid("6606a396-f8f9-4df6-bc1d-bf2ec5cabef6") },
                     { 5, new Guid("8fc8f311-3ce9-42e2-fcd7-08db87b43c2d") },
+                    { 4, new Guid("f4498b05-40e5-4add-81e2-f579a361aef4") },
+                    { 5, new Guid("f4498b05-40e5-4add-81e2-f579a361aef4") },
                     { 4, new Guid("fba92871-4a3c-4978-fcd6-08db87b43c2d") },
                     { 5, new Guid("fba92871-4a3c-4978-fcd6-08db87b43c2d") }
                 });
@@ -458,9 +540,9 @@ namespace KestenApp.Data.Migrations
                 columns: new[] { "GraftedVarietyId", "RootstockVarietyId" },
                 values: new object[,]
                 {
-                    { new Guid("4007ef65-d96d-45a4-a328-98d01fd95767"), new Guid("8fc8f311-3ce9-42e2-fcd7-08db87b43c2d") },
                     { new Guid("46bd8dc8-ca0a-4648-a9a9-ea4ad91e1b77"), new Guid("8fc8f311-3ce9-42e2-fcd7-08db87b43c2d") },
-                    { new Guid("4007ef65-d96d-45a4-a328-98d01fd95767"), new Guid("fba92871-4a3c-4978-fcd6-08db87b43c2d") }
+                    { new Guid("6606a396-f8f9-4df6-bc1d-bf2ec5cabef6"), new Guid("8fc8f311-3ce9-42e2-fcd7-08db87b43c2d") },
+                    { new Guid("6606a396-f8f9-4df6-bc1d-bf2ec5cabef6"), new Guid("fba92871-4a3c-4978-fcd6-08db87b43c2d") }
                 });
 
             migrationBuilder.InsertData(
@@ -478,7 +560,7 @@ namespace KestenApp.Data.Migrations
                 columns: new[] { "PollenizerVarietyId", "TargetVarietyId" },
                 values: new object[,]
                 {
-                    { new Guid("4007ef65-d96d-45a4-a328-98d01fd95767"), new Guid("46bd8dc8-ca0a-4648-a9a9-ea4ad91e1b77") },
+                    { new Guid("6606a396-f8f9-4df6-bc1d-bf2ec5cabef6"), new Guid("46bd8dc8-ca0a-4648-a9a9-ea4ad91e1b77") },
                     { new Guid("8fc8f311-3ce9-42e2-fcd7-08db87b43c2d"), new Guid("46bd8dc8-ca0a-4648-a9a9-ea4ad91e1b77") },
                     { new Guid("fba92871-4a3c-4978-fcd6-08db87b43c2d"), new Guid("46bd8dc8-ca0a-4648-a9a9-ea4ad91e1b77") }
                 });
@@ -488,17 +570,49 @@ namespace KestenApp.Data.Migrations
                 columns: new[] { "SpeciesId", "VarietyId" },
                 values: new object[,]
                 {
-                    { 1, new Guid("4007ef65-d96d-45a4-a328-98d01fd95767") },
-                    { 2, new Guid("4007ef65-d96d-45a4-a328-98d01fd95767") },
                     { 1, new Guid("46bd8dc8-ca0a-4648-a9a9-ea4ad91e1b77") },
                     { 2, new Guid("46bd8dc8-ca0a-4648-a9a9-ea4ad91e1b77") },
+                    { 1, new Guid("6606a396-f8f9-4df6-bc1d-bf2ec5cabef6") },
+                    { 2, new Guid("6606a396-f8f9-4df6-bc1d-bf2ec5cabef6") },
                     { 1, new Guid("8fc8f311-3ce9-42e2-fcd7-08db87b43c2d") },
                     { 2, new Guid("8fc8f311-3ce9-42e2-fcd7-08db87b43c2d") },
-                    { 3, new Guid("e9193db1-ae9f-45a6-bfa3-ba916fa017d2") },
-                    { 8, new Guid("e9193db1-ae9f-45a6-bfa3-ba916fa017d2") },
+                    { 3, new Guid("ba5fbc64-7561-4a74-874f-c94f7bf8a839") },
+                    { 8, new Guid("ba5fbc64-7561-4a74-874f-c94f7bf8a839") },
+                    { 1, new Guid("f4498b05-40e5-4add-81e2-f579a361aef4") },
+                    { 2, new Guid("f4498b05-40e5-4add-81e2-f579a361aef4") },
                     { 1, new Guid("fba92871-4a3c-4978-fcd6-08db87b43c2d") },
                     { 2, new Guid("fba92871-4a3c-4978-fcd6-08db87b43c2d") }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Specimens",
+                columns: new[] { "SpecimenId", "Elevation", "GardenId", "GraftedOnDate", "IsActive", "Latitude", "Longitude", "Name", "PlantedOnDate", "SowedOnDate", "UserId", "VarietyId" },
+                values: new object[] { new Guid("1d4c17b8-ac58-466d-828a-90eb59fa509b"), 645, new Guid("6cc4edb7-1110-43ab-8c16-5f245ebd118c"), null, true, null, null, "Hifas 2019", new DateTime(2019, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new Guid("09e77621-fac4-4150-b64c-3e5c2b1a40ee"), new Guid("f4498b05-40e5-4add-81e2-f579a361aef4") });
+
+            migrationBuilder.InsertData(
+                table: "Specimens",
+                columns: new[] { "SpecimenId", "Elevation", "GardenId", "GraftedOnDate", "IsActive", "Latitude", "Longitude", "Name", "PlantedOnDate", "SowedOnDate", "UserId", "VarietyId" },
+                values: new object[] { new Guid("5ceeb8c1-9735-4c99-987e-22461216b9db"), 642, new Guid("6cc4edb7-1110-43ab-8c16-5f245ebd118c"), null, true, "43°1'2.27\"N", "23°37'28.57\"E", "Marigoule 2019", new DateTime(2019, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new Guid("09e77621-fac4-4150-b64c-3e5c2b1a40ee"), new Guid("fba92871-4a3c-4978-fcd6-08db87b43c2d") });
+
+            migrationBuilder.InsertData(
+                table: "Specimens",
+                columns: new[] { "SpecimenId", "Elevation", "GardenId", "GraftedOnDate", "IsActive", "Latitude", "Longitude", "Name", "PlantedOnDate", "SowedOnDate", "UserId", "VarietyId" },
+                values: new object[] { new Guid("7eeeb5ea-4461-4bb4-95a6-fca45b7c69e6"), 641, new Guid("6cc4edb7-1110-43ab-8c16-5f245ebd118c"), null, true, null, null, "Marsol 2022", new DateTime(2022, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new Guid("09e77621-fac4-4150-b64c-3e5c2b1a40ee"), new Guid("8fc8f311-3ce9-42e2-fcd7-08db87b43c2d") });
+
+            migrationBuilder.InsertData(
+                table: "SpecimenPositions",
+                columns: new[] { "SpecimenId", "Column", "Row" },
+                values: new object[] { new Guid("1d4c17b8-ac58-466d-828a-90eb59fa509b"), 1, 2 });
+
+            migrationBuilder.InsertData(
+                table: "SpecimenPositions",
+                columns: new[] { "SpecimenId", "Column", "Row" },
+                values: new object[] { new Guid("5ceeb8c1-9735-4c99-987e-22461216b9db"), 2, 4 });
+
+            migrationBuilder.InsertData(
+                table: "SpecimenPositions",
+                columns: new[] { "SpecimenId", "Column", "Row" },
+                values: new object[] { new Guid("7eeeb5ea-4461-4bb4-95a6-fca45b7c69e6"), 1, 4 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -540,23 +654,23 @@ namespace KestenApp.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Garden_UserId",
-                table: "Garden",
+                name: "IX_Gardens_UserId",
+                table: "Gardens",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Specimen_GardenId",
-                table: "Specimen",
+                name: "IX_Specimens_GardenId",
+                table: "Specimens",
                 column: "GardenId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Specimen_UserId",
-                table: "Specimen",
+                name: "IX_Specimens_UserId",
+                table: "Specimens",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Specimen_VarietyId",
-                table: "Specimen",
+                name: "IX_Specimens_VarietyId",
+                table: "Specimens",
                 column: "VarietyId");
 
             migrationBuilder.CreateIndex(
@@ -603,7 +717,10 @@ namespace KestenApp.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Specimen");
+                name: "IdentityRole");
+
+            migrationBuilder.DropTable(
+                name: "SpecimenPositions");
 
             migrationBuilder.DropTable(
                 name: "VarietyFruitSizes");
@@ -624,13 +741,16 @@ namespace KestenApp.Data.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Garden");
+                name: "Specimens");
 
             migrationBuilder.DropTable(
                 name: "FruitSizes");
 
             migrationBuilder.DropTable(
                 name: "Species");
+
+            migrationBuilder.DropTable(
+                name: "Gardens");
 
             migrationBuilder.DropTable(
                 name: "Varieties");

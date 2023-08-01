@@ -20,6 +20,12 @@
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
+                .HasMany(v => v.Specimens)
+                .WithOne(s => s.Variety)
+                .HasForeignKey(e => e.VarietyId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
                 .ToTable("Varieties");
 
             builder.HasData(SeedData.Varieties);

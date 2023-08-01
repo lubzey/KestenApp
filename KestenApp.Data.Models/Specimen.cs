@@ -31,6 +31,8 @@
         [Precision(LocationPrecision, LocationScale)]
         public int? Elevation { get; set; }
 
+        public SpecimenPosition? SpecimenPosition { get; set; } = null!;
+
         public DateTime? PlantedOnDate { get; set; }
         public DateTime? SowedOnDate { get; set; }
         public DateTime? GraftedOnDate { get; set; }
@@ -51,9 +53,5 @@
                             : null;
             }
         }
-
-        //Separate table SpecimenPositionInGarden
-        //public decimal Row { get; set; }
-        //public decimal Column { get; set; }
     }
 }
