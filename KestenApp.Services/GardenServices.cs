@@ -112,7 +112,7 @@
                         : sp.Name,
                     Year = sp.Year,
                     SpecimenId = sp.SpecimenId,
-                    PollenType = GetBackgroundColorByPollen(sp.Variety?.PollenType)
+                    BackgroundColor = GetBackgroundColorByPollen(sp.Variety?.PollenType)
 
                 });
 
