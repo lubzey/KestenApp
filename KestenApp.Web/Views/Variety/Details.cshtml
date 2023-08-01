@@ -1,7 +1,7 @@
 ﻿@model VarietyDetailsModel
 
 @{
-    ViewData["Title"] = Model.VarietyName;
+    ViewData["Title"] = $"Variety: {Model.VarietyName}";
 }
 
 @*Header*@
@@ -10,7 +10,7 @@
     <div class="col-10 col-xl-8 offset-xl-3">
         @*Variety Name*@
         <h2 class="fw-bold mb-2">
-            @Model.VarietyName
+            Variety: @Model.VarietyName
         </h2>
 
         @*Buttons*@

@@ -1,11 +1,8 @@
-﻿using KestenApp.Data.Enums;
-using KestenApp.Data.Enums.EnumHelpers;
-using KestenApp.Data.Models;
-using System.ComponentModel;
-using System.Reflection;
-
-namespace KestenApp.Web.ViewModels.Varieties
+﻿namespace KestenApp.Web.ViewModels.Varieties
 {
+    using KestenApp.Data.Enums.EnumHelpers;
+    using KestenApp.Data.Models;
+
     public class VarietyDetailsModel
     {
         public Guid VarietyId { get; }

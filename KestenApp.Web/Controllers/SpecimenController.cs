@@ -5,6 +5,8 @@
 
     using KestenApp.Services.Contracts;
     using KestenApp.Web.ViewModels.Specimen;
+    using KestenApp.Services;
+    using KestenApp.Web.ViewModels.Varieties;
 
     public class SpecimenController : BaseController
     {
@@ -23,6 +25,15 @@
                 .AllSpecimensAsync(currentPage: 1);
 
             return View(listViewModel);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Details(Guid id)
+        {
+            SpecimenDetailsModel detailsModel = await _specimenService
+                .GetDetailsViewByIdAsync(id);
+
+            return View(detailsModel);
         }
     }
 }

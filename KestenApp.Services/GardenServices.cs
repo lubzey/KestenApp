@@ -103,17 +103,25 @@
             GardenDetailsSchemaModel[,] specimensSchema = new GardenDetailsSchemaModel[(int)rows, (int)cols];
 
             garden.Specimens
-                .Where(sp => sp.SpecimenPosition != null)
+                //.Where(sp => sp.SpecimenPosition != null)
                 .ToList()
-                .ForEach(sp => specimensSchema[sp.SpecimenPosition.Row - 1, sp.SpecimenPosition.Column - 1] = new GardenDetailsSchemaModel
+                .ForEach(sp =>
                 {
-                    Name = sp.Variety != null
+                    if (sp.SpecimenPosition == null)
+                    {
+                        return;
+                    }
+
+                    specimensSchema[sp.SpecimenPosition.Row - 1, sp.SpecimenPosition.Column - 1] = new GardenDetailsSchemaModel
+                    {
+                        Name = sp.Variety != null
                         ? sp.Variety.Name
                         : sp.Name,
-                    Year = sp.Year,
-                    SpecimenId = sp.SpecimenId,
-                    BackgroundColor = GetBackgroundColorByPollen(sp.Variety?.PollenType)
+                        Year = sp.Year,
+                        SpecimenId = sp.SpecimenId,
+                        BackgroundColor = GetBackgroundColorByPollen(sp.Variety?.PollenType)
 
+                    };
                 });
 
 

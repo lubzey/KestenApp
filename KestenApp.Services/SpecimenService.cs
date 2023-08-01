@@ -64,5 +64,20 @@
                 User = v.User
             };
         }
+
+        public async Task<SpecimenDetailsModel> GetDetailsViewByIdAsync(Guid id)
+        {
+            Specimen specimen = await _context
+                .Specimens
+                .Include(s => s.Garden)
+                .Include(s => s.Variety)
+                .Include(s => s.SpecimenPosition)
+                .AsNoTracking()
+                .FirstAsync(s => s.SpecimenId == id);
+
+
+
+            return new SpecimenDetailsModel(specimen);
+        }
     }
 }
