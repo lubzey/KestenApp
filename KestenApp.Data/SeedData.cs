@@ -186,7 +186,9 @@
                 {
                     GardenId = Guid.Parse("6CC4EDB7-1110-43AB-8C16-5F245EBD118C"),
                     Name = "Sharp Mound",
-                    UserId = Guid.Parse("09E77621-FAC4-4150-B64C-3E5C2B1A40EE")
+                    UserId = Guid.Parse("09E77621-FAC4-4150-B64C-3E5C2B1A40EE"),
+                    TotalRows = 8, 
+                    TotalColumns = 12
                 },
                 new Garden
                 {
