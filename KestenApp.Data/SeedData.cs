@@ -65,7 +65,7 @@
                     Id = Guid.Parse("09E77621-FAC4-4150-B64C-3E5C2B1A40EE"),
                     UserName = adminEmail,
                     NormalizedUserName = adminEmail.ToUpper(),
-                    PasswordHash = hasher.HashPassword(null, "123456a!"),
+                    PasswordHash = hasher.HashPassword(null!, "123456a!"),
                     Email = adminEmail,
                     NormalizedEmail = adminEmail.ToUpper(),
                     EmailConfirmed = true,
@@ -76,7 +76,7 @@
                     Id = Guid.Parse("8a5f6807-b43f-40fa-b836-e21874e67d51"),
                     UserName = expertEmail,
                     NormalizedUserName = expertEmail.ToUpper(),
-                    PasswordHash = hasher.HashPassword(null, "jn123456!"),
+                    PasswordHash = hasher.HashPassword(null!, "jn123456!"),
                     Email = expertEmail,
                     NormalizedEmail = expertEmail.ToUpper(),
                     EmailConfirmed = true,
@@ -87,7 +87,7 @@
                     Id = Guid.Parse("b0a8cb2c-4908-431e-a07b-f3ddd7b45bce"),
                     UserName = userEmail,
                     NormalizedUserName = userEmail.ToUpper(),
-                    PasswordHash = hasher.HashPassword(null, "temp123456!"),
+                    PasswordHash = hasher.HashPassword(null!, "temp123456!"),
                     Email = userEmail,
                     NormalizedEmail = userEmail.ToUpper(),
                     EmailConfirmed = true,
@@ -114,9 +114,7 @@
                     Elevation = 642,
                     GardenId = gardens.First().GardenId,
                     PlantedOnDate = new DateTime(2019, 3, 1),
-                    VarietyId = marigoule.VarietyId,
-                    Latitude = "43°1'2.27\"N",
-                    Longitude = "23°37'28.57\"E"
+                    VarietyId = marigoule.VarietyId
                 },
                 new Specimen
                 {
@@ -154,18 +152,21 @@
                     new SpecimenPosition //Marigoule
                     {
                         SpecimenId = Guid.Parse("5ceeb8c1-9735-4c99-987e-22461216b9db"),
+                        GardenId = Guid.Parse("6CC4EDB7-1110-43AB-8C16-5F245EBD118C"),
                         Row = 4,
                         Column = 2,
                     },
                     new SpecimenPosition //Marsol
                     {
                         SpecimenId = Guid.Parse("7eeeb5ea-4461-4bb4-95a6-fca45b7c69e6"),
+                        GardenId = Guid.Parse("6CC4EDB7-1110-43AB-8C16-5F245EBD118C"),
                         Row = 4,
                         Column = 1,
                     },
                     new SpecimenPosition //Hifas
                     {
                         SpecimenId = Guid.Parse("1d4c17b8-ac58-466d-828a-90eb59fa509b"),
+                        GardenId = Guid.Parse("6CC4EDB7-1110-43AB-8C16-5F245EBD118C"),
                         Row = 2,
                         Column = 1,
                     }

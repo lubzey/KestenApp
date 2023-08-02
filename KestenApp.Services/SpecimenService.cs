@@ -75,9 +75,25 @@
                 .AsNoTracking()
                 .FirstAsync(s => s.SpecimenId == id);
 
-
-
             return new SpecimenDetailsModel(specimen);
+        }
+
+        public async Task ArchiveByIdAsync(Guid id, bool restore = false)
+        {
+            Specimen specimen = await this._context
+                .Specimens
+                .FirstAsync(h => h.SpecimenId == id);
+
+            if (restore)
+            {
+                specimen.IsActive = true;
+            }
+            else
+            {
+                specimen.IsActive = false;
+            }
+
+            await this._context.SaveChangesAsync();
         }
     }
 }

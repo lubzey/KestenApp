@@ -4,6 +4,7 @@
     {
         public Guid SpecimenId { get; set; }
         public Specimen Specimen { get; set; } = null!;
+        public Guid GardenId { get; set; }
         public int Row { get; set; }
         public int Column { get; set; }
     }

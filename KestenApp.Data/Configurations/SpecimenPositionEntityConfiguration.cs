@@ -10,7 +10,7 @@
         public void Configure(EntityTypeBuilder<SpecimenPosition> builder)
         {
             builder
-                .HasKey(p => p.SpecimenId);
+                .HasKey(p => new { p.GardenId, p.Row, p.Column });
 
             builder
                 .ToTable("SpecimenPositions");

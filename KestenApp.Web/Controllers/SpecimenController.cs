@@ -35,5 +35,23 @@
 
             return View(detailsModel);
         }
+
+        [Authorize]
+        public async Task<IActionResult> Archive(Guid id)
+        {
+            await _specimenService
+                .ArchiveByIdAsync(id);
+
+            return RedirectToAction("Details", "Specimen", new { id });
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Restore(Guid id)
+        {
+            await _specimenService
+                .ArchiveByIdAsync(id, true);
+
+            return RedirectToAction("Details", "Specimen", new { id });
+        }
     }
 }

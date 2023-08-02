@@ -1,4 +1,5 @@
 ﻿@using KestenApp.Web.ViewModels.Specimen;
+@using System.Globalization;
 @model SpecimenDetailsModel
 
 @{
@@ -61,12 +62,139 @@
     </div>
 </div>
 
-@*Description and Image*@
-<div class="row mt-1">
+@*Garden*@
+@if (Model.Garden != null)
+{
+    <div class="row mt-1">
+        <div class="col-12 col-lg-11 offset-lg-1">
+            <div class="row mt-1">
+                <div class="col-4 col-lg-3 text-lg-end fw-bold mb-2">
+                    Garden
+                </div>
 
+                <div class="col-8 mb-2">
+                    <a asp-controller="Garden" asp-action="Details" asp-route-id="@Model.Garden.GardenId"
+                       class="text-decoration-none text-dark">@Model.Garden.Name</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@*Variety*@
+@if (Model.Variety != null)
+{
+    <div class="row mt-1">
+        <div class="col-12 col-lg-11 offset-lg-1">
+            <div class="row mt-1">
+                <div class="col-4 col-lg-3 text-lg-end fw-bold mb-2">
+                    Variety
+                </div>
+
+                <div class="col-8 mb-2">
+                    <a asp-controller="Variety" asp-action="Details" asp-route-id="@Model.Variety.VarietyId"
+                       class="text-decoration-none text-dark">@Model.Variety.Name</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@*Elevation*@
+<div class="row mt-1">
     <div class="col-12 col-lg-11 offset-lg-1">
         <div class="row mt-1">
-            <partial name="_PropertyCard" model='@new KeyValuePair<string, string?>("Garden", @Model.Garden.Name)' />
+            <div class="col-4 col-lg-3 text-lg-end fw-bold mb-2">
+                Elevation
+            </div>
+
+            <div class="col-8 mb-2">
+                @Model.Elevation m
+            </div>
         </div>
     </div>
 </div>
+
+@*Position*@
+@if (Model.Position != null)
+{
+    <div class="row mt-1">
+        <div class="col-12 col-lg-11 offset-lg-1">
+            <div class="row mt-1">
+                <div class="col-4 col-lg-3 text-lg-end fw-bold mb-2">
+                    Row
+                </div>
+
+                <div class="col-8 mb-2">
+                    @Model.Position.Row
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-1">
+        <div class="col-12 col-lg-11 offset-lg-1">
+            <div class="row mt-1">
+                <div class="col-4 col-lg-3 text-lg-end fw-bold mb-2">
+                    Column
+                </div>
+
+                <div class="col-8 mb-2">
+                    @Model.Position.Column
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@*Dates*@
+@if (Model.PlantedOnDate != null)
+{
+    <div class="row mt-1">
+        <div class="col-12 col-lg-11 offset-lg-1">
+            <div class="row mt-1">
+                <div class="col-4 col-lg-3 text-lg-end fw-bold mb-2">
+                    Planted On
+                </div>
+
+                <div class="col-8 mb-2">
+                    @Model.PlantedOnDate.Value.ToString("MMMM yyyy", CultureInfo.InvariantCulture)
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (Model.SowedOnDate != null)
+{
+    <div class="row mt-1">
+        <div class="col-12 col-lg-11 offset-lg-1">
+            <div class="row mt-1">
+                <div class="col-4 col-lg-3 text-lg-end fw-bold mb-2">
+                    Sowed On
+                </div>
+
+                <div class="col-8 mb-2">
+                    @Model.SowedOnDate.Value.ToString("MMMM yyyy", CultureInfo.InvariantCulture)
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (Model.GraftedOnDate != null)
+{
+    <div class="row mt-1">
+        <div class="col-12 col-lg-11 offset-lg-1">
+            <div class="row mt-1">
+                <div class="col-4 col-lg-3 text-lg-end fw-bold mb-2">
+                    Grafted On
+                </div>
+
+                <div class="col-8 mb-2">
+                    @Model.GraftedOnDate.Value.ToString("MMMM yyyy", CultureInfo.InvariantCulture)
+                </div>
+            </div>
+        </div>
+    </div>
+}

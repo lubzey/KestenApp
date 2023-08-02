@@ -23,12 +23,6 @@
         public ApplicationUser User { get; set; } = null!;
 
         [Precision(LocationPrecision, LocationScale)]
-        public string? Latitude { get; set; }
-
-        [Precision(LocationPrecision, LocationScale)]
-        public string? Longitude { get; set; }
-
-        [Precision(LocationPrecision, LocationScale)]
         public int? Elevation { get; set; }
 
         public SpecimenPosition? SpecimenPosition { get; set; } = null!;

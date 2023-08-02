@@ -23,7 +23,7 @@
                 .HasMany(v => v.Specimens)
                 .WithOne(s => s.Variety)
                 .HasForeignKey(e => e.VarietyId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder
                 .ToTable("Varieties");
