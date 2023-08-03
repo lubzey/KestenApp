@@ -25,13 +25,6 @@
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
-                .HasOne(v => v.SpecimenPosition)
-                .WithOne(v => v.Specimen)
-                .HasForeignKey<SpecimenPosition>(sp => sp.SpecimenId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder
                 .ToTable("Specimens");
 
             builder

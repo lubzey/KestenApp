@@ -3,11 +3,10 @@
 @model VarietyFormModel
 
 @{
-    ViewData["Title"] = Model.PageTitle;
+    ViewData["Title"] = Model.FormTexts.PageTitle;
 }
 
-@*Photo and Description*@
-<form asp-action="@Model.AspAction" method="post">
+<form asp-action="@Model.FormTexts.AspAction" method="post">
     @Html.AntiForgeryToken()
 
     @*Header*@
@@ -16,14 +15,14 @@
         <div class="col-10 offset-xl-1">
             @*Variety Name*@
             <h2 class="fw-bold mb-2">
-                @Model.PageTitle
+                @Model.FormTexts.PageTitle
             </h2>
         </div>
 
         <div class="col-2 col-lg-1">
             <div class="row no-gutters">
                 <a asp-controller="Variety"
-                   asp-action="@Model.AspActionRedirect"
+                   asp-action="@Model.FormTexts.AspActionRedirect"
                    asp-route-id="@Model.VarietyId"
                    class="btn mr-1 btn-outline-secondary">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
@@ -46,7 +45,7 @@
 
     @*Name*@
     <div class="row">
-        <div class="col-3 text-lg-end fw-bold mb-2">
+        <div class="col-3 text-lg-end fw-bold mb-2 mt-auto">
             <label asp-for="@Model.VarietyName" class="form-label fw-bold">Variety Name</label>
         </div>
         <div class="col-9 col-lg-8 col-xl-6 mb-2">
@@ -59,7 +58,7 @@
 
     @*Description*@
     <div class="row mt-1">
-        <div class="col-3 text-lg-end fw-bold mb-2">
+        <div class="col-3 text-lg-end fw-bold mb-2 mt-auto">
             <label asp-for="@Model.Description" class="form-label fw-bold">Description</label>
         </div>
         <div class="col-9 col-lg-8 col-xl-6 mb-2">
@@ -110,7 +109,7 @@
 
     @*Blight Resistance*@
     <div class="row mt-1">
-        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
+        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2 mt-auto">
             <label asp-for="@Model.ChestnutBlightResistance" class="form-label fw-bold">Blight Resistance</label>
         </div>
 
@@ -126,7 +125,7 @@
 
     @*Ink Disease Resistance*@
     <div class="row mt-1">
-        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
+        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2 mt-auto">
             <label asp-for="@Model.InkDiseaseResistance" class="form-label fw-bold">Ink Disease Resistance</label>
         </div>
 
@@ -142,7 +141,7 @@
 
     @*Pollen*@
     <div class="row mt-1">
-        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
+        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2 mt-auto">
             <label asp-for="@Model.PollenType" class="form-label fw-bold">Pollen</label>
         </div>
 
@@ -158,7 +157,7 @@
 
     @*Vigor*@
     <div class="row mt-1">
-        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
+        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2 mt-auto">
             <label asp-for="@Model.Vigor" class="form-label fw-bold">Vigor</label>
         </div>
 
@@ -174,7 +173,7 @@
 
     @*Budding*@
     <div class="row mt-1">
-        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
+        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2 mt-auto">
             <label asp-for="@Model.BuddingPeriod" class="form-label fw-bold">Budding Period</label>
         </div>
 
@@ -190,7 +189,7 @@
 
     @*Flowering*@
     <div class="row mt-1">
-        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
+        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2 mt-auto">
             <label asp-for="@Model.FloweringPeriod" class="form-label fw-bold">Flowering Period</label>
         </div>
 
@@ -206,7 +205,7 @@
 
     @*Maturity*@
     <div class="row mt-1">
-        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
+        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2 mt-auto">
             <label asp-for="@Model.MaturityPeriod" class="form-label fw-bold">Maturity Period</label>
         </div>
 
@@ -229,7 +228,7 @@
         </div>
 
         @*Fruit Size*@
-        <div class="col-12 col-sm-3 col-lg-2 text-lg-end fw-bold mb-2">
+        <div class="col-12 col-sm-3 col-lg-2 text-lg-end fw-bold mb-2 mt-auto">
             <label class="form-label fw-bold">Fruit Size</label>
         </div>
 
@@ -257,7 +256,7 @@
 
     @*Is Marron*@
     <div class="row mt-1">
-        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
+        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2 mt-auto">
             <label asp-for="@Model.IsMarron" class="form-label fw-bold">Is Marron</label>
         </div>
 
@@ -273,7 +272,7 @@
 
     @*Crop*@
     <div class="row mt-1">
-        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
+        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2 mt-auto">
             <label asp-for="@Model.Crop" class="form-label fw-bold">Crop Volume</label>
         </div>
 
@@ -289,7 +288,7 @@
 
     @*Peeling*@
     <div class="row mt-1">
-        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
+        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2 mt-auto">
             <label asp-for="@Model.Peeling" class="form-label fw-bold">Peeling</label>
         </div>
 
@@ -305,7 +304,7 @@
 
     @*Conservation*@
     <div class="row mt-1">
-        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2">
+        <div class="col-6 col-sm-3 text-lg-end fw-bold mb-2 mt-auto">
             <label asp-for="@Model.Conservation" class="form-label fw-bold">Conservation</label>
         </div>
 
@@ -323,13 +322,13 @@
 
     <div class="row">
         <button asp-controller="Variety"
-                asp-action="@Model.AspAction"
+                asp-action="@Model.FormTexts.AspAction"
                 asp-route-id="@Model.VarietyId"
                 class="btn btn-outline-success col-2 col-xl-1 offset-10 offset-xl-11">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
                 <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
             </svg>
-            <span>@Model.SubmitButtonText</span>
+            <span>@Model.FormTexts.SubmitButtonText</span>
         </button>
     </div>
 

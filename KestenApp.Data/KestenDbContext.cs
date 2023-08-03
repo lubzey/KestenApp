@@ -22,7 +22,6 @@
         public DbSet<VarietyPollenCompatibility> VarietyPollenizers { get; set; } = null!;
         public DbSet<VarietyGraftingCompatibility> VarietyGrafting { get; set; } = null!;
         public DbSet<VarietyImage> VarietyImages { get; set; } = null!;
-        public DbSet<SpecimenPosition> SpecimenPosition { get; set; } = null!;
 
         public KestenDbContext(DbContextOptions<KestenDbContext> options)
             : base(options)

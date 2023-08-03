@@ -19,7 +19,6 @@
         private static IdentityRole[] identityRoles = null!;
         private static Garden[] gardens = null!;
         private static Specimen[] specimens = null!;
-        private static SpecimenPosition[] specimenPositions = null!;
         private static ApplicationUser[] applicationUsers = null!;
 
         //used to map data
@@ -42,7 +41,6 @@
         public static VarietyImage[] VarietyImages { get => GetVarietyImages(); }
         public static Garden[] Gardens { get => GetGardens(); }
         public static Specimen[] Specimens { get => GetSpecimens(); }
-        public static SpecimenPosition[] SpecimenPositions { get => GetSpecimenPositions(); }
         public static IdentityRole[] IdentityRoles { get { return GetIdentityRoles(); } }
 
         #region Private methods
@@ -114,7 +112,9 @@
                     Elevation = 642,
                     GardenId = gardens.First().GardenId,
                     PlantedOnDate = new DateTime(2019, 3, 1),
-                    VarietyId = marigoule.VarietyId
+                    VarietyId = marigoule.VarietyId,
+                    Row = 4,
+                    Column = 2,
                 },
                 new Specimen
                 {
@@ -124,7 +124,9 @@
                     Elevation = 641,
                     GardenId = gardens.First().GardenId,
                     PlantedOnDate = new DateTime(2022, 4, 1),
-                    VarietyId = marsol.VarietyId
+                    VarietyId = marsol.VarietyId,
+                    Row = 4,
+                    Column = 1,
                 },
                 new Specimen
                 {
@@ -134,46 +136,15 @@
                     Elevation = 645,
                     GardenId = gardens.First().GardenId,
                     PlantedOnDate = new DateTime(2019, 3, 1),
-                    VarietyId = hifas.VarietyId
+                    VarietyId = hifas.VarietyId,
+                    Row = 2,
+                    Column = 1,
                 },
             };
 
             return specimens;
         }
-        private static SpecimenPosition[] GetSpecimenPositions()
-        {
-            if (specimenPositions != null)
-            {
-                return specimenPositions;
-            }
 
-            specimenPositions = new SpecimenPosition[]
-                {
-                    new SpecimenPosition //Marigoule
-                    {
-                        SpecimenId = Guid.Parse("5ceeb8c1-9735-4c99-987e-22461216b9db"),
-                        GardenId = Guid.Parse("6CC4EDB7-1110-43AB-8C16-5F245EBD118C"),
-                        Row = 4,
-                        Column = 2,
-                    },
-                    new SpecimenPosition //Marsol
-                    {
-                        SpecimenId = Guid.Parse("7eeeb5ea-4461-4bb4-95a6-fca45b7c69e6"),
-                        GardenId = Guid.Parse("6CC4EDB7-1110-43AB-8C16-5F245EBD118C"),
-                        Row = 4,
-                        Column = 1,
-                    },
-                    new SpecimenPosition //Hifas
-                    {
-                        SpecimenId = Guid.Parse("1d4c17b8-ac58-466d-828a-90eb59fa509b"),
-                        GardenId = Guid.Parse("6CC4EDB7-1110-43AB-8C16-5F245EBD118C"),
-                        Row = 2,
-                        Column = 1,
-                    }
-                };
-
-            return specimenPositions;
-        }
         private static Garden[] GetGardens()
         {
             if (gardens != null)
@@ -188,7 +159,7 @@
                     GardenId = Guid.Parse("6CC4EDB7-1110-43AB-8C16-5F245EBD118C"),
                     Name = "Sharp Mound",
                     UserId = Guid.Parse("09E77621-FAC4-4150-B64C-3E5C2B1A40EE"),
-                    TotalRows = 8, 
+                    TotalRows = 8,
                     TotalColumns = 12
                 },
                 new Garden

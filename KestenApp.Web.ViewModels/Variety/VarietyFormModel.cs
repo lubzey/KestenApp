@@ -6,9 +6,15 @@
 
     using KestenApp.Data.Enums;
     using static KestenApp.Common.EntityValidationConstants.VarietyConstants;
+    using Microsoft.AspNetCore.Mvc.Rendering;
 
     public class VarietyFormModel
     {
+        public VarietyFormModel()
+        {
+            FormTexts = new FormTextsModel("Variety");
+        }
+
         [ValidateNever]
         public Guid? VarietyId { get; set; }
 
@@ -98,47 +104,6 @@
 
         //Text
         [ValidateNever]
-        public string AspAction
-        {
-            get
-            {
-                return VarietyId != null ?
-                    "Edit" :
-                    "Add";
-            }
-        }
-
-        [ValidateNever]
-        public string AspActionRedirect
-        {
-            get
-            {
-                return VarietyId != null ?
-                    "Details" :
-                    "List";
-            }
-        }
-
-        [ValidateNever]
-        public string PageTitle
-        {
-            get
-            {
-                return VarietyId != null ?
-                    "Edit Variety" :
-                    "Create Variety";
-            }
-        }
-
-        [ValidateNever]
-        public string SubmitButtonText
-        {
-            get
-            {
-                return VarietyId != null ?
-                    "Save" :
-                    "Create";
-            }
-        }
+        public FormTextsModel FormTexts { get; set; } = null!;
     }
 }

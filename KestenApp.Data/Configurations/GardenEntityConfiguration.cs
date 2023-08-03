@@ -10,12 +10,12 @@
         public void Configure(EntityTypeBuilder<Garden> builder)
         {
             builder
-               .Property(v => v.DateCreated)
+               .Property(g => g.DateCreated)
                .HasDefaultValueSql("GETDATE()");
 
             builder
-                .HasMany(v => v.Specimens)
-                .WithOne(v => v.Garden)
+                .HasMany(g => g.Specimens)
+                .WithOne(g => g.Garden)
                 .HasForeignKey(e => e.SpecimenId);
 
             builder

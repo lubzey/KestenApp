@@ -4,6 +4,7 @@
     using KestenApp.Data.Models;
     using KestenApp.Web.ViewModels;
     using KestenApp.Web.ViewModels.Varieties;
+    using Microsoft.AspNetCore.Mvc.Rendering;
 
     public interface IVarietyService
     {
@@ -23,5 +24,6 @@
         IEnumerable<DropdownModel> GeneratePeriodOptions();
         Task<IList<CheckboxModel>> GenerateFruitSizeCheckboxesAsync(IEnumerable<int>? varietyFruitSizes = null);
         IEnumerable<BooleanDropdownModel> GenerateBooleanOptions();
+        Task<IEnumerable<SelectListItem>> GenerateSpecimenVarietyOptionsAsync(Guid? varietyId = null);
     }
 }

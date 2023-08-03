@@ -62,25 +62,6 @@
     </div>
 </div>
 
-@*Garden*@
-@if (Model.Garden != null)
-{
-    <div class="row mt-1">
-        <div class="col-12 col-lg-11 offset-lg-1">
-            <div class="row mt-1">
-                <div class="col-4 col-lg-3 text-lg-end fw-bold mb-2">
-                    Garden
-                </div>
-
-                <div class="col-8 mb-2">
-                    <a asp-controller="Garden" asp-action="Details" asp-route-id="@Model.Garden.GardenId"
-                       class="text-decoration-none text-dark">@Model.Garden.Name</a>
-                </div>
-            </div>
-        </div>
-    </div>
-}
-
 @*Variety*@
 @if (Model.Variety != null)
 {
@@ -100,6 +81,51 @@
     </div>
 }
 
+@*Garden*@
+<div class="row mt-1">
+    <div class="col-12 col-lg-11 offset-lg-1">
+        <div class="row mt-1">
+            <div class="col-4 col-lg-3 text-lg-end fw-bold mb-2">
+                Garden
+            </div>
+
+            <div class="col-8 mb-2">
+                <a asp-controller="Garden" asp-action="Details" asp-route-id="@Model.Garden.GardenId"
+                   class="text-decoration-none text-dark">@Model.Garden.Name</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Position*@
+<div class="row mt-1">
+    <div class="col-12 col-lg-11 offset-lg-1">
+        <div class="row mt-1">
+            <div class="col-4 col-lg-3 text-lg-end fw-bold mb-2">
+                Row
+            </div>
+
+            <div class="col-8 mb-2">
+                @Model.Row
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-1">
+    <div class="col-12 col-lg-11 offset-lg-1">
+        <div class="row mt-1">
+            <div class="col-4 col-lg-3 text-lg-end fw-bold mb-2">
+                Column
+            </div>
+
+            <div class="col-8 mb-2">
+                @Model.Column
+            </div>
+        </div>
+    </div>
+</div>
+
 @*Elevation*@
 <div class="row mt-1">
     <div class="col-12 col-lg-11 offset-lg-1">
@@ -114,38 +140,6 @@
         </div>
     </div>
 </div>
-
-@*Position*@
-@if (Model.Position != null)
-{
-    <div class="row mt-1">
-        <div class="col-12 col-lg-11 offset-lg-1">
-            <div class="row mt-1">
-                <div class="col-4 col-lg-3 text-lg-end fw-bold mb-2">
-                    Row
-                </div>
-
-                <div class="col-8 mb-2">
-                    @Model.Position.Row
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mt-1">
-        <div class="col-12 col-lg-11 offset-lg-1">
-            <div class="row mt-1">
-                <div class="col-4 col-lg-3 text-lg-end fw-bold mb-2">
-                    Column
-                </div>
-
-                <div class="col-8 mb-2">
-                    @Model.Position.Column
-                </div>
-            </div>
-        </div>
-    </div>
-}
 
 @*Dates*@
 @if (Model.PlantedOnDate != null)

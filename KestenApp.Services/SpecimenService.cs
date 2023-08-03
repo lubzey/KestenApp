@@ -7,6 +7,7 @@
     using KestenApp.Data.Models;
     using KestenApp.Services.Contracts;
     using KestenApp.Web.ViewModels.Specimen;
+    using KestenApp.Web.ViewModels.Varieties;
 
     public class SpecimenService : ISpecimenService
     {
@@ -71,7 +72,6 @@
                 .Specimens
                 .Include(s => s.Garden)
                 .Include(s => s.Variety)
-                .Include(s => s.SpecimenPosition)
                 .AsNoTracking()
                 .FirstAsync(s => s.SpecimenId == id);
 
@@ -94,6 +94,22 @@
             }
 
             await this._context.SaveChangesAsync();
+        }
+
+        //Add
+        public async Task<Guid> AddSpecimenAsync(SpecimenFormModel model)
+        {
+            Specimen specimen = new Specimen
+            {
+                Name = model.SpecimenName,
+                //Garden = model.Garden,
+                Elevation = model.Elevation
+            };
+
+            await _context.Specimens.AddAsync(specimen);
+            await _context.SaveChangesAsync();
+
+            return specimen.SpecimenId;
         }
     }
 }

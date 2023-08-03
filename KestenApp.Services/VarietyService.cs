@@ -9,6 +9,7 @@
     using KestenApp.Web.ViewModels.Varieties;
     using KestenApp.Data.Enums.EnumHelpers;
     using KestenApp.Web.ViewModels;
+    using Microsoft.AspNetCore.Mvc.Rendering;
 
     public class VarietyService : IVarietyService
     {
@@ -174,6 +175,9 @@
 
             VarietyFormModel formModel = new VarietyFormModel
             {
+                //Load dynamics
+                FormTexts = new FormTextsModel("Variety", true),
+
                 //Details
                 VarietyId = variety.VarietyId,
                 VarietyName = variety.Name,
@@ -497,5 +501,27 @@
                 .ToList();
         }
 
+        public async Task<IEnumerable<SelectListItem>> GenerateSpecimenVarietyOptionsAsync(Guid? varietyId = null)
+        {
+            IEnumerable<Variety> varieties = await _context.Varieties.AsNoTracking().ToListAsync();
+
+            IEnumerable<SelectListItem> varietiesList = varieties
+                .OrderBy(v => v.Name)
+                .Select(v => new SelectListItem
+                {
+                    Value = v.VarietyId.ToString(),
+                    Text = v.Name,
+                    Selected = v.VarietyId == varietyId
+                });
+
+            List<SelectListItem> dropdownList = new List<SelectListItem>()
+            {
+                new SelectListItem { Selected = varietyId == null }
+            };
+
+            dropdownList.AddRange(varietiesList);
+
+            return dropdownList;
+        }
     }
 }
