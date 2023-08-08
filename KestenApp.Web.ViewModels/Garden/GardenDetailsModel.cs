@@ -40,5 +40,6 @@ namespace KestenApp.Web.ViewModels.Garden
         public int TotalRows { get; set; }
         public int TotalColumns { get; set; }
         public GardenDetailsSchemaModel[,] Specimens { get; set; } = null!;
+        public string Position { get; set; } = null!;
     }
 }

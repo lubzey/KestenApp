@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = $"Create Specimen: Step 1 - Garden Selection";
+}
+
+@*Header*@
+<div class="row">
+
+    <div class="col-10 offset-xl-1">
+        @*Specimen Name*@
+        <h2 class="fw-bold mb-2">
+            Create Specimen: Step 1 - Garden Selection
+        </h2>
+    </div>
+
+    <div class="col-2 col-lg-1">
+        <div class="row no-gutters">
+            <a asp-controller="Specimen" asp-action="List"
+               class="btn mr-1 btn-outline-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"></path>
+                </svg>
+                <span>Back</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="offset-xl-1">
+        Please <a asp-controller="Garden" asp-action="Add" class="link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">create a garden</a> and make sure its active before you can add specimens to it.
+    </div>
+</div>
+
+

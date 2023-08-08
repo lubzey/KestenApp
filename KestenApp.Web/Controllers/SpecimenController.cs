@@ -5,7 +5,9 @@
 
     using KestenApp.Services.Contracts;
     using KestenApp.Web.ViewModels.Specimen;
-    using KestenApp.Data.Models;
+    using KestenApp.Web.ViewModels;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using KestenApp.Web.ViewModels.Garden;
 
     public class SpecimenController : BaseController
     {
@@ -59,25 +61,68 @@
             return RedirectToAction("Details", "Specimen", new { id });
         }
 
+        //Add-Select-Garden
+        //if none - create
+        //if 1 - go to step 2
+        //if > 1 - select
         [HttpGet]
         [Authorize]
         [Route("Specimen/Add")]
-        public async Task<IActionResult> Add([FromQuery] Guid? gardenId)
+        public async Task<IActionResult> Add() //[FromQuery] Guid? gardenId)
         {
-            //Empty form
-            IEnumerable<Garden> userGardens = new List<Garden>();
+            string userId = GetUserId();
 
-            if (gardenId != null && gardenId != Guid.Empty)
+            IEnumerable<SelectListItem> gardens = await _gardenService.GetUserGardensAsync(userId);
+
+            if (!gardens.Any())
             {
-                userGardens = await _gardenService.GetUserGardensAsync(Guid.Parse(GetUserId()));
+                return RedirectToAction("AddError", "Specimen");
+            }
+            else if (gardens.Count() == 1)
+            {
+                return RedirectToAction("AddPosition", "Specimen", new { gardenId = gardens.Single() });
             }
 
-            SpecimenFormModel formModel = new SpecimenFormModel(userGardens, gardenId);
+            SpecimenGardenSelectModel model = new SpecimenGardenSelectModel(gardens);
 
-            await RenderFormSelects(formModel, gardenId);
+            return View("SpecimenGardenSelect", model);
 
-            return View("Form", formModel);
+            //var userId = Guid.Parse(GetUserId());
+
+            ////Empty form
+            //SpecimenFormModel formModel = new SpecimenFormModel(userId);
+
+            //await RenderFormSelects(formModel, gardenId);
+
+            //return View("Form", formModel);
         }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult AddError()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddPosition([FromForm]Guid gardenId)
+        {
+            GardenDetailsModel model = await _gardenService.GetGardenWithUsedPositionsAsync(gardenId);
+
+            return View("PositionSelect", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DetailsForm([FromQuery] Guid gardenId, [FromForm] string position)
+        {
+            return View("DetailsForm");
+        }
+
+
+
+
+
 
         [HttpPost]
         [Authorize]
@@ -90,43 +135,29 @@
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add([FromForm] SpecimenFormModel formModel, Guid? id)
+        public async Task<IActionResult> Add([FromForm] SpecimenFormModel formModel)
         {
-            //Specimen? specimen = await _specimenService
-            //    .GetSpecimenByNameAsync(formModel.SpecimenName);
-
-            ////Avoid using an existing name
-            //if (specimen != null) //when creating
-            //{
-            //    //await RenderFormSelects(formModel);
-
-            //    ModelState.AddModelError(nameof(formModel.SpecimenName), $"Specimen '{formModel.SpecimenName}' already exists.");
-
-            //    return View("Form", formModel);
-            //}
-
             //validate that garden position isn't partially filled
             if ((formModel.Row > 0 && formModel.Column == 0)
                 || (formModel.Row == 0 && formModel.Column > 0))
             {
-                await RenderFormSelects(formModel, id);
+                await RenderFormSelects(formModel, formModel.SelectedGarden!.GardenId);
 
                 ModelState.AddModelError(nameof(formModel.SpecimenName), $"Please select both row and column or neither.");
 
                 return View("Form", formModel);
             }
 
-            if (formModel.Row > 0 && formModel.Column !> 0)
+            if (formModel.Row > 0 && formModel.Column! > 0)
             {
                 //validate that row and column don't exceed the garden totals
 
-
                 //validate that garden position is empty
                 bool isPositionTaken = await _gardenService
-                    .IsPositionTakenAsync(Guid.Parse(formModel.GardenId), (int)formModel.Row, (int)formModel.Column);
+                    .IsPositionTakenAsync(formModel.SelectedGarden!.GardenId, (int)formModel.Row, (int)formModel.Column);
                 if (isPositionTaken)
                 {
-                    await RenderFormSelects(formModel, id);
+                    await RenderFormSelects(formModel, formModel.SelectedGarden!.GardenId);
 
                     ModelState.AddModelError(nameof(formModel.Row), $"The selected position {formModel.Row}:{formModel.Column} is already taken.");
 
@@ -153,8 +184,17 @@
 
         private async Task RenderFormSelects(SpecimenFormModel formModel, Guid? selectedGardenId)
         {
-            formModel.VarietyOptions = await _varietyService.GenerateSpecimenVarietyOptionsAsync();
-            formModel.GardenOptions = await _gardenService.GenerateSpecimenGardenOptionsAsync(GetUserId(), selectedGardenId);
+            formModel.FormTexts = new FormTextsModel("Specimen");
+            formModel.GardenOptions = await _gardenService
+                .GenerateSpecimenGardenOptionsAsync(GetUserId(), selectedGardenId);
+            formModel.VarietyOptions = await _varietyService
+                .GenerateSpecimenVarietyOptionsAsync(formModel.VarietyId);            
+
+            if (selectedGardenId != null && selectedGardenId != Guid.Empty)
+            {
+                formModel.SelectedGardenId = selectedGardenId.Value;
+                formModel.SelectedGarden = await _gardenService.GetGardenAsync(selectedGardenId.Value);
+            }
         }
     }
 }

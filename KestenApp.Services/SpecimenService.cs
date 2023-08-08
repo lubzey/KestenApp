@@ -102,8 +102,9 @@
             Specimen specimen = new Specimen
             {
                 Name = model.SpecimenName,
-                //Garden = model.Garden,
-                Elevation = model.Elevation
+                Garden = (Garden)model.SelectedGarden!,
+                Elevation = model.Elevation,
+                //UserId = model.
             };
 
             await _context.Specimens.AddAsync(specimen);

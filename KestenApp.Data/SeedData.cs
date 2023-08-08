@@ -166,7 +166,9 @@
                 {
                     GardenId = Guid.NewGuid(),
                     Name = "Veslets G",
-                    UserId = Guid.Parse("09E77621-FAC4-4150-B64C-3E5C2B1A40EE")
+                    UserId = Guid.Parse("09E77621-FAC4-4150-B64C-3E5C2B1A40EE"),
+                    TotalRows = 20,
+                    TotalColumns = 20
                 },
             };
 

@@ -68,35 +68,12 @@
             Garden garden = await _context
                 .Gardens
                 .Include(g => g.Specimens.Where(s => s.IsActive))
-                .Include(g => g.Specimens.Where(s => s.IsActive))
                     .ThenInclude(s => s.Variety)
                 .Include(g => g.User)
-                .Where(g => g.IsPublished && g.GardenId == id)
                 .AsNoTracking()
-                .FirstAsync();
+                .FirstAsync(g => g.IsPublished && g.GardenId == id);
 
-            int rows = garden.TotalRows != null && garden.TotalRows > 0
-                ? (int)garden.TotalRows
-                : garden.Specimens.Select(s => s.Row).Max();
-
-            int cols = garden.TotalColumns != null && garden.TotalColumns > 0
-                ? (int)garden.TotalColumns
-                : garden.Specimens.Select(s => s.Column).Max();
-
-            //List<GardenDetailsSchemaModel> specimens = garden.Specimens
-            //    .Select(specimen => new GardenDetailsSchemaModel
-            //    {
-            //        Name = specimen.Variety != null
-            //            ? specimen.Variety.Name
-            //            : specimen.Name,
-            //        Year = specimen.Year,
-            //        Row = specimen.SpecimenPosition?.Row,
-            //        Column = specimen.SpecimenPosition?.Column,
-            //        SpecimenId = specimen.SpecimenId,
-            //        PollenType = GetBackgroundColorByPollen(specimen.Variety?.PollenType)
-            //    }).ToList();
-
-            GardenDetailsSchemaModel[,] specimensSchema = new GardenDetailsSchemaModel[(int)rows, (int)cols];
+            GardenDetailsSchemaModel[,] specimensSchema = new GardenDetailsSchemaModel[garden.TotalRows, garden.TotalColumns];
 
             garden.Specimens
                 //.Where(sp => sp.SpecimenPosition != null)
@@ -124,8 +101,8 @@
                 UserId = garden.User.Id,
                 IsActive = garden.IsActive,
                 IsPublished = garden.IsPublished,
-                TotalRows = rows,
-                TotalColumns = cols,
+                TotalRows = garden.TotalRows,
+                TotalColumns = garden.TotalColumns,
                 YearVarieties = garden.Specimens
                     .GroupBy(s => new { s.Year, s.Variety?.Name })
                     .Select(g => new GardenDetailsYearSpecimens
@@ -162,49 +139,60 @@
 
         public async Task<IEnumerable<SelectListItem>> GenerateSpecimenGardenOptionsAsync(string userId, Guid? selectedGardenId = null)
         {
-            List<SelectListItem> dropdownList = new List<SelectListItem>();
-
             if (selectedGardenId != null && selectedGardenId != Guid.Empty)
             {
-                //Selected
-                //Don't display null option or selected garden
-                IEnumerable<Garden> otherUserGardens = await _context.Gardens
-                    .Where(g => g.UserId.ToString() == userId && g.GardenId != selectedGardenId)
-                    .AsNoTracking()
-                    .ToListAsync();
-
-                IEnumerable<SelectListItem> gardensList = otherUserGardens
-                    .OrderBy(v => v.Name)
-                    .Select(v => new SelectListItem
-                    {
-                        Value = v.GardenId.ToString(),
-                        Text = v.Name
-                    });
-
-                dropdownList.AddRange(gardensList);
+                //Garden is selected - display no null option and user garden without the selected one
+                return await GenerateOtherGardensSelectAsync(userId, (Guid)selectedGardenId);
             }
-            else
+
+            //Garden isn't selected - display selected default null option and all user gardens 
+            return await GetUserGardensAsync(userId);
+        }
+
+        private async Task<IEnumerable<SelectListItem>> GenerateOtherGardensSelectAsync(string userId, Guid selectedGardenId)
+        {
+            //Selected
+            //Don't display null option or selected garden
+            IEnumerable<Garden> otherUserGardens = await _context.Gardens
+                .Where(g => g.UserId.ToString() == userId && g.GardenId != selectedGardenId)
+                .AsNoTracking()
+                .ToListAsync();
+
+            IEnumerable<SelectListItem> dropdownList = otherUserGardens
+                .OrderBy(v => v.Name)
+                .Select(v => new SelectListItem
+                {
+                    Value = v.GardenId.ToString(),
+                    Text = v.Name
+                });
+
+            return dropdownList;
+        }
+
+        public async Task<IEnumerable<SelectListItem>> GetUserGardensAsync(string userId)
+        {
+            //Not selected
+            //Add not selected option
+            List<SelectListItem> dropdownList = new List<SelectListItem>()
             {
-                //Not selected
-                //Add not selected option
-                dropdownList.Add(new SelectListItem { Selected = true });
+                new SelectListItem { Selected = true }
+            };
 
-                //Display all user gardens
-                IEnumerable<Garden> allUserGardens = await _context.Gardens
-                    .Where(g => g.UserId.ToString() == userId)
-                    .AsNoTracking()
-                    .ToListAsync();
+            //Display all user gardens
+            IEnumerable<Garden> allUserGardens = await _context.Gardens
+                .Where(g => g.UserId.ToString() == userId && g.IsActive)
+                .AsNoTracking()
+                .ToListAsync();
 
-                IEnumerable<SelectListItem> gardensList = allUserGardens
-                    .OrderBy(v => v.Name)
-                    .Select(v => new SelectListItem
-                    {
-                        Value = v.GardenId.ToString(),
-                        Text = v.Name
-                    });
+            IEnumerable<SelectListItem> gardensList = allUserGardens
+                .OrderBy(v => v.Name)
+                .Select(v => new SelectListItem
+                {
+                    Value = v.GardenId.ToString(),
+                    Text = v.Name
+                });
 
-                dropdownList.AddRange(gardensList);
-            }
+            dropdownList.AddRange(gardensList);
 
             return dropdownList;
         }
@@ -219,14 +207,59 @@
             return isPositionTaken;
         }
 
-        public async Task<IEnumerable<Garden>> GetUserGardensAsync(Guid userId)
+        public async Task<Garden> GetGardenAsync(Guid gardenId)
         {
-            IEnumerable<Garden> isPositionTaken = await _context.Gardens
-                .Where(g => g.UserId == userId)
-                .AsNoTracking()
-                .ToListAsync();
+            Garden garden = await _context.Gardens
+                .SingleAsync(g => g.GardenId == gardenId);
 
-            return isPositionTaken;
+            return garden;
+        }
+
+        public async Task<GardenDetailsModel> GetGardenWithUsedPositionsAsync(Guid gardenId)
+        {
+            Garden garden = await _context
+                .Gardens
+                .Include(g => g.Specimens.Where(s => s.IsActive))
+                    .ThenInclude(s => s.Variety)
+                .Include(g => g.User)
+                .AsNoTracking()
+                .SingleAsync(g => g.GardenId == gardenId);
+
+            GardenDetailsSchemaModel[,] specimensSchema = new GardenDetailsSchemaModel[garden.TotalRows, garden.TotalColumns];
+
+            garden.Specimens
+                //.Where(sp => sp.SpecimenPosition != null)
+                .ToList()
+                .ForEach(sp =>
+                {
+                    specimensSchema[sp.Row - 1, sp.Column - 1] = new GardenDetailsSchemaModel
+                    {
+                        Name = sp.Variety != null
+                            ? sp.Variety.Name
+                            : sp.Name,
+                        Year = sp.Year,
+                        SpecimenId = sp.SpecimenId,
+                        BackgroundColor = GetBackgroundColorByPollen(sp.Variety?.PollenType)
+
+                    };
+                });
+
+            return new GardenDetailsModel
+            {
+                GardenName = garden.Name,
+                GardenId = garden.GardenId,
+                TotalRows = garden.TotalRows,
+                TotalColumns = garden.TotalColumns,
+                YearVarieties = garden.Specimens
+                    .GroupBy(s => new { s.Year, s.Variety?.Name })
+                    .Select(g => new GardenDetailsYearSpecimens
+                    {
+                        Year = g.Key.Year,
+                        VarietyName = g.Key.Name ?? "",
+                        Count = g.Count()
+                    }).ToList(),
+                Specimens = specimensSchema
+            };
         }
     }
 }

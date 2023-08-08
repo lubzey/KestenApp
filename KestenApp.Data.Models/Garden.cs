@@ -22,10 +22,12 @@
         public bool IsActive { get; set; } = true;
         public bool IsPublished { get; set; } = true;
 
+        [Required]
         [Range(1, int.MaxValue)]
-        public int? TotalColumns { get; set; }
+        public int TotalColumns { get; set; }
 
+        [Required]
         [Range(1, int.MaxValue)]
-        public int? TotalRows { get; set; }
+        public int TotalRows { get; set; }
     }
 }

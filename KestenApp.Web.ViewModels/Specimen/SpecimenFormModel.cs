@@ -13,17 +13,9 @@
             
         }
 
-        public SpecimenFormModel(IEnumerable<Garden> userGardens, Guid? selectedGardenId)
+        public SpecimenFormModel(Guid userId)
         {
-            //TODO add specimen/variety id
-            FormTexts = new FormTextsModel("Specimen");
-            UserGardens = userGardens;
-
-            if (selectedGardenId != null && selectedGardenId != Guid.Empty)
-            {
-                GardenId = ((Guid)selectedGardenId).ToString();
-                SelectedGarden = userGardens.FirstOrDefault(g => g.GardenId == selectedGardenId);
-            }
+            UserId = userId;            
         }
 
         [ValidateNever]
@@ -33,6 +25,7 @@
 
         [Range(1, int.MaxValue)]
         public int? Elevation { get; set; }
+        public Guid UserId { get; }
 
         //Text
         [ValidateNever]
@@ -41,7 +34,7 @@
         public Guid? VarietyId { get; set; }
 
         [Required(ErrorMessage = "Please select user garden.")]
-        public string? GardenId { get; set; }
+        public Guid? GardenId { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "Please select a positive value.")]
         public int Row { get; set; }
@@ -51,7 +44,7 @@
 
         public IEnumerable<SelectListItem> VarietyOptions { get; set; } = Enumerable.Empty<SelectListItem>();
         public IEnumerable<SelectListItem> GardenOptions { get; set; } = Enumerable.Empty<SelectListItem>();
-        public IEnumerable<Garden> UserGardens { get; set; } = Enumerable.Empty<Garden>();
         public Garden? SelectedGarden { get; set; }
+        public Guid? SelectedGardenId { get; set; }
     }
 }

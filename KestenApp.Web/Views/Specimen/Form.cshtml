@@ -55,7 +55,7 @@
         @if (Model.SelectedGarden != null)
         {
             <div class="col-4 mb-2 mt-auto">
-                @Model.SelectedGarden.Name
+                @Model.SelectedGarden.Name @Model.SelectedGarden.GardenId
             </div>
             <div class="col-5"></div>
             <div class="col-3"></div>
@@ -115,7 +115,7 @@
             <div class="col-3 text-lg-end fw-bold mb-2 mt-auto">
                 <label asp-for="@Model.Column" class="form-label fw-bold">Column</label>
             </div>
-            <div class="col-9 col-lg-3 mb-2">
+            <div class="col-2 col-xl-1 mb-2">
                 <input asp-for="@Model.Column" class="form-control" aria-required="true" />
             </div>
         </div>
@@ -190,69 +190,6 @@
             </button>
         </div>
     }
-
-
-
-
-
-
-    @*<div class="col-xs-12 col-lg-10">
-
-    <table class="table table-bordered">
-    <thead>
-    <tr>
-    <th>Row\Column</th>
-    @for (int col = 1; col <= Model.Garden.TotalColumns; col++)
-    {
-    <th scope="col" class="text-center">@col</th>
-    }
-    </tr>
-    </thead>
-    <tbody>
-    @for (int row = 1; row <= Model.TotalRows; row++)
-    {
-    <tr>
-    <th scope="row" class="col-1">
-    @row
-    </th>
-
-    @for (int col = 1; col <= Model.TotalColumns; col++)
-    {
-    @if (Model.Specimens[row - 1, col - 1] != null)
-    {
-    <td class="col-1 text-center @Model.Specimens[row - 1,col - 1].BackgroundColor">
-    <a asp-controller="Specimen" asp-action="Details"
-    asp-route-id="@Model.Specimens[row - 1,col - 1].SpecimenId"
-    class="text-decoration-none text-dark fw-bold">
-    @Model.Specimens[row - 1,col - 1].Name
-    </a>
-
-    <small>@Model.Specimens[row - 1,col - 1].Year</small>
-    </td>
-    }
-    else
-    {
-    <td class="col-1 text-center">
-    -
-    </td>
-    }
-    }
-    </tr>
-    }
-    </tbody>
-    </table>
-    </div>*@
-
-
-
-
-
-
-
-
-
-
-
 
 
 
