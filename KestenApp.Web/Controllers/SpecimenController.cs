@@ -10,6 +10,8 @@
     using KestenApp.Web.ViewModels.Garden;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
     using Newtonsoft.Json;
+    using Microsoft.CodeAnalysis.Elfie.Diagnostics;
+    using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
     public class SpecimenController : BaseController
     {
@@ -85,9 +87,22 @@
                 return RedirectToAction("AddPosition", "Specimen", new { gardenId = gardens.Single() });
             }
 
+            if (TempData.ContainsKey("ModelStateErrors"))
+            {
+                var serializedErrors = TempData["ModelStateErrors"] as string;
+                if (!string.IsNullOrEmpty(serializedErrors))
+                {
+                    var errors = JsonConvert.DeserializeObject<IEnumerable<string>>(serializedErrors);
+                    foreach (var error in errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                }
+            }
+
             SpecimenGardenSelectModel model = new SpecimenGardenSelectModel(gardens);
 
-            return View("SpecimenGardenSelect", model);
+            return View("GardenSelect", model);
 
             //var userId = Guid.Parse(GetUserId());
 
@@ -99,18 +114,26 @@
             //return View("Form", formModel);
         }
 
-        [HttpGet]
-        [Authorize]
-        public IActionResult AddError()
-        {
-            return View();
-        }
-
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> AddPosition([FromForm]Guid gardenId)
+        public async Task<IActionResult> AddPosition([FromForm] Guid gardenId)
         {
+            //validate garden
+            bool isUserGardenValid = await _gardenService
+                .IsUserGardenValidAsync(gardenId, this.GetUserId());
+
+            if (!isUserGardenValid)
+            {
+                ModelState.AddModelError("Garden", $"The selected garden is invalid.");
+                string serializedErrors = JsonConvert.SerializeObject(ModelState.SelectMany(x => x.Value.Errors).Select(x => x.ErrorMessage));
+                TempData["ModelStateErrors"] = serializedErrors;
+
+                return RedirectToAction("Add", "Specimen");
+            }
+
             GardenDetailsModel model = await _gardenService.GetGardenWithUsedPositionsAsync(gardenId);
+
+
 
             return View("PositionSelect", model);
         }
@@ -133,7 +156,7 @@
             }
 
             GardenDetailsModel model = await _gardenService.GetGardenWithUsedPositionsAsync(gardenId);
-            
+
             return View("PositionSelect", model);
         }
 
@@ -177,7 +200,7 @@
 
 
 
-        
+
 
         [HttpPost]
         [Authorize]
@@ -235,7 +258,7 @@
             formModel.GardenOptions = await _gardenService
                 .GenerateSpecimenGardenOptionsAsync(GetUserId(), selectedGardenId);
             formModel.VarietyOptions = await _varietyService
-                .GenerateSpecimenVarietyOptionsAsync(formModel.VarietyId);            
+                .GenerateSpecimenVarietyOptionsAsync(formModel.VarietyId);
 
             if (selectedGardenId != null && selectedGardenId != Guid.Empty)
             {

@@ -15,7 +15,7 @@
 
         public IEnumerable<SelectListItem> Gardens { get => gardens; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select a garden.")]
         public Guid GardenId { get; set; }
     }
 }

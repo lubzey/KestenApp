@@ -197,6 +197,16 @@
             return dropdownList;
         }
 
+        public async Task<bool> IsUserGardenValidAsync(Guid gardenId, string userId)
+        {
+            bool isUserGardenValid = await _context.Gardens
+                .AnyAsync(g => g.UserId.ToString() == userId
+                    && g.GardenId == gardenId
+                    && g.IsActive);
+
+            return isUserGardenValid;
+        }
+
         public async Task<bool> IsPositionTakenAsync(Guid gardenId, int row, int column)
         {
             bool isPositionTaken = await _context.Gardens
@@ -209,13 +219,13 @@
 
         public async Task<bool> IsPositionValidAsync(Guid gardenId, int row, int column)
         {
-            bool isPositionTaken = await _context.Gardens
+            bool isPositionValid = await _context.Gardens
                 .AnyAsync(g =>
                     g.GardenId == gardenId
-                    && g.TotalRows <= row
-                    && g.TotalColumns <= column);
+                    && g.TotalRows >= row
+                    && g.TotalColumns >= column);
 
-            return isPositionTaken;
+            return isPositionValid;
         }
 
         public async Task<Garden> GetGardenAsync(Guid gardenId)
@@ -239,7 +249,6 @@
             GardenDetailsSchemaModel[,] specimensSchema = new GardenDetailsSchemaModel[garden.TotalRows, garden.TotalColumns];
 
             garden.Specimens
-                //.Where(sp => sp.SpecimenPosition != null)
                 .ToList()
                 .ForEach(sp =>
                 {

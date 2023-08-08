@@ -16,5 +16,6 @@ namespace KestenApp.Services.Contracts
         Task<IEnumerable<SelectListItem>> GetUserGardensAsync(string userId);
         Task<bool> IsPositionTakenAsync(Guid gardenId, int row, int column);
         Task<bool> IsPositionValidAsync(Guid gardenId, int row, int column);
+        Task<bool> IsUserGardenValidAsync(Guid gardenId, string userId);
     }
 }

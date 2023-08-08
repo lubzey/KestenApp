@@ -35,13 +35,22 @@
     @*Garden*@
     <hr />
 
+    <div class="row">
+        <div asp-validation-summary="ModelOnly" class="text-danger offset-3">
+        </div>
+    </div>
+
     <div class="row mb-2">
+
         <partial name="_SectionTitle" model='"Location"' />
 
         <div class="col-3 col-lg-2 text-lg-end fw-bold mt-auto mb-1">
             <label asp-for="@Model.GardenId" class="form-label fw-bold">Garden</label>
         </div>
+
         <div class="col-4 col-lg-3">
+            <span asp-validation-for="@Model.GardenId" class="text-danger"> </span>
+
             <div>
                 <select asp-for="@Model.GardenId" class="form-select" required aria-required="true">
                     @foreach (SelectListItem garden in Model.Gardens)
@@ -50,8 +59,6 @@
                     }
                 </select>
             </div>
-
-            <span asp-validation-for="@Model.GardenId" class="text-danger" />
         </div>
 
         <div class="col-2 col-lg-1">
