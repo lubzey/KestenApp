@@ -4,6 +4,15 @@
 @{
     ViewData["Title"] = $"Create Specimen: Step 2 - Position Selection";
 }
+<style>
+    input {
+        transition: 0.2s all linear;
+    }
+
+    .form-check-input:checked {
+        border: 3px solid darkgreen;
+    }
+</style>
 
 <form asp-action="DetailsForm" method="post">
     @Html.AntiForgeryToken()
@@ -95,7 +104,8 @@
                             {
                                 <td class="col-1 text-center">
                                     <div class="form-check d-flex justify-content-center">
-                                        <input required class="form-check-input mt-3 mb-3" name="position" type="radio" aria-required="true" value="@($"{row},{col}")">
+                                        <input required class="form-check-input mt-3 mb-3"
+                                               name="position" type="radio" aria-required="true" value="@($"{row},{col}")">
                                     </div>
                                 </td>
                             }
@@ -118,7 +128,7 @@
         </button>
     </div>
 
-    
+
 
 </form>
 

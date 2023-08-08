@@ -8,16 +8,16 @@
     using KestenApp.Web.ViewModels;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using KestenApp.Web.ViewModels.Garden;
-    using Microsoft.AspNetCore.Mvc.ModelBinding;
     using Newtonsoft.Json;
-    using Microsoft.CodeAnalysis.Elfie.Diagnostics;
-    using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
     public class SpecimenController : BaseController
     {
         private readonly ISpecimenService _specimenService;
         private readonly IVarietyService _varietyService;
         private readonly IGardenServices _gardenService;
+
+        public FormTextsModel FormTexts { get; private set; }
+        public IEnumerable<SelectListItem> VarietyOptions { get; private set; }
 
         public SpecimenController(
             ISpecimenService specimenService,
@@ -192,13 +192,34 @@
                 return RedirectToAction("AddPositionFromQuery", "Specimen", new { gardenId = gardenId });
             }
 
-            DetailsFormModel model = new DetailsFormModel(gardenId, row, column);
-            model.Garden = await _gardenService.GetGardenWithUsedPositionsAsync(gardenId);
+
+
+
+            //Empty form
+            //SpecimenFormModel formModel = new SpecimenFormModel(userId);
+
+            var model = await RenderFormDetails(gardenId, row, column);
 
             return View("DetailsForm", model);
         }
 
+        private async Task<DetailsFormModel> RenderFormDetails(Guid gardenId, int row, int column)
+        {
+            DetailsFormModel model = new DetailsFormModel()
+            {
+                GardenId = gardenId,
+                Row = row,
+                Column = column,
+                UserId = Guid.Parse(GetUserId()),
+                SelectedGardenId = gardenId,
+                Garden = await _gardenService.GetGardenWithUsedPositionsAsync(gardenId),
+                FormTexts = new FormTextsModel("Specimen"),
+                VarietyOptions = await _varietyService
+                    .GenerateSpecimenVarietyOptionsAsync()
+            };
 
+            return model;
+        }
 
 
 
@@ -255,18 +276,16 @@
             return RedirectToAction("Details", "Specimen", new { id = newSpecimenIndex });
         }
 
-        private async Task RenderFormSelects(SpecimenFormModel formModel, Guid? selectedGardenId)
+        private async Task RenderFormSelects(SpecimenFormModel formModel, Guid selectedGardenId)
         {
             formModel.FormTexts = new FormTextsModel("Specimen");
-            formModel.GardenOptions = await _gardenService
-                .GenerateSpecimenGardenOptionsAsync(GetUserId(), selectedGardenId);
             formModel.VarietyOptions = await _varietyService
                 .GenerateSpecimenVarietyOptionsAsync(formModel.VarietyId);
 
-            if (selectedGardenId != null && selectedGardenId != Guid.Empty)
+            if (selectedGardenId != Guid.Empty)
             {
-                formModel.SelectedGardenId = selectedGardenId.Value;
-                formModel.SelectedGarden = await _gardenService.GetGardenAsync(selectedGardenId.Value);
+                formModel.SelectedGardenId = selectedGardenId;
+                formModel.SelectedGarden = await _gardenService.GetGardenAsync(selectedGardenId);
             }
         }
     }

@@ -137,38 +137,6 @@
             }
         }
 
-        public async Task<IEnumerable<SelectListItem>> GenerateSpecimenGardenOptionsAsync(string userId, Guid? selectedGardenId = null)
-        {
-            if (selectedGardenId != null && selectedGardenId != Guid.Empty)
-            {
-                //Garden is selected - display no null option and user garden without the selected one
-                return await GenerateOtherGardensSelectAsync(userId, (Guid)selectedGardenId);
-            }
-
-            //Garden isn't selected - display selected default null option and all user gardens 
-            return await GetUserGardensAsync(userId);
-        }
-
-        private async Task<IEnumerable<SelectListItem>> GenerateOtherGardensSelectAsync(string userId, Guid selectedGardenId)
-        {
-            //Selected
-            //Don't display null option or selected garden
-            IEnumerable<Garden> otherUserGardens = await _context.Gardens
-                .Where(g => g.UserId.ToString() == userId && g.GardenId != selectedGardenId)
-                .AsNoTracking()
-                .ToListAsync();
-
-            IEnumerable<SelectListItem> dropdownList = otherUserGardens
-                .OrderBy(v => v.Name)
-                .Select(v => new SelectListItem
-                {
-                    Value = v.GardenId.ToString(),
-                    Text = v.Name
-                });
-
-            return dropdownList;
-        }
-
         public async Task<IEnumerable<SelectListItem>> GetUserGardensAsync(string userId)
         {
             //Not selected

@@ -8,6 +8,7 @@
     using KestenApp.Services.Contracts;
     using KestenApp.Web.ViewModels.Specimen;
     using KestenApp.Web.ViewModels.Varieties;
+    using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
     public class SpecimenService : ISpecimenService
     {
@@ -109,7 +110,6 @@
 
             await _context.Specimens.AddAsync(specimen);
             await _context.SaveChangesAsync();
-
             return specimen.SpecimenId;
         }
     }

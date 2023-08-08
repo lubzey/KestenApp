@@ -14,7 +14,7 @@
         <div class="col-10 offset-xl-1">
             @*Specimen Name*@
             <h2 class="fw-bold mb-2">
-                Create Specimen: Step 2 - Position Selection
+                Create Specimen: Step 3 - Details
             </h2>
         </div>
 
@@ -124,16 +124,71 @@
 
     <hr />
 
+    @*Name*@
     <div class="row">
-        <button asp-controller="Specimen"
-                asp-action="DetailsForm"
-                asp-route-gardenId="@Model.GardenId"
-                class="btn btn-outline-success col-2 col-xl-1 offset-10 offset-xl-11">
-            <span>Select</span>
-        </button>
+        <partial name="_SectionTitle" model='"Details"' />
+
+        <div class="col-2 text-lg-end fw-bold mb-2 mt-auto">
+            <label asp-for="@Model.SpecimenName" class="form-label fw-bold">Specimen Name</label>
+        </div>
+        <div class="col-9 col-lg-3 mb-2">
+            <input asp-for="@Model.SpecimenName" class="form-control" aria-required="true" />
+            <small>
+                <span asp-validation-for="@Model.SpecimenName" class="text-danger" />
+            </small>
+        </div>
     </div>
 
+    @*Variety*@
+    <div class="row">
 
+        <div class="col-3 text-lg-end fw-bold mb-2 mt-auto">
+            <label asp-for="@Model.VarietyId" class="form-label fw-bold">Variety</label>
+        </div>
+
+        <div class="col-9 col-lg-3 mb-2">
+            @*<input type="text" list="ddlmedCompany" id="varietyList"
+            class="form-control form-control-lg" placeholder="Type to search..." />
+            <datalist id="ddlmedCompany">
+            @foreach (var item in Model.VarietyOptions)
+            {
+            <option id="@item.Value">@item.Text</option>
+            }
+            </datalist>*@
+
+            <select asp-for="@Model.VarietyId" class="form-select">
+                @foreach (SelectListItem variety in Model.VarietyOptions)
+                {
+                    <option selected="@variety.Selected" value="@variety.Value">@variety.Text</option>
+                }
+            </select>
+
+            <span asp-validation-for="@Model.VarietyId" class="text-danger" />
+        </div>
+    </div>
+
+    @*Elevation*@
+    <div class="row">
+        <div class="col-3 text-lg-end fw-bold mb-2 mt-auto">
+            <label asp-for="@Model.Elevation" class="form-label fw-bold">Elevation</label>
+        </div>
+        <div class="col-9 col-lg-3 mb-2">
+            <input asp-for="@Model.Elevation" class="form-control" aria-required="true" />
+            <small>
+                <span asp-validation-for="@Model.Elevation" class="text-danger" />
+            </small>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+        <button asp-controller="Specimen"
+                asp-action="Create"
+                class="btn btn-outline-success col-2 col-xl-1 offset-10 offset-xl-11">
+            <span>Create</span>
+        </button>
+    </div>
 
 </form>
 
