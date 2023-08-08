@@ -32,14 +32,6 @@
         </div>
     </div>
 
-    @*Errors*@
-    <div class="row">
-        <div class="offset-xl-3">
-            <div asp-validation-summary="All" class="text-danger">
-            </div>
-        </div>
-    </div>
-
     @*Garden*@
     <hr />
 
@@ -59,7 +51,11 @@
 
     @*Location*@
     <div class="col-xs-12 col-lg-10 offset-lg-2">
+
+        @*Errors*@
         <span asp-validation-for="@Model.Position" class="text-danger" />
+        <div asp-validation-summary="All" class="text-danger">
+        </div>
 
         <table class="table table-bordered">
             <thead>
@@ -99,7 +95,7 @@
                             {
                                 <td class="col-1 text-center">
                                     <div class="form-check d-flex justify-content-center">
-                                        <input required class="form-check-input" name="position" type="radio" aria-required="true" value="@($"{row},{col}")">
+                                        <input required class="form-check-input mt-3 mb-3" name="position" type="radio" aria-required="true" value="@($"{row},{col}")">
                                     </div>
                                 </td>
                             }

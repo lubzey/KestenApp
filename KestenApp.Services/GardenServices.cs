@@ -207,6 +207,17 @@
             return isPositionTaken;
         }
 
+        public async Task<bool> IsPositionValidAsync(Guid gardenId, int row, int column)
+        {
+            bool isPositionTaken = await _context.Gardens
+                .AnyAsync(g =>
+                    g.GardenId == gardenId
+                    && g.TotalRows <= row
+                    && g.TotalColumns <= column);
+
+            return isPositionTaken;
+        }
+
         public async Task<Garden> GetGardenAsync(Guid gardenId)
         {
             Garden garden = await _context.Gardens

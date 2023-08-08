@@ -8,6 +8,8 @@
     using KestenApp.Web.ViewModels;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using KestenApp.Web.ViewModels.Garden;
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Newtonsoft.Json;
 
     public class SpecimenController : BaseController
     {
@@ -113,9 +115,60 @@
             return View("PositionSelect", model);
         }
 
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> AddPositionFromQuery([FromQuery] Guid gardenId)
+        {
+            if (TempData.ContainsKey("ModelStateErrors"))
+            {
+                var serializedErrors = TempData["ModelStateErrors"] as string;
+                if (!string.IsNullOrEmpty(serializedErrors))
+                {
+                    var errors = JsonConvert.DeserializeObject<IEnumerable<string>>(serializedErrors);
+                    foreach (var error in errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                }
+            }
+
+            GardenDetailsModel model = await _gardenService.GetGardenWithUsedPositionsAsync(gardenId);
+            
+            return View("PositionSelect", model);
+        }
+
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> DetailsForm([FromQuery] Guid gardenId, [FromForm] string position)
         {
+            int[] positions = position.Split(",").Select(x => int.Parse(x)).ToArray();
+            int row = positions.First();
+            int column = positions.Last();
+
+            //validate that garden position is empty
+            bool isPositionTaken = await _gardenService
+                .IsPositionTakenAsync(gardenId, row, column);
+            if (isPositionTaken)
+            {
+                ModelState.AddModelError(position, $"The selected position {row}:{column} is already taken.");
+                string serializedErrors = JsonConvert.SerializeObject(ModelState.SelectMany(x => x.Value.Errors).Select(x => x.ErrorMessage));
+                TempData["ModelStateErrors"] = serializedErrors;
+
+                return RedirectToAction("AddPositionFromQuery", "Specimen", new { gardenId = gardenId });
+            }
+
+            //validate that row and column don't exceed the garden totals
+            bool isPositionValid = await _gardenService
+                .IsPositionValidAsync(gardenId, row, column);
+            if (!isPositionValid)
+            {
+                ModelState.AddModelError(position, $"The selected position {row}:{column} isn't valid for the current garden.");
+                string serializedErrors = JsonConvert.SerializeObject(ModelState.SelectMany(x => x.Value.Errors).Select(x => x.ErrorMessage));
+                TempData["ModelStateErrors"] = serializedErrors;
+
+                return RedirectToAction("AddPositionFromQuery", "Specimen", new { gardenId = gardenId });
+            }
+
             return View("DetailsForm");
         }
 
@@ -124,13 +177,7 @@
 
 
 
-        [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public IActionResult MapSelectedGarden([FromForm] SpecimenFormModel formModel)
-        {
-            return RedirectToAction("Add", "Specimen", new { gardenId = formModel.GardenId });
-        }
+        
 
         [HttpPost]
         [Authorize]
