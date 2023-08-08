@@ -192,7 +192,10 @@
                 return RedirectToAction("AddPositionFromQuery", "Specimen", new { gardenId = gardenId });
             }
 
-            return View("DetailsForm");
+            DetailsFormModel model = new DetailsFormModel(gardenId, row, column);
+            model.Garden = await _gardenService.GetGardenWithUsedPositionsAsync(gardenId);
+
+            return View("DetailsForm", model);
         }
 
 

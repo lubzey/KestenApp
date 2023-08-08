@@ -242,7 +242,6 @@
                 .Gardens
                 .Include(g => g.Specimens.Where(s => s.IsActive))
                     .ThenInclude(s => s.Variety)
-                .Include(g => g.User)
                 .AsNoTracking()
                 .SingleAsync(g => g.GardenId == gardenId);
 
@@ -260,7 +259,6 @@
                         Year = sp.Year,
                         SpecimenId = sp.SpecimenId,
                         BackgroundColor = GetBackgroundColorByPollen(sp.Variety?.PollenType)
-
                     };
                 });
 
