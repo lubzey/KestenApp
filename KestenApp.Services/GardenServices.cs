@@ -196,14 +196,6 @@
             return isPositionValid;
         }
 
-        public async Task<Garden> GetGardenAsync(Guid gardenId)
-        {
-            Garden garden = await _context.Gardens
-                .SingleAsync(g => g.GardenId == gardenId);
-
-            return garden;
-        }
-
         public async Task<GardenDetailsModel> GetGardenWithUsedPositionsAsync(Guid gardenId)
         {
             Garden garden = await _context
