@@ -16,9 +16,6 @@
         private readonly IVarietyService _varietyService;
         private readonly IGardenServices _gardenService;
 
-        public FormTextsModel FormTexts { get; private set; }
-        public IEnumerable<SelectListItem> VarietyOptions { get; private set; }
-
         public SpecimenController(
             ISpecimenService specimenService,
             IVarietyService varietyService,
@@ -93,7 +90,7 @@
                 if (!string.IsNullOrEmpty(serializedErrors))
                 {
                     var errors = JsonConvert.DeserializeObject<IEnumerable<string>>(serializedErrors);
-                    foreach (var error in errors)
+                    foreach (var error in errors!)
                     {
                         ModelState.AddModelError("", error);
                     }
@@ -103,15 +100,6 @@
             SpecimenGardenSelectModel model = new SpecimenGardenSelectModel(gardens);
 
             return View("GardenSelect", model);
-
-            //var userId = Guid.Parse(GetUserId());
-
-            ////Empty form
-            //SpecimenFormModel formModel = new SpecimenFormModel(userId);
-
-            //await RenderFormSelects(formModel, gardenId);
-
-            //return View("Form", formModel);
         }
 
         [HttpPost]
@@ -125,7 +113,7 @@
             if (!isUserGardenValid)
             {
                 ModelState.AddModelError("Garden", $"The selected garden is invalid.");
-                string serializedErrors = JsonConvert.SerializeObject(ModelState.SelectMany(x => x.Value.Errors).Select(x => x.ErrorMessage));
+                string serializedErrors = JsonConvert.SerializeObject(ModelState.SelectMany(x => x.Value!.Errors).Select(x => x.ErrorMessage));
                 TempData["ModelStateErrors"] = serializedErrors;
 
                 return RedirectToAction("Add", "Specimen");
@@ -148,7 +136,7 @@
                 if (!string.IsNullOrEmpty(serializedErrors))
                 {
                     var errors = JsonConvert.DeserializeObject<IEnumerable<string>>(serializedErrors);
-                    foreach (var error in errors)
+                    foreach (var error in errors!)
                     {
                         ModelState.AddModelError("", error);
                     }
@@ -174,7 +162,7 @@
             if (isPositionTaken)
             {
                 ModelState.AddModelError(position, $"The selected position {row}:{column} is already taken.");
-                string serializedErrors = JsonConvert.SerializeObject(ModelState.SelectMany(x => x.Value.Errors).Select(x => x.ErrorMessage));
+                string serializedErrors = JsonConvert.SerializeObject(ModelState.SelectMany(x => x.Value!.Errors).Select(x => x.ErrorMessage));
                 TempData["ModelStateErrors"] = serializedErrors;
 
                 return RedirectToAction("AddPositionFromQuery", "Specimen", new { gardenId = gardenId });
@@ -186,19 +174,15 @@
             if (!isPositionValid)
             {
                 ModelState.AddModelError(position, $"The selected position {row}:{column} isn't valid for the current garden.");
-                string serializedErrors = JsonConvert.SerializeObject(ModelState.SelectMany(x => x.Value.Errors).Select(x => x.ErrorMessage));
+                string serializedErrors = JsonConvert.SerializeObject(ModelState.SelectMany(x => x.Value!.Errors).Select(x => x.ErrorMessage));
                 TempData["ModelStateErrors"] = serializedErrors;
 
                 return RedirectToAction("AddPositionFromQuery", "Specimen", new { gardenId = gardenId });
             }
 
-
-
-
             //Empty form
-            //SpecimenFormModel formModel = new SpecimenFormModel(userId);
 
-            var model = await RenderFormDetails(gardenId, row, column);
+            DetailsFormModel model = await RenderFormDetails(gardenId, row, column);
 
             return View("DetailsForm", model);
         }
@@ -234,12 +218,18 @@
             //Other errors
             if (!ModelState.IsValid)
             {
-                var errors = ModelState
-                    .Select(x => x.Value?.Errors)
-                    .Where(e => e?.Count > 0)
+                List<string> errors = ModelState
+                    .Values.Where(E => E.Errors.Count > 0)
+                    .SelectMany(E => E.Errors)
+                    .Select(E => E.ErrorMessage)
                     .ToList();
+                errors.Add("QWERTY");
+                string serializedErrors = JsonConvert.SerializeObject(errors);
+                TempData["ModelStateErrors"] = serializedErrors;
 
-                return View("Form", formModel);
+
+                //NOT WORKING YET
+                return View("DetailsForm", formModel);
             }
 
             //Create a new specimen

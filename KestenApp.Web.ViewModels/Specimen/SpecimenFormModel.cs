@@ -8,16 +8,6 @@
 
     public class SpecimenFormModel
     {
-        public SpecimenFormModel()
-        {
-            
-        }
-
-        public SpecimenFormModel(Guid userId)
-        {
-            UserId = userId;            
-        }
-
         [ValidateNever]
         public Guid? SpecimenId { get; set; }
 
@@ -25,11 +15,6 @@
 
         [Range(1, int.MaxValue)]
         public int? Elevation { get; set; }
-        public Guid UserId { get; }
-
-        //Text
-        [ValidateNever]
-        public FormTextsModel FormTexts { get; set; } = null!;
 
         public Guid? VarietyId { get; set; }
 
@@ -42,9 +27,17 @@
         [Range(1, int.MaxValue, ErrorMessage = "Please select a positive value.")]
         public int Column { get; set; }
 
+        //Data visualizing
+        [ValidateNever]
+        public FormTextsModel FormTexts { get; set; } = null!;
+        
+        [ValidateNever]
         public IEnumerable<SelectListItem> VarietyOptions { get; set; } = Enumerable.Empty<SelectListItem>();
+        
+        [ValidateNever]
         public IEnumerable<SelectListItem> GardenOptions { get; set; } = Enumerable.Empty<SelectListItem>();
+
+        [ValidateNever]
         public Garden? SelectedGarden { get; set; }
-        public Guid? SelectedGardenId { get; set; }
     }
 }

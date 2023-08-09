@@ -7,8 +7,6 @@
     using KestenApp.Data.Models;
     using KestenApp.Services.Contracts;
     using KestenApp.Web.ViewModels.Specimen;
-    using KestenApp.Web.ViewModels.Varieties;
-    using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
     public class SpecimenService : ISpecimenService
     {
@@ -27,10 +25,10 @@
         {
             IQueryable<Specimen> specimensQuery = _context
                 .Specimens
-                .Include(v => v.Garden)
-                .Include(v => v.Variety)
-                .Include(v => v.User)
-                .Where(v => v.Garden == null || v.Garden.IsPublished == isPublished);
+                .Include(s => s.Garden)
+                .Include(s => s.Variety)
+                .Include(s => s.User)
+                .Where(s => s.IsActive);
 
             specimensQuery = sorting switch
             {

@@ -10,6 +10,15 @@
            class="text-decoration-none text-dark">@Model.SpecimenName</a>
     </th>
     <td class="text-center">
+        @if (Model.Variety != null)
+        {
+            <a asp-controller="Variety"
+           asp-action="Details"
+           asp-route-id="@Model.Variety.VarietyId"
+               class="text-decoration-none text-dark">@Model.Variety.Name</a>
+        }
+    </td>
+    <td class="text-center">
         @Model.Year
     </td>
     <td class="text-center">
@@ -22,20 +31,11 @@
         }
     </td>
     <td class="text-center">
-        @if (Model.Variety != null)
-        {
-            <a asp-controller="Variety"
-           asp-action="Details"
-           asp-route-id="@Model.Variety.VarietyId"
-               class="text-decoration-none text-dark">@Model.Variety.Name</a>
-        }
-    </td>
-    <td class="text-center">
         @if (Model.User != null)
         {
             <a asp-controller="Gardener"
            asp-action="Details"
-           asp-route-id="@Model.User.Id"
+           asp-route-id="@Model.User.UserName"
                class="text-decoration-none text-dark">@Model.User.UserName</a>
         }
     </td>

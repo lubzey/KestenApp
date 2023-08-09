@@ -5,9 +5,9 @@
         public readonly List<string> HeaderTitles = new List<string>
             {
                 "Name",
-                "Year",
-                "Garden",
                 "Variety",
+                "Year",
+                "Garden",                
                 "User"
             };
 
