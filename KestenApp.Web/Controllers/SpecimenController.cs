@@ -210,8 +210,6 @@
                 GardenId = gardenId,
                 Row = row,
                 Column = column,
-                UserId = Guid.Parse(GetUserId()),
-                SelectedGardenId = gardenId,
                 Garden = await _gardenService.GetGardenWithUsedPositionsAsync(gardenId),
                 FormTexts = new FormTextsModel("Specimen"),
                 VarietyOptions = await _varietyService
@@ -221,43 +219,17 @@
             return model;
         }
 
-
-
-
-
-
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add([FromForm] SpecimenFormModel formModel)
+        public async Task<IActionResult> Create(
+            [FromForm] DetailsFormModel formModel,
+            [FromQuery] Guid gardenId, [FromQuery] int row, [FromQuery] int column)
         {
-            //validate that garden position isn't partially filled
-            if ((formModel.Row > 0 && formModel.Column == 0)
-                || (formModel.Row == 0 && formModel.Column > 0))
-            {
-                await RenderFormSelects(formModel, formModel.SelectedGarden!.GardenId);
-
-                ModelState.AddModelError(nameof(formModel.SpecimenName), $"Please select both row and column or neither.");
-
-                return View("Form", formModel);
-            }
-
-            if (formModel.Row > 0 && formModel.Column! > 0)
-            {
-                //validate that row and column don't exceed the garden totals
-
-                //validate that garden position is empty
-                bool isPositionTaken = await _gardenService
-                    .IsPositionTakenAsync(formModel.SelectedGarden!.GardenId, (int)formModel.Row, (int)formModel.Column);
-                if (isPositionTaken)
-                {
-                    await RenderFormSelects(formModel, formModel.SelectedGarden!.GardenId);
-
-                    ModelState.AddModelError(nameof(formModel.Row), $"The selected position {formModel.Row}:{formModel.Column} is already taken.");
-
-                    return View("Form", formModel);
-                }
-            }
+            formModel.GardenId = gardenId;
+            formModel.Row = row;
+            formModel.Column = column;
+            Guid userId = Guid.Parse(GetUserId());
 
             //Other errors
             if (!ModelState.IsValid)
@@ -271,22 +243,9 @@
             }
 
             //Create a new specimen
-            Guid newSpecimenIndex = await _specimenService.AddSpecimenAsync(formModel);
+            Guid newSpecimenIndex = await _specimenService.AddSpecimenAsync(formModel, userId);
 
             return RedirectToAction("Details", "Specimen", new { id = newSpecimenIndex });
-        }
-
-        private async Task RenderFormSelects(SpecimenFormModel formModel, Guid selectedGardenId)
-        {
-            formModel.FormTexts = new FormTextsModel("Specimen");
-            formModel.VarietyOptions = await _varietyService
-                .GenerateSpecimenVarietyOptionsAsync(formModel.VarietyId);
-
-            if (selectedGardenId != Guid.Empty)
-            {
-                formModel.SelectedGardenId = selectedGardenId;
-                formModel.SelectedGarden = await _gardenService.GetGardenAsync(selectedGardenId);
-            }
         }
     }
 }

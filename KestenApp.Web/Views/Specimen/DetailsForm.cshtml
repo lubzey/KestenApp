@@ -1,6 +1,6 @@
 ﻿@using KestenApp.Web.ViewModels.Specimen;
 @model DetailsFormModel
-
+<link href="~/jqueryui/jquery-ui.css" rel="stylesheet" />
 @{
     ViewData["Title"] = $"Create Specimen: Step 3 - Details";
 }
@@ -180,11 +180,52 @@
         </div>
     </div>
 
+    @*Dates*@
+    <div class="row">
+        <div class="col-3 text-lg-end fw-bold mb-2 mt-auto">
+            <label asp-for="@Model.PlantedOnDate" class="form-label fw-bold">Planted On</label>
+        </div>
+        <div class="col-9 col-lg-3 mb-2">
+            <input type="date" asp-for="@Model.PlantedOnDate" value="@DateTime.Now" max="@DateTime.Now.AddDays(1)" />
+            <small>
+                <span asp-validation-for="@Model.PlantedOnDate" class="text-danger" />
+            </small>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-3 text-lg-end fw-bold mb-2 mt-auto">
+            <label asp-for="@Model.SowedOnDate" class="form-label fw-bold">Sowed On</label>
+        </div>
+        <div class="col-9 col-lg-3 mb-2">
+            <input type="date" asp-for="@Model.SowedOnDate" value="@DateTime.Now" max="@DateTime.Now.AddDays(1)" />
+            <small>
+                <span asp-validation-for="@Model.SowedOnDate" class="text-danger" />
+            </small>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-3 text-lg-end fw-bold mb-2 mt-auto">
+            <label asp-for="@Model.GraftedOnDate" class="form-label fw-bold">Grafted On</label>
+        </div>
+        <div class="col-9 col-lg-3 mb-2">
+            <input type="date" asp-for="@Model.GraftedOnDate" value="@DateTime.Now" max="@DateTime.Now.AddDays(1)" />
+            <small>
+                <span asp-validation-for="@Model.GraftedOnDate" class="text-danger" />
+            </small>
+        </div>
+    </div>
+
+
     <hr />
 
     <div class="row">
         <button asp-controller="Specimen"
                 asp-action="Create"
+                asp-route-gardenId="@Model.GardenId"
+                asp-route-row="@Model.Row"
+                asp-route-column="@Model.Column"
                 class="btn btn-outline-success col-2 col-xl-1 offset-10 offset-xl-11">
             <span>Create</span>
         </button>

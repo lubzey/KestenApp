@@ -67,7 +67,7 @@
         {
             Garden garden = await _context
                 .Gardens
-                .Include(g => g.Specimens.Where(s => s.IsActive))
+                .Include(g => g.Specimens.Where(s => s.IsActive && s.Row > 0 && s.Column > 0))
                     .ThenInclude(s => s.Variety)
                 .Include(g => g.User)
                 .AsNoTracking()
@@ -120,7 +120,7 @@
             switch (pollenType)
             {
                 case PollenType.NotSelected:
-                    return "";
+                    return "table-secondary";
 
                 case PollenType.Sterile:
                 case null:
@@ -133,7 +133,7 @@
                     return "table-success";
 
                 default:
-                    return "";
+                    return "table-secondary";
             }
         }
 
@@ -208,7 +208,7 @@
         {
             Garden garden = await _context
                 .Gardens
-                .Include(g => g.Specimens.Where(s => s.IsActive))
+                .Include(g => g.Specimens.Where(s => s.IsActive && s.Row > 0 && s.Column > 0))
                     .ThenInclude(s => s.Variety)
                 .AsNoTracking()
                 .SingleAsync(g => g.GardenId == gardenId);

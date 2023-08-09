@@ -189,6 +189,11 @@
                                     Abundant
                                 </td>
                             </tr>
+                            <tr>
+                                <td class="table-secondary">
+                                    Unknown
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -221,7 +226,7 @@
                                 @if (Model.Specimens[row - 1, col - 1] != null)
                                 {
                                     <td class="col-1 text-center @Model.Specimens[row - 1,col - 1].BackgroundColor">
-                                        <a asp-controller="Specimen"  asp-action="Details" 
+                                        <a asp-controller="Specimen" asp-action="Details" 
                                         asp-route-id="@Model.Specimens[row - 1,col - 1].SpecimenId"
                                            class="text-decoration-none text-dark fw-bold">
                                                 @Model.Specimens[row - 1,col - 1].Name

@@ -98,18 +98,28 @@
         }
 
         //Add
-        public async Task<Guid> AddSpecimenAsync(SpecimenFormModel model)
+        public async Task<Guid> AddSpecimenAsync(DetailsFormModel model, Guid userId)
         {
+            //var user = await _context.Users.SingleAsync(u => u.Id == userId);
+
             Specimen specimen = new Specimen
             {
-                Name = model.SpecimenName,
-                Garden = (Garden)model.SelectedGarden!,
+                UserId = userId,
+                VarietyId = model.VarietyId,
+
+                GardenId = model.GardenId,                
+                Row = model.Row,
+                Column = model.Column,
+                Name = model.SpecimenName,                
                 Elevation = model.Elevation,
-                //UserId = model.
+                PlantedOnDate = model.PlantedOnDate,
+                SowedOnDate = model.SowedOnDate,
+                GraftedOnDate = model.GraftedOnDate
             };
 
             await _context.Specimens.AddAsync(specimen);
             await _context.SaveChangesAsync();
+
             return specimen.SpecimenId;
         }
     }
