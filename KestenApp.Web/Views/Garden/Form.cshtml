@@ -39,12 +39,12 @@
 
         <div class="col-2 text-lg-end fw-bold mb-2 mt-auto">
             <label asp-for="@Model.GardenName" class="form-label fw-bold">Name</label>
-        </div>
+        </div>        
         <div class="col-9 col-lg-3 mb-2">
-            <input asp-for="@Model.GardenName" class="form-control" aria-required="true" />
             <small>
                 <span asp-validation-for="@Model.GardenName" class="text-danger" />
             </small>
+            <input asp-for="@Model.GardenName" class="form-control" aria-required="true" />            
         </div>
     </div>
 
@@ -53,10 +53,10 @@
             <label asp-for="@Model.TotalRows" class="form-label fw-bold">Rows</label>
         </div>
         <div class="col-9 col-lg-3 mb-2">
-            <input asp-for="@Model.TotalRows" class="form-control" aria-required="true" />
             <small>
                 <span asp-validation-for="@Model.TotalRows" class="text-danger" />
             </small>
+            <input asp-for="@Model.TotalRows" class="form-control" aria-required="true" />            
         </div>
     </div>
 
@@ -65,16 +65,14 @@
             <label asp-for="@Model.TotalColumns" class="form-label fw-bold">Columns</label>
         </div>
         <div class="col-9 col-lg-3 mb-2">
-            <input asp-for="@Model.TotalColumns" class="form-control" aria-required="true" />
             <small>
                 <span asp-validation-for="@Model.TotalColumns" class="text-danger" />
             </small>
+            <input asp-for="@Model.TotalColumns" class="form-control" aria-required="true" />            
         </div>
     </div>
 
     <hr />
-
-
 
     <div class="row">
         <button asp-controller="Garden"
@@ -87,5 +85,6 @@
 
 </form>
 
-
-
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    }

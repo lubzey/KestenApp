@@ -5,6 +5,7 @@
 
     using KestenApp.Services.Contracts;
     using KestenApp.Web.ViewModels.Garden;
+    using KestenApp.Services;
 
     public class GardenController : BaseController
     {
@@ -37,7 +38,7 @@
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Edit(Guid id)
+        public async Task<IActionResult> Edit([FromRoute] Guid id)
         {
             GardenDetailsModel garden = await _gardenService
                 .GetDetailsViewByIdAsync(id);
@@ -51,9 +52,33 @@
                 TotalColumns = garden.TotalColumns
             };
 
-
-
             return View("Form", model);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Edit([FromForm] FormModel model, [FromRoute] Guid id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Form", model);
+            }
+
+            //Validate specimen deletion if rows/cols are decreased
+
+
+            //Update existing variety
+            string userId = GetUserId();
+            if (!(await _gardenService.UpdateGardenAsync(id, userId, model)))
+            {
+                return RedirectToAction("List", "Garden");
+            }
+
+            return RedirectToAction("Details", "Garden", new { id });
+
+
+
+
         }
 
     }

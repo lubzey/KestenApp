@@ -9,8 +9,6 @@
     using Microsoft.AspNetCore.Mvc.Rendering;
     using KestenApp.Web.ViewModels.Garden;
     using Newtonsoft.Json;
-    using KestenApp.Data.Models;
-    using KestenApp.Web.ViewModels.Varieties;
 
     public class SpecimenController : BaseController
     {

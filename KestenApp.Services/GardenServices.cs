@@ -239,5 +239,19 @@
                 Specimens = specimensSchema
             };
         }
+
+        public async Task<bool> UpdateGardenAsync(Guid id, string userId, FormModel model)
+        {
+            Garden garden = await _context
+                .Gardens
+                .SingleAsync(g => g.GardenId == id
+                    && g.UserId.ToString() == userId);
+
+            garden.Name = model.GardenName;
+            garden.TotalRows = model.TotalRows;
+            garden.TotalColumns = model.TotalColumns;
+
+            return await this._context.SaveChangesAsync() > 0;
+        }
     }
 }
