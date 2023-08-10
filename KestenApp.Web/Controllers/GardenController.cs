@@ -79,7 +79,7 @@
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Add()
+        public IActionResult Add()
         {
             FormModel model = new FormModel
             {
