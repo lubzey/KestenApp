@@ -10,13 +10,17 @@
     public class DetailsFormModel
     {
         public Guid GardenId { get; set; }
+        [Range(0, 1000)]
         public int Row { get; set; }
+        [Range(0, 1000)]
         public int Column { get; set; }
 
         //Details
         public string? SpecimenName { get; set; }
         public Guid? VarietyId { get; set; }
+        [Range(0, 5000)]
         public int? Elevation { get; set; }
+
         public DateTime? PlantedOnDate { get; set; } = DateTime.Now;
         public DateTime? SowedOnDate { get; set; }
         public DateTime? GraftedOnDate { get; set; }
