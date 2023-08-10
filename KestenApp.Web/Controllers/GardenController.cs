@@ -27,7 +27,7 @@
         }
 
         [Authorize]
-        public async Task<IActionResult> Details(Guid id)
+        public async Task<IActionResult> Details([FromRoute]Guid id)
         {
             GardenDetailsModel detailsModel = await _gardenService
                 .GetDetailsViewByIdAsync(id);
@@ -75,11 +75,38 @@
             }
 
             return RedirectToAction("Details", "Garden", new { id });
-
-
-
-
         }
 
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Add()
+        {
+            FormModel model = new FormModel
+            {
+                FormTexts = new ViewModels.FormTextsModel("Garden")
+            };
+
+            return View("Form", model);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Add([FromForm] FormModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Form", model);
+            }
+
+            string userId = GetUserId();
+            Guid gardenId = await _gardenService.CreateGardenAsync(userId, model);
+
+            if (gardenId == Guid.Empty)
+            {
+                return RedirectToAction("List", "Garden");
+            }
+
+            return RedirectToAction("Details", "Garden", new { id = gardenId });
+        }
     }
 }

@@ -253,5 +253,21 @@
 
             return await this._context.SaveChangesAsync() > 0;
         }
+
+        public async Task<Guid> CreateGardenAsync(string userId, FormModel model)
+        {
+            Garden garden = new Garden
+            {
+                Name = model.GardenName,
+                TotalRows = model.TotalRows,
+                TotalColumns = model.TotalColumns,
+                UserId = Guid.Parse(userId)
+            };
+
+            await this._context.AddAsync(garden);
+            await _context.SaveChangesAsync();
+
+            return garden.GardenId;
+        }
     }
 }

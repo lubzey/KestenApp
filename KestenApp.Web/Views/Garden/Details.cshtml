@@ -91,69 +91,78 @@
 <div class="row mt-1">
     <partial name="_SectionTitle" model='"Varieties"' />
 
-    <div class="col-xs-12 col-lg-10 offset-lg-1">
-        <table class="table">
-            @*Titles*@
-            <thead>
+    @if (Model.GardenVarieties.Any())
+    {
+        <div class="col-xs-12 col-lg-10 offset-lg-1">
+            <table class="table">
+                @*Titles*@
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            Name
+                        </th>
+
+                        @foreach (int? year in Model.GardenYears)
+                        {
+                            <th scope="col">
+                                @year
+                            </th>
+                        }
+
+                        <th scope="col" class="table-success">
+                            Total
+                        </th>
+                    </tr>
+                </thead>
+
+                @*Varieties*@
+                @foreach (string varietyName in Model.GardenVarieties)
+                {
+                    <tr>
+                        <th scope="row">
+                            @varietyName
+                        </th>
+
+                        @foreach (int? year in Model.GardenYears)
+                        {
+                            <td scope="row">
+                                @Model.YearVarieties.Where(s => s.Year == year && s.VarietyName == varietyName).Count()
+                            </td>
+                        }
+
+                        <th scope="row" class="table-success">
+                            @Model.YearVarieties.Where(s => s.VarietyName == varietyName).Count()
+                        </th>
+                    </tr>
+                }
+
+                @*Totals*@
                 <tr>
-                    <th scope="col">
-                        Name
+                    <th scope="row" class="table-success">
+                        Total
                     </th>
 
                     @foreach (int? year in Model.GardenYears)
                     {
-                        <th scope="col">
-                            @year
+                        <th scope="row" class="table-success">
+                            @Model.YearVarieties.Where(s => s.Year == year).Count()
                         </th>
                     }
 
-                    <th scope="col" class="table-success">
-                        Total
+                    <th scope="row" class="table-success">
+                        @Model.YearVarieties.Count()
                     </th>
                 </tr>
-            </thead>
 
-            @*Varieties*@
-            @foreach (string varietyName in Model.GardenVarieties)
-            {
-                <tr>
-                    <th scope="row">
-                        @varietyName
-                    </th>
-
-                    @foreach (int? year in Model.GardenYears)
-                    {
-                        <td scope="row">
-                            @Model.YearVarieties.Where(s => s.Year == year && s.VarietyName == varietyName).Count()
-                        </td>
-                    }
-
-                    <th scope="row" class="table-success">
-                        @Model.YearVarieties.Where(s => s.VarietyName == varietyName).Count()
-                    </th>
-                </tr>
-            }
-
-            @*Totals*@
-            <tr>
-                <th scope="row" class="table-success">
-                    Total
-                </th>
-
-                @foreach (int? year in Model.GardenYears)
-                {
-                    <th scope="row" class="table-success">
-                        @Model.YearVarieties.Where(s => s.Year == year).Count()
-                    </th>
-                }
-
-                <th scope="row" class="table-success">
-                    @Model.YearVarieties.Count()
-                </th>
-            </tr>
-
-        </table>
-    </div>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="col-xs-12 col-lg-10 offset-lg-1 mt-3">
+            This garden is still empty.
+        </div>
+    }
 </div>
 
 @if (Model.TotalRows > 0 && Model.TotalColumns > 0)

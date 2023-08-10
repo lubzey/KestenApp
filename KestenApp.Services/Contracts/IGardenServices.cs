@@ -8,6 +8,7 @@
     public interface IGardenServices
     {
         Task<GardenListModel> AllGardensAsync(SortingType sorting = SortingType.DateCreated, int currentPage = 1, int countPerPage = int.MaxValue, bool isPublished = true);
+        Task<Guid> CreateGardenAsync(string userId, FormModel model);
         Task<GardenDetailsModel> GetDetailsViewByIdAsync(Guid id);
         Task<GardenDetailsModel> GetGardenWithUsedPositionsAsync(Guid gardenId);
         Task<IEnumerable<SelectListItem>> GetUserGardensAsync(string userId);
