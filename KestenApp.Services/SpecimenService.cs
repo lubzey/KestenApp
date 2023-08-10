@@ -7,6 +7,7 @@
     using KestenApp.Data.Models;
     using KestenApp.Services.Contracts;
     using KestenApp.Web.ViewModels.Specimen;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
     public class SpecimenService : ISpecimenService
     {
@@ -98,8 +99,6 @@
         //Add
         public async Task<Guid> AddSpecimenAsync(DetailsFormModel model, Guid userId)
         {
-            //var user = await _context.Users.SingleAsync(u => u.Id == userId);
-
             Specimen specimen = new Specimen
             {
                 UserId = userId,
@@ -119,6 +118,22 @@
             await _context.SaveChangesAsync();
 
             return specimen.SpecimenId;
+        }
+
+        public async Task<bool> UpdateSpecimenAsync(Guid id, DetailsFormModel model)
+        {
+            Specimen specimen = await _context
+                .Specimens
+                .FirstAsync(h => h.SpecimenId == id);
+
+            specimen.Name = model.SpecimenName;
+            specimen.VarietyId = model.VarietyId;
+            specimen.Elevation = model.Elevation;
+            specimen.PlantedOnDate = model.PlantedOnDate;
+            specimen.SowedOnDate = model.SowedOnDate;
+            specimen.GraftedOnDate = model.GraftedOnDate;
+
+            return await this._context.SaveChangesAsync() > 0;
         }
     }
 }

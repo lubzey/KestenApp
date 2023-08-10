@@ -5,8 +5,6 @@
 
     using KestenApp.Services.Contracts;
     using KestenApp.Web.ViewModels.Garden;
-    using KestenApp.Services;
-    using KestenApp.Web.ViewModels.Varieties;
 
     public class GardenController : BaseController
     {

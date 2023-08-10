@@ -9,5 +9,6 @@
         Task<SpecimenListModel> AllSpecimensAsync(SortingType sorting = SortingType.DateCreated, int currentPage = 1, int countPerPage = int.MaxValue, bool isPublished = true);
         Task ArchiveByIdAsync(Guid id, bool restore = false);
         Task<SpecimenDetailsModel> GetDetailsViewByIdAsync(Guid id);
+        Task<bool> UpdateSpecimenAsync(Guid id, DetailsFormModel formModel);
     }
 }

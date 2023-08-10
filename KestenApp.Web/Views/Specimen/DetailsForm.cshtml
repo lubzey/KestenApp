@@ -2,7 +2,14 @@
 @model DetailsFormModel
 <link href="~/jqueryui/jquery-ui.css" rel="stylesheet" />
 @{
-    ViewData["Title"] = $"Create Specimen: Step 3 - Details";
+    if (Model.SpecimenId == null || Model.SpecimenId == Guid.Empty)
+    {
+        ViewData["Title"] = $"Create Specimen: Step 3 - Details";
+    }
+    else
+    {
+        ViewData["Title"] = Model.FormTexts.PageTitle;
+    }
 }
 
 <form asp-action="DetailsForm" method="post">
@@ -13,15 +20,26 @@
 
         <div class="col-10 offset-xl-1">
             @*Specimen Name*@
-            <h2 class="fw-bold mb-2">
-                Create Specimen: Step 3 - Details
-            </h2>
+            @if (Model.SpecimenId == null || Model.SpecimenId == Guid.Empty)
+            {
+                <h2 class="fw-bold mb-2">
+                    Create Specimen: Step 3 - Details
+                </h2>
+            }
+            else
+            {
+                <h2 class="fw-bold mb-2">
+                    @Model.FormTexts.PageTitle
+                </h2>
+            }
+
         </div>
 
         <div class="col-2 col-lg-1">
             <div class="row no-gutters">
                 <a asp-controller="Specimen"
-                   asp-action="List"
+                   asp-action="@Model.FormTexts.BackToAction"
+                   asp-route-id="@Model.SpecimenId"
                    class="btn mr-1 btn-outline-secondary">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"></path>
@@ -89,14 +107,17 @@
                         {
                             @if (Model.Garden.Specimens[row - 1, col - 1] != null)
                             {
-                                <td class="col-1 text-center @Model.Garden.Specimens[row - 1,col - 1].BackgroundColor">
+                                <td class="col-1 text-center
+                                    @Model.Garden.Specimens[row - 1,col - 1].BackgroundColor">
+
                                     @Model.Garden.Specimens[row - 1,col - 1].Name
-                                    <small>@Model.Garden.Specimens[row - 1,col - 1].Year</small>
+                                    <br>@Model.Garden.Specimens[row - 1,col - 1].Year
                                 </td>
                             }
                             else
                             {
-                                @if (Model.Row == row && Model.Column == col)
+                                @if ((Model.Row == row && Model.Column == col)
+                               && (Model.SpecimenId == null || Model.SpecimenId == Guid.Empty))
                                 {
                                     <td class="col-1 text-center bg-success bg-opacity-75">
                                         <div class="d-flex justify-content-center">
@@ -150,24 +171,15 @@
         </div>
 
         <div class="col-9 col-lg-3 mb-2">
-            @*<input type="text" list="ddlmedCompany" id="varietyList"
-            class="form-control form-control-lg" placeholder="Type to search..." />
-            <datalist id="ddlmedCompany">
-            @foreach (var item in Model.VarietyOptions)
-            {
-            <option id="@item.Value">@item.Text</option>
-            }
-            </datalist>*@
-
-            <select asp-for="@Model.VarietyId" class="form-select">
+            <small>
+                <span asp-validation-for="@Model.VarietyId" class="text-danger" />
+            </small>
+            <select asp-for="@Model.VarietyId" class="form-select" aria-required="true">
                 @foreach (SelectListItem variety in Model.VarietyOptions)
                 {
                     <option value="@variety.Value">@variety.Text</option>
                 }
             </select>
-            <small>
-                <span asp-validation-for="@Model.VarietyId" class="text-danger" />
-            </small>            
         </div>
     </div>
 
@@ -190,7 +202,7 @@
             <label asp-for="@Model.PlantedOnDate" class="form-label fw-bold">Planted On</label>
         </div>
         <div class="col-9 col-lg-3 mb-2">
-            <input type="date" asp-for="@Model.PlantedOnDate" value="@DateTime.Now" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <input type="date" asp-for="@Model.PlantedOnDate" value="@(Model.PlantedOnDate != null ? Model.PlantedOnDate.Value.ToString("yyyy-MM-dd") : DateTime.Now)" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
             <small>
                 <span asp-validation-for="@Model.PlantedOnDate" class="text-danger" />
             </small>
@@ -202,7 +214,7 @@
             <label asp-for="@Model.SowedOnDate" class="form-label fw-bold">Sowed On</label>
         </div>
         <div class="col-9 col-lg-3 mb-2">
-            <input type="date" asp-for="@Model.SowedOnDate" value="@DateTime.Now" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <input type="date" asp-for="@Model.SowedOnDate" value="@(Model.SowedOnDate != null ? Model.SowedOnDate.Value.ToString("yyyy-MM-dd") : DateTime.Now)" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
             <small>
                 <span asp-validation-for="@Model.SowedOnDate" class="text-danger" />
             </small>
@@ -214,7 +226,7 @@
             <label asp-for="@Model.GraftedOnDate" class="form-label fw-bold">Grafted On</label>
         </div>
         <div class="col-9 col-lg-3 mb-2">
-            <input type="date" asp-for="@Model.GraftedOnDate" value="@DateTime.Now" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <input type="date" asp-for="@Model.GraftedOnDate" value="@(Model.GraftedOnDate != null ? Model.GraftedOnDate.Value.ToString("yyyy-MM-dd") : DateTime.Now)" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
             <small>
                 <span asp-validation-for="@Model.GraftedOnDate" class="text-danger" />
             </small>
@@ -226,9 +238,10 @@
 
     <div class="row">
         <button asp-controller="Specimen"
-                asp-action="Create"
+                asp-action="@Model.FormTexts.SubmitAction"
+                asp-route-id="@Model.SpecimenId"
                 class="btn btn-outline-success col-2 col-xl-1 offset-10 offset-xl-11">
-            <span>Create</span>
+            <span>@Model.FormTexts.SubmitButtonValue</span>
         </button>
     </div>
 

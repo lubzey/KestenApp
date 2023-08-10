@@ -34,5 +34,7 @@
 
         [ValidateNever]
         public IEnumerable<SelectListItem> VarietyOptions { get; set; } = null!;
+
+        public Guid? SpecimenId { get; set; }
     }
 }

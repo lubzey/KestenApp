@@ -2,25 +2,25 @@
 {
     public class FormTextsModel
     {
-        public string AspAction { get; }
-        public string AspActionRedirect { get; }
-        public string SubmitButtonText { get; }
+        public string SubmitAction { get; }
+        public string BackToAction { get; }
+        public string SubmitButtonValue { get; }
         public string PageTitle { get; }
 
         public FormTextsModel(string type, bool hasId = false)
         {
             if (hasId)
             {
-                AspAction = "Edit";
-                AspActionRedirect = "Details";
-                SubmitButtonText = "Save";
+                SubmitAction = "Edit";
+                BackToAction = "Details";
+                SubmitButtonValue = "Save";
                 PageTitle = $"Edit {type}";                
             }
             else
             {
-                AspAction = "Add";
-                AspActionRedirect = "List";
-                SubmitButtonText = "Create";
+                SubmitAction = "Add";
+                BackToAction = "List";
+                SubmitButtonValue = "Create";
                 PageTitle = $"Create {type}";
             }
         }

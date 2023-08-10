@@ -158,11 +158,6 @@
             //Other errors
             if (!ModelState.IsValid)
             {
-                var errors = ModelState
-                    .Select(x => x.Value?.Errors)
-                    .Where(e => e?.Count > 0)
-                    .ToList();
-
                 return View("Form", formModel);
             }
 

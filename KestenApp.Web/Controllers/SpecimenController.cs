@@ -10,7 +10,7 @@
     using KestenApp.Web.ViewModels.Garden;
     using Newtonsoft.Json;
     using KestenApp.Data.Models;
-    using Microsoft.EntityFrameworkCore.Metadata.Internal;
+    using KestenApp.Web.ViewModels.Varieties;
 
     public class SpecimenController : BaseController
     {
@@ -74,12 +74,11 @@
         public async Task<IActionResult> Add()
         {
             string userId = GetUserId();
-
             IEnumerable<SelectListItem> gardens = await _gardenService.GetUserGardensAsync(userId);
 
             if (!gardens.Any())
             {
-                return RedirectToAction("AddError", "Specimen");
+                return RedirectToAction("Create", "Garden");
             }
             else if (gardens.Count() == 1)
             {
@@ -185,11 +184,61 @@
             return RedirectToAction("Details", "Specimen", new { id = newSpecimenIndex });
         }
 
-        //Private
-        private async Task RenderFormDetails(DetailsFormModel model)
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Edit([FromRoute] Guid id)
         {
-            model.FormTexts = new FormTextsModel("Specimen");
+            SpecimenDetailsModel specimen = await _specimenService
+                .GetDetailsViewByIdAsync(id);
+
+            //Empty form
+            DetailsFormModel model = new DetailsFormModel()
+            {
+                GardenId = specimen.Garden.GardenId,
+                Row = specimen.Row,
+                Column = specimen.Column,
+                SpecimenId = specimen.SpecimenId,
+                SpecimenName = specimen.SpecimenName,
+                VarietyId = specimen.Variety?.VarietyId,
+                Elevation = specimen.Elevation,
+                PlantedOnDate = specimen.PlantedOnDate,
+                SowedOnDate = specimen.SowedOnDate,
+                GraftedOnDate = specimen.GraftedOnDate
+            };
+            await RenderFormDetails(model, true);
+
+            return View("DetailsForm", model);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit([FromForm] DetailsFormModel formModel, [FromRoute] Guid id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Form", formModel);
+            }
+
+            //Update existing variety
+            if (!(await _specimenService.UpdateSpecimenAsync(id, formModel)))
+            {
+                return RedirectToAction("List", "Specimen");
+            }
+
+            return RedirectToAction("Details", "Specimen", new { id });
+        }
+
+
+        //Private
+        private async Task RenderFormDetails(DetailsFormModel model, bool isEdit = false)
+        {
+            model.FormTexts = new FormTextsModel("Specimen", isEdit);
             model.Garden = await _gardenService.GetGardenWithUsedPositionsAsync(model.GardenId);
+            if (isEdit)
+            {
+                model.Garden.Specimens[model.Row - 1, model.Column - 1].BackgroundColor += " border-4 border-success";
+            }
             model.VarietyOptions = await _varietyService.GenerateSpecimenVarietyOptionsAsync();
         }
 
