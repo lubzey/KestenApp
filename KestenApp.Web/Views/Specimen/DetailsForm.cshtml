@@ -153,7 +153,7 @@
         <partial name="_SectionTitle" model='"Details"' />
 
         <div class="col-2 text-lg-end fw-bold mb-2 mt-auto">
-            <label asp-for="@Model.SpecimenName" class="form-label fw-bold">Specimen Name</label>
+            <label asp-for="@Model.SpecimenName" class="form-label fw-bold">Name</label>
         </div>
         <div class="col-9 col-lg-3 mb-2">
             <input asp-for="@Model.SpecimenName" class="form-control" aria-required="true" />
@@ -226,7 +226,7 @@
             <label asp-for="@Model.GraftedOnDate" class="form-label fw-bold">Grafted On</label>
         </div>
         <div class="col-9 col-lg-3 mb-2">
-            <input type="date" asp-for="@Model.GraftedOnDate" value="@(Model.GraftedOnDate != null ? Model.GraftedOnDate.Value.ToString("yyyy-MM-dd") : DateTime.Now)" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <input type="date" placeholder="select" asp-for="@Model.GraftedOnDate" value="@(Model.GraftedOnDate != null ? Model.GraftedOnDate.Value.ToString("yyyy-MM-dd") : DateTime.Now)" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
             <small>
                 <span asp-validation-for="@Model.GraftedOnDate" class="text-danger" />
             </small>

@@ -1,0 +1,91 @@
+﻿@using KestenApp.Web.ViewModels.Garden;
+@model FormModel
+
+@{
+    ViewData["Title"] = @Model.FormTexts.PageTitle;
+}
+
+<form asp-action="DetailsForm" method="post">
+    @Html.AntiForgeryToken()
+
+    @*Header*@
+    <div class="row">
+
+        <div class="col-10 offset-xl-1">
+            <h2 class="fw-bold mb-2">
+                @Model.FormTexts.PageTitle
+            </h2>
+        </div>
+
+        <div class="col-2 col-lg-1">
+            <div class="row no-gutters">
+                <a asp-controller="Garden"
+                   asp-action="@Model.FormTexts.BackToAction"
+                   asp-route-id="@Model.GardenId"
+                   class="btn mr-1 btn-outline-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"></path>
+                    </svg>
+                    <span>Back</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+        <partial name="_SectionTitle" model='"Details"' />
+
+        <div class="col-2 text-lg-end fw-bold mb-2 mt-auto">
+            <label asp-for="@Model.GardenName" class="form-label fw-bold">Name</label>
+        </div>
+        <div class="col-9 col-lg-3 mb-2">
+            <input asp-for="@Model.GardenName" class="form-control" aria-required="true" />
+            <small>
+                <span asp-validation-for="@Model.GardenName" class="text-danger" />
+            </small>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2 offset-lg-1 text-lg-end fw-bold mb-2 mt-auto">
+            <label asp-for="@Model.TotalRows" class="form-label fw-bold">Rows</label>
+        </div>
+        <div class="col-9 col-lg-3 mb-2">
+            <input asp-for="@Model.TotalRows" class="form-control" aria-required="true" />
+            <small>
+                <span asp-validation-for="@Model.TotalRows" class="text-danger" />
+            </small>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-2 offset-lg-1 text-lg-end fw-bold mb-2 mt-auto">
+            <label asp-for="@Model.TotalColumns" class="form-label fw-bold">Columns</label>
+        </div>
+        <div class="col-9 col-lg-3 mb-2">
+            <input asp-for="@Model.TotalColumns" class="form-control" aria-required="true" />
+            <small>
+                <span asp-validation-for="@Model.TotalColumns" class="text-danger" />
+            </small>
+        </div>
+    </div>
+
+    <hr />
+
+
+
+    <div class="row">
+        <button asp-controller="Garden"
+                asp-action="@Model.FormTexts.SubmitAction"
+                asp-route-id="@Model.GardenId"
+                class="btn btn-outline-success col-2 col-xl-1 offset-10 offset-xl-11">
+            <span>@Model.FormTexts.SubmitButtonValue</span>
+        </button>
+    </div>
+
+</form>
+
+
+

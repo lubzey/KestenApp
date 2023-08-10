@@ -31,9 +31,30 @@
             GardenDetailsModel detailsModel = await _gardenService
                 .GetDetailsViewByIdAsync(id);
 
-            //string contentRootPath = _environment.WebRootPath;
 
             return View(detailsModel);
         }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            GardenDetailsModel garden = await _gardenService
+                .GetDetailsViewByIdAsync(id);
+
+            FormModel model = new FormModel
+            {
+                GardenId = id,
+                FormTexts = new ViewModels.FormTextsModel("Garden", true),
+                GardenName = garden.GardenName,
+                TotalRows = garden.TotalRows,
+                TotalColumns = garden.TotalColumns
+            };
+
+
+
+            return View("Form", model);
+        }
+
     }
 }
