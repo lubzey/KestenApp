@@ -94,22 +94,23 @@
     @if (Model.GardenVarieties.Any())
     {
         <div class="col-xs-12 col-lg-10 offset-lg-1">
+            <hr class="mb-0" style="color: black; background-color:black; opacity: 1;" />
             <table class="table">
                 @*Titles*@
                 <thead>
                     <tr>
-                        <th scope="col">
+                        <th scope="col" class="table-light">
                             Name
                         </th>
 
                         @foreach (int? year in Model.GardenYears)
                         {
-                            <th scope="col">
+                            <th scope="col" class="table-light">
                                 @year
                             </th>
                         }
 
-                        <th scope="col" class="table-success">
+                        <th scope="col" class="table-light">
                             Total
                         </th>
                     </tr>
@@ -130,7 +131,7 @@
                             </td>
                         }
 
-                        <th scope="row" class="table-success">
+                        <th scope="row">
                             @Model.YearVarieties.Where(s => s.VarietyName == varietyName).Count()
                         </th>
                     </tr>
@@ -138,18 +139,18 @@
 
                 @*Totals*@
                 <tr>
-                    <th scope="row" class="table-success">
+                    <th scope="row" class="table-light">
                         Total
                     </th>
 
                     @foreach (int? year in Model.GardenYears)
                     {
-                        <th scope="row" class="table-success">
+                        <th scope="row" class="table-light">
                             @Model.YearVarieties.Where(s => s.Year == year).Count()
                         </th>
                     }
 
-                    <th scope="row" class="table-success">
+                    <th scope="row" class="table-light">
                         @Model.YearVarieties.Count()
                     </th>
                 </tr>
@@ -217,10 +218,17 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Row\Column</th>
+                        <th class="bg-light p-1">
+                            <p class="mb-0 d-flex justify-content-end">
+                                Column
+                            </p>
+                            <p class="mb-0">
+                                Row
+                            </p>
+                        </th>
                         @for (int col = 1; col <= Model.TotalColumns; col++)
                         {
-                            <th scope="col" class="text-center">@col</th>
+                            <th scope="col" class="text-center align-top bg-light">@col</th>
                         }
                     </tr>
                 </thead>
@@ -228,7 +236,7 @@
                     @for (int row = 1; row <= Model.TotalRows; row++)
                     {
                         <tr>
-                            <th scope="row" class="col-1">
+                            <th scope="row" class="col-1 bg-light">
                                 @row
                             </th>
 
@@ -236,20 +244,21 @@
                             {
                                 @if (Model.Specimens[row - 1, col - 1] != null)
                                 {
-                                    <td class="col-1 text-center @Model.Specimens[row - 1,col - 1].BackgroundColor">
-                                        <a asp-controller="Specimen" asp-action="Details"
-                           asp-route-id="@Model.Specimens[row - 1,col - 1].SpecimenId"
+                                    <td class="col-1 text-center align-middle p-1 @Model.Specimens[row - 1,col - 1].BackgroundColor">
+                                        <a asp-controller="Specimen" asp-action="Details" asp-route-id="@Model.Specimens[row - 1,col - 1].SpecimenId"
                                            class="text-decoration-none text-dark fw-bold">
                                             @Model.Specimens[row - 1,col - 1].Name
                                         </a>
-
+                                        <br>
                                         <small>@Model.Specimens[row - 1,col - 1].Year</small>
                                     </td>
                                 }
                                 else
                                 {
-                                    <td class="col-1 text-center">
-                                        -
+                                    <td class="col-1 align-middle">
+                                        <div class="d-flex justify-content-center m-2">
+                                            -
+                                        </div>
                                     </td>
                                 }
                             }

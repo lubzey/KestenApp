@@ -96,9 +96,13 @@
                         {
                             @if (Model.Specimens[row - 1, col - 1] != null)
                             {
-                                <td class="col-1 text-center @Model.Specimens[row - 1,col - 1].BackgroundColor">
-                                    @Model.Specimens[row - 1,col - 1].Name
-                                    <small>@Model.Specimens[row - 1,col - 1].Year</small>
+                                <td class="col-1 align-middle text-center p-0 @Model.Specimens[row - 1,col - 1].BackgroundColor">
+                                    <div class="fw-bold">
+                                        @Model.Specimens[row - 1,col - 1].Name
+                                    </div>
+                                    <div class="">
+                                        @Model.Specimens[row - 1,col - 1].Year
+                                    </div>
                                 </td>
                             }
                             else

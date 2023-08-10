@@ -107,21 +107,22 @@
                         {
                             @if (Model.Garden.Specimens[row - 1, col - 1] != null)
                             {
-                                <td class="col-1 text-center
-                                    @Model.Garden.Specimens[row - 1,col - 1].BackgroundColor">
-
-                                    @Model.Garden.Specimens[row - 1,col - 1].Name
-                                    <br>@Model.Garden.Specimens[row - 1,col - 1].Year
+                                <td class="col-1 align-middle text-center p-0 @Model.Garden.Specimens[row - 1,col - 1].BackgroundColor">
+                                    <div class="fw-bold">
+                                        @Model.Garden.Specimens[row - 1,col - 1].Name
+                                    </div>
+                                    <div class="">
+                                        @Model.Garden.Specimens[row - 1,col - 1].Year
+                                    </div>
                                 </td>
                             }
                             else
                             {
-                                @if ((Model.Row == row && Model.Column == col)
-                               && (Model.SpecimenId == null || Model.SpecimenId == Guid.Empty))
+                                @if ((Model.Row == row && Model.Column == col) && (Model.SpecimenId == null || Model.SpecimenId == Guid.Empty))
                                 {
                                     <td class="col-1 text-center bg-success bg-opacity-75">
                                         <div class="d-flex justify-content-center">
-                                            <p class="mt-3 mb-3 text-white">
+                                            <p class="mt-3 mb-3 text-white fw-bold">
                                                 NEW
                                             </p>
                                         </div>
