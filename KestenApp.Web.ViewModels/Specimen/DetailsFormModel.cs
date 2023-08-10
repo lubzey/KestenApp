@@ -21,7 +21,7 @@
         [Range(0, 5000)]
         public int? Elevation { get; set; }
 
-        public DateTime? PlantedOnDate { get; set; } = DateTime.Now;
+        public DateTime? PlantedOnDate { get; set; }
         public DateTime? SowedOnDate { get; set; }
         public DateTime? GraftedOnDate { get; set; }
 

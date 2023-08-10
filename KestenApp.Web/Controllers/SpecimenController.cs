@@ -158,13 +158,13 @@
             };
             await RenderFormDetails(model);
 
-            return View(model);
+            return View("Form", model);
         }
 
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
+        public async Task<IActionResult> Add(
             [FromForm] DetailsFormModel model)
         {
             //Other errors
@@ -172,7 +172,7 @@
             {
                 await RenderFormDetails(model);
 
-                return View("DetailsForm", model);
+                return View("Form", model);
             }
 
             //Create a new specimen
@@ -205,7 +205,7 @@
             };
             await RenderFormDetails(model, true);
 
-            return View("DetailsForm", model);
+            return View("Form", model);
         }
 
         [HttpPost]
