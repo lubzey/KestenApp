@@ -1,5 +1,5 @@
-﻿@using KestenApp.Data.Enums;
-@using KestenApp.Web.ViewModels.Varieties;
+﻿@using KestenApp.Web.ViewModels.Variety;
+
 @model VarietyFormModel
 
 @{
@@ -7,7 +7,6 @@
 }
 
 <form asp-action="@Model.FormTexts.SubmitAction" method="post">
-    @Html.AntiForgeryToken()
 
     @*Header*@
     <div class="row">

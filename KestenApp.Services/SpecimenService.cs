@@ -7,7 +7,6 @@
     using KestenApp.Data.Models;
     using KestenApp.Services.Contracts;
     using KestenApp.Web.ViewModels.Specimen;
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
     public class SpecimenService : ISpecimenService
     {
@@ -49,20 +48,38 @@
                 TotalCount = totalCount,
                 CurrentPage = currentPage,
                 CountPerPage = countPerPage,
-                Specimens = specimens.Select(v => ConstructSpecimenModel(v)).ToList()
+                Specimens = specimens
+                    .Select(s => ConstructSpecimenModel(s)).ToList()
             };
         }
 
-        private SpecimenSummaryModel ConstructSpecimenModel(Specimen v)
+        public async Task<IEnumerable<SpecimenSummaryModel>> GetSpecimensOutOfRange(Guid gardenId, int row, int column)
+        {
+            IEnumerable<Specimen> specimensRaw = await _context.Specimens
+                .Where(s => s.GardenId == gardenId
+                    && s.IsActive
+                    && (s.Column > column || s.Row > row))
+                    .Include(s => s.Garden)
+                .AsNoTracking()
+                .ToArrayAsync();
+
+            List<SpecimenSummaryModel> specimensModel = specimensRaw
+                .Select(s => ConstructSpecimenModel(s)).ToList();
+
+            return specimensModel;
+        }
+
+        private SpecimenSummaryModel ConstructSpecimenModel(Specimen s)
         {
             return new SpecimenSummaryModel
             {
-                SpecimenId = v.SpecimenId,
-                SpecimenName = v.Name,
-                Year = v.Year,
-                Garden = v.Garden,
-                Variety = v.Variety,
-                User = v.User
+                SpecimenId = s.SpecimenId,
+                SpecimenName = s.Name,
+                Year = s.Year,
+                Garden = s.Garden,
+                Row = s.Row,
+                Column = s.Column,
+                Variety = s.Variety
             };
         }
 
@@ -96,6 +113,19 @@
             await this._context.SaveChangesAsync();
         }
 
+        public async Task ArchiveByIdsAsync(IEnumerable<string> ids)
+        {
+            List<Specimen> specimens = await this._context
+                .Specimens
+                .Where(s => ids.Contains(s.SpecimenId.ToString()))
+                .ToListAsync();
+
+            specimens.ForEach(s => s.IsActive = false);
+
+            //_context.UpdateRange(specimens);
+            await this._context.SaveChangesAsync();
+        }
+
         //Add
         public async Task<Guid> AddSpecimenAsync(DetailsFormModel model, Guid userId)
         {
@@ -104,10 +134,10 @@
                 UserId = userId,
                 VarietyId = model.VarietyId,
 
-                GardenId = model.GardenId,                
+                GardenId = model.GardenId,
                 Row = model.Row,
                 Column = model.Column,
-                Name = model.SpecimenName,                
+                Name = model.SpecimenName,
                 Elevation = model.Elevation,
                 PlantedOnDate = model.PlantedOnDate,
                 SowedOnDate = model.SowedOnDate,

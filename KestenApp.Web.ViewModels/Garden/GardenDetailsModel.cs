@@ -16,22 +16,24 @@ namespace KestenApp.Web.ViewModels.Garden
         {
             get
             {
-                return YearVarieties
+                var x = YearVarieties
                     .GroupBy(s => s.VarietyName)
                     .Select(g => g.Key)
                     .OrderBy(x => x)
                     .ToList();
+                return x;
             }
         }
         public IEnumerable<int?> GardenYears
         {
             get
             {
-                return YearVarieties
+                var x = YearVarieties
                     .GroupBy(s => s.Year)
                     .Select(g => g.Key)
                     .OrderBy(x => x)
                     .ToList();
+                return x;
             }
         }
         public IEnumerable<GardenDetailsYearSpecimens> YearVarieties { get; set; } = Enumerable.Empty<GardenDetailsYearSpecimens>();

@@ -31,12 +31,9 @@
         }
     </td>
     <td class="text-center">
-        @if (Model.User != null)
-        {
-            <a asp-controller="Gardener"
-           asp-action="Details"
-           asp-route-id="@Model.User.UserName"
-               class="text-decoration-none text-dark">@Model.User.UserName</a>
-        }
+        @Model.Row
+    </td>
+    <td class="text-center">
+        @Model.Column
     </td>
 </tr>

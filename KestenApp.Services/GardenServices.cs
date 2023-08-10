@@ -26,10 +26,11 @@
         {
             IQueryable<Garden> specimensQuery = _context
                 .Gardens
-                .Include(g => g.Specimens)
+                .Include(g => g.Specimens.Where(s => s.IsActive))
                     .ThenInclude(s => s.Variety)
                 .Include(g => g.User)
-                .Where(g => g.IsPublished == isPublished);
+                .Where(g => g.IsPublished == isPublished)
+                .AsNoTracking();
 
             specimensQuery = sorting switch
             {
@@ -88,10 +89,17 @@
                         Year = sp.Year,
                         SpecimenId = sp.SpecimenId,
                         BackgroundColor = GetBackgroundColorByPollen(sp.Variety?.PollenType)
-
                     };
                 });
 
+            List<GardenDetailsYearSpecimens> yearVarieties = garden.Specimens
+                .GroupBy(s => new { s.Year, s.Variety?.Name })
+                .Select(g => new GardenDetailsYearSpecimens
+                {
+                    Year = g.Key.Year,
+                    VarietyName = g.Key.Name ?? "",
+                    Count = g.Count()
+                }).ToList();
 
             return new GardenDetailsModel
             {
@@ -103,14 +111,7 @@
                 IsPublished = garden.IsPublished,
                 TotalRows = garden.TotalRows,
                 TotalColumns = garden.TotalColumns,
-                YearVarieties = garden.Specimens
-                    .GroupBy(s => new { s.Year, s.Variety?.Name })
-                    .Select(g => new GardenDetailsYearSpecimens
-                    {
-                        Year = g.Key.Year,
-                        VarietyName = g.Key.Name ?? "",
-                        Count = g.Count()
-                    }).ToList(),
+                YearVarieties = yearVarieties,
                 Specimens = specimensSchema
             };
         }

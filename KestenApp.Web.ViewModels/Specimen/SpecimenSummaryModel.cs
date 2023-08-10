@@ -10,5 +10,7 @@
         public Variety? Variety { get; set; }
         public Garden Garden { get; set; } = null!;
         public ApplicationUser User { get; set; } = null!;
+        public int Row { get; set; }
+        public int Column { get; set; }
     }
 }

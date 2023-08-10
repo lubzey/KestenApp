@@ -1,4 +1,4 @@
-﻿namespace KestenApp.Web.ViewModels.Varieties
+﻿namespace KestenApp.Web.ViewModels.Variety
 {
     using KestenApp.Data.Enums.EnumHelpers;
     using KestenApp.Data.Models;
@@ -70,7 +70,7 @@
             //AddKeyValuePairToCollection(Fruit, "Hilum Size*", "Small, Medium, Large");
             //AddKeyValuePairToCollection(Fruit, "Shell Type*", "Fuzzy, Shiny?");
 
-            
+
         }
 
         private void AddKeyValuePairToCollection(List<KeyValuePair<string, string>> collection, string key, string? value)

@@ -6,10 +6,10 @@
     using KestenApp.Data.Enums;
     using KestenApp.Data.Models;
     using KestenApp.Services.Contracts;
-    using KestenApp.Web.ViewModels.Varieties;
     using KestenApp.Data.Enums.EnumHelpers;
     using KestenApp.Web.ViewModels;
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using KestenApp.Web.ViewModels.Variety;
 
     public class VarietyService : IVarietyService
     {

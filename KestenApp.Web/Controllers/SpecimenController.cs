@@ -163,7 +163,6 @@
 
         [HttpPost]
         [Authorize]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(
             [FromForm] DetailsFormModel model)
         {
@@ -210,7 +209,6 @@
 
         [HttpPost]
         [Authorize]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([FromForm] DetailsFormModel formModel, [FromRoute] Guid id)
         {
             if (!ModelState.IsValid)

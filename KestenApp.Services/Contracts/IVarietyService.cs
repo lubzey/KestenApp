@@ -3,7 +3,7 @@
     using KestenApp.Data.Enums;
     using KestenApp.Data.Models;
     using KestenApp.Web.ViewModels;
-    using KestenApp.Web.ViewModels.Varieties;
+    using KestenApp.Web.ViewModels.Variety;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
     public interface IVarietyService

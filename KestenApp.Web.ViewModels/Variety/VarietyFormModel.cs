@@ -1,4 +1,4 @@
-﻿namespace KestenApp.Web.ViewModels.Varieties
+﻿namespace KestenApp.Web.ViewModels.Variety
 {
     using System.ComponentModel.DataAnnotations;
 
@@ -98,7 +98,7 @@
         [ValidateNever]
         public IEnumerable<DropdownModel> PeelingOptions { get; set; } = null!;
         [ValidateNever]
-        public IEnumerable<DropdownModel> ConservationOptions { get; set; } = null!;        
+        public IEnumerable<DropdownModel> ConservationOptions { get; set; } = null!;
         [ValidateNever]
         public IEnumerable<BooleanDropdownModel> IsMarronOptions { get; set; } = null!;
 

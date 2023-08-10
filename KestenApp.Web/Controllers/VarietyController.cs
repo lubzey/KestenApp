@@ -4,8 +4,8 @@
     using Microsoft.AspNetCore.Mvc;
 
     using KestenApp.Services.Contracts;
-    using KestenApp.Data.Models;    
-    using KestenApp.Web.ViewModels.Varieties;
+    using KestenApp.Data.Models;
+    using KestenApp.Web.ViewModels.Variety;
 
     public class VarietyController : BaseController
     {
@@ -91,7 +91,6 @@
 
         [HttpPost]
         [Authorize]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add([FromForm] VarietyFormModel formModel)
         {
             Variety? variety = await _varietyService
@@ -136,7 +135,6 @@
 
         [HttpPost]
         [Authorize]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([FromForm] VarietyFormModel formModel, [FromRoute] Guid id)
         {
             Variety? variety = await _varietyService

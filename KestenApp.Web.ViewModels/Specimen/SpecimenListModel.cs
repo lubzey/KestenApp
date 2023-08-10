@@ -3,13 +3,14 @@
     public class SpecimenListModel
     {
         public readonly List<string> HeaderTitles = new List<string>
-            {
-                "Name",
-                "Variety",
-                "Year",
-                "Garden",                
-                "User"
-            };
+        {
+            "Name",
+            "Variety",
+            "Year",
+            "Garden",
+            "Row",
+            "Column"
+        };
 
         public int TotalCount { get; set; }
         public int CurrentPage { get; set; }

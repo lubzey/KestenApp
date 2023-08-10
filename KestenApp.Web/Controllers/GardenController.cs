@@ -5,16 +5,18 @@
 
     using KestenApp.Services.Contracts;
     using KestenApp.Web.ViewModels.Garden;
-    using KestenApp.Services;
+    using KestenApp.Web.ViewModels.Specimen;
 
     public class GardenController : BaseController
     {
         private readonly IGardenServices _gardenService;
+        private readonly ISpecimenService _specimenService;
 
         public GardenController(
-            IGardenServices specimenService)
+            IGardenServices gardenService, ISpecimenService specimenService)
         {
-            _gardenService = specimenService;
+            _gardenService = gardenService;
+            _specimenService = specimenService;
         }
 
         [Authorize]
@@ -27,11 +29,10 @@
         }
 
         [Authorize]
-        public async Task<IActionResult> Details([FromRoute]Guid id)
+        public async Task<IActionResult> Details([FromRoute] Guid id)
         {
             GardenDetailsModel detailsModel = await _gardenService
                 .GetDetailsViewByIdAsync(id);
-
 
             return View(detailsModel);
         }
@@ -65,7 +66,22 @@
             }
 
             //Validate specimen deletion if rows/cols are decreased
+            IEnumerable<SpecimenSummaryModel> specimensToArchive = await _specimenService
+                .GetSpecimensOutOfRange(id, model.TotalRows, model.TotalColumns);
 
+            if (specimensToArchive.Any())
+            {
+                ArchiveSpecimensModel archiveModel = new ArchiveSpecimensModel
+                {
+                    GardenId = id,
+                    Specimens = specimensToArchive,
+                    IdsToArchive = specimensToArchive
+                        .Select(s => s.SpecimenId.ToString())
+                        .ToList()
+                };
+
+                return View("ArchiveSpecimens", archiveModel);
+            }
 
             //Update existing variety
             string userId = GetUserId();
@@ -73,6 +89,15 @@
             {
                 return RedirectToAction("List", "Garden");
             }
+
+            return RedirectToAction("Details", "Garden", new { id });
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ArchiveSpecimens([FromRoute] Guid id, [FromForm] ArchiveSpecimensModel model)
+        {
+            await _specimenService.ArchiveByIdsAsync(model.IdsToArchive);
 
             return RedirectToAction("Details", "Garden", new { id });
         }

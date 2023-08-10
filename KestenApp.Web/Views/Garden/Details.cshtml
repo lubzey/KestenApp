@@ -106,7 +106,7 @@
                         @foreach (int? year in Model.GardenYears)
                         {
                             <th scope="col" class="table-light">
-                                @year
+                                @(year == null ? "Unknown" : year.ToString() )
                             </th>
                         }
 
@@ -121,18 +121,18 @@
                 {
                     <tr>
                         <th scope="row">
-                            @varietyName
+                            @(string.IsNullOrEmpty(varietyName) ? "Unknown" : varietyName)
                         </th>
 
                         @foreach (int? year in Model.GardenYears)
                         {
                             <td scope="row">
-                                @Model.YearVarieties.Where(s => s.Year == year && s.VarietyName == varietyName).Count()
+                                @Model.YearVarieties.FirstOrDefault(s => s.Year == year && s.VarietyName == varietyName)?.Count
                             </td>
                         }
 
                         <th scope="row">
-                            @Model.YearVarieties.Where(s => s.VarietyName == varietyName).Count()
+                            @Model.YearVarieties.FirstOrDefault(s => s.VarietyName == varietyName)?.Count
                         </th>
                     </tr>
                 }
@@ -146,12 +146,12 @@
                     @foreach (int? year in Model.GardenYears)
                     {
                         <th scope="row" class="table-light">
-                            @Model.YearVarieties.Where(s => s.Year == year).Count()
+                            @Model.YearVarieties.FirstOrDefault(s => s.Year == year)?.Count
                         </th>
                     }
 
                     <th scope="row" class="table-light">
-                        @Model.YearVarieties.Count()
+                        @Model.YearVarieties.Select(x => x.Count).Sum()
                     </th>
                 </tr>
 
@@ -266,8 +266,6 @@
                     }
                 </tbody>
             </table>
-
-
         </div>
     </div>
 }
