@@ -43,6 +43,12 @@ namespace KestenApp.Web
                 .AddRoles<IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<KestenDbContext>();
 
+            builder.Services.ConfigureApplicationCookie(cfg =>
+            {
+                cfg.LoginPath = "/User/Login";
+                cfg.AccessDeniedPath = "/Home/Error/401";
+            });
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 

@@ -73,11 +73,11 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> Login(string? returnUrl = null)
+        public async Task<IActionResult> Login([FromQuery] string? returnUrl)
         {
             if (User.Identity?.IsAuthenticated ?? false)
             {
-                return RedirectToAction("List", "Variety");
+                return View("Error401");
             }
 
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
@@ -109,7 +109,9 @@
                 return View(model);
             }
 
-            return Redirect(model.ReturnUrl ?? "/Variety/List");
+            return model.ReturnUrl != null
+                ? Redirect(model.ReturnUrl)
+                : RedirectToAction("List", "Variety");
         }
 
         [HttpGet]

@@ -21,14 +21,9 @@
             _environment = environment; //Needed to get local path to images in case of file deletion
         }
 
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> List()
         {
-            if (!User.Identity?.IsAuthenticated ?? false)
-            {
-                return RedirectToAction("Login", "User");
-            }
-
             VarietyListModel listViewModel = await _varietyService
                 .AllVarietiesAsync(currentPage: 1);
 
