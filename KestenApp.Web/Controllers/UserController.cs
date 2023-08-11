@@ -27,6 +27,11 @@
         [HttpGet]
         public IActionResult Register()
         {
+            if (User.Identity?.IsAuthenticated ?? false)
+            {
+                return RedirectToAction("List", "Variety");
+            }
+
             return View();
         }
 
@@ -64,12 +69,17 @@
             await signInManager.SignInAsync(user, false);
             //this.memoryCache.Remove(UsersCacheKey);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("List", "Variety");
         }
 
         [HttpGet]
         public async Task<IActionResult> Login(string? returnUrl = null)
         {
+            if (User.Identity?.IsAuthenticated ?? false)
+            {
+                return RedirectToAction("List", "Variety");
+            }
+
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             LoginFormModel model = new LoginFormModel()
@@ -81,7 +91,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginFormModel model)
+        public async Task<IActionResult> Login([FromForm] LoginFormModel model)
         {
             if (!ModelState.IsValid)
             {
