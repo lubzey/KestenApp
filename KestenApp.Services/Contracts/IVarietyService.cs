@@ -1,10 +1,11 @@
 ﻿namespace KestenApp.Services.Contracts
 {
+    using Microsoft.AspNetCore.Mvc.Rendering;
+
     using KestenApp.Data.Enums;
     using KestenApp.Data.Models;
     using KestenApp.Web.ViewModels;
     using KestenApp.Web.ViewModels.Variety;
-    using Microsoft.AspNetCore.Mvc.Rendering;
 
     public interface IVarietyService
     {

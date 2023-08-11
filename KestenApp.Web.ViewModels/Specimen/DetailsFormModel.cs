@@ -6,19 +6,23 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using static KestenApp.Common.EntityValidationConstants;
 
     public class DetailsFormModel
     {
         public Guid GardenId { get; set; }
-        [Range(0, 1000)]
+
+        [Range(GardenConstants.MinRowColumns, GardenConstants.MaxRowColumns)]
         public int Row { get; set; }
-        [Range(0, 1000)]
+
+        [Range(GardenConstants.MinRowColumns, GardenConstants.MaxRowColumns)]
         public int Column { get; set; }
 
         //Details
         public string? SpecimenName { get; set; }
         public Guid? VarietyId { get; set; }
-        [Range(0, 5000)]
+
+        [Range(GardenConstants.MinElevation, GardenConstants.MaxElevation)]
         public int? Elevation { get; set; }
 
         public DateTime? PlantedOnDate { get; set; }

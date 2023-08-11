@@ -24,6 +24,21 @@
         {
             public const int NameMinLength = 2;
             public const int NameMaxLength = 30;
+
+            public const int MinRowColumns = 0;
+            public const int MaxRowColumns = 5;
+
+            public const int MinElevation = 0;
+            public const int MaxElevation = 5000;
+        }
+
+        public static class UserConstants
+        {
+            public const int NameMinLength = 2;
+            public const int NameMaxLength = 20;
+
+            public const int PasswordMinLength = 6;
+            public const int PasswordMaxLength = 100;
         }
     }
 }
