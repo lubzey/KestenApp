@@ -29,7 +29,7 @@
                 .Include(g => g.Specimens.Where(s => s.IsActive))
                     .ThenInclude(s => s.Variety)
                 .Include(g => g.User)
-                .Where(g => g.IsPublished == isPublished)
+                .Where(g => g.IsPublished == isPublished && g.IsActive)
                 .AsNoTracking();
 
             specimensQuery = sorting switch
@@ -269,6 +269,24 @@
             await _context.SaveChangesAsync();
 
             return garden.GardenId;
+        }
+
+        public async Task ArchiveByIdAsync(Guid id, bool restore = false)
+        {
+            Garden garden = await this._context
+                .Gardens
+                .FirstAsync(h => h.GardenId == id);
+
+            if (restore)
+            {
+                garden.IsActive = true;
+            }
+            else
+            {
+                garden.IsActive = false;
+            }
+
+            await this._context.SaveChangesAsync();
         }
     }
 }

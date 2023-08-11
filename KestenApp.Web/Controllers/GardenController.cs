@@ -28,6 +28,7 @@
             return View(listViewModel);
         }
 
+        
         [Authorize]
         public async Task<IActionResult> Details([FromRoute] Guid id)
         {
@@ -35,6 +36,24 @@
                 .GetDetailsViewByIdAsync(id);
 
             return View(detailsModel);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Archive(Guid id)
+        {
+            await _gardenService
+                .ArchiveByIdAsync(id);
+
+            return RedirectToAction("Details", "Garden", new { id });
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Restore(Guid id)
+        {
+            await _gardenService
+                .ArchiveByIdAsync(id, true);
+
+            return RedirectToAction("Details", "Garden", new { id });
         }
 
         [HttpGet]
