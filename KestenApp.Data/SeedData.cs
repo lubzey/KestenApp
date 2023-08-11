@@ -53,16 +53,19 @@
 
             var hasher = new PasswordHasher<ApplicationUser>();
             var adminEmail = "lubzdudz@gmail.com";
+            var adminUser = "Lyubomir D.";
             var expertEmail = "jn@chestnut.com";
+            var expertUser = "JN";
             var userEmail = "user@chestnut.com";
+            var userName = "Lorem Ipsum";
 
             applicationUsers = new List<ApplicationUser>
             {
                 new ApplicationUser
                 {
                     Id = Guid.Parse("09E77621-FAC4-4150-B64C-3E5C2B1A40EE"),
-                    UserName = adminEmail,
-                    NormalizedUserName = adminEmail.ToUpper(),
+                    UserName = adminUser,
+                    NormalizedUserName = adminUser.ToUpper(),
                     PasswordHash = hasher.HashPassword(null!, "123456a!"),
                     Email = adminEmail,
                     NormalizedEmail = adminEmail.ToUpper(),
@@ -72,8 +75,8 @@
                 new ApplicationUser
                 {
                     Id = Guid.Parse("8a5f6807-b43f-40fa-b836-e21874e67d51"),
-                    UserName = expertEmail,
-                    NormalizedUserName = expertEmail.ToUpper(),
+                    UserName = expertUser,
+                    NormalizedUserName = expertUser.ToUpper(),
                     PasswordHash = hasher.HashPassword(null!, "jn123456!"),
                     Email = expertEmail,
                     NormalizedEmail = expertEmail.ToUpper(),
@@ -83,8 +86,8 @@
                 new ApplicationUser
                 {
                     Id = Guid.Parse("b0a8cb2c-4908-431e-a07b-f3ddd7b45bce"),
-                    UserName = userEmail,
-                    NormalizedUserName = userEmail.ToUpper(),
+                    UserName = userName,
+                    NormalizedUserName = userName.ToUpper(),
                     PasswordHash = hasher.HashPassword(null!, "temp123456!"),
                     Email = userEmail,
                     NormalizedEmail = userEmail.ToUpper(),
