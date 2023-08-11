@@ -1,0 +1,57 @@
+﻿@model LoginFormModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+
+<div class="row">
+    <h2>Login</h2>
+    <hr />
+    <div class="col-md-4">
+        <section>
+            <form id="account" method="post">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class="form-floating mb-3">
+                    <input asp-for="@Model.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                    <label asp-for="@Model.Email" class="form-label">Email</label>
+                    <span asp-validation-for="@Model.Email" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="@Model.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                    <label asp-for="@Model.Password" class="form-label">Password</label>
+                    <span asp-validation-for="@Model.Password" class="text-danger"></span>
+                </div>
+                <div class="checkbox mb-3">
+                    <label asp-for="RememberMe" class="form-label">
+                        <input class="form-check-input" asp-for="RememberMe" />
+                        @Html.DisplayNameFor(m => m.RememberMe)
+                    </label>
+                </div>
+                <div>
+                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-outline-success">Log in</button>
+                </div>
+                <br>
+            </form>
+        </section>
+    </div>
+    <div class="col-md-6 col-md-2 offset-md-2">
+        <p>
+            <h3>Don't have an accont yet?</h3>
+            <a asp-controller="User" asp-action="Register" class="text-decoration-none fw-bold text-success">
+                <h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="mb-2 bi bi-arrow-right-circle" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
+                    </svg>
+
+                    Register
+                </h3>
+            </a>
+        </p>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

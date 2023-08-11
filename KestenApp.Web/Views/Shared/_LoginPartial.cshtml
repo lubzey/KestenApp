@@ -16,7 +16,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <form title="Logout" id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
+        <form title="Logout" id="logoutForm" class="form-inline" asp-controller="User" asp-action="Logout" method="get">
             <button id="logout" type="submit" class="nav-link btn btn-link border-0">
                 @*Logout*@
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
@@ -30,7 +30,7 @@
 else
 {
     <li class="nav-item">
-        <a title="Register" class="nav-link @(Context.Request.Path == "/Identity/Account/Register"?"active":"")" id="register" asp-area="Identity" asp-page="/Account/Register">
+        <a title="Register" class="nav-link @(Context.Request.Path == "/User/Register"?"active":"")" asp-controller="User" asp-action="Register">
             @*Register*@
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
@@ -38,7 +38,7 @@ else
         </a>
     </li>
     <li class="nav-item">
-        <a title="Login" class="nav-link @(Context.Request.Path == "/Identity/Account/Login"?"active":"")" id="login" asp-area="Identity" asp-page="/Account/Login">
+        <a title="Login" class="nav-link @(Context.Request.Path == "/User/Login"?"active":"")" asp-controller="User" asp-action="Login">
             @*Login*@
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
                 <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z" />

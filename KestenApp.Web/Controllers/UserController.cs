@@ -99,7 +99,15 @@
                 return View(model);
             }
 
-            return Redirect(model.ReturnUrl ?? "/Home/Index");
+            return Redirect(model.ReturnUrl ?? "/Variety/List");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+
+            return RedirectToAction("Login", "User");
         }
     }
 }
