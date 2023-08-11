@@ -41,7 +41,8 @@
             return View(detailsModel);
         }
 
-        [Authorize]
+        //[Authorize]
+        [Authorize(Roles = "Owner,Administrator,Expert")]
         public async Task<IActionResult> Publish(Guid id)
         {
             await _varietyService
@@ -50,7 +51,8 @@
             return RedirectToAction("Details", "Variety", new { id });
         }
 
-        [Authorize]
+        //[Authorize]
+        [Authorize(Roles = "Owner,Administrator,Expert")]
         public async Task<IActionResult> Unpublish(Guid id)
         {
             await _varietyService
@@ -59,16 +61,18 @@
             return RedirectToAction("Details", "Variety", new { id });
         }
 
-        [Authorize]
+        //[Authorize]
+        [Authorize(Roles = "Owner,Administrator,Expert")]
         public async Task<IActionResult> Archive(Guid id)
         {
             await _varietyService
-                .ArchiveByIdAsync(id);
+            .ArchiveByIdAsync(id);
 
             return RedirectToAction("Details", "Variety", new { id });
         }
 
-        [Authorize]
+        //[Authorize]
+        [Authorize(Roles = "Owner,Administrator,Expert")]
         public async Task<IActionResult> Restore(Guid id)
         {
             await _varietyService
@@ -78,7 +82,8 @@
         }
 
         [HttpGet]
-        [Authorize]
+        //[Authorize]
+        [Authorize(Roles = "Owner,Administrator,Expert")]
         [Route("Variety/Add")]
         public async Task<IActionResult> Add()
         {
@@ -90,7 +95,8 @@
         }
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
+        [Authorize(Roles = "Owner,Administrator,Expert")]
         public async Task<IActionResult> Add([FromForm] VarietyFormModel formModel)
         {
             Variety? variety = await _varietyService
@@ -124,7 +130,8 @@
         }
 
         [HttpGet]
-        [Authorize]
+        //[Authorize]
+        [Authorize(Roles = "Owner,Administrator,Expert")]
         [Route("Variety/Edit/{id}")]
         public async Task<IActionResult> Edit([FromRoute] Guid id)
         {
@@ -134,7 +141,8 @@
         }
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
+        [Authorize(Roles = "Owner,Administrator,Expert")]
         public async Task<IActionResult> Edit([FromForm] VarietyFormModel formModel, [FromRoute] Guid id)
         {
             Variety? variety = await _varietyService
@@ -204,7 +212,7 @@
             formModel.FruitSizeCheckboxes = await _varietyService.GenerateFruitSizeCheckboxesAsync(checkedFruitSizes);
             formModel.IsMarronOptions = _varietyService.GenerateBooleanOptions();
             formModel.PeelingOptions = _varietyService.GenerateConditionOptions();
-            formModel.ConservationOptions = _varietyService.GenerateConditionOptions();            
+            formModel.ConservationOptions = _varietyService.GenerateConditionOptions();
         }
     }
 }

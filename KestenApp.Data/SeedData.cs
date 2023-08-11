@@ -16,10 +16,11 @@
         private static VarietyPollenCompatibility[] varietyPollenCompatibilities = null!;
         private static VarietyGraftingCompatibility[] varietyGraftingCompatibilities = null!;
         private static VarietyImage[] varietyImages = null!;
-        private static IdentityRole[] identityRoles = null!;
+        private static IdentityRole<Guid>[] identityRoles = null!;
         private static Garden[] gardens = null!;
         private static Specimen[] specimens = null!;
         private static ApplicationUser[] applicationUsers = null!;
+        private static IdentityUserRole<Guid>[] userRoles = null!;
 
         //used to map data
         private static DateTime dateCreated = new DateTime(2023, 7, 7, 7, 0, 0);
@@ -30,6 +31,9 @@
         private static Variety pandora = GetVarietyFromName("Pandora");
         private static Variety hifas = GetVarietyFromName("Hifas");
 
+        private static Guid ownerId = Guid.Parse("09E77621-FAC4-4150-B64C-3E5C2B1A40EE");
+        private static Guid expertId = Guid.Parse("8a5f6807-b43f-40fa-b836-e21874e67d51");
+        
         public static ApplicationUser[] ApplicationUsers { get => GetApplicationUsers(); }
         public static Species[] Species { get => GetSpecies(); }
         public static Variety[] Varieties { get => GetVarieties(); }
@@ -41,9 +45,66 @@
         public static VarietyImage[] VarietyImages { get => GetVarietyImages(); }
         public static Garden[] Gardens { get => GetGardens(); }
         public static Specimen[] Specimens { get => GetSpecimens(); }
-        public static IdentityRole[] IdentityRoles { get { return GetIdentityRoles(); } }
+        public static IdentityRole<Guid>[] IdentityRoles { get { return GetIdentityRoles(); } }
+        public static IdentityUserRole<Guid>[] IdentityUserRoles { get => GetUserRoles(); }
 
         #region Private methods
+        private static IdentityUserRole<Guid>[] GetUserRoles()
+        {
+            if (userRoles != null)
+            {
+                return userRoles;
+            }
+
+            userRoles = new List<IdentityUserRole<Guid>>
+            {
+                new IdentityUserRole<Guid>
+                { 
+                    RoleId = IdentityRoles.Single(r => r.Name == UserRoleType.Owner.ToString()).Id,
+                    UserId = ownerId
+                },
+                new IdentityUserRole<Guid>
+                {
+                    RoleId = IdentityRoles.Single(r => r.Name == UserRoleType.Expert.ToString()).Id,
+                    UserId = expertId
+                }
+            }.ToArray();
+
+            return userRoles;
+        }
+
+        private static IdentityRole<Guid>[] GetIdentityRoles()
+        {
+            if (identityRoles != null)
+            {
+                return identityRoles;
+            }
+
+            identityRoles = new IdentityRole<Guid>[]
+            {
+                new IdentityRole<Guid>
+                {
+                    Id = Guid.Parse("8E98F57D-B4FE-4E7C-B55A-96171CB3646D"),
+                    Name = UserRoleType.Owner.ToString(),
+                    NormalizedName = UserRoleType.Owner.ToString().ToUpper()
+                },
+                new IdentityRole<Guid>
+                {
+                    Id = Guid.Parse("E385047A-91D2-4739-87F6-9D49DA920824"),
+                    Name = UserRoleType.Administrator.ToString(),
+                    NormalizedName = UserRoleType.Administrator.ToString().ToUpper()
+                },
+                new IdentityRole<Guid>
+                {
+                    Id = Guid.NewGuid(),
+                    Name = UserRoleType.Expert.ToString(),
+                    NormalizedName = UserRoleType.Expert.ToString().ToUpper()
+                },
+            };
+
+            return identityRoles;
+        }
+
         private static ApplicationUser[] GetApplicationUsers()
         {
             if (applicationUsers != null)
@@ -52,29 +113,29 @@
             }
 
             var hasher = new PasswordHasher<ApplicationUser>();
-            var adminEmail = "lubzdudz@gmail.com";
-            var adminUser = "Lyubomir D.";
-            var expertEmail = "jn@chestnut.com";
-            var expertUser = "JN";
-            var userEmail = "user@chestnut.com";
-            var userName = "Lorem Ipsum";
+            string ownerEmail = "lubzdudz@gmail.com";
+            string ownerUser = "Lyubomir D.";
+            string expertEmail = "jn@chestnut.com";
+            string expertUser = "JN";
+            string userEmail = "user@chestnut.com";
+            string userName = "Lorem Ipsum";
 
             applicationUsers = new List<ApplicationUser>
             {
                 new ApplicationUser
                 {
-                    Id = Guid.Parse("09E77621-FAC4-4150-B64C-3E5C2B1A40EE"),
-                    UserName = adminUser,
-                    NormalizedUserName = adminUser.ToUpper(),
+                    Id = ownerId,
+                    UserName = ownerUser,
+                    NormalizedUserName = ownerUser.ToUpper(),
                     PasswordHash = hasher.HashPassword(null!, "123456a!"),
-                    Email = adminEmail,
-                    NormalizedEmail = adminEmail.ToUpper(),
+                    Email = ownerEmail,
+                    NormalizedEmail = ownerEmail.ToUpper(),
                     EmailConfirmed = true,
                     SecurityStamp = Guid.NewGuid().ToString()
                 },
                 new ApplicationUser
                 {
-                    Id = Guid.Parse("8a5f6807-b43f-40fa-b836-e21874e67d51"),
+                    Id = expertId,
                     UserName = expertUser,
                     NormalizedUserName = expertUser.ToUpper(),
                     PasswordHash = hasher.HashPassword(null!, "jn123456!"),
@@ -176,22 +237,6 @@
             };
 
             return gardens;
-        }
-        private static IdentityRole[] GetIdentityRoles()
-        {
-            if (identityRoles != null)
-            {
-                return identityRoles;
-            }
-
-            identityRoles = new IdentityRole[]
-            {
-                new IdentityRole { Name = "Administrator", NormalizedName = "Administrator".ToUpper() },
-                new IdentityRole { Name = "Expert", NormalizedName = "Expert".ToUpper() },
-                new IdentityRole { Name = "User", NormalizedName = "User".ToUpper() }
-            };
-
-            return identityRoles;
         }
 
         private static Species[] GetSpecies()

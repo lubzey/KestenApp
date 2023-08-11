@@ -1,19 +1,14 @@
-﻿using KestenApp.Services;
-using KestenApp.Services.Contracts;
-using KestenApp.Web.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-
-namespace KestenApp.Web.Controllers
+﻿namespace KestenApp.Web.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+
+
     public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IVarietyService _varietyService;
 
-        public HomeController(VarietyService varietyService, ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger)
         {
-            _varietyService = varietyService; //Preview
             _logger = logger;
         }
 
@@ -23,14 +18,14 @@ namespace KestenApp.Web.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error(int statusCode)
+        public IActionResult Error([FromQuery] int id)
         {
-            if (statusCode == 400 || statusCode == 404)
+            if (id == 400 || id == 404)
             {
                 return View("Error404");
             }
 
-            if (statusCode == 401)
+            if (id == 401)
             {
                 return View("Error401");
             }

@@ -17,9 +17,8 @@
             this.Specimens = new HashSet<Specimen>();
         }
 
-        [Required]
         [MaxLength(UserConstants.NameMaxLength)]
-        public string DisplayName { get; set; } = null!;
+        public string? DisplayName { get; set; } = null!;
 
         public virtual ICollection<Garden> Gardens { get; private set; } = new HashSet<Garden>();
         public virtual ICollection<Specimen> Specimens { get; private set; } = new HashSet<Specimen>();

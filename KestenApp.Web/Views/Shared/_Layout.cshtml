@@ -34,42 +34,38 @@
 
                 <div class="navbar-collapse collapse d-sm-inline-flex">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            @if (User.Identity?.IsAuthenticated == true)
-                            {
+
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item">
+
                                 <a asp-area="" asp-controller="Variety" asp-action="List"
                                    class="nav-link @(Context.Request.Path == "/" || Context.Request.Path.ToString().StartsWith("/Variety") ? "active":"")">
                                     Varieties
                                 </a>
-                            }
-                        </li>
+                            </li>
 
-                        <li class="nav-item">
-                            @if (User.Identity?.IsAuthenticated == true)
-                            {
+                            <li class="nav-item">
+
                                 <a asp-area="" asp-controller="Specimen" asp-action="List"
                                    class="nav-link @(Context.Request.Path.ToString().StartsWith("/Specimen") ? "active":"")">
                                     Specimens
                                 </a>
-                            }
-                        </li>
+                            </li>
 
-                        <li class="nav-item">
-                            @if (User.Identity?.IsAuthenticated == true)
-                            {
+                            <li class="nav-item">
                                 <a asp-area="" asp-controller="Garden" asp-action="List"
                                    class="nav-link @(Context.Request.Path.ToString().StartsWith("/Garden") ? "active":"")">
                                     Gardens
                                 </a>
-                            }
-                        </li>
+                            </li>
 
-                        <li class="nav-item">
-                            @if (User.Identity?.IsAuthenticated == true)
-                            {
-                                <a class="nav-link" asp-area="" asp-controller="Gardener" asp-action="List">Gardeners</a>
-                            }
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Gardener" asp-action="List">
+                                    Gardeners
+                                </a>
+                            </li>
+                        }
 
                         <partial name="_LoginPartial" />
                     </ul>

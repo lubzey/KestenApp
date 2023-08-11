@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KestenApp.Data.Migrations
 {
     [DbContext(typeof(KestenDbContext))]
-    [Migration("20230803151714_initial")]
-    partial class initial
+    [Migration("20230811181421_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,6 +36,10 @@ namespace KestenApp.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DisplayName")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -94,49 +98,49 @@ namespace KestenApp.Data.Migrations
                         {
                             Id = new Guid("09e77621-fac4-4150-b64c-3e5c2b1a40ee"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "87412e5a-b4ab-4203-ba82-161ac50e2be2",
+                            ConcurrencyStamp = "062840c2-aa38-454a-a89a-4c975eef1558",
                             Email = "lubzdudz@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "LUBZDUDZ@GMAIL.COM",
-                            NormalizedUserName = "LUBZDUDZ@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHnfOFelsDrScOxNpoPElDMbp7kxMndSWIDVnkHXK+aoxclyfpKYDqlC3EUX5fwpIQ==",
+                            NormalizedUserName = "LYUBOMIR D.",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFHSiJM5lNqQZFeJ2D6pF1N7B52MuZmXMXiFt1T43DMgNg6A2yPCPwINyBsWL2Iisg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a4d0238b-5c3d-4821-9fd6-0570812cec3f",
+                            SecurityStamp = "ca9986fb-2c1b-4220-8d90-b039b9caa67b",
                             TwoFactorEnabled = false,
-                            UserName = "lubzdudz@gmail.com"
+                            UserName = "Lyubomir D."
                         },
                         new
                         {
                             Id = new Guid("8a5f6807-b43f-40fa-b836-e21874e67d51"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "96a0f511-8427-4404-8fe9-0b4918c0768c",
+                            ConcurrencyStamp = "cf571fd6-55db-485e-8e16-cb3d412c8151",
                             Email = "jn@chestnut.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "JN@CHESTNUT.COM",
-                            NormalizedUserName = "JN@CHESTNUT.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAENngTfrLQOFdth1ojyNErHvw+khGpBP/vP2GaPd60kUEGkXswJBB+x89zLLdy4hNQA==",
+                            NormalizedUserName = "JN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJUZTeW5H9rZcmAA7jbhurA9dKlIlwg/4+gHYT4S6vrfAu5lebpR8DenYFdskPorZA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b6d978f3-d2c0-4ba8-a9bd-00307c5a12ab",
+                            SecurityStamp = "f1855bbd-9f2a-406b-aead-cd7cd8b55cd5",
                             TwoFactorEnabled = false,
-                            UserName = "jn@chestnut.com"
+                            UserName = "JN"
                         },
                         new
                         {
                             Id = new Guid("b0a8cb2c-4908-431e-a07b-f3ddd7b45bce"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ab7594c8-0e8b-4d88-bcbf-825cabf3c2ef",
+                            ConcurrencyStamp = "1ac0bc91-9b13-4e14-9676-0437fbfaf79e",
                             Email = "user@chestnut.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@CHESTNUT.COM",
-                            NormalizedUserName = "USER@CHESTNUT.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEC/vsSWP+g/3Ra7Yo4kVkK87GdqAHFN2tuYYcdsd6V2VGNBJl6p89wd5XldIjZkkug==",
+                            NormalizedUserName = "LOREM IPSUM",
+                            PasswordHash = "AQAAAAIAAYagAAAAELQuyERJFZZKYbksBV3tFMNj0Mtl6SlL3Kt5Z18tztOzUD2SZSKDBA/KYJKe+UejPA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "af3d73e3-415e-430a-9588-0909ddf81581",
+                            SecurityStamp = "95e81ae8-7e2e-4830-bcac-8328a99ba370",
                             TwoFactorEnabled = false,
-                            UserName = "user@chestnut.com"
+                            UserName = "Lorem Ipsum"
                         });
                 });
 
@@ -234,10 +238,10 @@ namespace KestenApp.Data.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<int?>("TotalColumns")
+                    b.Property<int>("TotalColumns")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TotalRows")
+                    b.Property<int>("TotalRows")
                         .HasColumnType("int");
 
                     b.Property<Guid>("UserId")
@@ -263,11 +267,13 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            GardenId = new Guid("adbf158c-3126-4739-b59d-b6789a7a3bd6"),
+                            GardenId = new Guid("3dfd25dc-566a-4641-a877-09439698ac9e"),
                             DateCreated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             IsPublished = true,
                             Name = "Veslets G",
+                            TotalColumns = 20,
+                            TotalRows = 20,
                             UserId = new Guid("09e77621-fac4-4150-b64c-3e5c2b1a40ee")
                         });
                 });
@@ -451,7 +457,7 @@ namespace KestenApp.Data.Migrations
                             PlantedOnDate = new DateTime(2019, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Row = 2,
                             UserId = new Guid("09e77621-fac4-4150-b64c-3e5c2b1a40ee"),
-                            VarietyId = new Guid("a978c99b-40ed-4117-a0be-b0dd1df8f90b")
+                            VarietyId = new Guid("3311df81-1350-44ae-82e8-f4ccf49bfab1")
                         });
                 });
 
@@ -582,7 +588,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("1965231f-4461-4942-b358-c6b42a63bd92"),
+                            VarietyId = new Guid("248a73f0-196e-4ebf-bb28-cbf9a74a641a"),
                             BuddingPeriod = 0,
                             ChestnutBlightResistance = 1,
                             Conservation = 2,
@@ -602,7 +608,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("a978c99b-40ed-4117-a0be-b0dd1df8f90b"),
+                            VarietyId = new Guid("3311df81-1350-44ae-82e8-f4ccf49bfab1"),
                             BuddingPeriod = 0,
                             ChestnutBlightResistance = 2,
                             Conservation = 2,
@@ -622,7 +628,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("0a9568d9-e561-4d90-a8e1-1f267fcf8bea"),
+                            VarietyId = new Guid("4889985e-1467-466d-b49e-bbf6aa4d5cc0"),
                             BuddingPeriod = 0,
                             ChestnutBlightResistance = 0,
                             Conservation = 0,
@@ -641,7 +647,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("4369597d-eb46-4688-a01c-356c7f431113"),
+                            VarietyId = new Guid("854db466-5eee-4e55-aa1e-eb4edb2d1d93"),
                             BuddingPeriod = 0,
                             ChestnutBlightResistance = 0,
                             Conservation = 0,
@@ -660,7 +666,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("9fc5be47-8363-4a4f-b538-81d48f7b9a71"),
+                            VarietyId = new Guid("bb695e39-55a7-4a1d-b643-3ec9ed0d2a7c"),
                             BuddingPeriod = 0,
                             ChestnutBlightResistance = 0,
                             Conservation = 0,
@@ -679,7 +685,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("608e6081-9555-4426-900b-f658535502a2"),
+                            VarietyId = new Guid("aae0d2dc-1323-4192-807a-310873673522"),
                             BuddingPeriod = 0,
                             ChestnutBlightResistance = 0,
                             Conservation = 0,
@@ -698,7 +704,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("16a4fca4-64de-46a4-ba3a-26cf42a52fae"),
+                            VarietyId = new Guid("a57e6682-1a21-4ddc-b6c2-1c76e628d98f"),
                             BuddingPeriod = 0,
                             ChestnutBlightResistance = 0,
                             Conservation = 0,
@@ -717,7 +723,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("7d6f6360-cb05-4940-86a5-31999b003b8c"),
+                            VarietyId = new Guid("9c184c51-1f16-42f9-b2e4-9bc39ca835ec"),
                             BuddingPeriod = 0,
                             ChestnutBlightResistance = 0,
                             Conservation = 0,
@@ -736,7 +742,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("3bede629-4f08-4b4f-aab8-41aa14fff86a"),
+                            VarietyId = new Guid("ac97b5bc-1711-45f6-86e8-b70b02de612d"),
                             BuddingPeriod = 0,
                             ChestnutBlightResistance = 0,
                             Conservation = 0,
@@ -755,7 +761,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("89a9524a-df9e-4015-9183-6d1bfb8440db"),
+                            VarietyId = new Guid("f45c02bd-a022-4ce0-9435-ddec6a475451"),
                             BuddingPeriod = 0,
                             ChestnutBlightResistance = 0,
                             Conservation = 0,
@@ -774,7 +780,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("d8a10a01-e71b-417d-bea5-41cbe9c6e330"),
+                            VarietyId = new Guid("3f75d6c5-24d8-40fa-baa8-aba8043d08cc"),
                             BuddingPeriod = 0,
                             ChestnutBlightResistance = 0,
                             Conservation = 0,
@@ -793,7 +799,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("5d5f6fa1-5e5c-48a9-979b-af1e1cd2a495"),
+                            VarietyId = new Guid("e2fd908c-07be-4b98-8104-9624b955e062"),
                             BuddingPeriod = 0,
                             ChestnutBlightResistance = 0,
                             Conservation = 0,
@@ -812,7 +818,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("1d4ef4fb-c803-428d-95f1-e99b50adf62a"),
+                            VarietyId = new Guid("0dda4ae2-9b5f-4c52-9139-e031ac20a84c"),
                             BuddingPeriod = 0,
                             ChestnutBlightResistance = 0,
                             Conservation = 0,
@@ -831,7 +837,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("c3604797-43f8-4acd-b0bc-5db7b49f3d8d"),
+                            VarietyId = new Guid("cfe1aecb-88bf-4c1c-b205-08beee2d466c"),
                             BuddingPeriod = 0,
                             ChestnutBlightResistance = 0,
                             Conservation = 0,
@@ -850,7 +856,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("56de247c-ea55-4530-bce5-897d1b2eb1b1"),
+                            VarietyId = new Guid("6f980348-d1e0-48f9-970a-58ff76c2b2fd"),
                             BuddingPeriod = 0,
                             ChestnutBlightResistance = 0,
                             Conservation = 0,
@@ -869,7 +875,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("00122506-b153-45ed-8c40-24122ea78bd1"),
+                            VarietyId = new Guid("f5a68761-8418-4ee0-8b8f-724b4099874e"),
                             BuddingPeriod = 0,
                             ChestnutBlightResistance = 0,
                             Conservation = 0,
@@ -888,7 +894,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("012a6a5f-ca63-4fe9-a0cb-fb55ceb202f5"),
+                            VarietyId = new Guid("d93899c1-afa0-48f2-8df8-8c75eee868bf"),
                             BuddingPeriod = 0,
                             ChestnutBlightResistance = 0,
                             Conservation = 0,
@@ -907,7 +913,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("a8e05eda-f67e-42a3-b083-64169b8527f4"),
+                            VarietyId = new Guid("cf1b18c2-b1c5-4574-887c-eecf9f91f2fa"),
                             BuddingPeriod = 0,
                             ChestnutBlightResistance = 0,
                             Conservation = 0,
@@ -926,7 +932,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("9f00b6a1-612c-49ef-9831-c8a6f5272e9d"),
+                            VarietyId = new Guid("5b120d01-c118-499e-a5de-91e42aba6713"),
                             BuddingPeriod = 0,
                             ChestnutBlightResistance = 0,
                             Conservation = 0,
@@ -945,7 +951,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("f4e4edcd-8547-409e-bb73-fc62a454f418"),
+                            VarietyId = new Guid("dc287528-70f8-439f-afe5-ee7efd11aca2"),
                             BuddingPeriod = 0,
                             ChestnutBlightResistance = 0,
                             Conservation = 0,
@@ -1001,22 +1007,22 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("1965231f-4461-4942-b358-c6b42a63bd92"),
+                            VarietyId = new Guid("248a73f0-196e-4ebf-bb28-cbf9a74a641a"),
                             FruitSizeId = 3
                         },
                         new
                         {
-                            VarietyId = new Guid("1965231f-4461-4942-b358-c6b42a63bd92"),
+                            VarietyId = new Guid("248a73f0-196e-4ebf-bb28-cbf9a74a641a"),
                             FruitSizeId = 4
                         },
                         new
                         {
-                            VarietyId = new Guid("a978c99b-40ed-4117-a0be-b0dd1df8f90b"),
+                            VarietyId = new Guid("3311df81-1350-44ae-82e8-f4ccf49bfab1"),
                             FruitSizeId = 4
                         },
                         new
                         {
-                            VarietyId = new Guid("a978c99b-40ed-4117-a0be-b0dd1df8f90b"),
+                            VarietyId = new Guid("3311df81-1350-44ae-82e8-f4ccf49bfab1"),
                             FruitSizeId = 5
                         });
                 });
@@ -1044,12 +1050,12 @@ namespace KestenApp.Data.Migrations
                         new
                         {
                             RootstockVarietyId = new Guid("8fc8f311-3ce9-42e2-fcd7-08db87b43c2d"),
-                            GraftedVarietyId = new Guid("1965231f-4461-4942-b358-c6b42a63bd92")
+                            GraftedVarietyId = new Guid("248a73f0-196e-4ebf-bb28-cbf9a74a641a")
                         },
                         new
                         {
                             RootstockVarietyId = new Guid("fba92871-4a3c-4978-fcd6-08db87b43c2d"),
-                            GraftedVarietyId = new Guid("1965231f-4461-4942-b358-c6b42a63bd92")
+                            GraftedVarietyId = new Guid("248a73f0-196e-4ebf-bb28-cbf9a74a641a")
                         });
                 });
 
@@ -1113,7 +1119,7 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            PollenizerVarietyId = new Guid("1965231f-4461-4942-b358-c6b42a63bd92"),
+                            PollenizerVarietyId = new Guid("248a73f0-196e-4ebf-bb28-cbf9a74a641a"),
                             TargetVarietyId = new Guid("46bd8dc8-ca0a-4648-a9a9-ea4ad91e1b77")
                         });
                 });
@@ -1165,72 +1171,33 @@ namespace KestenApp.Data.Migrations
                         },
                         new
                         {
-                            VarietyId = new Guid("1965231f-4461-4942-b358-c6b42a63bd92"),
+                            VarietyId = new Guid("248a73f0-196e-4ebf-bb28-cbf9a74a641a"),
                             SpeciesId = 1
                         },
                         new
                         {
-                            VarietyId = new Guid("1965231f-4461-4942-b358-c6b42a63bd92"),
+                            VarietyId = new Guid("248a73f0-196e-4ebf-bb28-cbf9a74a641a"),
                             SpeciesId = 2
                         },
                         new
                         {
-                            VarietyId = new Guid("0a9568d9-e561-4d90-a8e1-1f267fcf8bea"),
+                            VarietyId = new Guid("4889985e-1467-466d-b49e-bbf6aa4d5cc0"),
                             SpeciesId = 3
                         },
                         new
                         {
-                            VarietyId = new Guid("0a9568d9-e561-4d90-a8e1-1f267fcf8bea"),
+                            VarietyId = new Guid("4889985e-1467-466d-b49e-bbf6aa4d5cc0"),
                             SpeciesId = 8
                         },
                         new
                         {
-                            VarietyId = new Guid("a978c99b-40ed-4117-a0be-b0dd1df8f90b"),
+                            VarietyId = new Guid("3311df81-1350-44ae-82e8-f4ccf49bfab1"),
                             SpeciesId = 1
                         },
                         new
                         {
-                            VarietyId = new Guid("a978c99b-40ed-4117-a0be-b0dd1df8f90b"),
+                            VarietyId = new Guid("3311df81-1350-44ae-82e8-f4ccf49bfab1"),
                             SpeciesId = 2
-                        });
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("IdentityRole");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "b191bc53-3825-46c2-b415-c8644f0fe1f8",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        },
-                        new
-                        {
-                            Id = "d5f69ee0-0c07-48a5-aa06-d84dc2ff2f8a",
-                            Name = "Expert",
-                            NormalizedName = "EXPERT"
-                        },
-                        new
-                        {
-                            Id = "43d5b5ed-1d01-4653-b92c-c214e81957a6",
-                            Name = "User",
-                            NormalizedName = "USER"
                         });
                 });
 
@@ -1260,6 +1227,26 @@ namespace KestenApp.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("8e98f57d-b4fe-4e7c-b55a-96171cb3646d"),
+                            Name = "Owner",
+                            NormalizedName = "OWNER"
+                        },
+                        new
+                        {
+                            Id = new Guid("e385047a-91d2-4739-87f6-9d49da920824"),
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = new Guid("f7a133a5-1086-4617-9989-92e2e164d9b6"),
+                            Name = "Expert",
+                            NormalizedName = "EXPERT"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -1346,6 +1333,18 @@ namespace KestenApp.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("09e77621-fac4-4150-b64c-3e5c2b1a40ee"),
+                            RoleId = new Guid("8e98f57d-b4fe-4e7c-b55a-96171cb3646d")
+                        },
+                        new
+                        {
+                            UserId = new Guid("8a5f6807-b43f-40fa-b836-e21874e67d51"),
+                            RoleId = new Guid("f7a133a5-1086-4617-9989-92e2e164d9b6")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
