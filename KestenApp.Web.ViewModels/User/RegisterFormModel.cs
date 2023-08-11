@@ -8,11 +8,11 @@
         [Required]
         [StringLength(NameMaxLength, MinimumLength = NameMinLength)]
         [Display(Name = "Username")]
-        public string DisplayName { get; internal set; } = null!;
+        public string DisplayName { get; set; } = null!;
 
         [Required]
         [EmailAddress]
-        public string Email { get; internal set; } = null!;
+        public string Email { get; set; } = null!;
 
         [Required]
         [StringLength(PasswordMaxLength, MinimumLength = PasswordMinLength,

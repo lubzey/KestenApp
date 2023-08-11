@@ -33,7 +33,7 @@
         [HttpPost]
         //[ValidateRecaptcha(Action = nameof(Register),
         //    ValidationFailedAction = ValidationFailedAction.ContinueRequest)]
-        public async Task<IActionResult> Register(RegisterFormModel model)
+        public async Task<IActionResult> Register([FromForm] RegisterFormModel model)
         {
             if (!ModelState.IsValid)
             {
