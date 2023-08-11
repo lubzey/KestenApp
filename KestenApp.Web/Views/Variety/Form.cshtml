@@ -6,6 +6,12 @@
     ViewData["Title"] = Model.FormTexts.PageTitle;
 }
 
+<style>
+    input[type="checkbox"] {
+        filter: hue-rotate(230deg);
+    }
+</style>
+
 <form asp-action="@Model.FormTexts.SubmitAction" method="post">
 
     @*Header*@
@@ -227,11 +233,11 @@
         </div>
 
         @*Fruit Size*@
-        <div class="col-12 col-sm-3 col-lg-2 text-lg-end fw-bold mb-2 mt-auto">
+        <div class="col-6 col-sm-3 col-lg-2 text-lg-end fw-bold mb-md-2 mt-md-2">
             <label class="form-label fw-bold">Fruit Size</label>
         </div>
 
-        <div class="col-12 col-sm-9 col-xl-7 mb-2">
+        <div class="col-6 col-sm-9 col-xl-7 mb-2 mt-md-2">
             <div class="row">
                 @for (int index = 0; index < Model.FruitSizeCheckboxes.Count; index++)
                 {
