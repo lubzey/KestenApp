@@ -34,19 +34,19 @@
         private static Guid ownerId = Guid.Parse("09E77621-FAC4-4150-B64C-3E5C2B1A40EE");
         private static Guid expertId = Guid.Parse("8a5f6807-b43f-40fa-b836-e21874e67d51");
         
-        public static ApplicationUser[] ApplicationUsers { get => GetApplicationUsers(); }
-        public static Species[] Species { get => GetSpecies(); }
-        public static Variety[] Varieties { get => GetVarieties(); }
-        public static VarietySpecies[] VarietySpecies { get => GetVarietySpecies(); }
-        public static FruitSize[] FruitSizes { get => GetFruitSizes(); }
-        public static VarietyFruitSize[] VarietyFruitSizes { get => GetVarietyFruitSizes(); }
-        public static VarietyPollenCompatibility[] VarietyPollenCompatibilities { get => GetVarietyPollenCompatibilities(); }
-        public static VarietyGraftingCompatibility[] VarietyGraftingCompatibilities { get => GetVarietyGraftingCompatibilities(); }
-        public static VarietyImage[] VarietyImages { get => GetVarietyImages(); }
-        public static Garden[] Gardens { get => GetGardens(); }
-        public static Specimen[] Specimens { get => GetSpecimens(); }
-        public static IdentityRole<Guid>[] IdentityRoles { get { return GetIdentityRoles(); } }
-        public static IdentityUserRole<Guid>[] IdentityUserRoles { get => GetUserRoles(); }
+        public static ApplicationUser[] ApplicationUsers => GetApplicationUsers();
+        public static Species[] Species => GetSpecies();
+        public static Variety[] Varieties => GetVarieties();
+        public static VarietySpecies[] VarietySpecies => GetVarietySpecies();
+        public static FruitSize[] FruitSizes => GetFruitSizes();
+        public static VarietyFruitSize[] VarietyFruitSizes => GetVarietyFruitSizes();
+        public static VarietyPollenCompatibility[] VarietyPollenCompatibilities => GetVarietyPollenCompatibilities();
+        public static VarietyGraftingCompatibility[] VarietyGraftingCompatibilities => GetVarietyGraftingCompatibilities();
+        public static VarietyImage[] VarietyImages => GetVarietyImages();
+        public static Garden[] Gardens => GetGardens();
+        public static Specimen[] Specimens => GetSpecimens();
+        public static IdentityRole<Guid>[] IdentityRoles => GetIdentityRoles();
+        public static IdentityUserRole<Guid>[] IdentityUserRoles  => GetUserRoles();
 
         #region Private methods
         private static IdentityUserRole<Guid>[] GetUserRoles()
@@ -224,7 +224,7 @@
                     Name = "Sharp Mound",
                     UserId = Guid.Parse("09E77621-FAC4-4150-B64C-3E5C2B1A40EE"),
                     TotalRows = 8,
-                    TotalColumns = 12
+                    TotalColumns = 10
                 },
                 new Garden
                 {

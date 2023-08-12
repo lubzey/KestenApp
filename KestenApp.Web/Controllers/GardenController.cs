@@ -156,7 +156,7 @@
 
             if (gardenId == Guid.Empty)
             {
-                return RedirectToAction("List", "Garden");
+                return RedirectToAction(nameof(this.List), "Garden");
             }
 
             return RedirectToAction("Details", "Garden", new { id = gardenId });

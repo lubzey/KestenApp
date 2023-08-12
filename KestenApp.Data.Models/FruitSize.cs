@@ -6,7 +6,7 @@
     {
         [Key]
         public int FruitSizeId { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; } = null!;
         public int? FruitsPerKgMin { get; set; }
         public int? FruitsPerKgMax { get; set; }
         public int? FruitsWeightMin { get; set; }

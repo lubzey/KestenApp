@@ -9,7 +9,6 @@
     using Microsoft.AspNetCore.Mvc.Rendering;
     using KestenApp.Web.ViewModels.Garden;
     using Newtonsoft.Json;
-    using KestenApp.Data.Models;
 
     public class SpecimenController : BaseController
     {
@@ -47,7 +46,7 @@
 
             if (detailsModel.SpecimenId == Guid.Empty)
             {
-                return RedirectToAction("List", "Specimen", new { id });
+                return RedirectToAction(nameof(this.List), "Specimen", new { id });
             }
 
             return View(detailsModel);
@@ -59,7 +58,7 @@
             await _specimenService
                 .ArchiveByIdAsync(id);
 
-            return RedirectToAction("Details", "Specimen", new { id });
+            return RedirectToAction(nameof(this.Details), "Specimen", new { id });
         }
 
         [Authorize]
@@ -68,7 +67,7 @@
             await _specimenService
                 .ArchiveByIdAsync(id, true);
 
-            return RedirectToAction("Details", "Specimen", new { id });
+            return RedirectToAction(nameof(this.Details), "Specimen", new { id });
         }
 
         //Add-Select-Garden
@@ -89,7 +88,7 @@
             }
             else if (gardens.Count() == 1)
             {
-                return RedirectToAction("AddPosition", "Specimen", new { gardenId = gardens.Single().Value });
+                return RedirectToAction(nameof(this.AddPositionFromQueryRoute), "Specimen", new { gardenId = gardens.Single().Value });
             }
 
             PopulateErrorsInModelState();
@@ -97,6 +96,17 @@
             SpecimenGardenSelectModel model = new SpecimenGardenSelectModel(gardens);
 
             return View("GardenSelect", model);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> AddPositionFromQueryRoute([FromQuery] Guid gardenId)
+        {
+            PopulateErrorsInModelState();
+
+            GardenDetailsModel model = await _gardenService.GetGardenWithUsedPositionsAsync(gardenId);
+
+            return View("PositionSelect", model);
         }
 
         [HttpPost]
@@ -136,6 +146,15 @@
             int column = positions.Last();
             PopulateErrorsInModelState();
 
+            //validate null and negative
+            if (row <=0 || column <=0)
+            {
+                ModelState.AddModelError(position, $"The selected position {row}:{column} must be of valid positive values.");
+                AddModelStateErrorsToTempData();
+
+                return RedirectToAction(nameof(this.AddPositionFromQueryRoute), "Specimen", new { gardenId = gardenId });
+            }
+
             //validate that garden position is empty
             bool isPositionTaken = await _gardenService
                 .IsPositionTakenAsync(gardenId, row, column);
@@ -144,7 +163,7 @@
                 ModelState.AddModelError(position, $"The selected position {row}:{column} is already taken.");
                 AddModelStateErrorsToTempData();
 
-                return RedirectToAction("AddPositionFromQuery", "Specimen", new { gardenId = gardenId });
+                return RedirectToAction(nameof(this.AddPositionFromQueryRoute), "Specimen", new { gardenId = gardenId });
             }
 
             //validate that row and column don't exceed the garden totals
@@ -155,7 +174,7 @@
                 ModelState.AddModelError(position, $"The selected position {row}:{column} isn't valid for the current garden.");
                 AddModelStateErrorsToTempData();
 
-                return RedirectToAction("AddPositionFromQuery", "Specimen", new { gardenId = gardenId });
+                return RedirectToAction(nameof(this.AddPositionFromQueryRoute), "Specimen", new { gardenId = gardenId });
             }
 
             //Empty form
@@ -165,20 +184,19 @@
                 Row = row,
                 Column = column
             };
-            await RenderFormDetails(model);
+            await PopulateFormDetails(model);
 
             return View("Form", model);
         }
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Add(
-            [FromForm] DetailsFormModel model)
+        public async Task<IActionResult> Add([FromForm] DetailsFormModel model)
         {
             //Other errors
             if (!ModelState.IsValid)
             {
-                await RenderFormDetails(model);
+                await PopulateFormDetails(model);
 
                 return View("Form", model);
             }
@@ -187,7 +205,7 @@
             Guid userId = Guid.Parse(GetUserId());
             Guid newSpecimenIndex = await _specimenService.AddSpecimenAsync(model, userId);
 
-            return RedirectToAction("Details", "Specimen", new { id = newSpecimenIndex });
+            return RedirectToAction(nameof(this.Details), "Specimen", new { id = newSpecimenIndex });
         }
 
         [HttpGet]
@@ -201,7 +219,7 @@
 
             if (detailsModel.SpecimenId == Guid.Empty)
             {
-                return RedirectToAction("List", "Specimen", new { id });
+                return RedirectToAction(nameof(this.List), "Specimen", new { id });
             }
 
             //Empty form
@@ -218,7 +236,7 @@
                 SowedOnDate = detailsModel.SowedOnDate,
                 GraftedOnDate = detailsModel.GraftedOnDate
             };
-            await RenderFormDetails(model, true);
+            await PopulateFormDetails(model, true);
 
             return View("Form", model);
         }
@@ -235,15 +253,16 @@
             //Update existing variety
             if (!(await _specimenService.UpdateSpecimenAsync(id, formModel)))
             {
-                return RedirectToAction("List", "Specimen");
+                return RedirectToAction(nameof(this.List), "Specimen");
             }
 
-            return RedirectToAction("Details", "Specimen", new { id });
+            return RedirectToAction(nameof(this.Details), "Specimen", new { id });
         }
 
 
         //Private
-        private async Task RenderFormDetails(DetailsFormModel model, bool isEdit = false)
+        //TODO: Move method to service
+        private async Task PopulateFormDetails(DetailsFormModel model, bool isEdit = false)
         {
             model.FormTexts = new FormTextsModel("Specimen", isEdit);
             model.Garden = await _gardenService.GetGardenWithUsedPositionsAsync(model.GardenId);

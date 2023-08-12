@@ -20,6 +20,7 @@
         public ICollection<Specimen> Specimens { get; set; } = new List<Specimen>();
 
         public bool IsActive { get; set; } = true;
+
         public bool IsPublished { get; set; } = true;
 
         [Required]

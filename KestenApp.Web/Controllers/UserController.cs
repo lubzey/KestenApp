@@ -7,6 +7,7 @@
     using KestenApp.Data.Models;
     using KestenApp.Web.ViewModels.User;
     using static KestenApp.Common.NotificationMessagesConstants;
+    using Microsoft.AspNetCore.Authorization;
 
     public class UserController : Controller
     {
@@ -123,6 +124,7 @@
             return RedirectToAction("Login", "User");
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -145,6 +147,7 @@
             return View(model);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Index([FromForm] IndexViewModel model)
         {

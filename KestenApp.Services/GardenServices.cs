@@ -149,7 +149,7 @@
                 .AsNoTracking()
                 .ToListAsync();
 
-            if (allUserGardens.Any())
+            if (allUserGardens.Count() > 1)
             {
                 //Add not selected option
                 dropdownList.Add(new SelectListItem { Selected = true });
