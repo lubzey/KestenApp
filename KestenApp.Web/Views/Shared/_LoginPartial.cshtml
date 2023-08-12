@@ -10,7 +10,7 @@
     var firstName = applicationUser.DisplayName;
 
     <li class="nav-item">
-        <a title="Profile" id="manage" class="nav-link @(Context.Request.Path == "/User/Index"?"active":"")" asp-controller="User" asp-action="Index" method="get">
+        <a title="Profile" class="nav-link @(Context.Request.Path == "/User/Index"?"active":"")" asp-controller="User" asp-action="Index" method="get">
             @*Profile*@
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
@@ -20,15 +20,13 @@
         </a>
     </li>
     <li class="nav-item">
-        <form title="Logout" id="logoutForm" class="form-inline" asp-controller="User" asp-action="Logout" method="get">
-            <button id="logout" type="submit" class="nav-link btn btn-link border-0">
-                @*Logout*@
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
-                    <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V2zm1 13h8V2H4v13z" />
-                    <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0z" />
-                </svg>
-            </button>
-        </form>
+        <a title="Logout" class="nav-link" asp-controller="User" asp-action="Logout" method="get">
+            @*Logout*@
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-door-closed" viewBox="0 0 16 16">
+                <path d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V2zm1 13h8V2H4v13z" />
+                <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0z" />
+            </svg>
+        </a>
     </li>
 }
 else
