@@ -9,6 +9,7 @@
     using Microsoft.AspNetCore.Mvc.Rendering;
     using KestenApp.Web.ViewModels.Garden;
     using Newtonsoft.Json;
+    using KestenApp.Data.Models;
 
     public class SpecimenController : BaseController
     {
@@ -29,8 +30,10 @@
         [Authorize]
         public async Task<IActionResult> List()
         {
+            var userId = GetUserId();
+
             SpecimenListModel listViewModel = await _specimenService
-                .AllSpecimensAsync(currentPage: 1);
+                .AllSpecimensAsync(currentPage: 1, userId: userId);
 
             return View(listViewModel);
         }
@@ -38,8 +41,14 @@
         [Authorize]
         public async Task<IActionResult> Details(Guid id)
         {
+            var userId = GetUserId();
             SpecimenDetailsModel detailsModel = await _specimenService
-                .GetDetailsViewByIdAsync(id);
+                .GetDetailsViewByIdAsync(id, userId);
+
+            if (detailsModel.SpecimenId == Guid.Empty)
+            {
+                return RedirectToAction("List", "Specimen", new { id });
+            }
 
             return View(detailsModel);
         }
@@ -76,11 +85,11 @@
 
             if (!gardens.Any())
             {
-                return RedirectToAction("Create", "Garden");
+                return RedirectToAction("Add", "Garden");
             }
             else if (gardens.Count() == 1)
             {
-                return RedirectToAction("AddPosition", "Specimen", new { gardenId = gardens.Single() });
+                return RedirectToAction("AddPosition", "Specimen", new { gardenId = gardens.Single().Value });
             }
 
             PopulateErrorsInModelState();
@@ -185,22 +194,29 @@
         [Authorize]
         public async Task<IActionResult> Edit([FromRoute] Guid id)
         {
-            SpecimenDetailsModel specimen = await _specimenService
-                .GetDetailsViewByIdAsync(id);
+            var userId = GetUserId();
+
+            SpecimenDetailsModel detailsModel = await _specimenService
+                .GetDetailsViewByIdAsync(id, userId);
+
+            if (detailsModel.SpecimenId == Guid.Empty)
+            {
+                return RedirectToAction("List", "Specimen", new { id });
+            }
 
             //Empty form
             DetailsFormModel model = new DetailsFormModel()
             {
-                GardenId = specimen.Garden.GardenId,
-                Row = specimen.Row,
-                Column = specimen.Column,
-                SpecimenId = specimen.SpecimenId,
-                SpecimenName = specimen.SpecimenName,
-                VarietyId = specimen.Variety?.VarietyId,
-                Elevation = specimen.Elevation,
-                PlantedOnDate = specimen.PlantedOnDate,
-                SowedOnDate = specimen.SowedOnDate,
-                GraftedOnDate = specimen.GraftedOnDate
+                GardenId = detailsModel.Garden.GardenId,
+                Row = detailsModel.Row,
+                Column = detailsModel.Column,
+                SpecimenId = detailsModel.SpecimenId,
+                SpecimenName = detailsModel.SpecimenName,
+                VarietyId = detailsModel.Variety?.VarietyId,
+                Elevation = detailsModel.Elevation,
+                PlantedOnDate = detailsModel.PlantedOnDate,
+                SowedOnDate = detailsModel.SowedOnDate,
+                GraftedOnDate = detailsModel.GraftedOnDate
             };
             await RenderFormDetails(model, true);
 

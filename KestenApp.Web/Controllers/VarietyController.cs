@@ -41,7 +41,6 @@
             return View(detailsModel);
         }
 
-        //[Authorize]
         [Authorize(Roles = "Owner,Administrator,Expert")]
         public async Task<IActionResult> Publish(Guid id)
         {
@@ -51,7 +50,6 @@
             return RedirectToAction("Details", "Variety", new { id });
         }
 
-        //[Authorize]
         [Authorize(Roles = "Owner,Administrator,Expert")]
         public async Task<IActionResult> Unpublish(Guid id)
         {
@@ -61,7 +59,6 @@
             return RedirectToAction("Details", "Variety", new { id });
         }
 
-        //[Authorize]
         [Authorize(Roles = "Owner,Administrator,Expert")]
         public async Task<IActionResult> Archive(Guid id)
         {
@@ -71,7 +68,6 @@
             return RedirectToAction("Details", "Variety", new { id });
         }
 
-        //[Authorize]
         [Authorize(Roles = "Owner,Administrator,Expert")]
         public async Task<IActionResult> Restore(Guid id)
         {
@@ -82,7 +78,6 @@
         }
 
         [HttpGet]
-        //[Authorize]
         [Authorize(Roles = "Owner,Administrator,Expert")]
         [Route("Variety/Add")]
         public async Task<IActionResult> Add()
@@ -95,7 +90,6 @@
         }
 
         [HttpPost]
-        //[Authorize]
         [Authorize(Roles = "Owner,Administrator,Expert")]
         public async Task<IActionResult> Add([FromForm] VarietyFormModel formModel)
         {
@@ -130,7 +124,6 @@
         }
 
         [HttpGet]
-        //[Authorize]
         [Authorize(Roles = "Owner,Administrator,Expert")]
         [Route("Variety/Edit/{id}")]
         public async Task<IActionResult> Edit([FromRoute] Guid id)
@@ -141,7 +134,6 @@
         }
 
         [HttpPost]
-        //[Authorize]
         [Authorize(Roles = "Owner,Administrator,Expert")]
         public async Task<IActionResult> Edit([FromForm] VarietyFormModel formModel, [FromRoute] Guid id)
         {

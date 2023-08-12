@@ -18,6 +18,7 @@
         }
 
         public async Task<SpecimenListModel> AllSpecimensAsync(
+            string userId,
             SortingType sorting = SortingType.DateCreated,
             int currentPage = 1,
             int countPerPage = int.MaxValue,
@@ -28,7 +29,7 @@
                 .Include(s => s.Garden)
                 .Include(s => s.Variety)
                 .Include(s => s.User)
-                .Where(s => s.IsActive);
+                .Where(s => s.IsActive && s.UserId.ToString() == userId);
 
             specimensQuery = sorting switch
             {
@@ -83,14 +84,14 @@
             };
         }
 
-        public async Task<SpecimenDetailsModel> GetDetailsViewByIdAsync(Guid id)
+        public async Task<SpecimenDetailsModel> GetDetailsViewByIdAsync(Guid id, string userId)
         {
-            Specimen specimen = await _context
+            Specimen? specimen = await _context
                 .Specimens
                 .Include(s => s.Garden)
                 .Include(s => s.Variety)
                 .AsNoTracking()
-                .FirstAsync(s => s.SpecimenId == id);
+                .FirstOrDefaultAsync(s => s.SpecimenId == id && s.UserId.ToString() == userId);
 
             return new SpecimenDetailsModel(specimen);
         }

@@ -28,12 +28,14 @@
             return View(listViewModel);
         }
 
-        
+
         [Authorize]
         public async Task<IActionResult> Details([FromRoute] Guid id)
         {
+            string userId = GetUserId();
+
             GardenDetailsModel detailsModel = await _gardenService
-                .GetDetailsViewByIdAsync(id);
+                .GetDetailsViewByIdAsync(id, userId);
 
             return View(detailsModel);
         }
@@ -60,8 +62,15 @@
         [Authorize]
         public async Task<IActionResult> Edit([FromRoute] Guid id)
         {
+            string userId = GetUserId();
+
             GardenDetailsModel garden = await _gardenService
-                .GetDetailsViewByIdAsync(id);
+                .GetDetailsViewByIdAsync(id, userId);
+
+            if (garden.GardenUserId.ToString() != userId)
+            {
+                RedirectToAction("Details", "Garden", new { id });
+            }
 
             FormModel model = new FormModel
             {

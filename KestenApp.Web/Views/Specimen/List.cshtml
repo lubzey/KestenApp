@@ -23,26 +23,35 @@
     </div>
 </div>
 
-<div class="row">
-    <hr class="m-0" />
-    @*<small>@Model.Specimens.Count() specimens found</small>*@
-    <table class="table table-hover table-sm" cellspacing="2" width="100%">
-        <thead>
-            <tr class="table-light">
-                @foreach (string title in Model.HeaderTitles)
+@if (Model.Specimens.Any())
+{
+    <div class="row">
+        <hr class="m-0" />
+        @*<small>@Model.Specimens.Count() specimens found</small>*@
+        <table class="table table-hover table-sm" cellspacing="2" width="100%">
+            <thead>
+                <tr class="table-light">
+                    @foreach (string title in Model.HeaderTitles)
+                    {
+                        <th class="th-sm align-top text-center">
+                            @title
+                        </th>
+                    }
+                <tr>
+            </thead>
+            <tbody>
+                @foreach (SpecimenSummaryModel specimen in Model.Specimens)
                 {
-                    <th class="th-sm align-top text-center">
-                        @title
-                    </th>
-                }
-            <tr>
-        </thead>
-        <tbody>
-            @foreach (SpecimenSummaryModel specimen in Model.Specimens)
-            {
-                <partial name="_SpecimenSummary"
+                    <partial name="_SpecimenSummary"
                      model="specimen" />
-            }
-        </tbody>
-    </table>
-</div>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-10 col-xl-11">
+        <span class="text-start">No specimens found for the current user</span>
+    </div>
+}

@@ -7,10 +7,10 @@
         public Guid SpecimenId { get; }
         public string? SpecimenName { get; } = null!;
         public Variety? Variety { get; }
-        public Garden Garden { get; }
+        public Garden Garden { get; } = new Garden();
         public int Row { get; }
         public int Column { get; }
-        public ApplicationUser User { get; }
+        public Guid UserId { get; }
         public int? Elevation { get; }
         public DateTime? PlantedOnDate { get; }
         public DateTime? SowedOnDate { get; }
@@ -18,8 +18,13 @@
         public bool HideArchiveButton { get; }
         public bool HideRestoreButton { get; }
 
-        public SpecimenDetailsModel(Specimen specimen)
+        public SpecimenDetailsModel(Specimen? specimen)
         {
+            if (specimen == null)
+            {
+                return;
+            }
+
             SpecimenId = specimen.SpecimenId;
             SpecimenName = specimen.Name;
 
@@ -27,7 +32,7 @@
             Garden = specimen.Garden;
             Row = specimen.Row;
             Column = specimen.Column;
-            User = specimen.User;
+            UserId = specimen.UserId;
 
             Elevation = specimen.Elevation;
             PlantedOnDate = specimen.PlantedOnDate;

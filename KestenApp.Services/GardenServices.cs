@@ -64,7 +64,7 @@
             };
         }
 
-        public async Task<GardenDetailsModel> GetDetailsViewByIdAsync(Guid id)
+        public async Task<GardenDetailsModel> GetDetailsViewByIdAsync(Guid id, string userId)
         {
             Garden garden = await _context
                 .Gardens
@@ -72,12 +72,12 @@
                     .ThenInclude(s => s.Variety)
                 .Include(g => g.User)
                 .AsNoTracking()
-                .FirstAsync(g => g.IsPublished && g.GardenId == id);
+                .FirstAsync(g => g.GardenId == id
+                    && (g.IsPublished || g.UserId.ToString() == userId));
 
             GardenDetailsSchemaModel[,] specimensSchema = new GardenDetailsSchemaModel[garden.TotalRows, garden.TotalColumns];
 
             garden.Specimens
-                //.Where(sp => sp.SpecimenPosition != null)
                 .ToList()
                 .ForEach(sp =>
                 {
@@ -106,7 +106,8 @@
                 GardenName = garden.Name,
                 GardenId = garden.GardenId,
                 UserName = garden.User.UserName,
-                UserId = garden.User.Id,
+                GardenUserId = garden.User.Id,
+                CurrentUserId = userId,
                 IsActive = garden.IsActive,
                 IsPublished = garden.IsPublished,
                 TotalRows = garden.TotalRows,
@@ -140,18 +141,19 @@
 
         public async Task<IEnumerable<SelectListItem>> GetUserGardensAsync(string userId)
         {
-            //Not selected
-            //Add not selected option
-            List<SelectListItem> dropdownList = new List<SelectListItem>()
-            {
-                new SelectListItem { Selected = true }
-            };
+            List<SelectListItem> dropdownList = new List<SelectListItem>();
 
             //Display all user gardens
             IEnumerable<Garden> allUserGardens = await _context.Gardens
                 .Where(g => g.UserId.ToString() == userId && g.IsActive)
                 .AsNoTracking()
                 .ToListAsync();
+
+            if (allUserGardens.Any())
+            {
+                //Add not selected option
+                dropdownList.Add(new SelectListItem { Selected = true });
+            }
 
             IEnumerable<SelectListItem> gardensList = allUserGardens
                 .OrderBy(v => v.Name)

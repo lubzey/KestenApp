@@ -60,11 +60,15 @@
                                 </a>
                             </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Gardener" asp-action="List">
-                                    Gardeners
-                                </a>
-                            </li>
+                            @if (User.IsInRole(UserRoleType.Administrator.ToString())
+                           || User.IsInRole(UserRoleType.Owner.ToString()))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Gardener" asp-action="List">
+                                        Gardeners
+                                    </a>
+                                </li>
+                            }
                         }
 
                         <partial name="_LoginPartial" />

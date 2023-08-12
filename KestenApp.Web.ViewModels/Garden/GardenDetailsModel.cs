@@ -7,7 +7,7 @@ namespace KestenApp.Web.ViewModels.Garden
         public string GardenName { get; set; } = null!;
         public Guid GardenId { get; set; }
         public string UserName { get; set; } = null!;
-        public Guid UserId { get; set; }
+        public Guid GardenUserId { get; set; }
         public bool HideArchiveButton { get => !IsActive; }
         public bool HideRestoreButton { get => !HideArchiveButton; }
         public bool HidePublishButton { get => IsPublished || !IsActive; }
@@ -43,5 +43,6 @@ namespace KestenApp.Web.ViewModels.Garden
         public int TotalColumns { get; set; }
         public GardenDetailsSchemaModel[,] Specimens { get; set; } = null!;
         public string Position { get; set; } = null!;
+        public string CurrentUserId { get; set; } = null!;
     }
 }
