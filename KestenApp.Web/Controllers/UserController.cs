@@ -14,9 +14,10 @@
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IMemoryCache memoryCache;
 
-        public UserController(SignInManager<ApplicationUser> signInManager,
-                              UserManager<ApplicationUser> userManager,
-                              IMemoryCache memoryCache)
+        public UserController(
+            SignInManager<ApplicationUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            IMemoryCache memoryCache)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
