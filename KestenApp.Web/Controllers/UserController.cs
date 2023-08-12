@@ -51,7 +51,7 @@
             };
 
             await userManager.SetEmailAsync(user, model.Email);
-            await userManager.SetUserNameAsync(user, model.DisplayName);
+            await userManager.SetUserNameAsync(user, model.Username);
 
             IdentityResult result =
                 await userManager.CreateAsync(user, model.Password);

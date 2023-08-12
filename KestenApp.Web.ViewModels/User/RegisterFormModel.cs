@@ -5,10 +5,12 @@
 
     public class RegisterFormModel
     {
+        [StringLength(NameMaxLength, MinimumLength = NameMinLength)]
+        public string DisplayName { get; set; } = null!;
+
         [Required]
         [StringLength(NameMaxLength, MinimumLength = NameMinLength)]
-        [Display(Name = "Username")]
-        public string DisplayName { get; set; } = null!;
+        public string Username { get; set; } = null!;
 
         [Required]
         [EmailAddress]
