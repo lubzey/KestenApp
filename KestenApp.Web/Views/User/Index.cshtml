@@ -1,0 +1,47 @@
+﻿@model IndexViewModel
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<h3>@ViewData["Title"]</h3>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <partial name="_StatusMessage" for="StatusMessage" />
+
+        <form id="profile-form" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Username" class="form-control" />
+                <label asp-for="Username" class="form-label"></label>
+            </div>
+
+            <div class="form-floating input-group mb-3">
+                <input asp-for="Email" class="form-control" />
+                <div class="input-group-append">
+                    <span class="h-100 input-group-text text-success font-weight-bold">✓</span>
+                </div>
+                <label asp-for="Email" class="form-label"></label>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.Roles))
+            {
+                <div class="form-floating mb-3">
+                    <input asp-for="Roles" class="form-control" disabled />
+                    <label asp-for="Roles" class="form-label"></label>
+                </div>            
+            }
+            
+            <div class="form-floating mb-3">
+                <input asp-for="DisplayName" class="form-control" />
+                <label asp-for="DisplayName" class="form-label"></label>
+                <span asp-validation-for="DisplayName" class="text-danger"></span>
+            </div>
+            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-outline-success">Save</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -121,5 +121,57 @@
 
             return RedirectToAction("Login", "User");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+            }
+
+            IList<string> roles = await userManager.GetRolesAsync(user);
+
+            var model = new IndexViewModel
+            {
+                Username = user.UserName,
+                Email = user.Email ?? "",
+                Roles = string.Join(", ", roles),
+                DisplayName = user.DisplayName
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Index([FromForm] IndexViewModel model)
+        {
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                await userManager.GetUserAsync(User);
+                return View(model);
+            }
+
+            user.UserName = model.Username;
+            user.Email = model.Email;
+            user.DisplayName = model.DisplayName;
+
+            var result = await userManager.UpdateAsync(user);
+            if (result.Errors.Any())
+            {
+                model.StatusMessage = $"Error: {Environment.NewLine} {string.Join($", {Environment.NewLine}", result.Errors.Select(e => e.Description))}";
+                return View(model);
+            }
+
+            model.StatusMessage = "Your profile has been updated";
+            return View(model);
+        }
     }
 }
