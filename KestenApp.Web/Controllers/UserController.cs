@@ -9,7 +9,7 @@
     using static KestenApp.Common.NotificationMessagesConstants;
     using Microsoft.AspNetCore.Authorization;
 
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
@@ -27,6 +27,7 @@
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Register()
         {
             if (User.Identity?.IsAuthenticated ?? false)
@@ -38,6 +39,7 @@
         }
 
         [HttpPost]
+        [AllowAnonymous]
         //[ValidateRecaptcha(Action = nameof(Register),
         //    ValidationFailedAction = ValidationFailedAction.ContinueRequest)]
         public async Task<IActionResult> Register([FromForm] RegisterFormModel model)
@@ -75,6 +77,7 @@
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromQuery] string? returnUrl)
         {
             if (User.Identity?.IsAuthenticated ?? false)
@@ -93,6 +96,7 @@
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromForm] LoginFormModel model)
         {
             if (!ModelState.IsValid)
@@ -117,6 +121,7 @@
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
@@ -124,8 +129,8 @@
             return RedirectToAction("Login", "User");
         }
 
-        [Authorize]
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var user = await userManager.GetUserAsync(User);
@@ -147,8 +152,8 @@
             return View(model);
         }
 
-        [Authorize]
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Index([FromForm] IndexViewModel model)
         {
             var user = await userManager.GetUserAsync(User);
@@ -175,6 +180,30 @@
             }
 
             model.StatusMessage = "Your profile has been updated";
+            return View(model);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Owner,Administrator")]
+        public IActionResult List()
+        {
+            string userId = GetUserId();
+            List<ApplicationUser> users = userManager.Users
+                .Where(u => u.Id.ToString() != userId)
+                .ToList();
+
+            UsersListModel model = new UsersListModel
+            {
+                Users = users
+                    .Select(u => new UserSummaryModel
+                    {
+                        Id = u.Id,
+                        Username = u.UserName ?? "",
+                        DisplayName = u.DisplayName ?? "",
+                        Email = u.Email ?? ""
+                    }).ToList()
+            };
+
             return View(model);
         }
     }

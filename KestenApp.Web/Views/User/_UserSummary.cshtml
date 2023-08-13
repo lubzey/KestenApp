@@ -1,0 +1,16 @@
+﻿@model UserSummaryModel
+
+<tr>
+    <th>
+        <a asp-controller="User"
+           asp-action="Details"
+           asp-route-id="@Model.Id"
+           class="text-decoration-none text-dark">@Model.Username</a>
+    </th>
+    <td class="text-center">
+        @Model.DisplayName
+    </td>
+    <td class="text-center">
+        @Model.Email
+    </td>
+</tr>
