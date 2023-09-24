@@ -88,7 +88,7 @@
             }
             else if (gardens.Count() == 1)
             {
-                return RedirectToAction(nameof(this.AddPositionFromQueryRoute), "Specimen", new { gardenId = gardens.Single().Value });
+                return RedirectToAction(nameof(this.AddGardenFromQueryRoute), "Specimen", new { gardenId = gardens.Single().Value });
             }
 
             PopulateErrorsInModelState();
@@ -100,7 +100,7 @@
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> AddPositionFromQueryRoute([FromQuery] Guid gardenId)
+        public async Task<IActionResult> AddGardenFromQueryRoute([FromQuery] Guid gardenId)
         {
             PopulateErrorsInModelState();
 
@@ -137,53 +137,66 @@
             return View("PositionSelect", model);
         }
 
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> AddGardenAndPositionFromQueryRoute(
+            [FromQuery] Guid gardenId, [FromQuery] string position)
+        {
+            return await ReturnDetailsFormOrError(gardenId, position);
+        }
+
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> DetailsForm([FromForm] Guid gardenId, [FromForm] string position)
         {
+            return await ReturnDetailsFormOrError(gardenId, position);
+        }
+
+        private async Task<IActionResult> ReturnDetailsFormOrError(Guid gardenId, string position)
+        {
             int[] positions = position.Split(",").Select(x => int.Parse(x)).ToArray();
-            int row = positions.First();
-            int column = positions.Last();
-            PopulateErrorsInModelState();
-
-            //validate null and negative
-            if (row <=0 || column <=0)
-            {
-                ModelState.AddModelError(position, $"The selected position {row}:{column} must be of valid positive values.");
-                AddModelStateErrorsToTempData();
-
-                return RedirectToAction(nameof(this.AddPositionFromQueryRoute), "Specimen", new { gardenId = gardenId });
-            }
-
-            //validate that garden position is empty
-            bool isPositionTaken = await _gardenService
-                .IsPositionTakenAsync(gardenId, row, column);
-            if (isPositionTaken)
-            {
-                ModelState.AddModelError(position, $"The selected position {row}:{column} is already taken.");
-                AddModelStateErrorsToTempData();
-
-                return RedirectToAction(nameof(this.AddPositionFromQueryRoute), "Specimen", new { gardenId = gardenId });
-            }
-
-            //validate that row and column don't exceed the garden totals
-            bool isPositionValid = await _gardenService
-                .IsPositionValidAsync(gardenId, row, column);
-            if (!isPositionValid)
-            {
-                ModelState.AddModelError(position, $"The selected position {row}:{column} isn't valid for the current garden.");
-                AddModelStateErrorsToTempData();
-
-                return RedirectToAction(nameof(this.AddPositionFromQueryRoute), "Specimen", new { gardenId = gardenId });
-            }
 
             //Empty form
             DetailsFormModel model = new DetailsFormModel()
             {
                 GardenId = gardenId,
-                Row = row,
-                Column = column
+                Row = positions.First(),
+                Column = positions.Last()
             };
+
+            PopulateErrorsInModelState();
+
+            //validate null and negative
+            if (model.Row <= 0 || model.Column <= 0)
+            {
+                ModelState.AddModelError(position, $"The selected position {model.Row}:{model.Column} must be of valid positive values.");
+                AddModelStateErrorsToTempData();
+
+                return RedirectToAction(nameof(this.AddGardenFromQueryRoute), "Specimen", new { gardenId = gardenId });
+            }
+
+            //validate that garden position is empty
+            bool isPositionTaken = await _gardenService
+                .IsPositionTakenAsync(gardenId, model.Row, model.Column);
+            if (isPositionTaken)
+            {
+                ModelState.AddModelError(position, $"The selected position {model.Row}:{model.Column} is already taken.");
+                AddModelStateErrorsToTempData();
+
+                return RedirectToAction(nameof(this.AddGardenFromQueryRoute), "Specimen", new { gardenId = gardenId });
+            }
+
+            //validate that row and column don't exceed the garden totals
+            bool isPositionValid = await _gardenService
+                .IsPositionValidAsync(gardenId, model.Row, model.Column);
+            if (!isPositionValid)
+            {
+                ModelState.AddModelError(position, $"The selected position {model.Row}:{model.Column} isn't valid for the current garden.");
+                AddModelStateErrorsToTempData();
+
+                return RedirectToAction(nameof(this.AddGardenFromQueryRoute), "Specimen", new { gardenId = gardenId });
+            }
+
             await PopulateFormDetails(model);
 
             return View("Form", model);

@@ -5,6 +5,24 @@
     ViewData["Title"] = @Model.GardenName;
 }
 
+@section Styles
+    {
+    <style type="text/css">
+        #to-show {
+            display: none !important;
+            height: 100%;
+            flex-grow: 1;
+            color: black;
+            text-decoration: none;
+        }
+
+        #to-hover:hover > #to-show {
+            display: flex !important;
+        }
+
+    </style>
+}
+
 @*Header*@
 <div class="row">
 
@@ -18,8 +36,8 @@
         {
             @*Buttons*@
             <a asp-controller="Garden"
-           asp-action="Edit"
-           asp-route-id="@Model.GardenId"
+               asp-action="Edit"
+               asp-route-id="@Model.GardenId"
                class="btn btn-outline-primary">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
                     <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
@@ -27,8 +45,8 @@
                 <span>Edit</span>
             </a>
             <a asp-controller="Garden"
-           asp-action="Publish"
-           asp-route-id="@Model.GardenId"
+               asp-action="Publish"
+               asp-route-id="@Model.GardenId"
                hidden="@Model.HidePublishButton"
                class="btn btn-outline-success">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
@@ -38,8 +56,8 @@
                 <span>Publish</span>
             </a>
             <a asp-controller="Garden"
-           asp-action="Unpublish"
-           asp-route-id="@Model.GardenId"
+               asp-action="Unpublish"
+               asp-route-id="@Model.GardenId"
                hidden="@Model.HideUnpublishButton"
                class="btn btn-outline-warning">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash" viewBox="0 0 16 16">
@@ -50,8 +68,8 @@
                 <span>Unpublish</span>
             </a>
             <a asp-controller="Garden"
-           asp-action="Archive"
-           asp-route-id="@Model.GardenId"
+               asp-action="Archive"
+               asp-route-id="@Model.GardenId"
                hidden="@Model.HideArchiveButton"
                class="btn btn-outline-danger">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
@@ -60,8 +78,8 @@
                 <span>Archive</span>
             </a>
             <a asp-controller="Garden"
-           asp-action="Restore"
-           asp-route-id="@Model.GardenId"
+               asp-action="Restore"
+               asp-route-id="@Model.GardenId"
                hidden="@Model.HideRestoreButton"
                class="btn btn-outline-secondary">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
@@ -150,7 +168,7 @@
                     @foreach (int? year in Model.GardenYears)
                     {
                         <th scope="row" class="table-light">
-                            @Model.YearVarieties.FirstOrDefault(s => s.Year == year)?.Count
+                            @Model.YearVarieties.Count(yv => yv.Year == year)
                         </th>
                     }
 
@@ -259,10 +277,15 @@
                                 }
                                 else
                                 {
-                                    <td class="col-1 align-middle">
-                                        <div class="d-flex justify-content-center m-2">
-                                            -
-                                        </div>
+                                    <td class="col-1 align-middle p-0" id="to-hover">
+                                        <a class="d-flex justify-content-center align-items-center m-0 h-auto" id="to-show"
+                                           asp-area="" asp-controller="Specimen" asp-action="AddGardenAndPositionFromQueryRoute"
+                                           asp-route-gardenId="@Model.GardenId" asp-route-position="@($"{row},{col}")">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="black" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                                            </svg>
+                                            Add
+                                        </a>
                                     </td>
                                 }
                             }
