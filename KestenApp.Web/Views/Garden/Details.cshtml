@@ -128,7 +128,7 @@
                         @foreach (int? year in Model.GardenYears)
                         {
                             <th scope="col" class="table-light">
-                                @(year == null ? "Unknown" : year.ToString())
+                                @(year == null ? "N/A" : year.ToString())
                             </th>
                         }
 
@@ -149,12 +149,12 @@
                         @foreach (int? year in Model.GardenYears)
                         {
                             <td scope="row">
-                                @Model.YearVarieties.FirstOrDefault(s => s.Year == year && s.VarietyName == varietyName)?.Count
+                                @Model.YearVarieties.Where(s => s.Year == year && s.VarietyName == varietyName).Sum(v => v.Count)
                             </td>
                         }
 
                         <th scope="row">
-                            @Model.YearVarieties.FirstOrDefault(s => s.VarietyName == varietyName)?.Count
+                            @Model.YearVarieties.Where(s => s.VarietyName == varietyName).Sum(v => v.Count)
                         </th>
                     </tr>
                 }
@@ -168,7 +168,7 @@
                     @foreach (int? year in Model.GardenYears)
                     {
                         <th scope="row" class="table-light">
-                            @Model.YearVarieties.Count(yv => yv.Year == year)
+                            @Model.YearVarieties.Where(s => s.Year == year).Sum(v => v.Count)
                         </th>
                     }
 

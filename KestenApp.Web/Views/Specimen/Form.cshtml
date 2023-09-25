@@ -74,8 +74,6 @@
         <span asp-validation-for="@Model.Garden.Position" class="text-danger" />
         <input type="hidden" asp-for="@Model.Row" value="@Model.Row" />
         <input type="hidden" asp-for="@Model.Column" value="@Model.Column" />
-        <div asp-validation-summary="All" class="text-danger">
-        </div>
 
         <table class="table table-bordered">
             <thead>
@@ -150,13 +148,19 @@
 
     @*Name*@
     <div class="row">
+        @*Errors*@
+        <div class="offset-3">
+            <div asp-validation-summary="All" class="text-danger">
+            </div>
+        </div>
+
         <partial name="_SectionTitle" model='"Details"' />
 
         <div class="col-2 text-lg-end fw-bold mb-2 mt-auto">
-            <label asp-for="@Model.SpecimenName" class="form-label fw-bold">Name</label>
+            <label asp-for="@Model.SpecimenName" class="form-label fw-bold">Name<span class="required" style="color:red">*</span></label>
         </div>
         <div class="col-9 col-lg-3 mb-2">
-            <input asp-for="@Model.SpecimenName" class="form-control" aria-required="true" />
+            <input asp-for="@Model.SpecimenName" class="form-control" />
             <small>
                 <span asp-validation-for="@Model.SpecimenName" class="text-danger" />
             </small>
@@ -165,21 +169,27 @@
 
     @*Variety*@
     <div class="row">
-
         <div class="col-3 text-lg-end fw-bold mb-2 mt-auto">
-            <label asp-for="@Model.VarietyId" class="form-label fw-bold">Variety</label>
+            <label asp-for="@Model.VarietyId" class="form-label fw-bold">Variety<span class="required" style="color:red">*</span></label>
         </div>
 
         <div class="col-9 col-lg-3 mb-2">
             <small>
                 <span asp-validation-for="@Model.VarietyId" class="text-danger" />
             </small>
-            <select asp-for="@Model.VarietyId" class="form-select" aria-required="true">
+            <select asp-for="@Model.VarietyId" class="form-select">
                 @foreach (SelectListItem variety in Model.VarietyOptions)
                 {
                     <option value="@variety.Value">@variety.Text</option>
                 }
             </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="offset-3 mb-2 mt-auto">
+            <span class="required" style="color:red">*</span>
+            Select a known variety or enter a temporary name
         </div>
     </div>
 

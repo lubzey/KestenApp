@@ -9,6 +9,8 @@
     using Microsoft.AspNetCore.Mvc.Rendering;
     using KestenApp.Web.ViewModels.Garden;
     using Newtonsoft.Json;
+    using KestenApp.Data.Models;
+    using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 
     public class SpecimenController : BaseController
     {
@@ -214,6 +216,16 @@
                 return View("Form", model);
             }
 
+            if (string.IsNullOrEmpty(model.SpecimenName) && 
+                (model.VarietyId == null || model.VarietyId == Guid.Empty))
+            {
+                ModelState.AddModelError("Name", "Select a known variety or enter a temporary name");
+                AddModelStateErrorsToTempData();
+
+                await PopulateFormDetails(model);
+                return View("Form", model);
+            }
+
             //Create a new specimen
             Guid userId = Guid.Parse(GetUserId());
             Guid newSpecimenIndex = await _specimenService.AddSpecimenAsync(model, userId);
@@ -256,20 +268,35 @@
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Edit([FromForm] DetailsFormModel formModel, [FromRoute] Guid id)
+        public async Task<IActionResult> Edit([FromForm] DetailsFormModel model, [FromRoute] Guid id)
         {
+            model.SpecimenId = id;
+
+            //Other errors
             if (!ModelState.IsValid)
             {
-                return View("Form", formModel);
+                await PopulateFormDetails(model);
+
+                return View("Form", model);
+            }
+
+            if (string.IsNullOrEmpty(model.SpecimenName) &&
+                (model.VarietyId == null || model.VarietyId == Guid.Empty))
+            {
+                ModelState.AddModelError("Name", "Specimen identifier is required");
+                AddModelStateErrorsToTempData();
+
+                await PopulateFormDetails(model, true);
+                return View("Form", model);
             }
 
             //Update existing variety
-            if (!(await _specimenService.UpdateSpecimenAsync(id, formModel)))
+            if (!(await _specimenService.UpdateSpecimenAsync((Guid)model.SpecimenId, model)))
             {
                 return RedirectToAction(nameof(this.List), "Specimen");
             }
 
-            return RedirectToAction(nameof(this.Details), "Specimen", new { id });
+            return RedirectToAction(nameof(this.Details), "Specimen", new { model.SpecimenId });
         }
 
 

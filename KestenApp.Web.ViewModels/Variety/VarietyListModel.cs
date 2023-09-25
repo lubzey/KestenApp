@@ -10,7 +10,6 @@
                 "Is Marron",
                 "Blight Resistance",
                 "Ink Disease Resistance",
-                "Peeling",
                 "Pollen Type",
                 "Maturity Period",
                 "Pollenized By",

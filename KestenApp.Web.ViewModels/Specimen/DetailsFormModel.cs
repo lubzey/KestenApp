@@ -10,6 +10,7 @@
 
     public class DetailsFormModel
     {
+        [Required]
         public Guid GardenId { get; set; }
 
         [Range(GardenConstants.MinRowColumns, GardenConstants.MaxRowColumns)]
