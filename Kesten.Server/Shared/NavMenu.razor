@@ -1,0 +1,43 @@
+﻿<nav class="h-100 ps-3 py-0 navbar navbar-light border-bottom">
+    <div class="container-fluid row">
+        <a class="navbar-brand col-1" href="">
+            <img height="50" src="/Images/kesten.png" />
+        </a>
+
+        <div class="col-1 p-0">
+            <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+
+        <div class="@NavMenuCssClass col-xs-12 col-sm-9 text-end" @onclick="ToggleNavMenu">
+
+            <div class="d-sm-inline-flex">
+                <div class="nav-item">
+                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                        Home
+                    </NavLink>
+                </div>
+
+                <div class="nav-item">
+                    <NavLink class="nav-link" href="Varieties" Match="NavLinkMatch.All">
+                        Varieties
+                    </NavLink>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

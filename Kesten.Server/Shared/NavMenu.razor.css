@@ -1,0 +1,50 @@
+.navbar-toggler {
+    /*background-color: #198754;*/
+}
+
+.navbar-brand {
+    font-size: 1.1rem;
+}
+
+.nav-item {
+    font-size: 0.9rem;
+    padding-right: 2px;
+    padding-bottom: 0.5rem;
+}
+
+    /*.nav-item:first-of-type {
+        padding-top: 1rem;
+    }
+
+    .nav-item:last-of-type {
+        padding-bottom: 1rem;
+    }*/
+
+    .nav-item ::deep a {
+        color: rgba(0,0,0,.55);
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        line-height: 3rem;
+        padding: 0.5rem 1rem;
+    }
+
+        .nav-item ::deep a.active {
+            color: #198754;
+            border-bottom: 1mm ridge #198754;
+        }
+
+        .nav-item ::deep a:hover {
+            color: black;
+        }
+
+@media (min-width: 576px) {
+    .navbar-toggler {
+        display: none;
+    }
+
+    .collapse {
+        /* Never collapse the sidebar for wide screens */
+        display: block;
+    }
+}

@@ -4,8 +4,7 @@
     {
         public readonly List<string> HeaderTitles = new List<string>
         {
-            "Name",
-            "Variety",
+            "Identifier",
             "Year",
             "Garden",
             "Row",
