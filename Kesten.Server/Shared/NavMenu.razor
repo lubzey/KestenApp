@@ -1,4 +1,4 @@
-﻿<nav class="h-100 py-0 navbar navbar-light border-bottom justify-content-center">
+﻿<nav class="h-100 py-0 navbar navbar-light justify-content-lg-center border-bottom">
     <div class="container row">
         <a class="navbar-brand col-1" href="">
             <img height="50" src="/Images/kesten.png" />
@@ -10,7 +10,7 @@
             </button>
         </div>
 
-        <div class="@NavMenuCssClass col-xs-12 col-sm-6 text-end" @onclick="ToggleNavMenu">
+        <div class="@NavMenuCssClass col-xs-12 col-sm-9 text-end">
 
             <div class="d-sm-inline-flex">
                 <div class="nav-item">
@@ -25,19 +25,54 @@
                     </NavLink>
                 </div>
 
+                <div class="nav-item">
+                    <NavLink class="nav-link" href="Specimen" Match="NavLinkMatch.All">
+                        Specimens
+                    </NavLink>
+                </div>
+
+                <div class="nav-item">
+                    <NavLink class="nav-link" href="Garden" Match="NavLinkMatch.All">
+                        Gardens
+                    </NavLink>
+                </div>
+
+                <div class="nav-item">
+                    <NavLink class="nav-link" href="User" Match="NavLinkMatch.All">
+                        Users
+                    </NavLink>
+                </div>
+
+                <div class="nav-item dropdown">
+                    <NavLink class="nav-link dropdown-toggle" role="button" @onclick="ToggleProfileDropdown">
+                        Profile
+                    </NavLink>
+                    <div class="@ProfileDropdownCssClass dropdown-menu">
+                        <NavLink class="dropdown-item" href="User/Details">Profile</NavLink>
+                        <NavLink class="dropdown-item" href="xxx">Settings</NavLink>
+                        <hr class="dropdown-divider">
+                        <NavLink class="dropdown-item" href="sss">Sign Out</NavLink>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </nav>
 
-
 @code {
     private bool collapseNavMenu = true;
+    private bool showProfileDropdown = false;
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : "";
+    private string ProfileDropdownCssClass => showProfileDropdown ? "collapse" : "";
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+    }
+
+    private void ToggleProfileDropdown()
+    {
+        showProfileDropdown = !showProfileDropdown;
     }
 }

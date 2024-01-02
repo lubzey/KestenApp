@@ -22,6 +22,7 @@
 
     .nav-item ::deep a {
         color: rgba(0,0,0,.55);
+        background-color: transparent !important;
         height: 3rem;
         display: flex;
         align-items: center;
@@ -31,11 +32,12 @@
 
         .nav-item ::deep a.active {
             color: #198754;
-            border-bottom: 1mm ridge #198754;
+            border-bottom: 1px solid #198754;
         }
 
-        .nav-item ::deep a:hover {
+        .nav-item ::deep a:not(.active):hover {
             color: black;
+            border-bottom: 1px solid black;
         }
 
 @media (min-width: 576px) {
