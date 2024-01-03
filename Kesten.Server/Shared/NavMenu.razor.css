@@ -2,10 +2,6 @@
     /*background-color: #198754;*/
 }
 
-.navbar-brand {
-    font-size: 1.1rem;
-}
-
 .nav-item {
     font-size: 0.9rem;
     padding-right: 2px;
@@ -32,12 +28,12 @@
 
         .nav-item ::deep a.active {
             color: #198754;
-            border-bottom: 1px solid #198754;
+            border-bottom: 2px solid #198754;
         }
 
         .nav-item ::deep a:not(.active):hover {
             color: black;
-            border-bottom: 1px solid black;
+            border-bottom: 2px solid black;
         }
 
 @media (min-width: 576px) {
