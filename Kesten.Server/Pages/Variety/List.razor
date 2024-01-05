@@ -1,0 +1,172 @@
+﻿@page "/variety/list"
+@using Kesten.Server.Common
+@using Kesten.Server.Data;
+@using Kesten.Server.Data.Enums.EnumHelpers
+@using Kesten.Server.Data.Models;
+@using Kesten.Server.Models.Variety
+@using Microsoft.EntityFrameworkCore;
+@inject IDbContextFactory<KestenDbContext> ContextFactory;
+
+<PageTitle>Varieties</PageTitle>
+
+<h1>Varieties</h1>
+
+@if (Varieties is null)
+{
+    <div>Loading...</div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr class="table-light">
+                @foreach (string title in HeaderTitles)
+                {
+                    <th scope="col" class="th-sm align-top text-center">
+                        @title
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (VarietySummaryModel variety in Varieties)
+            {
+                <tr>
+                    <th>
+                        @variety.VarietyName
+                    </th>
+                    <td>
+                        @variety.Species
+                    </td>
+                    <td style="white-space:pre-line;" class="text-center">@variety.FruitSizes</td>
+                    <td class="text-center">
+                        @variety.IsMarron
+                    </td>
+                    <td class="text-center">
+                        @variety.ChestnutBlightResistance
+                    </td>
+                    <td class="text-center">
+                        @variety.InkDiseaseResistance
+                    </td>
+                    <td class="text-center">
+                        @variety.PollenFertility
+                    </td>
+                    <td class="text-center">
+                        @variety.MaturityPeriod
+                    </td>
+                    <td style="white-space:pre-line;">@variety.IsPollenizedBy</td>
+                    <td style="white-space:pre-line;">@variety.IsPollenizerFor</td>
+                    <td style="white-space:pre-line;">@variety.IsRootstockFor</td>
+                    <td style="white-space:pre-line;">@variety.IsGraftedOn</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+@code {
+    private List<string> HeaderTitles = new List<string>
+            {
+                "Name",
+                "Species",
+                "Fruit Size",
+                "Is Marron",
+                "Blight Resistance",
+                "Ink Disease Resistance",
+                "Pollen Type",
+                "Maturity Period",
+                "Pollenized By",
+                "Pollenizer For",
+                "Rootstock For",
+                "Grafted On"
+            };
+    private VarietySummaryModel[]? Varieties { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = ContextFactory.CreateDbContext();
+
+        var queryResult = await context
+            .Varieties
+            .Include(v => v.Species)
+                .ThenInclude(fs => fs.Species)
+            .Include(v => v.FruitSizes)
+                .ThenInclude(fs => fs.FruitSize)
+
+            .Include(v => v.IsPollenizedBy.Where(v => v.PollenizerVariety.IsPublished == true))
+                .ThenInclude(v => v.PollenizerVariety)
+            .Include(v => v.IsPollenizerFor.Where(v => v.TargetVariety.IsPublished == true))
+                .ThenInclude(v => v.TargetVariety)
+
+            .Include(v => v.IsGraftedOn.Where(v => v.RootstockVariety.IsPublished == true))
+                .ThenInclude(v => v.RootstockVariety)
+            .Include(v => v.IsRootstockFor.Where(v => v.GraftedVariety.IsPublished == true))
+                .ThenInclude(v => v.GraftedVariety)
+
+            .Where(v => v.IsPublished == true && v.IsActive)
+            .OrderBy(v => v.DateCreated)
+            .AsNoTracking()
+            .ToArrayAsync();
+
+        Varieties = queryResult
+            .Select(v => ConstructVarietyModel(v))
+            .ToArray();
+    }
+
+    private VarietySummaryModel ConstructVarietyModel(Variety v)
+    {
+        IEnumerable<string> species = v.Species
+            .OrderBy(s => s.Species.ShortLatinName)
+            .Select(s => s.Species.ShortLatinName)
+            .ToList();
+
+        IEnumerable<string> fruitSizes = v.FruitSizes
+            .OrderBy(fs => fs.FruitSizeId)
+            .Select(fs => fs.FruitSize.Name)
+            .ToList();
+
+        return new VarietySummaryModel
+            {
+                VarietyId = v.VarietyId,
+                VarietyName = v.Name,
+
+                //Tree
+                Species = ServiceExtensions.JoinStrings(species),
+                ChestnutBlightResistance = EnumExtensions.GetStringFromEnumValue(v.ChestnutBlightResistance),
+                InkDiseaseResistance = EnumExtensions.GetStringFromEnumValue(v.InkDiseaseResistance),
+                PollenFertility = EnumExtensions.GetStringFromEnumValue(v.PollenType),
+                Vigor = EnumExtensions.GetStringFromEnumValue(v.Vigor),
+                BuddingPeriod = EnumExtensions.GetStringFromEnumValue(v.BuddingPeriod),
+                FloweringPeriod = EnumExtensions.GetStringFromEnumValue(v.FloweringPeriod),
+                MaturityPeriod = EnumExtensions.GetStringFromEnumValue(v.MaturityPeriod),
+
+                //Fruit
+
+                //Taste
+                FruitSizes = ServiceExtensions.JoinStrings(fruitSizes),
+                IsMarron = ServiceExtensions.GetStringFromNullableBoolean(v.IsMarron),
+
+                Peeling = EnumExtensions.GetStringFromEnumValue(v.Peeling),
+                Conservation = EnumExtensions.GetStringFromEnumValue(v.Conservation),
+
+                IsPollenizedBy = ServiceExtensions.JoinStrings(
+                        v.IsPollenizedBy
+                        .Select(p => p.PollenizerVariety.Name)
+                        .OrderBy(n => n)),
+                IsPollenizerFor = ServiceExtensions.JoinStrings(
+                        v.IsPollenizerFor
+                        .Select(p => p.PollenizerVariety.Name)
+                        .OrderBy(n => n)),
+                IsRootstockFor = ServiceExtensions.JoinStrings(
+                        v.IsRootstockFor
+                        .Select(p => p.GraftedVariety.Name)
+                        .OrderBy(n => n)),
+                IsGraftedOn = ServiceExtensions.JoinStrings(
+                        v.IsGraftedOn
+                        .Select(p => p.RootstockVariety.Name)
+                        .OrderBy(n => n))
+            };
+    }
+}

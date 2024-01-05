@@ -12,7 +12,7 @@
         /// </summary>
         public ApplicationUser()
         {
-            Id = Guid.NewGuid();
+            this.Id = Guid.NewGuid();
         }
 
         [MaxLength(UserConstants.NameMaxLength)]

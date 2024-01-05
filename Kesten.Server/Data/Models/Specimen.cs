@@ -1,6 +1,5 @@
 ﻿namespace Kesten.Server.Data.Models
 {
-    using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
     using Microsoft.EntityFrameworkCore;
     using static Kesten.Server.Data.EntityValidationConstants.SpecimenConstants;
 

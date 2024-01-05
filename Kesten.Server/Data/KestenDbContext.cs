@@ -1,10 +1,12 @@
 ﻿namespace Kesten.Server.Data
 {
     using System.Reflection;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using Models;
 
-    public class KestenDbContext : DbContext
+    public class KestenDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
     {
         public KestenDbContext(DbContextOptions<KestenDbContext> options)
             : base(options)

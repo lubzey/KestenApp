@@ -1,6 +1,8 @@
 using Kesten.Server.Common.Settings;
 using Kesten.Server.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Kesten.Server.Data.Models;
 
 namespace Kesten.Server
 {
@@ -17,11 +19,29 @@ namespace Kesten.Server
                 .GetConnectionString("DbContextConnection")
                 ?? throw new InvalidOperationException("Connection string 'KestenDbContextConnection' not found.");
 
-            builder.Services.AddDbContext<KestenDbContext>(options =>
+            builder.Services.AddDbContextFactory<KestenDbContext>(options =>
             {
                 options.UseSqlServer(connectionString);
                 //options.EnableSensitiveDataLogging();
             });
+
+            //Identity
+            builder.Services
+                .AddDefaultIdentity<ApplicationUser>(options =>
+                {
+                    options.SignIn.RequireConfirmedAccount =
+                        builder.Configuration.GetValue<bool>("Identity:SignIn:RequireConfirmedAccount");
+                    options.Password.RequireLowercase =
+                        builder.Configuration.GetValue<bool>("Identity:Password:RequireLowercase");
+                    options.Password.RequireUppercase =
+                        builder.Configuration.GetValue<bool>("Identity:Password:RequireUppercase");
+                    options.Password.RequireNonAlphanumeric =
+                        builder.Configuration.GetValue<bool>("Identity:Password:RequireNonAlphanumeric");
+                    options.Password.RequiredLength =
+                        builder.Configuration.GetValue<int>("Identity:Password:RequiredLength");
+                })
+                .AddRoles<IdentityRole<Guid>>()
+                .AddEntityFrameworkStores<KestenDbContext>();
 
             // Add services to the container.
             builder.Services.AddRazorPages();
@@ -50,6 +70,7 @@ namespace Kesten.Server
 
             app.MapBlazorHub();
             app.MapFallbackToPage("/_Host");
+            app.UseAuthentication(); ;
 
             app.Run();
         }

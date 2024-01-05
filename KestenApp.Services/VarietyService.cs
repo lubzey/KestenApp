@@ -104,7 +104,6 @@
                 VarietyName = v.Name,
 
                 //Tree
-
                 Species = ServiceExtensions.JoinStrings(species),
                 ChestnutBlightResistance = EnumExtensions.GetStringFromEnumValue(v.ChestnutBlightResistance),
                 InkDiseaseResistance = EnumExtensions.GetStringFromEnumValue(v.InkDiseaseResistance),
