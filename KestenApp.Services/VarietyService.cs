@@ -54,7 +54,6 @@
                 .Include(v => v.IsGraftedOn.Where(v => v.RootstockVariety.IsPublished == isPublished))
                 .Include(v => v.IsRootstockFor.Where(v => v.GraftedVariety.IsPublished == isPublished))
 
-                //.AsNoTracking()
                 .Where(v => v.IsPublished == isPublished && v.IsActive);
 
             if (!string.IsNullOrWhiteSpace(name))
@@ -73,6 +72,7 @@
             int totalCount = varietiesQuery.Count();
 
             IEnumerable<Variety> varieties = await varietiesQuery
+                .AsNoTracking()
                 .Skip((currentPage - 1) * countPerPage)
                 .Take(countPerPage)
                 .ToListAsync();
@@ -114,8 +114,6 @@
                 MaturityPeriod = EnumExtensions.GetStringFromEnumValue(v.MaturityPeriod),
 
                 //Fruit
-
-                //Taste
                 FruitSizes = ServiceExtensions.JoinStrings(fruitSizes),
                 IsMarron = ServiceExtensions.GetStringFromNullableBoolean(v.IsMarron),
 

@@ -1,0 +1,20 @@
+﻿namespace Kesten.Shared.Enums
+{
+    using System.ComponentModel;
+
+    public enum PeriodType
+    {
+        [Description("Not Selected")]
+        NotSelected = 0,
+        [Description("Very Early")]
+        VeryEarly = 1,
+        Early = 2,
+        [Description("Semi Early")]
+        SemiEarly = 3,
+        [Description("Semi Late")]
+        SemiLate = 4,
+        Late = 5,
+        [Description("Very Late")]
+        VeryLate = 6
+    }
+}

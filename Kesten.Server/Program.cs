@@ -3,6 +3,7 @@ using Kesten.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Kesten.Server.Data.Models;
+using Microsoft.CodeAnalysis.Operations;
 
 namespace Kesten.Server
 {
@@ -41,7 +42,7 @@ namespace Kesten.Server
                         builder.Configuration.GetValue<int>("Identity:Password:RequiredLength");
                 })
                 .AddRoles<IdentityRole<Guid>>()
-                .AddEntityFrameworkStores<KestenDbContext>();
+                .AddEntityFrameworkStores<KestenDbContext>();            
 
             // Add services to the container.
             builder.Services.AddRazorPages();
